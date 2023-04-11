@@ -37,12 +37,6 @@ set(CXX_FLAGS)
 
 list(APPEND CXX_FLAGS "-fPIC" "-Wall" "-Wextra" "-Werror" "-Wno-unused" "-fexceptions")
 
-SET_SOURCE_FILES_PROPERTIES(fourbynine.i PROPERTIES CPLUSPLUS ON)
-SWIG_ADD_LIBRARY(swig_fourbynine LANGUAGE python SOURCES fourbynine.i)
-set_property(TARGET swig_fourbynine PROPERTY SWIG_USE_TARGET_INCLUDE_DIRECTORIES TRUE)
-target_include_directories(swig_fourbynine PUBLIC "./")
-SWIG_LINK_LIBRARIES(swig_fourbynine ${PYTHON_LIBRARIES})
-
 enable_testing()
 
 add_executable(tests
@@ -59,3 +53,9 @@ target_link_libraries(tests
 
 include(GoogleTest)
 gtest_discover_tests(tests)
+
+SET_SOURCE_FILES_PROPERTIES(fourbynine.i PROPERTIES CPLUSPLUS ON)
+SWIG_ADD_LIBRARY(swig_fourbynine LANGUAGE python SOURCES fourbynine.i)
+set_property(TARGET swig_fourbynine PROPERTY SWIG_USE_TARGET_INCLUDE_DIRECTORIES TRUE)
+target_include_directories(swig_fourbynine PUBLIC "./")
+SWIG_LINK_LIBRARIES(swig_fourbynine ${PYTHON_LIBRARIES})

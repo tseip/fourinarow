@@ -70,23 +70,43 @@ class Board {
    */
   Board() = default;
 
+  /**
+   * Constructs a board with the given piece pattern.
+   *
+   * @param black_pieces The black pieces on the board.
+   * @param white_pieces The white pieces on the board.
+   */
   Board(const Pattern &black_pieces, const Pattern &white_pieces) {
-    if (black_pieces.count_overlap(white_pieces) != 0) {
-      throw std::logic_error("Given board state is not legal!");
+    const auto piece_diff =
+        black_pieces.positions.count() - white_pieces.positions.count();
+    if (black_pieces.count_overlap(white_pieces) != 0 || piece_diff > 1U ||
+        piece_diff < 0U) {
+      throw std::logic_error("Given board state is illegal!");
     }
     pieces[0] = black_pieces;
     pieces[1] = white_pieces;
   }
 
+  /**
+   * Clears the board.
+   */
   void reset() {
     pieces[static_cast<size_t>(Player::Player1)].positions.reset();
     pieces[static_cast<size_t>(Player::Player2)].positions.reset();
   }
 
+  /**
+   * @param player The player to check.
+   *
+   * @return True if the given player has won, false otherwise.
+   */
   bool player_has_won(const Player player) const {
     return pieces[static_cast<size_t>(player)].contains_win();
   }
 
+  /**
+   * @return True if the game is drawn, false otherwise.
+   */
   bool game_is_drawn() const {
     // The game is drawn if both players' pieces cover the game board.
     return (pieces[static_cast<size_t>(Player::Player1)].positions |

@@ -19,9 +19,7 @@ TEST(NInARowHeuristicFeatureTest, TestHeuristicFeature) {
    * where x is a piece, . is don't care, and o is a space.
    * IF we are in this position and either o is unoccupied, we have a win.
    */
-  HeuristicFeature<Board> feature{{0b000000101}, {0b101010000}, 2, 0};
-
-  feature.update_weights(0.8, 0.2, 0.2);
+  HeuristicFeature<Board> feature{{0b000000101}, {0b101010000}, 2};
 
   // Player 1 starts forming the feature.
   Board board;
