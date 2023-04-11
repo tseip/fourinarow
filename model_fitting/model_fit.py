@@ -5,6 +5,7 @@ from scipy.interpolate import CubicSpline
 import random
 import fourbynine
 import copy
+import queue
 from multiprocessing import Process, Pool, Value, JoinableQueue, Lock
 from pybads import BADS
 from pathlib import Path
@@ -160,7 +161,7 @@ def estimate_log_lik_ibs(
                     to_process.value -= 1
                 output.put(move)
             participant_data.task_done()
-        except BaseException:
+        except queue.Empty:
             pass
 
 
@@ -221,6 +222,7 @@ def parse_parameters(params):
 
 
 def fit_model(data):
+    print("Beginning model fit pre-processing: log-likelihood estimation")
     moves = copy.deepcopy(data)
     l_values = []
     for i in range(10):
