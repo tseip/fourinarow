@@ -168,7 +168,7 @@ def estimate_log_lik_ibs(
 def compute_loglik(moves, params):
     q = JoinableQueue()
     for move in moves:
-        q.put(move)
+        q.put(copy.deepcopy(move))
 
     N = len(moves)
     output = JoinableQueue(N)
