@@ -11,8 +11,11 @@ Additionally, this repo requires SWIG to build:
 sudo apt-get install swig 
 
 If on Windows, install cmake using the Windows installer, and then download and unzip SWIG to a directory. Add the following environment variables for all users:
-SWIG_DIR <path to unzipped SWIG directory>
-SWIG_EXECUTABLE <path to swig.exe in unzipped SWIG directory>
+
+SWIG_DIR \<path to unzipped SWIG directory\>
+
+SWIG_EXECUTABLE \<path to swig.exe in unzipped SWIG directory\>
+
 Finally, add the swig directory (SWIG_DIR above) to your PATH system variable.
 
 # Four-in-a-row build instructions
