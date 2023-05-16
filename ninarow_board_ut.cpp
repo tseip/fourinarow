@@ -27,7 +27,7 @@ TEST(NInARowBoardTest, TestBoard) {
   ASSERT_FALSE(board.game_is_drawn());
 
   // We can't add a move where a move already exists.
-  EXPECT_THROW(({ board.add(Board::Move(0, 0, 0.0, Player::Player2)); }),
+  EXPECT_THROW((board.add(Board::Move(0, 0, 0.0, Player::Player2))),
                std::invalid_argument);
 
   // Add a second move.
@@ -77,9 +77,9 @@ TEST(NInARowBoardTest, TestBoard) {
   ASSERT_EQ(board.num_pieces(), 9);
 
   // Remove a winning piece for player 1.
-  EXPECT_THROW(({ board.remove(Board::Move(0, 0, 0.0, Player::Player2)); }),
+  EXPECT_THROW((board.remove(Board::Move(0, 0, 0.0, Player::Player2))),
                std::logic_error);
-  EXPECT_THROW(({ board.remove(Board::Move(0, 2, 0.0, Player::Player1)); }),
+  EXPECT_THROW((board.remove(Board::Move(0, 2, 0.0, Player::Player1))),
                std::invalid_argument);
   board.remove(Board::Move(0, 0, 0.0, Player::Player1));
   ASSERT_EQ(board.num_pieces(), 8);

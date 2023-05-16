@@ -16,8 +16,8 @@ TEST(NInARowMoveTest, TestMove) {
   Move move4 = Move(2, 2, -50, Player::Player1);
 
   // Can't construct moves that are off the board.
-  EXPECT_THROW(({ Move(9, -1000, Player::Player2); }), std::out_of_range);
-  EXPECT_THROW(({ Move(3, 3, -1000, Player::Player2); }), std::out_of_range);
+  EXPECT_THROW((Move(9, -1000, Player::Player2)), std::out_of_range);
+  EXPECT_THROW((Move(3, 3, -1000, Player::Player2)), std::out_of_range);
 
   EXPECT_FALSE(move1 < move1);
   EXPECT_TRUE(move1 < move2);

@@ -1,4 +1,6 @@
 build/
 model_fitting/__pycache__
+model_fitting/_swig_fourbynine.*
+model_fitting/fourbynine.py
 .project
 .cproject

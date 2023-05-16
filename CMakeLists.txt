@@ -55,7 +55,13 @@ include(GoogleTest)
 gtest_discover_tests(tests)
 
 SET_SOURCE_FILES_PROPERTIES(fourbynine.i PROPERTIES CPLUSPLUS ON)
-SWIG_ADD_LIBRARY(swig_fourbynine LANGUAGE python SOURCES fourbynine.i)
+SWIG_ADD_LIBRARY(swig_fourbynine TYPE SHARED LANGUAGE python OUTPUT_DIR "../model_fitting" OUTFILE_DIR "./" SOURCES fourbynine.i)
 set_property(TARGET swig_fourbynine PROPERTY SWIG_USE_TARGET_INCLUDE_DIRECTORIES TRUE)
 target_include_directories(swig_fourbynine PUBLIC "./")
-SWIG_LINK_LIBRARIES(swig_fourbynine ${PYTHON_LIBRARIES})
+target_link_libraries(swig_fourbynine ${PYTHON_LIBRARIES})
+
+add_custom_command(TARGET swig_fourbynine POST_BUILD 
+  COMMAND "${CMAKE_COMMAND}" -E copy 
+     "$<TARGET_FILE:swig_fourbynine>"
+     "../model_fitting" 
+  COMMENT "Copying SWIG library to output directory")

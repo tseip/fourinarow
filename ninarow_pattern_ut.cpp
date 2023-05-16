@@ -21,7 +21,7 @@ TEST(NInARowPatternTest, TestFromString) {
 
     {
       // Wrong length.
-      EXPECT_THROW(({ Pattern<3, 3, 3> pattern(board); }),
+      EXPECT_THROW((Pattern<3, 3, 3>(board)),
                    std::invalid_argument);
     }
   }
@@ -37,7 +37,7 @@ TEST(NInARowPatternTest, TestFromString) {
     }
     {
       // Wrong length.
-      EXPECT_THROW(({ Pattern<4, 9, 4> pattern(board); }),
+      EXPECT_THROW((Pattern<4, 9, 4>(board)),
                    std::invalid_argument);
     }
   }
