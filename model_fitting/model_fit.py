@@ -5,26 +5,13 @@ from scipy.interpolate import CubicSpline
 import random
 import fourbynine
 import copy
-from queue import Empty, PriorityQueue
-from multiprocessing import Process, Pool, Value, Lock
+import time
+from queue import Empty, Full, PriorityQueue
+from multiprocessing import Process, Pool, Value, Lock, Queue
 from multiprocessing.managers import SyncManager
 from pybads import BADS
 from pathlib import Path
 from functools import total_ordering
-
-
-class PriorityQueueManager(SyncManager):
-    pass
-
-
-PriorityQueueManager.register("PriorityQueue", PriorityQueue)
-
-
-def makePriorityQueueManager():
-    m = PriorityQueueManager()
-    m.start()
-    return m
-
 
 expt_factor = 1.0
 cutoff = 3.5
@@ -39,9 +26,17 @@ plb = np.array([1, 0.1, 0.001, 0.05, 0.5, -5, -
                5, -5, -5, -5], dtype=np.float64)
 c = 50
 
+def bool_to_player(player):
+    return fourbynine.Player_Player1 if not player else fourbynine.Player_Player2
+
+def player_to_bool(player):
+    return player == fourbynine.Player_Player2
+
+def player_to_string(player):
+    return "White" if player_to_bool(player) else "Black"
 
 @total_ordering
-class MoveEvaluationTask:
+class CSVMove:
     def __init__(
             self,
             black_pieces,
@@ -51,37 +46,13 @@ class MoveEvaluationTask:
             time,
             group,
             participant):
-        self.black_pieces = black_pieces
-        self.white_pieces = white_pieces
-        self.player = player
-        self.move = move
-        self.time = time
-        self.group = group
-        self.participant = participant
-        self.attempt_count = 1
-        self.success_count = 0
-        self.required_success_count = 1
-        self.L = 0.0
-
-    def __repr__(self):
-        player_string = "White" if self.player else "Black"
-        return ' '.join(map(str,
-                            [self.black_pieces,
-                             self.white_pieces,
-                             player_string,
-                             self.move,
-                             self.time,
-                             self.group,
-                             self.participant,
-                             self.attempt_count,
-                             self.success_count,
-                             self.required_success_count]))
-
-    def __eq__(self, other):
-        return self.black_pieces == other.black_pieces and self.white_pieces == other.white_pieces and self.player == other.player and self.move == other.move and self.time == other.time and self.participant == other.participant
-
-    def __lt__(self, other):
-        return self.attempt_count < other.attempt_count
+        self.black_pieces = int(black_pieces)
+        self.white_pieces = int(white_pieces)
+        self.player = bool(player)
+        self.move = int(move)
+        self.time = float(time)
+        self.group = int(group)
+        self.participant = str(participant)
 
     def __hash__(self):
         return hash(
@@ -92,6 +63,26 @@ class MoveEvaluationTask:
              self.time,
              self.participant))
 
+    def __repr__(self):
+        return "\t".join([str(self.black_pieces), str(self.white_pieces), player_to_string(self.player), str(self.move), str(self.time), str(self.group), self.participant])
+
+    def __eq__(self, other):
+        return self.black_pieces == other.black_pieces and self.white_pieces == other.white_pieces and self.player == other.player and self.move == other.move and self.time == other.time and self.group == other.group and self.participant == other.participant
+
+    def __lt__(self, other):
+        return (self.black_pieces, self.white_pieces, self.player, self.move) < (other.black_pieces, other.white_pieces, other.player, other.move)
+
+class SuccessFrequencyTracker:
+    def __init__(
+            self):
+        self.attempt_count = 1
+        self.success_count = 0
+        self.required_success_count = 1
+        self.L = 0.0
+
+    def __repr__(self):
+        return " ".join([str(self.attempt_count), str(self.success_count), str(self.required_success_count)])
+        
     def is_done(self):
         return self.success_count == self.required_success_count
 
@@ -105,19 +96,6 @@ class MoveEvaluationTask:
                 (self.required_success_count * self.attempt_count)
             self.attempt_count += 1
 
-
-def bool_to_player(player):
-    return fourbynine.Player_Player1 if not player else fourbynine.Player_Player2
-
-
-def player_to_bool(player):
-    return player == fourbynine.Player_Player2
-
-
-def player_to_string(player):
-    return "White" if player_to_bool(player) else "Black"
-
-
 def parse_participant_lines(lines):
     moves = []
     for line in lines:
@@ -126,17 +104,9 @@ def parse_participant_lines(lines):
         if (len(parameters) == 1):
             parameters = line.rstrip().split()
         if (len(parameters) == 6):
-            moves.append(MoveEvaluationTask(int(parameters[0]), int(parameters[1]), bool(
-                parameters[2]), int(parameters[3]), float(parameters[4]), 1, parameters[5]))
+            moves.append(CSVMove(parameters[0], parameters[1], parameters[2], parameters[3], parameters[4], 1, parameters[5]))
         elif (len(parameters) == 7):
-            moves.append(
-                MoveEvaluationTask(
-                    int(
-                        parameters[0]), int(
-                        parameters[1]), True if parameters[2].lower() == "white" else False, int(
-                        parameters[3]), float(
-                        parameters[4]), int(
-                            parameters[5]), parameters[6]))
+            moves.append(CSVMove(parameters[0], parameters[1], True if parameters[2].lower() == "white" else False, parameters[3], parameters[4], parameters[5], parameters[6]))
         else:
             raise Exception(
                 "Given input has incorrect number of parameters (expected 6 or 7): " + line)
@@ -145,7 +115,8 @@ def parse_participant_lines(lines):
 
 def generate_splits(moves, split_count):
     indices = list(range(len(moves)))
-    random.shuffle(indices)
+    if (split_count != 1):
+        random.shuffle(indices)
     count = 0
     groups = []
     for i in range(split_count):
@@ -157,77 +128,72 @@ def generate_splits(moves, split_count):
 
 
 def estimate_log_lik_ibs(
-        participant_data,
         parameters,
-        Lexpt,
-        to_process,
-        cutoff,
-        output):
+        input_queue,
+        output_queue):
     heuristic = fourbynine.getDefaultFourByNineHeuristic(
         fourbynine.DoubleVector(parameters))
     heuristic.seed_generator(random.randint(0, 2**64))
     while True:
-        with Lexpt.get_lock():
-            if Lexpt.value > cutoff:
-                break
-        with to_process.get_lock():
-            if to_process.value == 0:
-                break
-        try:
-            move = participant_data.get(False)
-            b = fourbynine.fourbynine_pattern(move.black_pieces)
-            w = fourbynine.fourbynine_pattern(move.white_pieces)
-            board = fourbynine.fourbynine_board(b, w)
-            player = bool_to_player(move.player)
-            best_move = heuristic.get_best_move_bfs(board, player)
-            success = 2**best_move.board_position == move.move
-            with Lexpt.get_lock():
-                if (success):
-                    Lexpt.value -= expt_factor / move.required_success_count
-                else:
-                    Lexpt.value += expt_factor / \
-                        (move.required_success_count * move.attempt_count)
-            move.report_success(success)
-            if not move.is_done():
-                participant_data.put(move)
-            else:
-                with to_process.get_lock():
-                    to_process.value -= 1
-                output.put(move)
-            participant_data.task_done()
-        except Empty:
-            pass
+        move = input_queue.get()
+        b = fourbynine.fourbynine_pattern(move.black_pieces)
+        w = fourbynine.fourbynine_pattern(move.white_pieces)
+        board = fourbynine.fourbynine_board(b, w)
+        player = bool_to_player(move.player)
+        best_move = heuristic.get_best_move_bfs(board, player)
+        success = 2**best_move.board_position == move.move
+        output_queue.put((success, move))
 
-
-def compute_loglik(data, params):
-    moves = copy.deepcopy(data)
-    m = makePriorityQueueManager()
-    q = m.PriorityQueue()
-    for move in moves:
-        q.put(move)
-    N = len(moves)
-    output = m.PriorityQueue()
-    Lexpt = Value('d', N * expt_factor, lock=True)
-    to_process = Value('i', N, lock=True)
-    num_workers = 16
+def compute_loglik(move_tasks, params):
+    move_tasks = copy.deepcopy(move_tasks)
+    moves_to_process = len(move_tasks)
+    N = moves_to_process
+    Lexpt = N * expt_factor
+    num_workers = 20
+    submission_queue = Queue(num_workers)
+    results_queue = Queue(num_workers)
+    to_submit_queue = PriorityQueue()
     pool = Pool(num_workers, estimate_log_lik_ibs,
-                (q, params, Lexpt, to_process, cutoff * N, output,))
-    pool.close()
+                (params, submission_queue, results_queue,))
+    for move in move_tasks:
+        to_submit_queue.put((0, move))
+    while moves_to_process and Lexpt <= cutoff * N:
+        # Feed the furnace
+        while not submission_queue.full():
+            try:
+                submission_count, move = to_submit_queue.get_nowait()
+            except Empty:
+                break
+            try:
+                submission_queue.put_nowait(move)
+                submission_count += 1
+            except Full:
+                break
+            finally:
+                if not move_tasks[move].is_done():
+                    to_submit_queue.put((submission_count, move))
+        # Process results
+        while not results_queue.empty():
+            try:
+                success, move = results_queue.get_nowait()
+                if not move_tasks[move].is_done():
+                    if (success):
+                        Lexpt -= expt_factor / move_tasks[move].required_success_count
+                    else:
+                        Lexpt += expt_factor / \
+                            (move_tasks[move].required_success_count * move_tasks[move].attempt_count)
+                    move_tasks[move].report_success(success)
+                    if move_tasks[move].is_done():
+                        moves_to_process -= 1
+            except Empty:
+                break
+    pool.terminate()
     pool.join()
 
-    final_L_values = {}
-    while not q.empty():
-        move = q.get()
-        final_L_values[move] = move.L
-
-    while not output.empty():
-        move = output.get()
-        final_L_values[move] = move.L
-
-    sorted_L_values = []
-    for move in moves:
-        sorted_L_values.append(final_L_values[move])
-    return sorted_L_values
+    L_values = {}
+    for move in move_tasks:
+        L_values[move] = move_tasks[move].L
+    return L_values
 
 
 def generate_attempt_counts(L_values, c):
@@ -253,23 +219,31 @@ def parse_parameters(params):
 
 
 def fit_model(moves, verbose=False):
-    moves = copy.deepcopy(moves)
+    move_tasks = {}
+    for move in moves:
+        move_tasks[move] = SuccessFrequencyTracker()
     if verbose:
         print("Beginning model fit pre-processing: log-likelihood estimation")
     l_values = []
-    if verbose:
-        print("Theta:", x0)
     for i in range(10):
-        l_values.append(compute_loglik(moves, parse_parameters(x0)))
-    average_l_values = np.mean(np.array(l_values), axis=0)
-    counts = generate_attempt_counts(average_l_values, c)
+        if verbose:
+            print("Theta:", x0)
+        l_values.append(compute_loglik(move_tasks, parse_parameters(x0)))
+    average_l_values = []
+    for move in moves:
+        average = 0.0
+        for l_value in l_values:
+            average += l_value[move]
+        average /= len(l_values)
+        average_l_values.append(average)
+    counts = generate_attempt_counts(np.array(average_l_values), c)
     for i in range(len(counts)):
-        moves[i].required_success_count = int(counts[i])
+        move_tasks[moves[i]].required_success_count = int(counts[i])
 
     def opt_fun(x):
         if verbose:
             print("Theta:", x)
-        return sum(compute_loglik(moves, parse_parameters(x)))
+        return sum(list(compute_loglik(move_tasks, parse_parameters(x)).values()))
     badsopts = {}
     badsopts['uncertainty_handling'] = True
     badsopts['noise_final_samples'] = 0
@@ -286,13 +260,13 @@ def cross_validate(groups, i):
     test = groups[i]
     train = []
     if len(groups) == 1:
-        train = groups[0]
+        train.extend(groups[0])
     else:
         for j in range(len(groups)):
             if i != j:
                 train.extend(groups[j])
     params, loglik_train = fit_model(train)
-    loglik_test = compute_loglik(test, parse_parameters(params))
+    loglik_test = list(compute_loglik(test, parse_parameters(params)).values())
     return params, loglik_train, loglik_test
 
 
