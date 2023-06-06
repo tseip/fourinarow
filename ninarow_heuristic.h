@@ -85,9 +85,11 @@ class Heuristic {
     center_weight = params[i++];
     const std::size_t num_param_packs =
         static_cast<std::size_t>((params.size() - 7) / 3);
-    std::size_t param_pack_idx = 0;
+    const std::size_t param_pack_idx = i;
     for (std::size_t j = 0; j < num_param_packs; ++j) {
-      add_feature_pack(params[3 * j], params[3 * j + 1], params[3 * j + 2]);
+      add_feature_pack(params[param_pack_idx + j],
+                       params[param_pack_idx + j + num_param_packs],
+                       params[param_pack_idx + j + 2 * num_param_packs]);
     }
   }
 
@@ -122,7 +124,7 @@ class Heuristic {
     const Player player = b.active_player();
     double val = 0.0;
     for (std::size_t i = 0; i < Board::get_board_size(); ++i) {
-      const typename Board::Pattern pattern{1LLU << i};
+      const typename Board::PatternT pattern{1LLU << i};
       if (b.contains(pattern, player)) val += center_weight * vtile[i];
       if (b.contains(pattern, get_other_player(player)))
         val -= center_weight * vtile[i];
@@ -140,15 +142,16 @@ class Heuristic {
     return player == Player::Player1 ? val : -val;
   }
 
-  std::vector<typename Board::Move> get_moves(const Board& b, Player evalPlayer,
-                                              bool sorted = true) {
+  std::vector<typename Board::MoveT> get_moves(const Board& b,
+                                               Player evalPlayer,
+                                               bool sorted = true) {
     const Player player = b.active_player();
     const Player other_player = get_other_player(player);
     const double c_act = (player == evalPlayer) ? c_self : c_opp;
     const double c_pass = (player == evalPlayer) ? c_opp : c_self;
 
-    std::unordered_map<typename Board::Pattern, typename Board::Move,
-                       typename Board::PatternHasher>
+    std::unordered_map<typename Board::PatternT, typename Board::MoveT,
+                       typename Board::PatternHasherT>
         candidate_moves;
     double deltaL = 0.0;
     for (const auto& feature_pack : feature_packs) {
@@ -163,22 +166,22 @@ class Heuristic {
 
     for (std::size_t i = 0; i < Board::get_board_size(); ++i) {
       const std::size_t bit_position = 1LLU << i;
-      const typename Board::Pattern pattern{bit_position};
+      const typename Board::PatternT pattern{bit_position};
       if (b.contains_spaces(pattern)) {
         candidate_moves[pattern] =
-            typename Board::Move(i,
-                                 deltaL + center_weight * vtile[i] +
-                                     (noise_enabled ? noise(engine) : 0.0),
-                                 player);
+            typename Board::MoveT(i,
+                                  deltaL + center_weight * vtile[i] +
+                                      (noise_enabled ? noise(engine) : 0.0),
+                                  player);
       }
     }
     for (const auto& feature_pack : feature_packs) {
       for (const auto& feature : feature_pack.features) {
         if (feature.is_active(b, player) ||
             feature.is_active(b, other_player)) {
-          const typename Board::Pattern player_missing_pieces =
+          const typename Board::PatternT player_missing_pieces =
               feature.missing_pieces(b, player);
-          const typename Board::Pattern other_player_missing_pieces =
+          const typename Board::PatternT other_player_missing_pieces =
               feature.missing_pieces(b, other_player);
           if ((player_missing_pieces.count_overlap(
                    other_player_missing_pieces) != 0) &&
@@ -188,10 +191,10 @@ class Heuristic {
               search->second.val += c_pass * feature_pack.weight_pass;
             }
           }
-          if (player_missing_pieces == typename Board::Pattern{0} &&
+          if (player_missing_pieces == typename Board::PatternT{0} &&
               feature.just_active(b, player)) {
             for (std::size_t i = 0; i < Board::get_board_size(); ++i) {
-              const typename Board::Pattern position{1LLU << i};
+              const typename Board::PatternT position{1LLU << i};
               if (b.contains_spaces(position) &&
                   feature.contains_spaces(position)) {
                 auto search = candidate_moves.find(position);
@@ -201,10 +204,10 @@ class Heuristic {
               }
             }
           }
-          if (other_player_missing_pieces == typename Board::Pattern{0} &&
+          if (other_player_missing_pieces == typename Board::PatternT{0} &&
               feature.just_active(b, other_player)) {
             for (std::size_t i = 0; i < Board::get_board_size(); ++i) {
-              const typename Board::Pattern position{1LLU << i};
+              const typename Board::PatternT position{1LLU << i};
               if (b.contains_spaces(position) &&
                   feature.contains_spaces(position)) {
                 auto search = candidate_moves.find(position);
@@ -218,7 +221,7 @@ class Heuristic {
       }
     }
 
-    std::vector<typename Board::Move> output_moves;
+    std::vector<typename Board::MoveT> output_moves;
     for (const auto kv : candidate_moves) {
       output_moves.push_back(kv.second);
     }
@@ -232,9 +235,9 @@ class Heuristic {
     return output_moves;
   }
 
-  std::vector<typename Board::Move> get_pruned_moves(const Board& b,
-                                                     Player evalPlayer) {
-    std::vector<typename Board::Move> candidates = get_moves(b, evalPlayer);
+  std::vector<typename Board::MoveT> get_pruned_moves(const Board& b,
+                                                      Player evalPlayer) {
+    std::vector<typename Board::MoveT> candidates = get_moves(b, evalPlayer);
     std::size_t i = 1;
     while (i < candidates.size() &&
            abs(candidates[0].val - candidates[i].val) < pruning_thresh) {
@@ -245,41 +248,41 @@ class Heuristic {
     return candidates;
   }
 
-  typename Board::Move get_random_move(const Board& b) {
+  typename Board::MoveT get_random_move(const Board& b) {
     std::vector<std::size_t> options;
     for (std::size_t i = 0; i < Board::get_board_size(); ++i) {
-      const typename Board::Pattern position{1LLU << i};
+      const typename Board::PatternT position{1LLU << i};
       if (b.contains_spaces(position)) {
         options.push_back(i);
       }
     }
 
     if (options.size() > 0) {
-      return typename Board::Move(options[std::uniform_int_distribution<int>(
-                                      0, options.size() - 1U)(engine)],
-                                  0.0, b.active_player());
+      return typename Board::MoveT(options[std::uniform_int_distribution<int>(
+                                       0, options.size() - 1U)(engine)],
+                                   0.0, b.active_player());
     } else {
-      return typename Board::Move(0, 0.0, b.active_player());
+      return typename Board::MoveT(0, 0.0, b.active_player());
     }
   }
 
-  typename Board::Move get_best_move_bfs(std::shared_ptr<Node<Board>> game_tree,
-                                         Player player) {
+  typename Board::MoveT get_best_move_bfs(
+      std::shared_ptr<Node<Board>> game_tree, Player player) {
     if (noise_enabled && lapse(engine))
       return get_random_move(game_tree->get_board());
 
     std::vector<FeatureP> null_features;
     FeatureRemover f(noise_enabled ? feature_packs : null_features, engine);
     std::shared_ptr<Node<Board>> n = game_tree->select();
-    typename Board::Move best_move;
+    typename Board::MoveT best_move;
     const std::size_t max_iterations = std::size_t(1.0 / gamma) + 1;
     {
       std::size_t t = 0;
       std::size_t iterations = 0;
-      typename Board::Move old_best_move;
+      typename Board::MoveT old_best_move;
       while (iterations++ < max_iterations && t < stopping_thresh &&
              !game_tree->determined()) {
-        const std::vector<typename Board::Move> candidate_moves =
+        const std::vector<typename Board::MoveT> candidate_moves =
             get_pruned_moves(n->get_board(), player);
         n->expand(candidate_moves);
         n = game_tree->select();
@@ -292,7 +295,7 @@ class Heuristic {
     return best_move;
   }
 
-  typename Board::Move get_best_move_bfs(const Board& b, Player player) {
+  typename Board::MoveT get_best_move_bfs(const Board& b, Player player) {
     return get_best_move_bfs(Node<Board>::create(b, evaluate(b)), player);
   }
 
@@ -307,7 +310,8 @@ class Heuristic {
     /**
      * Constructor. Removes random features.
      *
-     * @param h The heuristic to remove random features from.
+     * @param features The feature packs to remove features from.
+     * @param engine A source of randomness for feature removal.
      */
     FeatureRemover(std::vector<FeatureP>& features, std::mt19937_64& engine)
         : features(features) {

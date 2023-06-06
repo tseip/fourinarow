@@ -143,7 +143,7 @@ class Node : public std::enable_shared_from_this<Node<Board>> {
   /**
    * @return The move prior to the board state represented by this node.
    */
-  const typename Board::Move get_move() const { return move; }
+  const typename Board::MoveT get_move() const { return move; }
 
   /**
    * @return The children of this node.
@@ -202,7 +202,7 @@ class Node : public std::enable_shared_from_this<Node<Board>> {
    *
    * @return A pointer to the newly created node.
    */
-  std::shared_ptr<Node> create_child(const typename Board::Move &move) {
+  std::shared_ptr<Node> create_child(const typename Board::MoveT &move) {
     // Validate that the parent doesn't already have this child.
     for (const auto &child : children) {
       if (child->move.board_position == move.board_position) {
@@ -255,7 +255,7 @@ class Node : public std::enable_shared_from_this<Node<Board>> {
   /**
    * The move that led to the current board state.
    */
-  const typename Board::Move move;
+  const typename Board::MoveT move;
 
   /**
    * The heuristic value of this node.
@@ -306,7 +306,7 @@ class Node : public std::enable_shared_from_this<Node<Board>> {
    * @param val The heuristic value of the move this node represents.
    * @param parent The parent of this node, if any.
    */
-  Node(const std::shared_ptr<Node> parent, const typename Board::Move &move)
+  Node(const std::shared_ptr<Node> parent, const typename Board::MoveT &move)
       : children(),
         parent(parent),
         best_known_child(),
@@ -488,10 +488,10 @@ class Node : public std::enable_shared_from_this<Node<Board>> {
    *
    * @param moves A list of moves that can be played from this position.
    */
-  void expand(const std::vector<typename Board::Move> &moves) {
+  void expand(const std::vector<typename Board::MoveT> &moves) {
     if (moves.empty()) return;
 
-    for (const typename Board::Move &move : moves) {
+    for (const typename Board::MoveT &move : moves) {
       children.push_back(create_child(move));
     }
 
@@ -581,14 +581,14 @@ class Node : public std::enable_shared_from_this<Node<Board>> {
    * @return The best known move from the current position for the current
    * player.
    */
-  typename Board::Move get_best_move() const {
+  typename Board::MoveT get_best_move() const {
     if (!best_known_child)
       throw std::logic_error(
           "No best known child has been determined for this board:\n" +
           board.to_string());
     if (determined()) {
-      return typename Board::Move(best_known_child->move.board_position, val,
-                                  board.active_player());
+      return typename Board::MoveT(best_known_child->move.board_position, val,
+                                   board.active_player());
     }
     double val_temp = (board.active_player() == Player::Player1
                            ? -std::numeric_limits<double>::infinity()
@@ -600,7 +600,8 @@ class Node : public std::enable_shared_from_this<Node<Board>> {
       }
     }
 
-    return typename Board::Move(best_position, val_temp, board.active_player());
+    return
+        typename Board::MoveT(best_position, val_temp, board.active_player());
   }
 };
 

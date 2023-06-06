@@ -5,22 +5,42 @@ from scipy.interpolate import CubicSpline
 import random
 import fourbynine
 import copy
-import queue
-from multiprocessing import Process, Pool, Value, JoinableQueue, Lock
+from queue import Empty, PriorityQueue
+from multiprocessing import Process, Pool, Value, Lock
+from multiprocessing.managers import SyncManager
 from pybads import BADS
 from pathlib import Path
+from functools import total_ordering
+
+
+class PriorityQueueManager(SyncManager):
+    pass
+
+
+PriorityQueueManager.register("PriorityQueue", PriorityQueue)
+
+
+def makePriorityQueueManager():
+    m = PriorityQueueManager()
+    m.start()
+    return m
+
 
 expt_factor = 1.0
 cutoff = 3.5
 
-x0 = np.array([2, 0.02, 0.2, 0.05, 1.2, 0.8, 1, 0.4, 3.5, 5])
-ub = np.array([10, 1, 1, 1, 4, 10, 10, 10, 10, 10])
-lb = np.array([0, 0, 0, 0.00, 0.25, -10, -10, -10, -10, -10])
-pub = np.array([9.99, 0.99, 0.5, 0.5, 2, 5, 5, 5, 5, 5])
-plb = np.array([0.1, 0.001, 0.001, 0.05, 0.5, -5, -5, -5, -5, -5])
+x0 = np.array([2.0, 0.02, 0.2, 0.05, 1.2, 0.8,
+              1, 0.4, 3.5, 5], dtype=np.float64)
+ub = np.array([10.0, 1, 1, 1, 4, 10, 10, 10, 10, 10], dtype=np.float64)
+lb = np.array([0.1, 0.001, 0, 0, 0.25, -10, -
+              10, -10, -10, -10], dtype=np.float64)
+pub = np.array([9.99, 0.99, 0.5, 0.5, 2, 5, 5, 5, 5, 5], dtype=np.float64)
+plb = np.array([1, 0.1, 0.001, 0.05, 0.5, -5, -
+               5, -5, -5, -5], dtype=np.float64)
 c = 50
 
 
+@total_ordering
 class MoveEvaluationTask:
     def __init__(
             self,
@@ -52,10 +72,16 @@ class MoveEvaluationTask:
                              self.move,
                              self.time,
                              self.group,
-                             self.participant]))
+                             self.participant,
+                             self.attempt_count,
+                             self.success_count,
+                             self.required_success_count]))
 
     def __eq__(self, other):
         return self.black_pieces == other.black_pieces and self.white_pieces == other.white_pieces and self.player == other.player and self.move == other.move and self.time == other.time and self.participant == other.participant
+
+    def __lt__(self, other):
+        return self.attempt_count < other.attempt_count
 
     def __hash__(self):
         return hash(
@@ -82,6 +108,14 @@ class MoveEvaluationTask:
 
 def bool_to_player(player):
     return fourbynine.Player_Player1 if not player else fourbynine.Player_Player2
+
+
+def player_to_bool(player):
+    return player == fourbynine.Player_Player2
+
+
+def player_to_string(player):
+    return "White" if player_to_bool(player) else "Black"
 
 
 def parse_participant_lines(lines):
@@ -161,17 +195,18 @@ def estimate_log_lik_ibs(
                     to_process.value -= 1
                 output.put(move)
             participant_data.task_done()
-        except queue.Empty:
+        except Empty:
             pass
 
 
-def compute_loglik(moves, params):
-    q = JoinableQueue()
+def compute_loglik(data, params):
+    moves = copy.deepcopy(data)
+    m = makePriorityQueueManager()
+    q = m.PriorityQueue()
     for move in moves:
-        q.put(copy.deepcopy(move))
-
+        q.put(move)
     N = len(moves)
-    output = JoinableQueue(N)
+    output = m.PriorityQueue()
     Lexpt = Value('d', N * expt_factor, lock=True)
     to_process = Value('i', N, lock=True)
     num_workers = 16
@@ -184,14 +219,10 @@ def compute_loglik(moves, params):
     while not q.empty():
         move = q.get()
         final_L_values[move] = move.L
-    q.close()
-    q.join_thread()
 
     while not output.empty():
         move = output.get()
         final_L_values[move] = move.L
-    output.close()
-    output.join_thread()
 
     sorted_L_values = []
     for move in moves:
@@ -206,7 +237,7 @@ def generate_attempt_counts(L_values, c):
     interp1 = CubicSpline(x, np.sqrt(x * dilog), extrapolate=True)
     interp2 = CubicSpline(x, np.sqrt(dilog / x), extrapolate=True)
     times = (c * interp1(p)) / np.mean(interp2(p))
-    return np.vectorize(lambda x: max(x, 1))(np.int32(times))
+    return np.vectorize(lambda x: max(x, 1))(np.round(times))
 
 
 def parse_parameters(params):
@@ -221,18 +252,24 @@ def parse_parameters(params):
     return out
 
 
-def fit_model(data):
-    print("Beginning model fit pre-processing: log-likelihood estimation")
-    moves = copy.deepcopy(data)
+def fit_model(moves, verbose=False):
+    moves = copy.deepcopy(moves)
+    if verbose:
+        print("Beginning model fit pre-processing: log-likelihood estimation")
     l_values = []
+    if verbose:
+        print("Theta:", x0)
     for i in range(10):
-        l_values.append(np.array(compute_loglik(moves, parse_parameters(x0))))
-    average_l_values = np.mean(l_values, axis=0)
+        l_values.append(compute_loglik(moves, parse_parameters(x0)))
+    average_l_values = np.mean(np.array(l_values), axis=0)
     counts = generate_attempt_counts(average_l_values, c)
     for i in range(len(counts)):
-        moves[i].required_success_count = counts[i]
+        moves[i].required_success_count = int(counts[i])
 
-    def opt_fun(x): return sum(compute_loglik(moves, parse_parameters(x)))
+    def opt_fun(x):
+        if verbose:
+            print("Theta:", x)
+        return sum(compute_loglik(moves, parse_parameters(x)))
     badsopts = {}
     badsopts['uncertainty_handling'] = True
     badsopts['noise_final_samples'] = 0

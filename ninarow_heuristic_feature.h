@@ -17,13 +17,13 @@ class HeuristicFeature {
   /**
    * Pieces relevant to the feature.
    */
-  typename Board::Pattern pieces;
+  typename Board::PatternT pieces;
 
   /**
    * Spaces (spots where no piece for either player exists) relevant to the
    * feature.
    */
-  typename Board::Pattern spaces;
+  typename Board::PatternT spaces;
 
   /**
    * The minimum number of spaces that must be empty in order for this feature
@@ -34,8 +34,8 @@ class HeuristicFeature {
  public:
   HeuristicFeature() = default;
 
-  HeuristicFeature(typename Board::Pattern pieces,
-                   typename Board::Pattern spaces,
+  HeuristicFeature(typename Board::PatternT pieces,
+                   typename Board::PatternT spaces,
                    std::size_t min_space_occupancy)
       : pieces(pieces),
         spaces(spaces),
@@ -60,11 +60,11 @@ class HeuristicFeature {
            b.count_pieces(pieces, get_other_player(player)) == 0;
   }
 
-  typename Board::Pattern missing_pieces(const Board& b, Player player) const {
+  typename Board::PatternT missing_pieces(const Board& b, Player player) const {
     return b.missing_pieces(pieces, player);
   }
 
-  bool contains_spaces(const typename Board::Pattern p) const {
+  bool contains_spaces(const typename Board::PatternT p) const {
     return spaces.contains(p.positions);
   }
 

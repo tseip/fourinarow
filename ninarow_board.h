@@ -25,9 +25,9 @@ namespace NInARow {
 template <std::size_t HEIGHT, std::size_t WIDTH, std::size_t N>
 class Board {
  public:
-  using Pattern = Pattern<HEIGHT, WIDTH, N>;
-  using PatternHasher = PatternHasher<Pattern>;
-  using Move = Move<HEIGHT, WIDTH, N>;
+  using PatternT = Pattern<HEIGHT, WIDTH, N>;
+  using PatternHasherT = PatternHasher<PatternT>;
+  using MoveT = Move<HEIGHT, WIDTH, N>;
 
   /**
    * Getters for board dimensions.
@@ -62,7 +62,7 @@ class Board {
    * We detect and throw on invalid game states as the board is being played
    * out.
    */
-  Pattern pieces[2];
+  PatternT pieces[2];
 
  public:
   /**
@@ -76,7 +76,7 @@ class Board {
    * @param black_pieces The black pieces on the board.
    * @param white_pieces The white pieces on the board.
    */
-  Board(const Pattern &black_pieces, const Pattern &white_pieces) {
+  Board(const PatternT &black_pieces, const PatternT &white_pieces) {
     const auto piece_diff =
         black_pieces.positions.count() - white_pieces.positions.count();
     if (black_pieces.count_overlap(white_pieces) != 0 || piece_diff > 1U ||
@@ -138,7 +138,7 @@ class Board {
     return (num_pieces() % 2) == 0 ? Player::Player1 : Player::Player2;
   }
 
-  std::string to_string() const { return to_string(Pattern()); }
+  std::string to_string() const { return to_string(PatternT()); }
 
   /**
    * @param p A pattern to highlight on the board.
@@ -146,7 +146,7 @@ class Board {
    * @return A string representing the board with specific board positions
    * highlighted.
    */
-  std::string to_string(const Pattern p) const {
+  std::string to_string(const PatternT p) const {
     std::stringstream stream;
     stream << "+";
     for (std::size_t col = 0; col < WIDTH; ++col) stream << "-";
@@ -175,12 +175,21 @@ class Board {
   }
 
   /**
+   * @param player The player whose pieces are being requested.
+   *
+   * @return The pieces of the given player.
+   */
+  PatternT get_pieces(const Player player) const {
+    return pieces[static_cast<size_t>(player)];
+  }
+
+  /**
    * @param p The pattern to check.
    *
    * @return The number of positions that the given player has covered in the
    * given pattern.
    */
-  std::size_t count_pieces(const Pattern p, const Player player) const {
+  std::size_t count_pieces(const PatternT p, const Player player) const {
     return pieces[static_cast<size_t>(player)].count_overlap(p);
   }
 
@@ -190,9 +199,9 @@ class Board {
    * @return The number of positions that neither player has covered in the
    * given pattern.
    */
-  std::size_t count_spaces(const Pattern p) const {
-    return Pattern(pieces[static_cast<size_t>(Player::Player1)].positions |
-                   pieces[static_cast<size_t>(Player::Player2)].positions)
+  std::size_t count_spaces(const PatternT p) const {
+    return PatternT(pieces[static_cast<size_t>(Player::Player1)].positions |
+                    pieces[static_cast<size_t>(Player::Player2)].positions)
         .count_spaces(p);
   }
 
@@ -203,9 +212,9 @@ class Board {
    * @return A pattern representing the pieces needed to be played by the
    * given player in order to cover the given pattern.
    */
-  Board::Pattern missing_pieces(const Board::Pattern &pattern,
-                                Player player) const {
-    return Board::Pattern(
+  Board::PatternT missing_pieces(const Board::PatternT &pattern,
+                                 Player player) const {
+    return Board::PatternT(
         pattern.positions &
         (~pieces[static_cast<std::size_t>(player)].positions));
   }
@@ -216,9 +225,9 @@ class Board {
    * @return True if the all of the given positions are unoccupied by pieces of
    * either player.
    */
-  bool contains_spaces(const Pattern p) const {
-    return Pattern(pieces[static_cast<size_t>(Player::Player1)].positions |
-                   pieces[static_cast<size_t>(Player::Player2)].positions)
+  bool contains_spaces(const PatternT p) const {
+    return PatternT(pieces[static_cast<size_t>(Player::Player1)].positions |
+                    pieces[static_cast<size_t>(Player::Player2)].positions)
                .count_overlap(p) == 0;
   }
 
@@ -227,7 +236,7 @@ class Board {
    *
    * @return True if the board contains the given move.
    */
-  bool contains_move(Move m) const {
+  bool contains_move(MoveT m) const {
     return pieces[static_cast<size_t>(m.player)].positions.test(
         m.board_position);
   }
@@ -250,14 +259,14 @@ class Board {
    *
    * @return True if the given player's moveset contains the given pattern.
    */
-  bool contains(Pattern p, Player player) const {
+  bool contains(PatternT p, Player player) const {
     return pieces[static_cast<size_t>(player)].contains(p);
   }
 
   /**
    * @param m The move to add to the board.
    */
-  void add(const Move m) {
+  void add(const MoveT m) {
     if (m.player != active_player()) {
       throw std::logic_error("Supplied move is not legal on the given board!");
     }
@@ -271,7 +280,7 @@ class Board {
   /**
    * @param m The move to remove from the board.
    */
-  void remove(const Move m) {
+  void remove(const MoveT m) {
     if (m.player != get_other_player(active_player())) {
       throw std::logic_error(
           "Removing given move would lead to an illegal board state!");
@@ -292,7 +301,7 @@ class Board {
    *
    * @return The new board.
    */
-  Board operator+(const Move m) const {
+  Board operator+(const MoveT m) const {
     Board temp(*this);
     temp.add(m);
     return temp;
@@ -305,7 +314,7 @@ class Board {
    *
    * @return The new board.
    */
-  Board operator-(const Move m) const {
+  Board operator-(const MoveT m) const {
     Board temp(*this);
     temp.remove(m);
     return temp;

@@ -1,6 +1,13 @@
 from fourbynine import *
-from model_fit import bool_to_player
+from model_fit import bool_to_player, player_to_string
 import random
+import time
+
+
+def move_to_csv_string(board, move, time, group_id, participant):
+    def board_to_base10_str(board):
+        return str(int(board.to_string(), 2))
+    return "\t".join([board_to_base10_str(board.get_pieces(bool_to_player(False))), board_to_base10_str(board.get_pieces(bool_to_player(True))), player_to_string(move.player), str(2**move.board_position), str(time), str(group_id), str(participant)]) + "\n"
 
 
 def create_feature(white_pieces, black_pieces, min_occupancy):
@@ -50,16 +57,21 @@ def evaluate_best_move_from_position(position):
 
 def play_game_to_completion():
     # Play an entire game with noise enabled.
+    moves = []
     heuristic = getDefaultFourByNineHeuristic()
     heuristic.seed_generator(random.randint(0, 2**64))
     current_player = False
     current_position = fourbynine_board()
     while not current_position.game_has_ended():
-        current_position = current_position + \
-            heuristic.get_best_move_bfs(
-                current_position, bool_to_player(current_player))
+        start = time.time()
+        best_move = heuristic.get_best_move_bfs(
+            current_position, bool_to_player(current_player))
+        end = time.time()
+        moves.append(move_to_csv_string(current_position,
+                     best_move, end - start, 1, "DefaultHeuristic"))
+        current_position = current_position + best_move
         current_player = not current_player
-    return current_position
+    return moves, current_position
 
 
 def main():
@@ -70,8 +82,14 @@ def main():
         fourbynine_pattern(0x0), fourbynine_pattern(0x0))
     best_starting_move = evaluate_best_move_from_position(position)
     print((position + best_starting_move).to_string())
-    idealized_game = play_game_to_completion()
-    print(idealized_game.to_string())
+    output_csv = []
+    idealized_game, final_position = play_game_to_completion()
+    print(final_position.to_string())
+    for line in idealized_game:
+        print(line)
+    # We could output our game to a CSV file like so:
+    # with open("example_output.csv", 'w') as f:
+    #     f.writelines(idealized_game)
 
 
 if __name__ == "__main__":

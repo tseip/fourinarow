@@ -13,12 +13,12 @@ TEST(GameTreeTest, TestCreate) {
   ASSERT_FALSE(game_tree->determined());
 
   // Provide an invalid move.
-  std::vector<Board::Move> bad_moves = {
-      Board::Move(1, 1, 0.0, Player::Player2)};
+  std::vector<Board::MoveT> bad_moves = {
+      Board::MoveT(1, 1, 0.0, Player::Player2)};
   EXPECT_THROW(game_tree->expand(bad_moves), std::logic_error);
 
   // Provide good moves.
-  std::vector<Board::Move> moves;
+  std::vector<Board::MoveT> moves;
   moves.emplace_back(0, 0, 0.0, Player::Player1);
   moves.emplace_back(0, 1, 0.0, Player::Player1);
   moves.emplace_back(0, 2, 0.0, Player::Player1);
@@ -37,7 +37,7 @@ TEST(GameTreeTest, TestCreate) {
   ASSERT_EQ(game_tree->get_num_leaves(), 9);
   ASSERT_FALSE(game_tree->determined());
 
-  const auto best_move = Board::Move(0, 0, 0.0, Player::Player1);
+  const auto best_move = Board::MoveT(0, 0, 0.0, Player::Player1);
   ASSERT_EQ(game_tree->get_best_move().board_position,
             best_move.board_position);
 }
@@ -51,7 +51,7 @@ TEST(GameTreeTest, TestNodeCountingFunctions) {
   ASSERT_EQ(game_tree->get_num_leaves(), 1);
   ASSERT_FALSE(game_tree->determined());
 
-  std::vector<Board::Move> moves;
+  std::vector<Board::MoveT> moves;
   moves.emplace_back(0, 0, 1.0, Player::Player1);
   moves.emplace_back(0, 1, 0.0, Player::Player1);
   moves.emplace_back(0, 2, -1.0, Player::Player1);
@@ -100,15 +100,15 @@ TEST(GameTreeTest, TestGetBestMove) {
   ASSERT_FALSE(game_tree->determined());
 
   // Construct the entire game tree for this super simple game.
-  const std::vector<Board::Move> first_moves{
-      Board::Move(0, 0, 0.0, Player::Player1),
-      Board::Move(0, 1, 1.0, Player::Player1),
-      Board::Move(0, 2, 0.0, Player::Player1)};
+  const std::vector<Board::MoveT> first_moves{
+      Board::MoveT(0, 0, 0.0, Player::Player1),
+      Board::MoveT(0, 1, 1.0, Player::Player1),
+      Board::MoveT(0, 2, 0.0, Player::Player1)};
   game_tree->expand(first_moves);
 
   const auto& children = game_tree->get_children();
   for (size_t i = 0; i < children.size(); ++i) {
-    std::vector<Board::Move> second_moves;
+    std::vector<Board::MoveT> second_moves;
     for (size_t j = 0; j < first_moves.size(); ++j) {
       if (j == i) continue;
       second_moves.emplace_back(0, j, (j == 1) ? 0.0 : 1.0, Player::Player2);
@@ -117,9 +117,9 @@ TEST(GameTreeTest, TestGetBestMove) {
 
     const auto& grandchildren = children[i]->get_children();
     for (size_t j = 0; j < grandchildren.size(); ++j) {
-      const std::vector<Board::Move> third_move{
-          Board::Move(0, 3 - (i + grandchildren[j]->get_move().board_position),
-                      i == 1 ? 1.0 : 0.0, Player::Player1)};
+      const std::vector<Board::MoveT> third_move{
+          Board::MoveT(0, 3 - (i + grandchildren[j]->get_move().board_position),
+                       i == 1 ? 1.0 : 0.0, Player::Player1)};
       grandchildren[j]->expand(third_move);
     }
   }

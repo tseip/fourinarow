@@ -14,7 +14,7 @@ namespace NInARow {
 template <std::size_t HEIGHT, std::size_t WIDTH, std::size_t N>
 class Move {
  private:
-  using Pattern = Pattern<HEIGHT, WIDTH, N>;
+  using PatternT = Pattern<HEIGHT, WIDTH, N>;
 
  public:
   /**
@@ -49,7 +49,7 @@ class Move {
   Move(std::size_t m, double v, Player p)
       : board_position(m), val(v), player(p) {
     // Throw if position is out of bounds.
-    Pattern pattern;
+    PatternT pattern;
     (void)pattern.positions.test(board_position);
   }
 

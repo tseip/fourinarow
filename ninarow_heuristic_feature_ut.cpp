@@ -31,9 +31,9 @@ TEST(NInARowHeuristicFeatureTest, TestHeuristicFeature) {
   ASSERT_FALSE(feature.is_active(board, Player::Player2));
   ASSERT_FALSE(feature.just_active(board, Player::Player1));
   ASSERT_FALSE(feature.just_active(board, Player::Player2));
-  ASSERT_EQ(Board::Pattern{0b000000100},
+  ASSERT_EQ(Board::PatternT{0b000000100},
             feature.missing_pieces(board, Player::Player1));
-  ASSERT_EQ(Board::Pattern{0b000000101},
+  ASSERT_EQ(Board::PatternT{0b000000101},
             feature.missing_pieces(board, Player::Player2));
 
   // Player 2 encroaches.
@@ -44,9 +44,9 @@ TEST(NInARowHeuristicFeatureTest, TestHeuristicFeature) {
   ASSERT_FALSE(feature.is_active(board, Player::Player2));
   ASSERT_FALSE(feature.just_active(board, Player::Player1));
   ASSERT_FALSE(feature.just_active(board, Player::Player2));
-  ASSERT_EQ(Board::Pattern{0b000000100},
+  ASSERT_EQ(Board::PatternT{0b000000100},
             feature.missing_pieces(board, Player::Player1));
-  ASSERT_EQ(Board::Pattern{0b000000001},
+  ASSERT_EQ(Board::PatternT{0b000000001},
             feature.missing_pieces(board, Player::Player2));
 
   board.remove({0, 2, 0.0, Player::Player2});
@@ -58,8 +58,8 @@ TEST(NInARowHeuristicFeatureTest, TestHeuristicFeature) {
   ASSERT_FALSE(feature.is_active(board, Player::Player2));
   ASSERT_FALSE(feature.just_active(board, Player::Player1));
   ASSERT_FALSE(feature.just_active(board, Player::Player2));
-  ASSERT_EQ(Board::Pattern{0}, feature.missing_pieces(board, Player::Player1));
-  ASSERT_EQ(Board::Pattern{0b000000101},
+  ASSERT_EQ(Board::PatternT{0}, feature.missing_pieces(board, Player::Player1));
+  ASSERT_EQ(Board::PatternT{0b000000101},
             feature.missing_pieces(board, Player::Player2));
 
   // Cover a space in the pattern from player 2. just_active should now become
@@ -71,8 +71,8 @@ TEST(NInARowHeuristicFeatureTest, TestHeuristicFeature) {
   ASSERT_FALSE(feature.is_active(board, Player::Player2));
   ASSERT_TRUE(feature.just_active(board, Player::Player1));
   ASSERT_FALSE(feature.just_active(board, Player::Player2));
-  ASSERT_EQ(Board::Pattern{0}, feature.missing_pieces(board, Player::Player1));
-  ASSERT_EQ(Board::Pattern{0b000000101},
+  ASSERT_EQ(Board::PatternT{0}, feature.missing_pieces(board, Player::Player1));
+  ASSERT_EQ(Board::PatternT{0b000000101},
             feature.missing_pieces(board, Player::Player2));
 
   // Cover another space. Now the feature should be inactive.
@@ -83,16 +83,16 @@ TEST(NInARowHeuristicFeatureTest, TestHeuristicFeature) {
   ASSERT_FALSE(feature.is_active(board, Player::Player2));
   ASSERT_FALSE(feature.just_active(board, Player::Player1));
   ASSERT_FALSE(feature.just_active(board, Player::Player2));
-  ASSERT_EQ(Board::Pattern{0}, feature.missing_pieces(board, Player::Player1));
-  ASSERT_EQ(Board::Pattern{0b000000101},
+  ASSERT_EQ(Board::PatternT{0}, feature.missing_pieces(board, Player::Player1));
+  ASSERT_EQ(Board::PatternT{0b000000101},
             feature.missing_pieces(board, Player::Player2));
 
   // Test contains_spaces.
-  ASSERT_TRUE(feature.contains_spaces(Board::Pattern{0}));
-  ASSERT_TRUE(feature.contains_spaces(Board::Pattern{0b000010000}));
-  ASSERT_TRUE(feature.contains_spaces(Board::Pattern{0b001010000}));
-  ASSERT_TRUE(feature.contains_spaces(Board::Pattern{0b101010000}));
+  ASSERT_TRUE(feature.contains_spaces(Board::PatternT{0}));
+  ASSERT_TRUE(feature.contains_spaces(Board::PatternT{0b000010000}));
+  ASSERT_TRUE(feature.contains_spaces(Board::PatternT{0b001010000}));
+  ASSERT_TRUE(feature.contains_spaces(Board::PatternT{0b101010000}));
 
-  ASSERT_FALSE(feature.contains_spaces(Board::Pattern{0b111010000}));
-  ASSERT_FALSE(feature.contains_spaces(Board::Pattern{0b010000000}));
+  ASSERT_FALSE(feature.contains_spaces(Board::PatternT{0b111010000}));
+  ASSERT_FALSE(feature.contains_spaces(Board::PatternT{0b010000000}));
 }
