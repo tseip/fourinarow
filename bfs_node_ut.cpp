@@ -1,14 +1,14 @@
 #include <gtest/gtest.h>
 
-#include "game_tree.h"
+#include "bfs_node.h"
 #include "ninarow_board.h"
 
 /**
  * Tests game tree creation.
  */
-TEST(GameTreeTest, TestCreate) {
+TEST(BFSNodeTest, TestCreate) {
   using Board = NInARow::Board<3, 3, 3>;
-  auto game_tree = Node<Board>::create(Board(), 0.0);
+  auto game_tree = BFSNode<Board>::create(Board(), 0.0);
   ASSERT_EQ(game_tree->get_num_leaves(), 1);
   ASSERT_FALSE(game_tree->determined());
 
@@ -45,9 +45,9 @@ TEST(GameTreeTest, TestCreate) {
 /**
  * Tests game tree node counting functions.
  */
-TEST(GameTreeTest, TestNodeCountingFunctions) {
+TEST(BFSNodeTest, TestNodeCountingFunctions) {
   using Board = NInARow::Board<3, 3, 3>;
-  auto game_tree = Node<Board>::create(Board(), 0.0);
+  auto game_tree = BFSNode<Board>::create(Board(), 0.0);
   ASSERT_EQ(game_tree->get_num_leaves(), 1);
   ASSERT_FALSE(game_tree->determined());
 
@@ -93,9 +93,9 @@ TEST(GameTreeTest, TestNodeCountingFunctions) {
 /**
  * Tests getting the best move from an example simple game tree.
  */
-TEST(GameTreeTest, TestGetBestMove) {
+TEST(BFSNodeTest, TestGetBestMove) {
   using Board = NInARow::Board<1, 3, 2>;
-  auto game_tree = Node<Board>::create(Board(), 0.0);
+  auto game_tree = BFSNode<Board>::create(Board(), 0.0);
   ASSERT_EQ(game_tree->get_num_leaves(), 1);
   ASSERT_FALSE(game_tree->determined());
 

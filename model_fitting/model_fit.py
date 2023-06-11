@@ -134,13 +134,14 @@ def estimate_log_lik_ibs(
     heuristic = fourbynine.getDefaultFourByNineHeuristic(
         fourbynine.DoubleVector(parameters))
     heuristic.seed_generator(random.randint(0, 2**64))
+    bfs = fourbynine.NInARowBestFirstSearch_create();
     while True:
         move = input_queue.get()
         b = fourbynine.fourbynine_pattern(move.black_pieces)
         w = fourbynine.fourbynine_pattern(move.white_pieces)
         board = fourbynine.fourbynine_board(b, w)
         player = bool_to_player(move.player)
-        best_move = heuristic.get_best_move_bfs(board, player)
+        best_move = heuristic.get_best_move(board, player, bfs)
         success = 2**best_move.board_position == move.move
         output_queue.put((success, move))
 

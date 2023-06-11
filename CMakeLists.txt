@@ -40,7 +40,8 @@ list(APPEND CXX_FLAGS "-fPIC" "-Wall" "-Wextra" "-Werror" "-Wno-unused" "-fexcep
 enable_testing()
 
 add_executable(tests
-  game_tree_ut.cpp
+  bfs_node_ut.cpp
+  ninarow_bfs_ut.cpp
   ninarow_board_ut.cpp
   ninarow_heuristic_ut.cpp
   ninarow_heuristic_feature_ut.cpp

@@ -7,9 +7,10 @@
 #include <random>
 #include <unordered_map>
 
-#include "game_tree.h"
+#include "bfs_node.h"
 #include "ninarow_board.h"
 #include "ninarow_heuristic_feature.h"
+#include "searches.h"
 
 namespace NInARow {
 
@@ -30,14 +31,18 @@ class FeaturePack {
   double diff_act_pass() const { return weight_act - weight_pass; }
 };
 
+template <class Board>
+class HeuristicSearchProgress;
+
 /**
  * A heuristic for games of n-in-a-row.
  */
 template <typename Board>
-class Heuristic {
+class Heuristic : public std::enable_shared_from_this<Heuristic<Board>> {
  public:
   using Feature = HeuristicFeature<Board>;
   using FeatureP = FeaturePack<Board>;
+  using BoardT = Board;
 
  private:
   double stopping_thresh;
@@ -55,20 +60,28 @@ class Heuristic {
   std::normal_distribution<double> noise;
   std::bernoulli_distribution lapse;
   bool noise_enabled;
+  bool search_in_progress;
+
+  std::vector<std::vector<Feature>> removed_features;
 
  public:
+  static std::shared_ptr<Heuristic> create(const std::vector<double>& params) {
+    return std::shared_ptr<Heuristic>(new Heuristic(params));
+  }
+
+ private:
   Heuristic(const std::vector<double>& params)
       : engine(),
         feature_packs(),
         vtile(),
         noise(),
         lapse(),
-        noise_enabled(true) {
+        noise_enabled(true),
+        search_in_progress(false) {
     get_params_from_vector(params);
     update();
   }
 
- private:
   void get_params_from_vector(const std::vector<double>& params) {
     if (params.size() < 7 || (params.size() - 7) % 3 != 0) {
       throw std::invalid_argument(
@@ -266,84 +279,61 @@ class Heuristic {
     }
   }
 
-  typename Board::MoveT get_best_move_bfs(
-      std::shared_ptr<Node<Board>> game_tree, Player player) {
-    if (noise_enabled && lapse(engine))
-      return get_random_move(game_tree->get_board());
+  typename Board::MoveT get_best_move(
+      const Board& b, Player player,
+      std::shared_ptr<Search<Heuristic>> search) {
+    if (search_in_progress)
+      throw std::logic_error(
+          "Cannot start a search when a previous search is being executed!");
+    if (noise_enabled && lapse(engine)) return get_random_move(b);
 
-    std::vector<FeatureP> null_features;
-    FeatureRemover f(noise_enabled ? feature_packs : null_features, engine);
-    std::shared_ptr<Node<Board>> n = game_tree->select();
-    typename Board::MoveT best_move;
-    const std::size_t max_iterations = std::size_t(1.0 / gamma) + 1;
-    {
-      std::size_t t = 0;
-      std::size_t iterations = 0;
-      typename Board::MoveT old_best_move;
-      while (iterations++ < max_iterations && t < stopping_thresh &&
-             !game_tree->determined()) {
-        const std::vector<typename Board::MoveT> candidate_moves =
-            get_pruned_moves(n->get_board(), player);
-        n->expand(candidate_moves);
-        n = game_tree->select();
-        old_best_move = best_move;
-        best_move = game_tree->get_best_move();
-        old_best_move.board_position == best_move.board_position ? ++t : t = 0;
-      }
-    }
-
-    return best_move;
+    return search->search(this->shared_from_this(), player, b);
   }
 
-  typename Board::MoveT get_best_move_bfs(const Board& b, Player player) {
-    return get_best_move_bfs(Node<Board>::create(b, evaluate(b)), player);
+  void start_search() {
+    if (search_in_progress)
+      throw std::logic_error(
+          "Cannot start a search when a previous search is being executed!");
+    search_in_progress = true;
+    if (noise_enabled) remove_features();
+  }
+
+  void complete_search() {
+    restore_features();
+    search_in_progress = false;
   }
 
   void set_noise_enabled(bool enabled) { noise_enabled = enabled; }
 
+  double get_gamma() const { return gamma; }
+
+  double get_stopping_thresh() const { return stopping_thresh; }
+
  private:
-  /**
-   * RAII class to remove and restore random features from a given heuristic.
-   */
-  class FeatureRemover {
-   public:
-    /**
-     * Constructor. Removes random features.
-     *
-     * @param features The feature packs to remove features from.
-     * @param engine A source of randomness for feature removal.
-     */
-    FeatureRemover(std::vector<FeatureP>& features, std::mt19937_64& engine)
-        : features(features) {
-      for (std::size_t i = 0; i < features.size(); ++i) {
-        removed_features.push_back({});
-        for (auto it = features[i].features.begin();
-             it != features[i].features.end();) {
-          if (std::bernoulli_distribution{features[i].drop_rate}(engine)) {
-            removed_features[i].push_back(*it);
-            features[i].features.erase(it);
-          } else {
-            ++it;
-          }
+  void remove_features() {
+    for (std::size_t i = 0; i < feature_packs.size(); ++i) {
+      removed_features.push_back({});
+      for (auto it = feature_packs[i].features.begin();
+           it != feature_packs[i].features.end();) {
+        if (std::bernoulli_distribution{feature_packs[i].drop_rate}(engine)) {
+          removed_features[i].push_back(*it);
+          feature_packs[i].features.erase(it);
+        } else {
+          ++it;
         }
       }
     }
+  }
 
-    /**
-     * Destructor. Restores the features previously removed.
-     */
-    ~FeatureRemover() {
-      for (std::size_t i = 0; i < removed_features.size(); ++i) {
-        for (const auto& feature : removed_features[i]) {
-          features[i].features.push_back(feature);
-        }
+  void restore_features() {
+    for (std::size_t i = 0; i < removed_features.size(); ++i) {
+      for (const auto& feature : removed_features[i]) {
+        feature_packs[i].features.push_back(feature);
       }
+      removed_features[i].clear();
     }
-
-   private:
-    std::vector<FeatureP>& features;
-    std::vector<std::vector<Feature>> removed_features;
-  };
+    removed_features.clear();
+  }
 };
 
 }  // namespace NInARow

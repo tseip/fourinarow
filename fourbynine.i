@@ -1,6 +1,7 @@
 // fourbynine.i - SWIG interface
 %module fourbynine
 %{
+#include "ninarow_bfs.h"
 #include "ninarow_board.h"
 #include "ninarow_move.h"
 #include "ninarow_pattern.h"
@@ -8,6 +9,7 @@
 #include "ninarow_heuristic_feature.h"
 #include "fourbynine_features.h"
 #include "player.h"
+#include "searches.h"
 %}
 
 %include "stdint.i"
@@ -15,7 +17,13 @@
 %include "std_vector.i"
 %include "std_shared_ptr.i"
 
+%shared_ptr(NInARow::Heuristic<NInARow::Board<4, 9, 4>>);
+%shared_ptr(Search<NInARow::Heuristic<NInARow::Board<4, 9, 4>>>);
+%shared_ptr(BestFirstSearch<NInARow::Heuristic<NInARow::Board<4, 9, 4>>>);
+%shared_ptr(NInARow::NInARowBestFirstSearch<NInARow::Heuristic<NInARow::Board<4, 9, 4>>>);
+
 // Parse the original header files
+%include "ninarow_bfs.h"
 %include "ninarow_board.h"
 %include "ninarow_move.h"
 %include "ninarow_pattern.h"
@@ -23,6 +31,7 @@
 %include "ninarow_heuristic_feature.h"
 %include "fourbynine_features.h"
 %include "player.h"
+%include "searches.h"
 
 // Instantiate some templates
 
@@ -33,5 +42,9 @@
 %template(fourbynine_heuristic) NInARow::Heuristic<NInARow::Board<4, 9, 4>>;
 %template(fourbynine_heuristic_feature) NInARow::HeuristicFeature<NInARow::Board<4, 9, 4>>;
 %template(DoubleVector) std::vector<double>;
+%template(MoveVector) std::vector<NInARow::Move<4, 9, 4>>;
 %template(FeaturePackVector) std::vector<NInARow::FeaturePack<NInARow::Board<4, 9, 4>>>;
 %template(FeatureVector) std::vector<NInARow::HeuristicFeature<NInARow::Board<4, 9, 4>>>;
+%template(Search) Search<NInARow::Heuristic<NInARow::Board<4, 9, 4>>>;
+%template(BestFirstSearch) BestFirstSearch<NInARow::Heuristic<NInARow::Board<4, 9, 4>>>;
+%template(NInARowBestFirstSearch) NInARow::NInARowBestFirstSearch<NInARow::Heuristic<NInARow::Board<4, 9, 4>>>;

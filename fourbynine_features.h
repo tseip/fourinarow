@@ -664,12 +664,12 @@ static const std::vector<double> DefaultFourByNineParameters = {
     0.8, 0.2, 3.5,  6,    0.8, 0.2, 3.5, 6,   0,   0.8, 0.2, 3.5, 6,   0.8, 0.2,
     3.5, 6,   0.8,  0.2,  3.5, 6,   0.8, 0.2, 3.5, 6,   0,   0.2, 0.2, 0.2, 0.2,
     0.2, 0.2, 0.2,  0.2,  0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2};
-static Heuristic<Board<4, 9, 4>> getDefaultFourByNineHeuristic(
+static std::shared_ptr<Heuristic<Board<4, 9, 4>>> getDefaultFourByNineHeuristic(
     const std::vector<double> &parameters = DefaultFourByNineParameters) {
-  auto heuristic = Heuristic<Board<4, 9, 4>>(parameters);
+  auto heuristic = Heuristic<Board<4, 9, 4>>::create(parameters);
   for (size_t i = 0; i < FourByNineFeatures.size(); ++i) {
     for (auto &feature : FourByNineFeatures[i]) {
-      heuristic.add_feature(i, feature);
+      heuristic->add_feature(i, feature);
     }
   }
   return heuristic;

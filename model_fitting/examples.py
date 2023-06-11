@@ -17,7 +17,7 @@ def create_feature(white_pieces, black_pieces, min_occupancy):
 def create_custom_heuristic():
     # Creating a heuristic with a single feature pack
     heuristic_params = DoubleVector([7.0, 5.0, 0.01, 0.01, 1.0, 0.0, 1.0])
-    heuristic = fourbynine_heuristic(heuristic_params)
+    heuristic = fourbynine_heuristic_create(heuristic_params)
     heuristic.add_feature_pack(0.8, 0.8, 0.2)
     heuristic.add_feature(0, create_feature(0x3, 0xc, 2))
     heuristic.add_feature(0, create_feature(0x600, 0x1800, 2))
@@ -51,7 +51,8 @@ def evaluate_best_move_from_position(position):
     # see what the heuristic actually encodes
     heuristic = getDefaultFourByNineHeuristic()
     heuristic.set_noise_enabled(False)
-    best_move = heuristic.get_best_move_bfs(position, Player_Player1)
+    bfs = NInARowBestFirstSearch_create()
+    best_move = heuristic.get_best_move(position, Player_Player1, bfs)
     return best_move
 
 
@@ -64,8 +65,9 @@ def play_game_to_completion():
     current_position = fourbynine_board()
     while not current_position.game_has_ended():
         start = time.time()
-        best_move = heuristic.get_best_move_bfs(
-            current_position, bool_to_player(current_player))
+        bfs = NInARowBestFirstSearch_create()
+        best_move = heuristic.get_best_move(
+            current_position, bool_to_player(current_player), bfs)
         end = time.time()
         moves.append(move_to_csv_string(current_position,
                      best_move, end - start, 1, "DefaultHeuristic"))
