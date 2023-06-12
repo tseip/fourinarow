@@ -1,6 +1,8 @@
 // fourbynine.i - SWIG interface
 %module fourbynine
 %{
+#include "game_tree_node.h"
+#include "bfs_node.h"
 #include "ninarow_bfs.h"
 #include "ninarow_board.h"
 #include "ninarow_move.h"
@@ -18,11 +20,15 @@
 %include "std_shared_ptr.i"
 
 %shared_ptr(NInARow::Heuristic<NInARow::Board<4, 9, 4>>);
+%shared_ptr(Node<NInARow::Board<4, 9, 4>>);
+%shared_ptr(BFSNode<NInARow::Board<4, 9, 4>>);
 %shared_ptr(Search<NInARow::Heuristic<NInARow::Board<4, 9, 4>>>);
 %shared_ptr(BestFirstSearch<NInARow::Heuristic<NInARow::Board<4, 9, 4>>>);
 %shared_ptr(NInARow::NInARowBestFirstSearch<NInARow::Heuristic<NInARow::Board<4, 9, 4>>>);
 
 // Parse the original header files
+%include "game_tree_node.h"
+%include "bfs_node.h"
 %include "ninarow_bfs.h"
 %include "ninarow_board.h"
 %include "ninarow_move.h"
@@ -41,8 +47,13 @@
 %template(fourbynine_heuristic_feature_pack) NInARow::FeaturePack<NInARow::Board<4, 9, 4>>;
 %template(fourbynine_heuristic) NInARow::Heuristic<NInARow::Board<4, 9, 4>>;
 %template(fourbynine_heuristic_feature) NInARow::HeuristicFeature<NInARow::Board<4, 9, 4>>;
+%template(fourbynine_game_tree_node) Node<NInARow::Board<4, 9, 4>>;
+%template(fourbynine_bfs_node) BFSNode<NInARow::Board<4, 9, 4>>;
+
 %template(DoubleVector) std::vector<double>;
 %template(MoveVector) std::vector<NInARow::Move<4, 9, 4>>;
+%template(NodeVector) std::vector<std::shared_ptr<Node<NInARow::Board<4, 9, 4>>>>;
+%template(BFSNodeVector) std::vector<std::shared_ptr<BFSNode<NInARow::Board<4, 9, 4>>>>;
 %template(FeaturePackVector) std::vector<NInARow::FeaturePack<NInARow::Board<4, 9, 4>>>;
 %template(FeatureVector) std::vector<NInARow::HeuristicFeature<NInARow::Board<4, 9, 4>>>;
 %template(Search) Search<NInARow::Heuristic<NInARow::Board<4, 9, 4>>>;

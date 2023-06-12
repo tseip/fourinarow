@@ -1,7 +1,6 @@
 #ifndef BFS_NODE_H_INCLUDED
 #define BFS_NODE_H_INCLUDED
 
-#include <iostream>
 #include <limits>
 #include <memory>
 
@@ -15,14 +14,7 @@
  */
 template <class Board>
 class BFSNode : public Node<Board> {
- private:
-  using Node<Board>::children;
-  using Node<Board>::board;
-  using Node<Board>::depth;
-  using Node<Board>::parent;
-  using Node<Board>::Node;
-  using Node<Board>::update_field_against_child;
-
+private:
   static std::shared_ptr<BFSNode<Board>> downcast(
       std::shared_ptr<Node<Board>> node) {
     return std::dynamic_pointer_cast<BFSNode<Board>>(node);
@@ -75,7 +67,7 @@ class BFSNode : public Node<Board> {
    */
   std::shared_ptr<BFSNode> create_child(const typename Board::MoveT &move) {
     // Validate that the parent doesn't already have this child.
-    for (const auto &child : children) {
+    for (const auto &child : this->children) {
       if (downcast(child)->move.board_position == move.board_position) {
         throw std::logic_error(
             "Given move already exists as a child of this node!");
@@ -127,16 +119,16 @@ class BFSNode : public Node<Board> {
    * Establishes initial values for pess and opt based on the board state.
    */
   void setup_pess_opt() {
-    if (board.player_has_won(Player::Player1))
-      pess = opt = BLACK_WINS - depth,
+    if (this->board.player_has_won(Player::Player1))
+      pess = opt = BLACK_WINS - this->depth,
       val = std::numeric_limits<double>::infinity();
-    else if (board.player_has_won(Player::Player2))
-      pess = opt = WHITE_WINS + depth,
+    else if (this->board.player_has_won(Player::Player2))
+      pess = opt = WHITE_WINS + this->depth,
       val = -std::numeric_limits<double>::infinity();
-    else if (board.game_is_drawn())
+    else if (this->board.game_is_drawn())
       pess = opt = 0, val = 0.0;
     else
-      pess = WHITE_WINS + depth, opt = BLACK_WINS - depth;
+      pess = WHITE_WINS + this->depth, opt = BLACK_WINS - this->depth;
   }
 
   /**
@@ -144,10 +136,10 @@ class BFSNode : public Node<Board> {
    * Assumes all of this node's children are themselves updated.
    */
   void update_opt() {
-    opt = (board.active_player() == Player::Player1 ? WHITE_WINS + depth
-                                                    : BLACK_WINS - depth);
-    for (const auto &child : children) {
-      update_field_against_child(downcast(child)->opt, opt);
+    opt = (this->board.active_player() == Player::Player1 ? WHITE_WINS + this->depth
+                                                    : BLACK_WINS - this->depth);
+    for (const auto &child : this->children) {
+      this->update_field_against_child(downcast(child)->opt, opt);
     }
   }
 
@@ -156,10 +148,10 @@ class BFSNode : public Node<Board> {
    * Assumes all of this node's children are themselves updated.
    */
   void update_pess() {
-    pess = (board.active_player() == Player::Player1 ? WHITE_WINS + depth
-                                                     : BLACK_WINS - depth);
-    for (const auto &child : children) {
-      update_field_against_child(downcast(child)->pess, pess);
+    pess = (this->board.active_player() == Player::Player1 ? WHITE_WINS + this->depth
+                                                     : BLACK_WINS - this->depth);
+    for (const auto &child : this->children) {
+      this->update_field_against_child(downcast(child)->pess, pess);
     }
   }
 
@@ -168,19 +160,19 @@ class BFSNode : public Node<Board> {
    * Assumes all of this node's children are themselves updated.
    */
   void update_val() {
-    val = (board.active_player() == Player::Player1
+    val = (this->board.active_player() == Player::Player1
                ? -std::numeric_limits<double>::infinity()
                : std::numeric_limits<double>::infinity());
-    for (const auto &child : children) {
+    for (const auto &child : this->children) {
       if (!downcast(child)->determined() &&
-          update_field_against_child(downcast(child)->val, val)) {
+          this->update_field_against_child(downcast(child)->val, val)) {
         best_known_child = downcast(child);
       }
     }
 
-    for (const auto &child : children) {
+    for (const auto &child : this->children) {
       if (downcast(child)->determined()) {
-        update_field_against_child(downcast(child)->val, val);
+        this->update_field_against_child(downcast(child)->val, val);
       }
     }
   }
@@ -195,17 +187,17 @@ class BFSNode : public Node<Board> {
    * should be propagated to the root of the tree.
    */
   void backpropagate(const std::shared_ptr<BFSNode> &child) {
-    if (!update_field_against_child(child->opt, opt)) update_opt();
-    if (!update_field_against_child(child->pess, pess)) update_pess();
-    if (!child->determined() && update_field_against_child(child->val, val)) {
+    if (!this->update_field_against_child(child->opt, opt)) update_opt();
+    if (!this->update_field_against_child(child->pess, pess)) update_pess();
+    if (!child->determined() && this->update_field_against_child(child->val, val)) {
       best_known_child = child;
     } else {
       update_val();
       update_best_determined();
     }
 
-    if (parent)
-      downcast(parent)->backpropagate(downcast(this->shared_from_this()));
+    if (this->parent)
+      downcast(this->parent)->backpropagate(downcast(this->shared_from_this()));
   }
 
   /**
@@ -221,15 +213,15 @@ class BFSNode : public Node<Board> {
       return;
     }
 
-    if (board.active_player() == Player::Player1) {
-      for (const auto &child : children) {
+    if (this->board.active_player() == Player::Player1) {
+      for (const auto &child : this->children) {
         if (downcast(child)->pess == pess) {
           best_known_child = downcast(child);
           break;
         }
       }
     } else {
-      for (const auto &child : children) {
+      for (const auto &child : this->children) {
         if (downcast(child)->opt == opt) {
           best_known_child = downcast(child);
           break;
@@ -251,6 +243,11 @@ class BFSNode : public Node<Board> {
    */
   static std::shared_ptr<BFSNode> create(const Board &board, double val) {
     return std::shared_ptr<BFSNode>(new BFSNode(board, val));
+  }
+
+  virtual double get_value() const override
+  {
+	  return val;
   }
 
   /**
@@ -279,15 +276,15 @@ class BFSNode : public Node<Board> {
     if (moves.empty()) return;
 
     for (const typename Board::MoveT &move : moves) {
-      children.push_back(create_child(move));
+      this->children.push_back(create_child(move));
     }
 
     update_opt();
     update_pess();
     update_val();
     if (determined()) update_best_determined();
-    if (parent)
-      downcast(parent)->backpropagate(downcast(this->shared_from_this()));
+    if (this->parent)
+      downcast(this->parent)->backpropagate(downcast(this->shared_from_this()));
   }
 
   /**
@@ -312,7 +309,7 @@ class BFSNode : public Node<Board> {
   std::size_t get_depth_of_pv() const {
     const auto selected_node = select();
     if (selected_node == this->shared_from_this()) return 0;
-    return downcast(selected_node)->depth - depth - 1;
+    return downcast(selected_node)->depth - this->depth - 1;
   }
 
   /**
@@ -323,27 +320,27 @@ class BFSNode : public Node<Board> {
     if (!best_known_child)
       throw std::logic_error(
           "No best known child has been determined for this board:\n" +
-          board.to_string());
+          this->board.to_string());
     if (determined()) {
       return typename Board::MoveT(best_known_child->move.board_position, val,
-                                   board.active_player());
+                                   this->board.active_player());
     }
-    double val_temp = (board.active_player() == Player::Player1
+    double val_temp = (this->board.active_player() == Player::Player1
                            ? -std::numeric_limits<double>::infinity()
                            : std::numeric_limits<double>::infinity());
 
-    if (children.empty()) return this->move;
+    if (this->children.empty()) return this->move;
 
     std::size_t best_position =
         downcast(this->children[0])->move.board_position;
-    for (const auto &child : children) {
-      if (update_field_against_child(downcast(child)->val, val_temp)) {
+    for (const auto &child : this->children) {
+      if (this->update_field_against_child(downcast(child)->val, val_temp)) {
         best_position = downcast(child)->move.board_position;
       }
     }
 
     return
-        typename Board::MoveT(best_position, val_temp, board.active_player());
+        typename Board::MoveT(best_position, val_temp, this->board.active_player());
   }
 };
 

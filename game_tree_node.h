@@ -117,6 +117,21 @@ class Node : public std::enable_shared_from_this<Node<Board>> {
   Iterator<const Node> end() const { return Iterator<const Node>(nullptr); }
 
   /**
+   * @return The node's heuristic value, determined by the search algorithm used.
+   * @note Since the base class has no search algorithm associated with it,
+   * we order arbitrarily by board position.
+   */
+  virtual double get_value() const
+  {
+	  return move.board_position;
+  }
+
+  bool operator<(const Node& other)
+  {
+	  return get_value() < other.get_value();
+  }
+
+  /**
    * @return The board state represented by this node.
    */
   const Board get_board() const { return board; }

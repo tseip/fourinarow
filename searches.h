@@ -1,7 +1,6 @@
 #ifndef SEARCHES_H_INCLUDED
 #define SEARCHES_H_INCLUDED
 
-#include <iostream>
 #include <memory>
 
 #include "bfs_node.h"
@@ -22,7 +21,10 @@ class Search {
   }
 
   bool dispatch() {
-    if (!heuristic) return true;
+    if (!heuristic)
+    {
+    	return true;
+    }
     if (stopping_conditions(heuristic, player, board)) {
       this->heuristic->complete_search();
       return true;
@@ -39,6 +41,10 @@ class Search {
   void begin_search(std::shared_ptr<Heuristic> heuristic, Player player,
                     const typename Heuristic::BoardT& board) {
     clear_state();
+    if (this->heuristic == heuristic)
+    {
+    	heuristic->complete_search();
+    }
     this->heuristic = heuristic;
     this->player = player;
     this->board = board;
@@ -47,6 +53,11 @@ class Search {
   }
 
   std::shared_ptr<Node<typename Heuristic::BoardT>> get_tree() { return root; }
+
+  bool root_valid()
+  {
+	  return root != 0;
+  }
 
  protected:
   Search() : root(), current_node(), heuristic(), player(), board() {}
