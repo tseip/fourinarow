@@ -9,5 +9,5 @@
  */
 TEST(SearchesTest, TestCreate) {
   using Board = NInARow::Board<4, 9, 4>;
-  auto bfs = BestFirstSearch<Heuristic<Board>>::create();
+  auto bfs = BestFirstSearch<NInARow::Heuristic<Board>>::create();
 }

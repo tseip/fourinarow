@@ -4,10 +4,12 @@
 #include <algorithm>
 #include <array>
 #include <fstream>
+#include <iostream>
 #include <random>
 #include <unordered_map>
 
 #include "bfs_node.h"
+#include "fourbynine_features.h"
 #include "ninarow_board.h"
 #include "ninarow_heuristic_feature.h"
 #include "searches.h"
@@ -30,9 +32,6 @@ class FeaturePack {
 
   double diff_act_pass() const { return weight_act - weight_pass; }
 };
-
-template <class Board>
-class HeuristicSearchProgress;
 
 /**
  * A heuristic for games of n-in-a-row.
@@ -65,8 +64,17 @@ class Heuristic : public std::enable_shared_from_this<Heuristic<Board>> {
   std::vector<std::vector<Feature>> removed_features;
 
  public:
-  static std::shared_ptr<Heuristic> create(const std::vector<double>& params) {
-    return std::shared_ptr<Heuristic>(new Heuristic(params));
+  static std::shared_ptr<Heuristic> create(const std::vector<double>& params,
+                                           bool add_default_features = true) {
+    auto heuristic = std::shared_ptr<Heuristic>(new Heuristic(params));
+    if (add_default_features) {
+      for (size_t i = 0; i < FourByNineFeatures.size(); ++i) {
+        for (auto& feature : FourByNineFeatures[i]) {
+          heuristic->add_feature(i, feature);
+        }
+      }
+    }
+    return heuristic;
   }
 
  private:
@@ -287,7 +295,18 @@ class Heuristic : public std::enable_shared_from_this<Heuristic<Board>> {
           "Cannot start a search when a previous search is being executed!");
     if (noise_enabled && lapse(engine)) return get_random_move(b);
 
-    return search->search(this->shared_from_this(), player, b);
+    search->search(this->shared_from_this(), player, b);
+
+    return search->get_tree()->get_best_move();
+  }
+
+  typename Board::MoveT get_best_known_move_from_search_tree(
+      std::shared_ptr<Search<Heuristic>> search) {
+    auto root = search->get_tree();
+    if (noise_enabled && lapse(engine))
+      return get_random_move(root->get_board());
+
+    return root->get_best_move();
   }
 
   void start_search() {
@@ -335,6 +354,17 @@ class Heuristic : public std::enable_shared_from_this<Heuristic<Board>> {
     removed_features.clear();
   }
 };
+
+static std::shared_ptr<Heuristic<Board<4, 9, 4>>> getDefaultFourByNineHeuristic(
+    const std::vector<double>& parameters = DefaultFourByNineParameters) {
+  auto heuristic = Heuristic<Board<4, 9, 4>>::create(parameters);
+  for (size_t i = 0; i < FourByNineFeatures.size(); ++i) {
+    for (auto& feature : FourByNineFeatures[i]) {
+      heuristic->add_feature(i, feature);
+    }
+  }
+  return heuristic;
+}
 
 }  // namespace NInARow
 

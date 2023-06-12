@@ -14,7 +14,7 @@
  */
 template <class Board>
 class BFSNode : public Node<Board> {
-private:
+ private:
   static std::shared_ptr<BFSNode<Board>> downcast(
       std::shared_ptr<Node<Board>> node) {
     return std::dynamic_pointer_cast<BFSNode<Board>>(node);
@@ -136,8 +136,9 @@ private:
    * Assumes all of this node's children are themselves updated.
    */
   void update_opt() {
-    opt = (this->board.active_player() == Player::Player1 ? WHITE_WINS + this->depth
-                                                    : BLACK_WINS - this->depth);
+    opt = (this->board.active_player() == Player::Player1
+               ? WHITE_WINS + this->depth
+               : BLACK_WINS - this->depth);
     for (const auto &child : this->children) {
       this->update_field_against_child(downcast(child)->opt, opt);
     }
@@ -148,8 +149,9 @@ private:
    * Assumes all of this node's children are themselves updated.
    */
   void update_pess() {
-    pess = (this->board.active_player() == Player::Player1 ? WHITE_WINS + this->depth
-                                                     : BLACK_WINS - this->depth);
+    pess = (this->board.active_player() == Player::Player1
+                ? WHITE_WINS + this->depth
+                : BLACK_WINS - this->depth);
     for (const auto &child : this->children) {
       this->update_field_against_child(downcast(child)->pess, pess);
     }
@@ -189,7 +191,8 @@ private:
   void backpropagate(const std::shared_ptr<BFSNode> &child) {
     if (!this->update_field_against_child(child->opt, opt)) update_opt();
     if (!this->update_field_against_child(child->pess, pess)) update_pess();
-    if (!child->determined() && this->update_field_against_child(child->val, val)) {
+    if (!child->determined() &&
+        this->update_field_against_child(child->val, val)) {
       best_known_child = child;
     } else {
       update_val();
@@ -245,10 +248,7 @@ private:
     return std::shared_ptr<BFSNode>(new BFSNode(board, val));
   }
 
-  virtual double get_value() const override
-  {
-	  return val;
-  }
+  virtual double get_value() const override { return val; }
 
   /**
    * @return True if the heuristic value of this node has converged, i.e. if the
@@ -339,8 +339,8 @@ private:
       }
     }
 
-    return
-        typename Board::MoveT(best_position, val_temp, this->board.active_player());
+    return typename Board::MoveT(best_position, val_temp,
+                                 this->board.active_player());
   }
 };
 

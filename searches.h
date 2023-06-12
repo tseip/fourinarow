@@ -10,20 +10,16 @@
 template <class Heuristic>
 class Search {
  public:
-  typename Heuristic::BoardT::MoveT search(
-      std::shared_ptr<Heuristic> heuristic, Player player,
-      const typename Heuristic::BoardT& board) {
+  void search(std::shared_ptr<Heuristic> heuristic, Player player,
+              const typename Heuristic::BoardT& board) {
     begin_search(heuristic, player, board);
     while (!dispatch()) {
     }
-
-    return root->get_best_move();
   }
 
   bool dispatch() {
-    if (!heuristic)
-    {
-    	return true;
+    if (!heuristic) {
+      return true;
     }
     if (stopping_conditions(heuristic, player, board)) {
       this->heuristic->complete_search();
@@ -40,11 +36,7 @@ class Search {
 
   void begin_search(std::shared_ptr<Heuristic> heuristic, Player player,
                     const typename Heuristic::BoardT& board) {
-    clear_state();
-    if (this->heuristic == heuristic)
-    {
-    	heuristic->complete_search();
-    }
+    cancel_search();
     this->heuristic = heuristic;
     this->player = player;
     this->board = board;
@@ -54,19 +46,25 @@ class Search {
 
   std::shared_ptr<Node<typename Heuristic::BoardT>> get_tree() { return root; }
 
-  bool root_valid()
-  {
-	  return root != 0;
+  bool root_valid() { return root != 0; }
+
+  void cancel_search() {
+    if (heuristic) {
+      heuristic->complete_search();
+    }
+    clear_state();
   }
 
  protected:
   Search() : root(), current_node(), heuristic(), player(), board() {}
 
-  virtual ~Search() {
-    if (heuristic) heuristic->complete_search();
-  }
+  virtual ~Search() { cancel_search(); }
 
-  virtual void clear_state() = 0;
+  virtual void clear_state() {
+    heuristic.reset();
+    player = Player();
+    board = typename Heuristic::BoardT();
+  }
   virtual void set_root(std::shared_ptr<Heuristic> heuristic, Player player,
                         const typename Heuristic::BoardT& board) = 0;
   virtual bool stopping_conditions(
@@ -96,8 +94,6 @@ class BestFirstSearch : public Search<Heuristic> {
 
  protected:
   BestFirstSearch() : Search<Heuristic>() {}
-
-  void clear_state() override{};
 
   void set_root(std::shared_ptr<Heuristic> heuristic, Player /*player*/,
                 const typename Heuristic::BoardT& b) override {

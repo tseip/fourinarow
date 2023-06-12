@@ -17,7 +17,7 @@ def create_feature(white_pieces, black_pieces, min_occupancy):
 def create_custom_heuristic():
     # Creating a heuristic with a single feature pack
     heuristic_params = DoubleVector([7.0, 5.0, 0.01, 0.01, 1.0, 0.0, 1.0])
-    heuristic = fourbynine_heuristic_create(heuristic_params)
+    heuristic = fourbynine_heuristic_create(heuristic_params, False)
     heuristic.add_feature_pack(0.8, 0.8, 0.2)
     heuristic.add_feature(0, create_feature(0x3, 0xc, 2))
     heuristic.add_feature(0, create_feature(0x600, 0x1800, 2))

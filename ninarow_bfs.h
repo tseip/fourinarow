@@ -27,6 +27,7 @@ class NInARowBestFirstSearch : public BestFirstSearch<Heuristic> {
         iterations(0) {}
 
   void clear_state() override {
+    Search<Heuristic>::clear_state();
     old_best_move = typename Heuristic::BoardT::MoveT();
     best_move = typename Heuristic::BoardT::MoveT();
     num_repetitions = 0;

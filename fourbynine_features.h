@@ -3,10 +3,11 @@
 
 #include <vector>
 
-#include "ninarow_heuristic.h"
+#include "ninarow_board.h"
+#include "ninarow_heuristic_feature.h"
 
-using namespace NInARow;
-static const std::vector<std::vector<Heuristic<Board<4, 9, 4>>::Feature>>
+namespace NInARow {
+static const std::vector<std::vector<HeuristicFeature<Board<4, 9, 4>>>>
     FourByNineFeatures{
         {{0x3ULL, 0xcULL, 2},
          {0x600ULL, 0x1800ULL, 2},
@@ -664,15 +665,5 @@ static const std::vector<double> DefaultFourByNineParameters = {
     0.8, 0.2, 3.5,  6,    0.8, 0.2, 3.5, 6,   0,   0.8, 0.2, 3.5, 6,   0.8, 0.2,
     3.5, 6,   0.8,  0.2,  3.5, 6,   0.8, 0.2, 3.5, 6,   0,   0.2, 0.2, 0.2, 0.2,
     0.2, 0.2, 0.2,  0.2,  0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2};
-static std::shared_ptr<Heuristic<Board<4, 9, 4>>> getDefaultFourByNineHeuristic(
-    const std::vector<double> &parameters = DefaultFourByNineParameters) {
-  auto heuristic = Heuristic<Board<4, 9, 4>>::create(parameters);
-  for (size_t i = 0; i < FourByNineFeatures.size(); ++i) {
-    for (auto &feature : FourByNineFeatures[i]) {
-      heuristic->add_feature(i, feature);
-    }
-  }
-  return heuristic;
-}
-
+}  // namespace NInARow
 #endif  // FOURBYNINE_FEATURES_H_INCLUDED

@@ -26,14 +26,18 @@ plb = np.array([1, 0.1, 0.001, 0.05, 0.5, -5, -
                5, -5, -5, -5], dtype=np.float64)
 c = 50
 
+
 def bool_to_player(player):
     return fourbynine.Player_Player1 if not player else fourbynine.Player_Player2
+
 
 def player_to_bool(player):
     return player == fourbynine.Player_Player2
 
+
 def player_to_string(player):
     return "White" if player_to_bool(player) else "Black"
+
 
 @total_ordering
 class CSVMove:
@@ -72,6 +76,7 @@ class CSVMove:
     def __lt__(self, other):
         return (self.black_pieces, self.white_pieces, self.player, self.move) < (other.black_pieces, other.white_pieces, other.player, other.move)
 
+
 class SuccessFrequencyTracker:
     def __init__(
             self):
@@ -82,7 +87,7 @@ class SuccessFrequencyTracker:
 
     def __repr__(self):
         return " ".join([str(self.attempt_count), str(self.success_count), str(self.required_success_count)])
-        
+
     def is_done(self):
         return self.success_count == self.required_success_count
 
@@ -96,6 +101,7 @@ class SuccessFrequencyTracker:
                 (self.required_success_count * self.attempt_count)
             self.attempt_count += 1
 
+
 def parse_participant_lines(lines):
     moves = []
     for line in lines:
@@ -104,9 +110,11 @@ def parse_participant_lines(lines):
         if (len(parameters) == 1):
             parameters = line.rstrip().split()
         if (len(parameters) == 6):
-            moves.append(CSVMove(parameters[0], parameters[1], parameters[2], parameters[3], parameters[4], 1, parameters[5]))
+            moves.append(CSVMove(
+                parameters[0], parameters[1], parameters[2], parameters[3], parameters[4], 1, parameters[5]))
         elif (len(parameters) == 7):
-            moves.append(CSVMove(parameters[0], parameters[1], True if parameters[2].lower() == "white" else False, parameters[3], parameters[4], parameters[5], parameters[6]))
+            moves.append(CSVMove(parameters[0], parameters[1], True if parameters[2].lower(
+            ) == "white" else False, parameters[3], parameters[4], parameters[5], parameters[6]))
         else:
             raise Exception(
                 "Given input has incorrect number of parameters (expected 6 or 7): " + line)
@@ -134,7 +142,7 @@ def estimate_log_lik_ibs(
     heuristic = fourbynine.getDefaultFourByNineHeuristic(
         fourbynine.DoubleVector(parameters))
     heuristic.seed_generator(random.randint(0, 2**64))
-    bfs = fourbynine.NInARowBestFirstSearch_create();
+    bfs = fourbynine.NInARowBestFirstSearch_create()
     while True:
         move = input_queue.get()
         b = fourbynine.fourbynine_pattern(move.black_pieces)
@@ -144,6 +152,7 @@ def estimate_log_lik_ibs(
         best_move = heuristic.get_best_move(board, player, bfs)
         success = 2**best_move.board_position == move.move
         output_queue.put((success, move))
+
 
 def compute_loglik(move_tasks, params):
     move_tasks = copy.deepcopy(move_tasks)
@@ -179,10 +188,12 @@ def compute_loglik(move_tasks, params):
                 success, move = results_queue.get_nowait()
                 if not move_tasks[move].is_done():
                     if (success):
-                        Lexpt -= expt_factor / move_tasks[move].required_success_count
+                        Lexpt -= expt_factor / \
+                            move_tasks[move].required_success_count
                     else:
                         Lexpt += expt_factor / \
-                            (move_tasks[move].required_success_count * move_tasks[move].attempt_count)
+                            (move_tasks[move].required_success_count *
+                             move_tasks[move].attempt_count)
                     move_tasks[move].report_success(success)
                     if move_tasks[move].is_done():
                         moves_to_process -= 1
@@ -267,7 +278,11 @@ def cross_validate(groups, i):
             if i != j:
                 train.extend(groups[j])
     params, loglik_train = fit_model(train)
-    loglik_test = list(compute_loglik(test, parse_parameters(params)).values())
+    test_tasks = {}
+    for move in test:
+        test_tasks[move] = SuccessFrequencyTracker()
+    loglik_test = list(compute_loglik(
+        test_tasks, parse_parameters(params)).values())
     return params, loglik_train, loglik_test
 
 
