@@ -316,7 +316,7 @@ class BFSNode : public Node<Board> {
    * @return The best known move from the current position for the current
    * player.
    */
-  typename Board::MoveT get_best_move() const {
+  typename Board::MoveT get_best_move() const override {
     if (!best_known_child)
       throw std::logic_error(
           "No best known child has been determined for this board:\n" +
