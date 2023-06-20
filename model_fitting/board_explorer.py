@@ -268,7 +268,7 @@ class BoardDisplay(QWidget):
             self.candidate_moves = self.bfs.get_tree().get_children()
 
     def update_heuristic_parameters(self):
-        self.heuristic = fourbynine_heuristic_create(
+        self.heuristic = fourbynine_heuristic.create(
             DoubleVector(self.parameter_editor.get_params()))
         self.heuristic.seed_generator(int(self.seed_box.displayText()))
         self.heuristic.set_noise_enabled(self.noise_check.isChecked())
