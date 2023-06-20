@@ -46,14 +46,25 @@ def modify_default_heuristic():
     return heuristic
 
 
-def evaluate_best_move_from_position(position):
+def evaluate_best_move_from_position(position, noise_enabled=True):
     # Get the default heuristic and disable noise so we can
     # see what the heuristic actually encodes
     heuristic = getDefaultFourByNineHeuristic()
-    heuristic.set_noise_enabled(False)
+    heuristic.seed_generator(random.randint(0, 2**64))
+    heuristic.set_noise_enabled(noise_enabled)
     bfs = NInARowBestFirstSearch_create()
-    best_move = heuristic.get_best_move(position, Player_Player1, bfs)
+    best_move = heuristic.get_best_move(
+        position, position.active_player(), bfs)
     return best_move
+
+
+def search_from_position(position, noise_enabled=True):
+    heuristic = getDefaultFourByNineHeuristic()
+    heuristic.seed_generator(random.randint(0, 2**64))
+    heuristic.set_noise_enabled(noise_enabled)
+    bfs = NInARowBestFirstSearch_create()
+    bfs.search(heuristic, position.active_player(), position)
+    return bfs.get_tree().get_children()
 
 
 def play_game_to_completion():
@@ -82,8 +93,14 @@ def main():
 
     position = fourbynine_board(
         fourbynine_pattern(0x0), fourbynine_pattern(0x0))
-    best_starting_move = evaluate_best_move_from_position(position)
+    best_starting_move = evaluate_best_move_from_position(position, False)
+    print("Best starting move:")
     print((position + best_starting_move).to_string())
+    starting_move_evaluations = search_from_position(position, False)
+    unpacked_evaluations = map(lambda x: (
+        x.get_move().board_position, x.get_value()), starting_move_evaluations)
+    print("BFS Search heuristic evaluations for all possible starting moves:")
+    print(sorted(list(unpacked_evaluations), key=lambda x: x[1], reverse=True))
     output_csv = []
     idealized_game, final_position = play_game_to_completion()
     print(final_position.to_string())

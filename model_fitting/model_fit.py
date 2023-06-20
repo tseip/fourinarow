@@ -39,6 +39,10 @@ def player_to_string(player):
     return "White" if player_to_bool(player) else "Black"
 
 
+def board_position_to_tile_number(x):
+    return ((1 + (x ^ (x-1))) >> 1).bit_length() - 1
+
+
 @total_ordering
 class CSVMove:
     def __init__(

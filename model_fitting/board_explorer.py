@@ -1,17 +1,18 @@
 from fourbynine import *
-from model_fit import bool_to_player, player_to_string, player_to_bool
+from model_fit import bool_to_player, player_to_string, player_to_bool, board_position_to_tile_number
 import random
 import time
 import matplotlib.pyplot as plt
 from matplotlib import colors, patches
 import numpy as np
 from PyQt6.QtCore import QSize, Qt
-from PyQt6.QtWidgets import QApplication, QMainWindow, QPushButton, QWidget, QHBoxLayout, QVBoxLayout, QListWidget, QListWidgetItem, QRadioButton, QCheckBox, QGridLayout, QLineEdit, QLabel, QSplitter, QStyleFactory
+from PyQt6.QtWidgets import QApplication, QMainWindow, QPushButton, QWidget, QHBoxLayout, QVBoxLayout, QListWidget, QListWidgetItem, QRadioButton, QCheckBox, QGridLayout, QLineEdit, QLabel, QSplitter, QStyleFactory, QComboBox, QFileDialog
 from PyQt6.QtGui import QColor, QPalette
 from matplotlib.backends.qt_compat import QtWidgets
 from matplotlib.backends.backend_qtagg import (
     FigureCanvas, NavigationToolbar2QT as NavigationToolbar)
 from matplotlib.figure import Figure
+import math
 
 
 def pattern_string_to_board_positions(pattern_string):
@@ -101,6 +102,7 @@ class BoardDisplay(QWidget):
         self.feature_list_toggle = feature_list_toggle
 
         self.hover = None
+        self.player_ghost = None
 
         splitter = QSplitter(Qt.Orientation.Vertical)
 
@@ -112,7 +114,7 @@ class BoardDisplay(QWidget):
 
         middle_widget = QWidget()
         checkboxes = QHBoxLayout()
-        self.ghost_check = QCheckBox("Show ghost")
+        self.ghost_check = QCheckBox("Show ghosts")
         self.ghost_check.setChecked(True)
 
         play_move_button = QPushButton("Play move")
@@ -126,7 +128,7 @@ class BoardDisplay(QWidget):
         checkboxes.addWidget(reset_button)
         middle_widget.setLayout(checkboxes)
 
-        bottom_widget = QWidget()
+        noise_widget = QWidget()
         seed_layout = QHBoxLayout()
         self.noise_check = QCheckBox("Enable noise")
         self.noise_check.setChecked(False)
@@ -139,15 +141,16 @@ class BoardDisplay(QWidget):
         seed_layout.addWidget(seed_label)
         seed_layout.addWidget(self.seed_box)
         seed_layout.addWidget(seed_button)
-        bottom_widget.setLayout(seed_layout)
+        noise_widget.setLayout(seed_layout)
 
         button = QPushButton("Edit heuristic parameters")
         button.clicked.connect(self.parameter_editor.open_edit)
 
         splitter.addWidget(board_widget)
         splitter.addWidget(HeuristicViewToggleRadio(self))
+        splitter.addWidget(LoadPositionsWidget(self))
         splitter.addWidget(middle_widget)
-        splitter.addWidget(bottom_widget)
+        splitter.addWidget(noise_widget)
         splitter.addWidget(button)
 
         splitter.setHandleWidth(10)
@@ -198,9 +201,12 @@ class BoardDisplay(QWidget):
             plot_circle(p, "white")
             pieces.add(p)
 
-        if self.hover is not None and self.hover not in pieces and self.ghost_check.isChecked() and not self.board.game_has_ended():
-            plot_circle(self.hover, player_to_string(
-                self.board.active_player()), 0.5)
+        def render_ghost(position, color):
+            if position is not None and position not in pieces and self.ghost_check.isChecked() and not self.board.game_has_ended():
+                plot_circle(position, color, 0.5)
+
+        render_ghost(self.hover, player_to_string(self.board.active_player()))
+        render_ghost(self.player_ghost, "blue")
 
         if self.feature_list_toggle.isChecked():
             for p in pattern_string_to_board_positions(self.feature_list.pieces):
@@ -231,6 +237,10 @@ class BoardDisplay(QWidget):
         self.board.reset()
         self.on_board_update()
 
+    def set_board(self, board, ghost=None):
+        self.board = board
+        self.on_board_update(ghost)
+
     def play_move(self, new_move):
         if (self.board.contains_spaces(new_move.board_position) and not self.board.game_has_ended()):
             self.board += new_move
@@ -240,11 +250,12 @@ class BoardDisplay(QWidget):
         self.play_move(
             self.heuristic.get_best_known_move_from_search_tree(self.bfs))
 
-    def on_board_update(self):
+    def on_board_update(self, player_ghost=None):
         self.heuristic_values = self.heuristic.get_moves(
             self.board, self.board.active_player())
         self.iteration = 0
         self.hover = None
+        self.player_ghost = player_ghost
         self.bfs.begin_search(
             self.heuristic, self.board.active_player(), self.board)
         self.feature_list.update(
@@ -272,12 +283,11 @@ class MoveListItem(QListWidgetItem):
 
 class MoveList(QListWidget):
     def __init__(self, board_view):
-        super().__init__()
-
+        super().__init__(board_view)
+        self.board_view = board_view
         self.setSortingEnabled(False)
         self.itemDoubleClicked.connect(self._onClick)
         self.currentItemChanged.connect(self._itemChanged)
-        self.board_view = board_view
 
     def _onClick(self, item):
         new_move = fourbynine_move(
@@ -359,6 +369,59 @@ class HeuristicViewToggleRadio(QWidget):
         radioButton = self.sender()
         if (radioButton.isChecked()):
             self.board_view.heuristic_view = radioButton.heuristic
+
+
+class LoadPositionsWidget(QWidget):
+    def __init__(self, board_view):
+        super().__init__(board_view)
+        self.board_view = board_view
+        layout = QHBoxLayout()
+        self.load_button = QPushButton("Load")
+        self.load_button.clicked.connect(self.load)
+        layout.addWidget(self.load_button)
+        self.combo_box = QComboBox()
+        layout.addWidget(self.combo_box)
+        self.display_button = QPushButton("Display")
+        self.display_button.clicked.connect(self.display)
+        layout.addWidget(self.display_button)
+        self.setLayout(layout)
+        self.board_view = board_view
+
+    def parse_line(self, line):
+        # Try splitting by comma
+        tokens = line.rstrip().split(',')
+        if (len(tokens) == 1):
+            tokens = tokens[0].split()
+        board = fourbynine_board(fourbynine_pattern(
+            int(tokens[0])), fourbynine_pattern(int(tokens[1])))
+        move = fourbynine_move(board_position_to_tile_number(
+            int(tokens[3])), 0.0, board.active_player())
+        participant = str(tokens[-1])
+        return ("{}: {} {} {}".format(participant, tokens[0], tokens[1], move.board_position), board, move)
+
+    def load(self):
+        dialog = QFileDialog(self)
+        dialog.setFileMode(QFileDialog.FileMode.ExistingFiles)
+        if dialog.exec():
+            filenames = dialog.selectedFiles()
+            self.combo_box.clear()
+            moves = []
+            for f in filenames:
+                with open(f, 'r') as lines:
+                    for line in lines:
+                        try:
+                            display_text, board, move = self.parse_line(line)
+                            self.combo_box.addItem(display_text, (board, move))
+                        except Exception:
+                            print(
+                                "Encountered malformed line: {}, skipping...".format(line))
+                            continue
+
+    def display(self):
+        idx = self.combo_box.currentIndex()
+        if (idx >= 0):
+            board, move = self.combo_box.itemData(idx)
+            self.board_view.set_board(board, move.board_position)
 
 
 class MainWindow(QMainWindow):
