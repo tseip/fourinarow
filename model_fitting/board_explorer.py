@@ -93,7 +93,7 @@ class BoardDisplay(QWidget):
         self.fig = FigureCanvas(Figure(figsize=(5, 3)))
         self.fig.mpl_connect('button_release_event', self.onclick)
         self.ax = self.fig.figure.add_subplot(111, aspect='equal')
-        self.bfs = NInARowBestFirstSearch_create()
+        self.bfs = NInARowBestFirstSearch.create()
         self.iteration = 0
         self.heuristic_values = []
         self.heuristic_view = True
