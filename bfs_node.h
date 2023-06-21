@@ -199,8 +199,9 @@ class BFSNode : public Node<Board> {
       update_best_determined();
     }
 
-    if (this->parent)
-      downcast(this->parent)->backpropagate(downcast(this->shared_from_this()));
+    if (auto locked_parent = this->get_parent())
+      downcast(locked_parent)
+          ->backpropagate(downcast(this->shared_from_this()));
   }
 
   /**
@@ -283,8 +284,9 @@ class BFSNode : public Node<Board> {
     update_pess();
     update_val();
     if (determined()) update_best_determined();
-    if (this->parent)
-      downcast(this->parent)->backpropagate(downcast(this->shared_from_this()));
+    if (auto locked_parent = this->get_parent())
+      downcast(locked_parent)
+          ->backpropagate(downcast(this->shared_from_this()));
   }
 
   /**

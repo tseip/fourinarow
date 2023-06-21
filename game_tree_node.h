@@ -156,7 +156,7 @@ class Node : public std::enable_shared_from_this<Node<Board>> {
   /**
    * @return The parent of this node in the tree.
    */
-  std::shared_ptr<Node> get_parent() const { return parent; }
+  std::shared_ptr<Node> get_parent() const { return parent.lock(); }
 
   /**
    * @return A string representing the state of this node.
@@ -192,7 +192,7 @@ class Node : public std::enable_shared_from_this<Node<Board>> {
   /**
    * The parent of this node.
    */
-  const std::shared_ptr<Node> parent;
+  const std::weak_ptr<Node> parent;
 
   /**
    * The depth of this node in the game tree.
@@ -218,7 +218,7 @@ class Node : public std::enable_shared_from_this<Node<Board>> {
    * node is made.
    */
   Node(const Board &board)
-      : children(), parent(nullptr), depth(1U), board(board), move() {}
+      : children(), parent(), depth(1U), board(board), move() {}
 
   /**
    * Private node constructor for nodes with meaningful move history (i.e., with
