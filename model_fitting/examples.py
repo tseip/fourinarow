@@ -52,7 +52,7 @@ def evaluate_best_move_from_position(position, noise_enabled=True):
     heuristic = getDefaultFourByNineHeuristic()
     heuristic.seed_generator(random.randint(0, 2**64))
     heuristic.set_noise_enabled(noise_enabled)
-    bfs = NInARowBestFirstSearch_create()
+    bfs = NInARowBestFirstSearch.create()
     best_move = heuristic.get_best_move(
         position, position.active_player(), bfs)
     return best_move
@@ -62,7 +62,7 @@ def search_from_position(position, noise_enabled=True):
     heuristic = getDefaultFourByNineHeuristic()
     heuristic.seed_generator(random.randint(0, 2**64))
     heuristic.set_noise_enabled(noise_enabled)
-    bfs = NInARowBestFirstSearch_create()
+    bfs = NInARowBestFirstSearch.create()
     bfs.search(heuristic, position.active_player(), position)
     return bfs.get_tree().get_children()
 
@@ -76,7 +76,7 @@ def play_game_to_completion():
     current_position = fourbynine_board()
     while not current_position.game_has_ended():
         start = time.time()
-        bfs = NInARowBestFirstSearch_create()
+        bfs = NInARowBestFirstSearch.create()
         best_move = heuristic.get_best_move(
             current_position, bool_to_player(current_player), bfs)
         end = time.time()
