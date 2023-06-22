@@ -64,7 +64,7 @@ def search_from_position(position, noise_enabled=True):
     heuristic.set_noise_enabled(noise_enabled)
     bfs = NInARowBestFirstSearch.create()
     bfs.search(heuristic, position.active_player(), position)
-    return bfs.get_tree().get_children()
+    return bfs.get_tree()
 
 
 def play_game_to_completion():
@@ -96,9 +96,9 @@ def main():
     best_starting_move = evaluate_best_move_from_position(position, False)
     print("Best starting move:")
     print((position + best_starting_move).to_string())
-    starting_move_evaluations = search_from_position(position, False)
+    root = search_from_position(position, False)
     unpacked_evaluations = map(lambda x: (
-        x.get_move().board_position, x.get_value()), starting_move_evaluations)
+        x.get_move().board_position, x.get_value()), root.get_children())
     print("BFS Search heuristic evaluations for all possible starting moves:")
     print(sorted(list(unpacked_evaluations), key=lambda x: x[1], reverse=True))
     output_csv = []
