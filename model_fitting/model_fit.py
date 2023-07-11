@@ -310,10 +310,17 @@ def main():
             'input_dir',
             'split_count'))
     parser.add_argument(
-        "output_dir",
+        "-o",
+        "--output_dir",
         help="The directory to output results to.",
         type=str,
-        default="./")
+        default="./",
+        metavar=('output_dir'))
+    parser.add_argument(
+        "-s",
+        "--splits-only",
+        help="If specified, terminate after generating splits.",
+        action='store_true')
     args = parser.parse_args()
     if args.participant_file and args.input_dir:
         raise Exception("Can't specify both -f and -i!")
@@ -335,17 +342,27 @@ def main():
         for i in range(num_splits):
             input_files.append(input_path / (str(i + 1) + ".csv"))
         for input_path in input_files:
+            print("Ingesting split {}".format(input_path))
             with input_path.open('r') as lines:
                 groups.append(parse_participant_lines(lines))
     else:
         raise Exception("Either -f or -i must be specified!")
+
     output_path = Path(args.output_dir)
     if not output_path.is_dir():
         output_path.mkdir()
-    for i in range(len(groups)):
-        with (output_path / (str(i + 1) + ".csv")).open('w') as f:
-            for move in groups[i]:
-                f.write(str(move) + "\n")
+
+    # Only output splits if we generated new ones to output.
+    if args.participant_file:
+        for i in range(len(groups)):
+            new_split_path = output_path / (str(i + 1) + ".csv")
+            print("Writing split {}".format(new_split_path))
+            with (new_split_path).open('w') as f:
+                for move in groups[i]:
+                    f.write(str(move) + "\n")
+
+    if args.splits_only:
+        exit()
 
     for i in range(len(groups)):
         params, loglik_train, loglik_test = cross_validate(groups, i)
