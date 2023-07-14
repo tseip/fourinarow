@@ -97,6 +97,8 @@ def main():
     print("Best starting move:")
     print((position + best_starting_move).to_string())
     root = search_from_position(position, False)
+    print("Average branching factor:")
+    print(root.get_average_branching_factor())
     unpacked_evaluations = map(lambda x: (
         x.get_move().board_position, x.get_value()), root.get_children())
     print("BFS Search heuristic evaluations for all possible starting moves:")

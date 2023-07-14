@@ -332,7 +332,26 @@ class Node : public std::enable_shared_from_this<Node<Board>> {
   }
 
   /**
-   * Find the number of internal nodes beneath us. Only nodes with best known
+   * @return The number of all nodes in the tree.
+   */
+  std::size_t get_node_count() const {
+    std::size_t node_count = 1;
+    for (const auto &child : children) {
+      node_count += child->get_node_count();
+    }
+    return node_count;
+  }
+
+  /**
+   * @return The average branching factor of the tree.
+   */
+  double get_average_branching_factor() const {
+    if (children.empty()) return 0.0;
+    return static_cast<double>(get_node_count() - 1) / get_num_internal_nodes();
+  }
+
+  /**
+   * Find the number of internal nodes beneath us. Only nodes with
    * children are internal nodes.
    *
    * @return The number of internal nodes beneath us, including us.

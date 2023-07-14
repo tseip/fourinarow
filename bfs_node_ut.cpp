@@ -81,9 +81,15 @@ TEST(BFSNodeTest, TestNodeCountingFunctions) {
   // 9 nodes at depth 3, and 9 nodes at depth 4. There are 1 + 3 + 9 + 9 =
   // 22 nodes in total. Since there are 3 leaf nodes at
   // depth 3 and 9 at depth 4, the mean should be 3.75.
+  ASSERT_EQ(game_tree->get_node_count(), 22U);
   ASSERT_EQ(game_tree->get_num_leaves(), 12U);
   ASSERT_EQ(game_tree->get_num_internal_nodes(), 10U);
   ASSERT_EQ(game_tree->get_mean_depth(), 3.75);
+
+  // The average branching factor of the tree is the number of nodes in the tree
+  // (not counting the root) divided by the number of internal nodes in the
+  // tree, i.e., 21 / 10 = 2.1.
+  ASSERT_EQ(game_tree->get_average_branching_factor(), 2.1);
 
   // The best path through the tree for player 1 leads us to a position at depth
   // 4, and 4 - 1 - 1 = 2;
