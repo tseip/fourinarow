@@ -12,6 +12,7 @@ from multiprocessing.managers import SyncManager
 from pybads import BADS
 from pathlib import Path
 from functools import total_ordering
+from tqdm import tqdm
 
 expt_factor = 1.0
 cutoff = 3.5
@@ -143,8 +144,8 @@ def estimate_log_lik_ibs(
         parameters,
         input_queue,
         output_queue):
-    heuristic = fourbynine.getDefaultFourByNineHeuristic(
-        fourbynine.DoubleVector(parameters))
+    heuristic = fourbynine.fourbynine_heuristic.create(
+        fourbynine.DoubleVector(parameters), True)
     heuristic.seed_generator(random.randint(0, 2**64))
     bfs = fourbynine.NInARowBestFirstSearch.create()
     while True:
@@ -163,9 +164,9 @@ def compute_loglik(move_tasks, params):
     moves_to_process = len(move_tasks)
     N = moves_to_process
     Lexpt = N * expt_factor
-    num_workers = 20
-    submission_queue = Queue(num_workers)
-    results_queue = Queue(num_workers)
+    num_workers = 32
+    submission_queue = Queue(num_workers * 8)
+    results_queue = Queue(num_workers * 8)
     to_submit_queue = PriorityQueue()
     pool = Pool(num_workers, estimate_log_lik_ibs,
                 (params, submission_queue, results_queue,))
@@ -238,15 +239,15 @@ def fit_model(moves, verbose=False):
     move_tasks = {}
     for move in moves:
         move_tasks[move] = SuccessFrequencyTracker()
-    if verbose:
-        print("Beginning model fit pre-processing: log-likelihood estimation")
+    print("Beginning model fit pre-processing: log-likelihood estimation")
+    l_value_sample_count = 10
     l_values = []
-    for i in range(10):
+    for i in tqdm(range(l_value_sample_count)):
         if verbose:
             print("Theta:", x0)
         l_values.append(compute_loglik(move_tasks, parse_parameters(x0)))
     average_l_values = []
-    for move in moves:
+    for move in tqdm(moves):
         average = 0.0
         for l_value in l_values:
             average += l_value[move]
@@ -267,7 +268,7 @@ def fit_model(moves, verbose=False):
     bads = BADS(opt_fun, x0, lb, ub, plb, pub, options=badsopts)
     out_params = bads.optimize()['x']
     l_values = []
-    for i in range(10):
+    for i in range(l_value_sample_count):
         l_values.append(opt_fun(out_params))
     return out_params, l_values
 

@@ -27,7 +27,7 @@ def create_custom_heuristic():
 def modify_default_heuristic():
     # Taking the default heuristic and adding a new pack of features as well
     # as modifying an old feature and an old feature pack.
-    heuristic = getDefaultFourByNineHeuristic()
+    heuristic = fourbynine_heuristic.create()
     feature_packs = heuristic.get_feature_packs()
 
     # Replace a feature in the first pack, and remove a feature
@@ -49,7 +49,7 @@ def modify_default_heuristic():
 def evaluate_best_move_from_position(position, noise_enabled=True):
     # Get the default heuristic and disable noise so we can
     # see what the heuristic actually encodes
-    heuristic = getDefaultFourByNineHeuristic()
+    heuristic = fourbynine_heuristic.create()
     heuristic.seed_generator(random.randint(0, 2**64))
     heuristic.set_noise_enabled(noise_enabled)
     bfs = NInARowBestFirstSearch.create()
@@ -59,7 +59,7 @@ def evaluate_best_move_from_position(position, noise_enabled=True):
 
 
 def search_from_position(position, noise_enabled=True):
-    heuristic = getDefaultFourByNineHeuristic()
+    heuristic = fourbynine_heuristic.create()
     heuristic.seed_generator(random.randint(0, 2**64))
     heuristic.set_noise_enabled(noise_enabled)
     bfs = NInARowBestFirstSearch.create()
@@ -70,7 +70,7 @@ def search_from_position(position, noise_enabled=True):
 def play_game_to_completion():
     # Play an entire game with noise enabled.
     moves = []
-    heuristic = getDefaultFourByNineHeuristic()
+    heuristic = fourbynine_heuristic.create()
     heuristic.seed_generator(random.randint(0, 2**64))
     current_player = False
     current_position = fourbynine_board()

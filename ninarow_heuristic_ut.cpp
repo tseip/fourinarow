@@ -10,7 +10,7 @@ using namespace NInARow;
 TEST(NInARowHeuristicTest, TestHeuristicRandomMoves) {
   using Board = Board<4, 9, 4>;
 
-  auto heuristic = getDefaultFourByNineHeuristic();
+  auto heuristic = Heuristic<Board>::create();
   heuristic->seed_generator(0);
 
   Board b;
@@ -27,7 +27,7 @@ TEST(NInARowHeuristicTest, TestHeuristicRandomMoves) {
 TEST(NInARowHeuristicTest, TestHeuristicGetBestMoveBFS) {
   using Board = Board<4, 9, 4>;
 
-  auto heuristic = getDefaultFourByNineHeuristic();
+  auto heuristic = Heuristic<Board>::create();
   heuristic->seed_generator(10);
   Board b;
   Player player = Player::Player1;

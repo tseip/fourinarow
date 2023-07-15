@@ -64,8 +64,9 @@ class Heuristic : public std::enable_shared_from_this<Heuristic<Board>> {
   std::vector<std::vector<Feature>> removed_features;
 
  public:
-  static std::shared_ptr<Heuristic> create(const std::vector<double>& params,
-                                           bool add_default_features = true) {
+  static std::shared_ptr<Heuristic> create(
+      const std::vector<double>& params = DefaultFourByNineParameters,
+      bool add_default_features = true) {
     auto heuristic = std::shared_ptr<Heuristic>(new Heuristic(params));
     if (add_default_features) {
       for (size_t i = 0; i < FourByNineFeatures.size(); ++i) {
@@ -354,17 +355,6 @@ class Heuristic : public std::enable_shared_from_this<Heuristic<Board>> {
     removed_features.clear();
   }
 };
-
-static std::shared_ptr<Heuristic<Board<4, 9, 4>>> getDefaultFourByNineHeuristic(
-    const std::vector<double>& parameters = DefaultFourByNineParameters) {
-  auto heuristic = Heuristic<Board<4, 9, 4>>::create(parameters);
-  for (size_t i = 0; i < FourByNineFeatures.size(); ++i) {
-    for (auto& feature : FourByNineFeatures[i]) {
-      heuristic->add_feature(i, feature);
-    }
-  }
-  return heuristic;
-}
 
 }  // namespace NInARow
 
