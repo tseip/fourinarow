@@ -274,6 +274,8 @@ def fit_model(moves, verbose=False):
 
 
 def cross_validate(groups, i):
+    print("Cross validating split {} against the other {} splits".format(
+        i + 1, len(groups) - 1))
     test = groups[i]
     train = []
     if len(groups) == 1:
@@ -293,11 +295,17 @@ def cross_validate(groups, i):
 
 def main():
     random.seed()
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser(formatter_class=argparse.RawDescriptionHelpFormatter, epilog="""Example usages:
+Ingest a file named input.csv and output to a folder named output/: model_fit.py -f input.csv -o output/
+Ingest a file, generate 5 splits, and cross validate: model_fit.py -f input.csv 5 -o output/
+Generate 5 splits from a file and terminate: model_fit.py -f input.csv 5 -s -o output/
+Read in splits from the above command and cross validate: model_fit.py -i output/ 5 -o output/
+Read in splits from the above command, and only process/cross validate a single split (split 2, in this case) against the rest: model_fit.py -i output/ 5 -o output/ -c 2""")
     parser.add_argument(
         "-f",
         "--participant_file",
         help="The file containing participant data to be split, i.e. a list of board states, moves, and associated timing. Optionally, a number of splits may be provided if cross-validation is desired.",
+        type=str,
         nargs='+',
         metavar=(
             'input_file',
@@ -306,6 +314,7 @@ def main():
         "-i",
         "--input_dir",
         help="The directory containing the pre-split groups to parse and cross-validate, along with the expected number of splits to be parsed. These splits should be named [1-n].csv",
+        type=str,
         nargs=2,
         metavar=(
             'input_dir',
@@ -322,6 +331,13 @@ def main():
         "--splits-only",
         help="If specified, terminate after generating splits.",
         action='store_true')
+    parser.add_argument(
+        "-c",
+        "--cluster-mode",
+        nargs=1,
+        type=int,
+        help="If specified, only process a single split, specified by the number passed as an argument to this flag. The split is expected to be named [arg].csv. This split will then be cross-validated against the other splits in the folder specified by the -i flag. Cannot be used with the -f flag; pre-split a -f argument with -s if desired.",
+        metavar=('local_split'))
     args = parser.parse_args()
     if args.participant_file and args.input_dir:
         raise Exception("Can't specify both -f and -i!")
@@ -333,6 +349,8 @@ def main():
             num_splits = int(args.participant_file[1])
         if (len(args.participant_file) > 2):
             raise Exception("-f only takes up to 2 arguments!")
+        if (args.cluster_mode):
+            raise Exception("-c cannot be used with -f!")
         with open(args.participant_file[0], 'r') as lines:
             moves = parse_participant_lines(lines)
         groups = generate_splits(moves, num_splits)
@@ -365,7 +383,11 @@ def main():
     if args.splits_only:
         exit()
 
-    for i in range(len(groups)):
+    start, end = 0, len(groups)
+    if (args.cluster_mode):
+        start = args.cluster_mode[0] - 1
+        end = start + 1
+    for i in range(start, end):
         params, loglik_train, loglik_test = cross_validate(groups, i)
         with (output_path / ("params" + str(i + 1) + ".csv")).open('w') as f:
             f.write(','.join(str(x) for x in params))
