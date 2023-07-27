@@ -303,6 +303,12 @@ class Node : public std::enable_shared_from_this<Node<Board>> {
   virtual std::shared_ptr<const Node> select() const = 0;
 
   /**
+   * @return The number of moves between us and our recursively best known
+   * child.
+   */
+  virtual std::size_t get_depth_of_pv() const = 0;
+
+  /**
    * Select the next move to be searched from among our children recursively.
    *
    * @return The next move from amongst our children and ourselves that ought to

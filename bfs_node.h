@@ -308,7 +308,7 @@ class BFSNode : public Node<Board> {
    * @return The number of moves between us and our recursively best known
    * child.
    */
-  std::size_t get_depth_of_pv() const {
+  std::size_t get_depth_of_pv() const override {
     const auto selected_node = select();
     if (selected_node == this->shared_from_this()) return 0;
     return downcast(selected_node)->depth - this->depth - 1;

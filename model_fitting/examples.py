@@ -58,8 +58,7 @@ def evaluate_best_move_from_position(position, noise_enabled=True):
     return best_move
 
 
-def search_from_position(position, noise_enabled=True):
-    heuristic = fourbynine_heuristic.create()
+def search_from_position(position, heuristic, noise_enabled=True):
     heuristic.seed_generator(random.randint(0, 2**64))
     heuristic.set_noise_enabled(noise_enabled)
     bfs = NInARowBestFirstSearch.create()
@@ -67,10 +66,9 @@ def search_from_position(position, noise_enabled=True):
     return bfs.get_tree()
 
 
-def play_game_to_completion():
+def play_game_to_completion(heuristic):
     # Play an entire game with noise enabled.
     moves = []
-    heuristic = fourbynine_heuristic.create()
     heuristic.seed_generator(random.randint(0, 2**64))
     current_player = False
     current_position = fourbynine_board()
@@ -87,24 +85,45 @@ def play_game_to_completion():
     return moves, current_position
 
 
+def sample_planning_depth(heuristic, positions, num_samples=100):
+    total_depth = 0
+    for position in positions:
+        for i in range(num_samples):
+            total_depth += search_from_position(position,
+                                                heuristic).get_depth_of_pv()
+    return float(total_depth) / (len(positions) * num_samples)
+
+
+def sample_average_branching_factor(heuristic, positions, num_samples=100):
+    total_branching_factor = 0.0
+    for position in positions:
+        for i in range(num_samples):
+            total_branching_factor += search_from_position(
+                position, heuristic).get_average_branching_factor()
+    return float(total_branching_factor) / (len(positions) * num_samples)
+
+
 def main():
     create_custom_heuristic()
     modify_default_heuristic()
 
+    heuristic = fourbynine_heuristic.create()
     position = fourbynine_board(
         fourbynine_pattern(0x0), fourbynine_pattern(0x0))
     best_starting_move = evaluate_best_move_from_position(position, False)
     print("Best starting move:")
     print((position + best_starting_move).to_string())
-    root = search_from_position(position, False)
+    root = search_from_position(position, heuristic, False)
+    print("Average planning depth:")
+    print(sample_planning_depth(heuristic, [position]))
     print("Average branching factor:")
-    print(root.get_average_branching_factor())
+    print(sample_average_branching_factor(heuristic, [position]))
     unpacked_evaluations = map(lambda x: (
         x.get_move().board_position, x.get_value()), root.get_children())
     print("BFS Search heuristic evaluations for all possible starting moves:")
     print(sorted(list(unpacked_evaluations), key=lambda x: x[1], reverse=True))
     output_csv = []
-    idealized_game, final_position = play_game_to_completion()
+    idealized_game, final_position = play_game_to_completion(heuristic)
     print(final_position.to_string())
     for line in idealized_game:
         print(line)
