@@ -108,6 +108,12 @@ class SuccessFrequencyTracker:
 
 
 def parse_participant_lines(lines):
+    def parse_player(player):
+        if player.lower() == "white" or player == '1':
+            return True
+        if player.lower() == "black" or player == '0':
+            return False
+        raise Exception("Unrecognized player token: {}".format(player))
     moves = []
     for line in lines:
         # Try splitting by comma
@@ -116,10 +122,10 @@ def parse_participant_lines(lines):
             parameters = line.rstrip().split()
         if (len(parameters) == 6):
             moves.append(CSVMove(
-                parameters[0], parameters[1], parameters[2], parameters[3], parameters[4], 1, parameters[5]))
+                parameters[0], parameters[1], parse_player(parameters[2]), parameters[3], parameters[4], 1, parameters[5]))
         elif (len(parameters) == 7):
-            moves.append(CSVMove(parameters[0], parameters[1], True if parameters[2].lower(
-            ) == "white" else False, parameters[3], parameters[4], parameters[5], parameters[6]))
+            moves.append(CSVMove(parameters[0], parameters[1], parse_player(parameters[2]),
+                parameters[3], parameters[4], parameters[5], parameters[6]))
         else:
             raise Exception(
                 "Given input has incorrect number of parameters (expected 6 or 7): " + line)
