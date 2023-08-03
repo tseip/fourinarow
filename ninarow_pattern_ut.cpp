@@ -215,15 +215,10 @@ TEST(NInARowPatternTest, TestRowCol) {
         "010"
         "000";
     Pattern<3, 3, 3> pattern(board);
-    std::size_t temp;
-    EXPECT_TRUE(pattern.max_row(temp));
-    EXPECT_EQ(temp, 1);
-    EXPECT_TRUE(pattern.min_row(temp));
-    EXPECT_EQ(temp, 1);
-    EXPECT_TRUE(pattern.max_col(temp));
-    EXPECT_EQ(temp, 1);
-    EXPECT_TRUE(pattern.min_col(temp));
-    EXPECT_EQ(temp, 1);
+    EXPECT_EQ(pattern.max_row(), 1);
+    EXPECT_EQ(pattern.min_row(), 1);
+    EXPECT_EQ(pattern.max_col(), 1);
+    EXPECT_EQ(pattern.min_col(), 1);
   }
 
   {
@@ -232,11 +227,10 @@ TEST(NInARowPatternTest, TestRowCol) {
         "000"
         "000";
     Pattern<3, 3, 3> pattern(board);
-    std::size_t temp;
-    EXPECT_FALSE(pattern.max_row(temp));
-    EXPECT_FALSE(pattern.min_row(temp));
-    EXPECT_FALSE(pattern.max_col(temp));
-    EXPECT_FALSE(pattern.min_col(temp));
+    EXPECT_EQ(pattern.max_row(), 3);
+    EXPECT_EQ(pattern.min_row(), 0);
+    EXPECT_EQ(pattern.max_col(), 3);
+    EXPECT_EQ(pattern.min_col(), 0);
   }
 
   {
@@ -249,15 +243,10 @@ TEST(NInARowPatternTest, TestRowCol) {
     Pattern<5, 5, 3> pattern(board);
     // Keep in mind, these strings are read in LSB to MSB,
     // so they are functionally mirrored diagonally.
-    std::size_t temp;
-    EXPECT_TRUE(pattern.max_row(temp));
-    EXPECT_EQ(temp, 4);
-    EXPECT_TRUE(pattern.min_row(temp));
-    EXPECT_EQ(temp, 1);
-    EXPECT_TRUE(pattern.max_col(temp));
-    EXPECT_EQ(temp, 3);
-    EXPECT_TRUE(pattern.min_col(temp));
-    EXPECT_EQ(temp, 0);
+    EXPECT_EQ(pattern.max_row(), 4);
+    EXPECT_EQ(pattern.min_row(), 1);
+    EXPECT_EQ(pattern.max_col(), 3);
+    EXPECT_EQ(pattern.min_col(), 0);
   }
 }
 

@@ -77,6 +77,15 @@ def play_game_to_completion(heuristic):
         current_player = not current_player
     return moves, current_position
 
+def count_features(heuristic, position, player):
+    feature_counts_per_pack = []
+    for feature_pack in heuristic.get_feature_packs():
+        feature_count = 0
+        for feature in feature_pack.features:
+            if feature.is_active(position, player) and feature.contained(position, player):
+                feature_count += 1
+        feature_counts_per_pack.append(feature_count)
+    return feature_counts_per_pack
 
 def main():
     create_custom_heuristic()
@@ -105,7 +114,9 @@ def main():
     # We could output our game to a CSV file like so:
     # with open("example_output.csv", 'w') as f:
     #     f.writelines(idealized_game)
-
+    
+    # Counting the number of active features of a given position
+    print("Active feature counts per pack: {}".format(count_features(heuristic, position, Player_Player1)))
 
 if __name__ == "__main__":
     main()
