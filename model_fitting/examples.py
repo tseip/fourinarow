@@ -1,6 +1,7 @@
 from fourbynine import *
 from calculate_tree_statistics import search_from_position, sample_planning_depth, sample_average_branching_factor
 from model_fit import bool_to_player, player_to_string
+from feature_utilities import *
 import random
 import time
 
@@ -47,6 +48,28 @@ def modify_default_heuristic():
     return heuristic
 
 
+def create_triangle_heuristic():
+    # Taking the default heuristic and adding a new pack of features.
+    heuristic = fourbynine_heuristic.create()
+
+    # Add a new feature pack. These weights are arbitrary.
+    heuristic.add_feature_pack(0.8, 0.2, 0.2)
+
+    # Construct the features we want.
+    triangle_features = []
+    triangle_features.append(create_feature(
+        0b100000000110000000000, 0b1100000000000000001001000000101, 3))
+    triangle_features.append(create_feature(
+        0b010000001100000000000, 0b1000001100000000011000001000, 3))
+    triangle_features.append(create_feature(
+        0b1010000000100000000000, 0b100000000100000001010000001010, 3))
+
+    for triangle_feature in triangle_features:
+        for feature in generate_feature_transformations(triangle_feature, True, True):
+            heuristic.add_feature(17, feature)
+    return heuristic
+
+
 def evaluate_best_move_from_position(position, noise_enabled=True):
     # Get the default heuristic and disable noise so we can
     # see what the heuristic actually encodes
@@ -78,17 +101,6 @@ def play_game_to_completion(heuristic):
     return moves, current_position
 
 
-def count_features(heuristic, position, player):
-    feature_counts_per_pack = []
-    for feature_pack in heuristic.get_feature_packs():
-        feature_count = 0
-        for feature in feature_pack.features:
-            if feature.is_active(position, player) and feature.contained(position, player):
-                feature_count += 1
-        feature_counts_per_pack.append(feature_count)
-    return feature_counts_per_pack
-
-
 def main():
     create_custom_heuristic()
     modify_default_heuristic()
@@ -117,9 +129,14 @@ def main():
     # with open("example_output.csv", 'w') as f:
     #     f.writelines(idealized_game)
 
+    triangle_position = fourbynine_board(fourbynine_pattern(
+        0b000000000000010000000011000000000000), fourbynine_pattern(0b111000000000000000000000000000000000))
     # Counting the number of active features of a given position
-    print("Active feature counts per pack: {}".format(
-        count_features(heuristic, position, Player_Player1)))
+    triangle_heuristic = create_triangle_heuristic()
+    print("Active feature counts per pack for black: {}".format(
+        count_features(triangle_heuristic, triangle_position, Player_Player1)))
+    print("Active feature counts per pack for white: {}".format(
+        count_features(triangle_heuristic, triangle_position, Player_Player2)))
 
 
 if __name__ == "__main__":
