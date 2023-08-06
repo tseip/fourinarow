@@ -88,28 +88,28 @@ class Pattern {
       positions >>= static_cast<size_t>(-row * WIDTH);
     }
   }
-  
+
   /**
    * @return The total maximum height of the pattern.
    */
-  static std::size_t get_height()
-  {
-	  return HEIGHT;
-  }
-  
+  static std::size_t get_height() { return HEIGHT; }
+
   /**
    * @return The total maximum width of the pattern.
    */
-  static std::size_t get_width()
-  {
-	  return WIDTH;
-  }
-  
+  static std::size_t get_width() { return WIDTH; }
+
   /**
-   * @return The index of the minimum row containing a set bit. If no bit is set, return 0.
+   * @return True if this pattern contains no set bits.
+   */
+  bool is_empty() const { return positions.none(); }
+
+  /**
+   * @return The index of the minimum row containing a set bit. If no bit is
+   * set, return 0.
    */
   std::size_t min_row() const {
-    if (positions.none()) return 0;
+    if (is_empty()) return 0;
     Pattern temp(positions);
     std::size_t row = HEIGHT;
     while (temp.positions.any()) {
@@ -120,10 +120,11 @@ class Pattern {
   }
 
   /**
-   * @return The index of the maximum row containing a set bit. If no bit is set, return total height.
+   * @return The index of the maximum row containing a set bit. If no bit is
+   * set, return total height.
    */
   std::size_t max_row() const {
-    if (positions.none()) return HEIGHT;
+    if (is_empty()) return HEIGHT;
     Pattern temp(positions);
     std::size_t row = 0;
     while (temp.positions.any()) {
@@ -135,10 +136,11 @@ class Pattern {
   }
 
   /**
-   * @return The index of the minimum column containing a set bit. If no bit is set, return 0.
+   * @return The index of the minimum column containing a set bit. If no bit is
+   * set, return 0.
    */
   std::size_t min_col() const {
-    if (positions.none()) return 0;
+    if (is_empty()) return 0;
     Pattern temp(positions);
     std::size_t col = WIDTH;
     while (temp.positions.any()) {
@@ -149,10 +151,11 @@ class Pattern {
   }
 
   /**
-   * @return The index of the maximum column containing a set bit. If no bit is set, return total width.
+   * @return The index of the maximum column containing a set bit. If no bit is
+   * set, return total width.
    */
   std::size_t max_col() const {
-    if (positions.none()) return WIDTH;
+    if (is_empty()) return WIDTH;
     Pattern temp(positions);
     std::size_t col = 0;
     while (temp.positions.any()) {
