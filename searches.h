@@ -25,11 +25,11 @@ class Search {
       this->heuristic->complete_search();
       return true;
     } else {
-      current_node = root->select();
+      auto current_node = select_next_node();
       const std::vector<typename Heuristic::BoardT::MoveT> candidate_moves =
           heuristic->get_pruned_moves(current_node->get_board(), player);
       current_node->expand(candidate_moves);
-      on_node_expansion(heuristic, player, board);
+      on_node_expansion(current_node, heuristic, player, board);
       return false;
     }
   }
@@ -56,7 +56,7 @@ class Search {
   }
 
  protected:
-  Search() : root(), current_node(), heuristic(), player(), board() {}
+  Search() : root(), heuristic(), player(), board() {}
 
   virtual ~Search() { cancel_search(); }
 
@@ -67,16 +67,20 @@ class Search {
   }
   virtual void set_root(std::shared_ptr<Heuristic> heuristic, Player player,
                         const typename Heuristic::BoardT& board) = 0;
+
+  virtual std::shared_ptr<Node<typename Heuristic::BoardT>> select_next_node() {
+    return root->select();
+  }
+
   virtual bool stopping_conditions(
       std::shared_ptr<Heuristic> heuristic, Player player,
       const typename Heuristic::BoardT& board) const = 0;
-  virtual void on_node_expansion(std::shared_ptr<Heuristic> heuristic,
-                                 Player player,
-                                 const typename Heuristic::BoardT& board) = 0;
+  virtual void on_node_expansion(
+      std::shared_ptr<Node<typename Heuristic::BoardT>> expanded_node,
+      std::shared_ptr<Heuristic> heuristic, Player player,
+      const typename Heuristic::BoardT& board) = 0;
 
- protected:
   std::shared_ptr<Node<typename Heuristic::BoardT>> root;
-  std::shared_ptr<Node<typename Heuristic::BoardT>> current_node;
 
   std::shared_ptr<Heuristic> heuristic;
   Player player;
@@ -109,10 +113,10 @@ class BestFirstSearch : public Search<Heuristic> {
         ->determined();
   }
 
-  void on_node_expansion(std::shared_ptr<Heuristic> /*heuristic*/,
-                         Player /*player*/,
-                         const typename Heuristic::BoardT& /*board*/) override {
-  }
+  void on_node_expansion(
+      std::shared_ptr<Node<typename Heuristic::BoardT>> /*expanded_node*/,
+      std::shared_ptr<Heuristic> /*heuristic*/, Player /*player*/,
+      const typename Heuristic::BoardT& /*board*/) override {}
 };
 
 #endif  // SEARCHES_H_INCLUDED

@@ -43,9 +43,10 @@ class NInARowBestFirstSearch : public BestFirstSearch<Heuristic> {
                                                            board);
   }
 
-  void on_node_expansion(std::shared_ptr<Heuristic> heuristic,
-                         Player /*player*/,
-                         const typename Heuristic::BoardT& /*board*/) override {
+  void on_node_expansion(
+      std::shared_ptr<Node<typename Heuristic::BoardT>> /*expanded_node*/,
+      std::shared_ptr<Heuristic> heuristic, Player /*player*/,
+      const typename Heuristic::BoardT& /*board*/) override {
     old_best_move = best_move;
     best_move = this->root->get_best_move();
     old_best_move.board_position == best_move.board_position
@@ -55,7 +56,7 @@ class NInARowBestFirstSearch : public BestFirstSearch<Heuristic> {
     return;
   }
 
- private:
+ protected:
   typename Heuristic::BoardT::MoveT old_best_move;
   typename Heuristic::BoardT::MoveT best_move;
   std::size_t num_repetitions;

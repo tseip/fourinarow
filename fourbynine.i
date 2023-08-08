@@ -1,5 +1,5 @@
 // fourbynine.i - SWIG interface
-%module fourbynine
+%module(directors="1", allprotected="1") fourbynine
 %{
 #include "game_tree_node.h"
 #include "bfs_node.h"
@@ -58,4 +58,7 @@
 %template(FeatureVector) std::vector<NInARow::HeuristicFeature<NInARow::Board<4, 9, 4>>>;
 %template(Search) Search<NInARow::Heuristic<NInARow::Board<4, 9, 4>>>;
 %template(BestFirstSearch) BestFirstSearch<NInARow::Heuristic<NInARow::Board<4, 9, 4>>>;
+
+%feature("director") NInARowBestFirstSearch;
 %template(NInARowBestFirstSearch) NInARow::NInARowBestFirstSearch<NInARow::Heuristic<NInARow::Board<4, 9, 4>>>;
+
