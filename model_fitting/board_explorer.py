@@ -256,6 +256,7 @@ class BoardDisplay(QWidget):
         self.iteration = 0
         self.hover = None
         self.player_ghost = player_ghost
+        self.candidate_moves = []
         self.bfs.begin_search(
             self.heuristic, self.board.active_player(), self.board)
         self.feature_list.update(
