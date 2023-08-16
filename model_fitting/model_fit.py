@@ -120,6 +120,24 @@ def parse_participant_lines(lines):
     return moves
 
 
+def parse_bads_parameters(param_line):
+    short_params = param_line.split(',')
+    return bads_parameters_to_model_parameters(short_params)
+
+
+def bads_parameters_to_model_parameters(params):
+    if (len(params) != 10):
+        raise Exception("Parameter file must contain 10 parameters!")
+    params = list(map(float, params))
+    out = [10000, params[0], params[1], params[3], 1, 1, params[5]]
+    out.extend([x for x in params[6:]] * 4)
+    out.append(0)
+    out.extend([x * params[4] for x in params[6:]] * 4)
+    out.append(0)
+    out.extend([params[2]] * 17)
+    return out
+
+
 def generate_splits(moves, split_count):
     indices = list(range(len(moves)))
     if (split_count != 1):
@@ -158,15 +176,7 @@ class ModelFitter:
         return fourbynine.NInARowBestFirstSearch.create()
 
     def bads_parameters_to_model_parameters(self, params):
-        if (len(params) != 10):
-            raise Exception("Parameter file must contain 10 parameters!")
-        out = [10000, params[0], params[1], params[3], 1, 1, params[5]]
-        out.extend([x for x in params[6:]] * 4)
-        out.append(0)
-        out.extend([x * params[4] for x in params[6:]] * 4)
-        out.append(0)
-        out.extend([params[2]] * 17)
-        return out
+        return bads_parameters_to_model_parameters(params)
 
     def estimate_log_lik_ibs(
             self,

@@ -1,5 +1,5 @@
 from fourbynine import *
-from model_fit import bool_to_player, player_to_string, player_to_bool, board_position_to_tile_number
+from model_fit import bool_to_player, player_to_string, player_to_bool, board_position_to_tile_number, parse_bads_parameters
 import random
 import time
 import matplotlib.pyplot as plt
@@ -50,6 +50,11 @@ class HeuristicParameters(QMainWindow):
         layout.addWidget(save_button, i // num_columns +
                          1, 0, 1, 2*num_columns)
 
+        load_button = QPushButton("Load from file")
+        load_button.clicked.connect(self.load_from_file)
+        layout.addWidget(load_button, i // num_columns +
+                         3, 0, 1, 2*num_columns)
+
         default_button = QPushButton("Reset to defaults")
         default_button.clicked.connect(self.reset_to_defaults)
         layout.addWidget(default_button, i // num_columns +
@@ -72,17 +77,36 @@ class HeuristicParameters(QMainWindow):
             params.append(float(box.displayText()))
         return params
 
+    def set_params(self, params):
+        for box, param in zip(self.findChildren(QLineEdit), params):
+            box.setText(str(param))
+
     def save(self):
         self.parent.update_heuristic_parameters()
         self.hide()
 
     def reset_to_defaults(self):
         default_params = DoubleVector(DefaultFourByNineParameters)
-        for box, param in zip(self.findChildren(QLineEdit), default_params):
-            box.setText(str(param))
+        self.set_params(default_params)
 
     def open_edit(self):
         self.show()
+
+    def load_from_file(self):
+        dialog = QFileDialog(self)
+        dialog.setFileMode(QFileDialog.FileMode.ExistingFiles)
+        if dialog.exec():
+            filenames = dialog.selectedFiles()
+            if len(filenames) > 1:
+                raise Exception(
+                    "Can only load parameters from one file at a time!")
+                return
+            if len(filenames) == 1:
+                with open(filenames[0], 'r') as lines:
+                    for line in lines:
+                        model_params = parse_bads_parameters(line)
+                        break
+                self.set_params(model_params)
 
 
 class BoardDisplay(QWidget):
@@ -247,8 +271,9 @@ class BoardDisplay(QWidget):
             self.on_board_update()
 
     def play_best_move(self):
-        self.play_move(
-            self.heuristic.get_best_known_move_from_search_tree(self.bfs))
+        if not self.board.game_has_ended():
+            self.play_move(
+                self.heuristic.get_best_known_move_from_search_tree(self.bfs))
 
     def on_board_update(self, player_ghost=None):
         self.heuristic_values = self.heuristic.get_moves(
