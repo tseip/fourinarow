@@ -1,5 +1,5 @@
 // fourbynine.i - SWIG interface
-%module(directors="1", allprotected="1") fourbynine
+%module(directors="1") fourbynine
 %{
 #include "game_tree_node.h"
 #include "bfs_node.h"

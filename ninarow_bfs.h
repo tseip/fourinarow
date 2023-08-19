@@ -18,6 +18,10 @@ class NInARowBestFirstSearch : public BestFirstSearch<Heuristic> {
 
   ~NInARowBestFirstSearch(){};
 
+  std::size_t get_iterations() const { return iterations; }
+
+  std::size_t get_num_repetitions() const { return num_repetitions; }
+
  protected:
   NInARowBestFirstSearch()
       : BestFirstSearch<Heuristic>(),
