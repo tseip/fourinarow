@@ -11,62 +11,8 @@ from multiprocessing import Process, Pool, Value, Lock, Queue
 from multiprocessing.managers import SyncManager
 from pybads import BADS
 from pathlib import Path
-from functools import total_ordering
 from tqdm import tqdm
-
-
-def bool_to_player(player):
-    return fourbynine.Player_Player1 if not player else fourbynine.Player_Player2
-
-
-def player_to_bool(player):
-    return player == fourbynine.Player_Player2
-
-
-def player_to_string(player):
-    return "White" if player_to_bool(player) else "Black"
-
-
-def board_position_to_tile_number(x):
-    return ((1 + (x ^ (x-1))) >> 1).bit_length() - 1
-
-
-@total_ordering
-class CSVMove:
-    def __init__(
-            self,
-            black_pieces,
-            white_pieces,
-            player,
-            move,
-            time,
-            group,
-            participant):
-        self.black_pieces = int(black_pieces)
-        self.white_pieces = int(white_pieces)
-        self.player = bool(player)
-        self.move = int(move)
-        self.time = float(time)
-        self.group = int(group)
-        self.participant = str(participant)
-
-    def __hash__(self):
-        return hash(
-            (self.black_pieces,
-             self.white_pieces,
-             self.player,
-             self.move,
-             self.time,
-             self.participant))
-
-    def __repr__(self):
-        return "\t".join([str(self.black_pieces), str(self.white_pieces), player_to_string(self.player), str(self.move), str(self.time), str(self.group), self.participant])
-
-    def __eq__(self, other):
-        return self.black_pieces == other.black_pieces and self.white_pieces == other.white_pieces and self.player == other.player and self.move == other.move and self.time == other.time and self.group == other.group and self.participant == other.participant
-
-    def __lt__(self, other):
-        return (self.black_pieces, self.white_pieces, self.player, self.move) < (other.black_pieces, other.white_pieces, other.player, other.move)
+from parsers import *
 
 
 class SuccessFrequencyTracker:
@@ -93,31 +39,6 @@ class SuccessFrequencyTracker:
             self.L += self.expt_factor / \
                 (self.required_success_count * self.attempt_count)
             self.attempt_count += 1
-
-
-def parse_participant_lines(lines):
-    def parse_player(player):
-        if player.lower() == "white" or player == '1':
-            return True
-        if player.lower() == "black" or player == '0':
-            return False
-        raise Exception("Unrecognized player token: {}".format(player))
-    moves = []
-    for line in lines:
-        # Try splitting by comma
-        parameters = line.rstrip().split(',')
-        if (len(parameters) == 1):
-            parameters = line.rstrip().split()
-        if (len(parameters) == 6):
-            moves.append(CSVMove(
-                parameters[0], parameters[1], parse_player(parameters[2]), parameters[3], parameters[4], 1, parameters[5]))
-        elif (len(parameters) == 7):
-            moves.append(CSVMove(parameters[0], parameters[1], parse_player(parameters[2]),
-                                 parameters[3], parameters[4], parameters[5], parameters[6]))
-        else:
-            raise Exception(
-                "Given input has incorrect number of parameters (expected 6 or 7): " + line)
-    return moves
 
 
 def parse_bads_parameters(param_line):
@@ -191,9 +112,9 @@ class ModelFitter:
             b = fourbynine.fourbynine_pattern(move.black_pieces)
             w = fourbynine.fourbynine_pattern(move.white_pieces)
             board = fourbynine.fourbynine_board(b, w)
-            player = bool_to_player(move.player)
+            player = fourbynine.bool_to_player(move.player)
             best_move = heuristic.get_best_move(board, player, search)
-            success = 2**best_move.board_position == move.move
+            success = best_move.board_position == move.move
             output_queue.put((success, move))
 
     def compute_loglik(self, move_tasks, params):
@@ -376,8 +297,7 @@ Read in splits from the above command, and only process/cross validate a single 
             raise Exception("-f only takes up to 2 arguments!")
         if (args.cluster_mode):
             raise Exception("-c cannot be used with -f!")
-        with open(args.participant_file[0], 'r') as lines:
-            moves = parse_participant_lines(lines)
+        moves = parse_participant_file(args.participant_file[0])
         groups = generate_splits(moves, num_splits)
     elif args.input_dir:
         input_path = Path(args.input_dir[0])
@@ -387,8 +307,8 @@ Read in splits from the above command, and only process/cross validate a single 
             input_files.append(input_path / (str(i + 1) + ".csv"))
         for input_path in input_files:
             print("Ingesting split {}".format(input_path))
-            with input_path.open('r') as lines:
-                groups.append(parse_participant_lines(lines))
+            moves = parse_participant_file(input_path)
+            groups.append(moves)
     else:
         raise Exception("Either -f or -i must be specified!")
 

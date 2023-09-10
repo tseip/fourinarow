@@ -18,6 +18,18 @@
 %include "std_string.i"
 %include "std_vector.i"
 %include "std_shared_ptr.i"
+%include "exception.i"
+
+%exception {
+  try {
+    $function
+  } catch(const std::exception& e) {
+    std::cerr << e.what() << std::endl;
+    SWIG_exception(SWIG_RuntimeError, e.what());
+  } catch(...) {
+    SWIG_exception(SWIG_UnknownError, "Unknown exception thrown!");
+  }
+}
 
 %shared_ptr(NInARow::Heuristic<NInARow::Board<4, 9, 4>>);
 %shared_ptr(Node<NInARow::Board<4, 9, 4>>);

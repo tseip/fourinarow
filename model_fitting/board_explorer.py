@@ -1,5 +1,6 @@
 from fourbynine import *
-from model_fit import bool_to_player, player_to_string, player_to_bool, board_position_to_tile_number, parse_bads_parameters
+from model_fit import parse_bads_parameters
+from parsers import parse_participant_file
 import random
 import time
 import matplotlib.pyplot as plt
@@ -413,17 +414,12 @@ class LoadPositionsWidget(QWidget):
         self.setLayout(layout)
         self.board_view = board_view
 
-    def parse_line(self, line):
-        # Try splitting by comma
-        tokens = line.rstrip().split(',')
-        if (len(tokens) == 1):
-            tokens = tokens[0].split()
-        board = fourbynine_board(fourbynine_pattern(
-            int(tokens[0])), fourbynine_pattern(int(tokens[1])))
-        move = fourbynine_move(board_position_to_tile_number(
-            int(tokens[3])), 0.0, board.active_player())
-        participant = str(tokens[-1])
-        return ("{}: {} {} {}".format(participant, tokens[0], tokens[1], move.board_position), board, move)
+    def parse_move(self, move):
+        b = fourbynine_board(fourbynine_pattern(
+            move.black_pieces), fourbynine_pattern(move.white_pieces))
+        m = fourbynine_move(move.move, 0.0, b.active_player())
+        participant = move.participant
+        return ("{}: {} {} {}".format(participant, move.black_pieces, move.white_pieces, m.board_position), b, m)
 
     def load(self):
         dialog = QFileDialog(self)
@@ -433,15 +429,10 @@ class LoadPositionsWidget(QWidget):
             self.combo_box.clear()
             moves = []
             for f in filenames:
-                with open(f, 'r') as lines:
-                    for line in lines:
-                        try:
-                            display_text, board, move = self.parse_line(line)
-                            self.combo_box.addItem(display_text, (board, move))
-                        except Exception:
-                            print(
-                                "Encountered malformed line: {}, skipping...".format(line))
-                            continue
+                moves.extend(parse_participant_file(f))
+            for move in moves:
+                display_text, b, m = self.parse_move(move)
+                self.combo_box.addItem(display_text, (b, m))
 
     def display(self):
         idx = self.combo_box.currentIndex()

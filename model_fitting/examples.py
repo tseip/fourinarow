@@ -1,6 +1,5 @@
 from fourbynine import *
 from calculate_tree_statistics import search_from_position, sample_planning_depth, sample_average_branching_factor
-from model_fit import bool_to_player, player_to_string
 from feature_utilities import *
 import random
 import time
