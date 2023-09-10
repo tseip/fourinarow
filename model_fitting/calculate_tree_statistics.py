@@ -33,8 +33,7 @@ def sample_average_branching_factor(heuristic, positions, num_samples, disable_t
 
 def calculate_tree_statistics_from_file(path, heuristic, num_samples=10):
     moves = parse_participant_file(path)
-    positions = [fourbynine_board(fourbynine_pattern(
-        move.black_pieces), fourbynine_pattern(move.white_pieces)) for move in moves]
+    positions = [move.board for move in moves]
     return sample_planning_depth(heuristic, positions, num_samples, False), sample_average_branching_factor(heuristic, positions, num_samples, False)
 
 

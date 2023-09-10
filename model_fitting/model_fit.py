@@ -109,12 +109,9 @@ class ModelFitter:
         search = self.create_search(parameters)
         while True:
             move = input_queue.get()
-            b = fourbynine.fourbynine_pattern(move.black_pieces)
-            w = fourbynine.fourbynine_pattern(move.white_pieces)
-            board = fourbynine.fourbynine_board(b, w)
-            player = fourbynine.bool_to_player(move.player)
-            best_move = heuristic.get_best_move(board, player, search)
-            success = best_move.board_position == move.move
+            best_move = heuristic.get_best_move(
+                move.board, move.player, search)
+            success = best_move.board_position == move.move.board_position
             output_queue.put((success, move))
 
     def compute_loglik(self, move_tasks, params):

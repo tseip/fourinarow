@@ -415,11 +415,7 @@ class LoadPositionsWidget(QWidget):
         self.board_view = board_view
 
     def parse_move(self, move):
-        b = fourbynine_board(fourbynine_pattern(
-            move.black_pieces), fourbynine_pattern(move.white_pieces))
-        m = fourbynine_move(move.move, 0.0, b.active_player())
-        participant = move.participant
-        return ("{}: {} {} {}".format(participant, move.black_pieces, move.white_pieces, m.board_position), b, m)
+        return (str(move).replace("\t", " "), move.board, move.move)
 
     def load(self):
         dialog = QFileDialog(self)
