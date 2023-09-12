@@ -233,10 +233,10 @@ class BoardDisplay(QWidget):
         render_ghost(self.hover, player_to_string(self.board.active_player()))
         render_ghost(self.player_ghost, "blue")
 
-        if self.feature_list_toggle.isChecked():
-            for p in pattern_string_to_board_positions(self.feature_list.pieces):
+        if self.feature_list_toggle.isChecked() and self.feature_list.currentItem():
+            for p in pattern_string_to_board_positions(self.feature_list.currentItem().pieces):
                 plot_circle(p, "darkgreen", 0.8)
-            for p in pattern_string_to_board_positions(self.feature_list.spaces):
+            for p in pattern_string_to_board_positions(self.feature_list.currentItem().spaces):
                 plot_circle(p, "darkred", 0.8)
 
         move_values = np.zeros(shape=[4, 9])
@@ -314,6 +314,7 @@ class MoveList(QListWidget):
         self.board_view = board_view
         self.setSortingEnabled(False)
         self.itemDoubleClicked.connect(self._onClick)
+        self.itemSelectionChanged.connect(self._itemChanged)
         self.currentItemChanged.connect(self._itemChanged)
 
     def _onClick(self, item):
@@ -321,9 +322,9 @@ class MoveList(QListWidget):
             item.board_position, 0.0, self.board_view.board.active_player())
         self.board_view.play_move(new_move)
 
-    def _itemChanged(self, oldItem, newItem):
-        if newItem is not None:
-            self.board_view.hover = newItem.board_position
+    def _itemChanged(self):
+        if self.currentItem():
+            self.board_view.hover = self.currentItem().board_position
 
     def _update(self, moves):
         currentItem = self.currentItem()
@@ -353,14 +354,8 @@ class FeatureList(QListWidget):
     def __init__(self):
         super().__init__()
         self.setSortingEnabled(False)
-        self.currentItemChanged.connect(self._itemChanged)
         self.pieces = fourbynine_pattern().to_string()
         self.spaces = fourbynine_pattern().to_string()
-
-    def _itemChanged(self, oldItem, newItem):
-        if newItem is not None:
-            self.pieces = newItem.pieces
-            self.spaces = newItem.spaces
 
     def update(self, feature_packs, board):
         self.clear()
