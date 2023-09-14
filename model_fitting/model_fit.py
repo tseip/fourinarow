@@ -50,7 +50,7 @@ def bads_parameters_to_model_parameters(params):
     if (len(params) != 10):
         raise Exception("Parameter file must contain 10 parameters!")
     params = list(map(float, params))
-    out = [10000, params[0], params[1], params[3], 1, 1, params[5]]
+    out = [10000.0, params[0], params[1], params[3], 1, 1, params[5]]
     out.extend([x for x in params[6:]] * 4)
     out.append(0)
     out.extend([x * params[4] for x in params[6:]] * 4)
