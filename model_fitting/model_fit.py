@@ -184,8 +184,6 @@ class ModelFitter:
         l_value_sample_count = 10
         l_values = []
         for i in tqdm(range(l_value_sample_count)):
-            if verbose:
-                print("Theta:", self.x0)
             l_values.append(self.compute_loglik(
                 move_tasks, self.bads_parameters_to_model_parameters(self.x0)))
         average_l_values = []
@@ -202,8 +200,13 @@ class ModelFitter:
 
         def opt_fun(x):
             if verbose:
-                print("Theta:", x)
+                print("Probing function at theta = {}".format(x))
+                print("Current iteration: {}".format(
+                    opt_fun.current_iteration_count))
+                opt_fun.current_iteration_count += 1
             return sum(list(self.compute_loglik(move_tasks, self.bads_parameters_to_model_parameters(x)).values()))
+
+        opt_fun.current_iteration_count = 0
         badsopts = {}
         badsopts['uncertainty_handling'] = True
         badsopts['noise_final_samples'] = 0
@@ -216,7 +219,7 @@ class ModelFitter:
             l_values.append(opt_fun(out_params))
         return out_params, l_values
 
-    def cross_validate(self, groups, i):
+    def cross_validate(self, groups, i, verbose=False):
         print("Cross validating split {} against the other {} splits".format(
             i + 1, len(groups) - 1))
         test = groups[i]
@@ -227,7 +230,7 @@ class ModelFitter:
             for j in range(len(groups)):
                 if i != j:
                     train.extend(groups[j])
-        params, loglik_train = self.fit_model(train)
+        params, loglik_train = self.fit_model(train, verbose)
         test_tasks = {}
         for move in test:
             test_tasks[move] = SuccessFrequencyTracker(self.expt_factor)
@@ -273,6 +276,11 @@ Read in splits from the above command, and only process/cross validate a single 
         "-s",
         "--splits-only",
         help="If specified, terminate after generating splits.",
+        action='store_true')
+    parser.add_argument(
+        "-v",
+        "--verbose",
+        help="If specified, print extra debugging info.",
         action='store_true')
     parser.add_argument(
         "-c",
@@ -332,7 +340,7 @@ Read in splits from the above command, and only process/cross validate a single 
         end = start + 1
     for i in range(start, end):
         params, loglik_train, loglik_test = model_fitter.cross_validate(
-            groups, i)
+            groups, i, args.verbose)
         with (output_path / ("params" + str(i + 1) + ".csv")).open('w') as f:
             f.write(','.join(str(x) for x in params))
         with (output_path / ("lltrain" + str(i + 1) + ".csv")).open('w') as f:
