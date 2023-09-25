@@ -44,3 +44,29 @@ TEST(NInARowMoveTest, TestMove) {
   EXPECT_EQ(Move(2, 1, 0, Player::Player1).board_position,
             Move(7, 0, Player::Player1).board_position);
 }
+
+/**
+ * Tests implementation of get_row() and get_col().
+ */
+TEST(NInARowMoveTest, TestGetRowCol) {
+  using Move = Move<3, 3, 3>;
+
+  {
+    Move move1 = Move(0, 2, 0, Player::Player1);
+    Move move2 = Move(2, 0, Player::Player2);
+
+    EXPECT_EQ(move1.get_row(), 0);
+    EXPECT_EQ(move1.get_col(), 2);
+    EXPECT_EQ(move2.get_row(), 0);
+    EXPECT_EQ(move2.get_col(), 2);
+  }
+
+  {
+    Move move1 = Move(2, 1, 0, Player::Player1);
+    Move move2 = Move(7, 0, Player::Player2);
+    EXPECT_EQ(move1.get_row(), 2);
+    EXPECT_EQ(move1.get_col(), 1);
+    EXPECT_EQ(move2.get_row(), 2);
+    EXPECT_EQ(move2.get_col(), 1);
+  }
+}

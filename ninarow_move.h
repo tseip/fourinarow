@@ -83,6 +83,16 @@ class Move {
    * value.
    */
   bool operator>(const Move &m) const { return val > m.val; }
+
+  /**
+   * @return The index of the row of this move.
+   */
+  std::size_t get_row() const { return board_position / WIDTH; }
+
+  /**
+   * @return The index of the column of this move.
+   */
+  std::size_t get_col() const { return board_position % WIDTH; }
 };
 }  // namespace NInARow
 

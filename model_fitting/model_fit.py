@@ -41,14 +41,10 @@ class SuccessFrequencyTracker:
             self.attempt_count += 1
 
 
-def parse_bads_parameters(param_line):
-    short_params = param_line.split(',')
-    return bads_parameters_to_model_parameters(short_params)
-
-
 def bads_parameters_to_model_parameters(params):
     if (len(params) != 10):
-        raise Exception("Parameter file must contain 10 parameters!")
+        raise Exception(
+            "Parameter file must contain 10 parameters: {}".format(params))
     params = list(map(float, params))
     out = [10000.0, params[0], params[1], params[3], 1, 1, params[5]]
     out.extend([x for x in params[6:]] * 4)

@@ -1,5 +1,6 @@
 from functools import total_ordering
 from fourbynine import fourbynine_board, fourbynine_pattern, fourbynine_move, Player_Player1, Player_Player2, bool_to_player, player_to_string
+from model_fit import bads_parameters_to_model_parameters
 import json
 
 
@@ -211,3 +212,17 @@ def parse_participant_file(f, group_id=1, participant_id="1"):
                 "File is either not a JSON file, or is malformed. Attempting to parse as a CSV...")
             lines.seek(0)
         return _parse_participant_csv(lines, group_id)
+
+
+def parse_bads_parameter_file_to_model_parameters(f):
+    """
+    Parses a file containing a list of comma-separated parameters for a model into a Python list.
+
+    Args:
+        f: The path to the file to parse.
+    """
+    with open(f, 'r') as lines:
+        for line in lines:
+            if line.startswith("#"):
+                continue
+            return bads_parameters_to_model_parameters(line.split(","))

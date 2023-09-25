@@ -1,6 +1,5 @@
 from fourbynine import *
-from model_fit import parse_bads_parameters
-from parsers import parse_participant_file
+from parsers import parse_participant_file, parse_bads_parameter_file_to_model_parameters
 import random
 import time
 import matplotlib.pyplot as plt
@@ -103,10 +102,8 @@ class HeuristicParameters(QMainWindow):
                     "Can only load parameters from one file at a time!")
                 return
             if len(filenames) == 1:
-                with open(filenames[0], 'r') as lines:
-                    for line in lines:
-                        model_params = parse_bads_parameters(line)
-                        break
+                model_params = parse_bads_parameter_file_to_model_parameters(
+                    filenames[0])
                 self.set_params(model_params)
 
 
@@ -215,7 +212,7 @@ class BoardDisplay(QWidget):
         self.ax.hlines(np.arange(-0.5, 4.5, 1), -0.5, 8.5)
 
         def plot_circle(position, color, alpha=1.0):
-            circ = patches.Circle((position % 9, position//9), 0.33,
+            circ = patches.Circle((position % fourbynine_board().get_board_width(), position//fourbynine_board().get_board_width()), 0.33,
                                   color=color, fill=True, alpha=alpha)
             circ = self.ax.add_patch(circ)
         pieces = set()
@@ -242,14 +239,11 @@ class BoardDisplay(QWidget):
         move_values = np.zeros(shape=[4, 9])
         if self.heuristic_view:
             for move in self.heuristic_values:
-                col = (move.board_position % 9)
-                row = (move.board_position // 9)
-                move_values[row][col] = move.val
+                move_values[move.get_row()][move.get_col()] = move.val
         else:
             for move in self.candidate_moves:
-                col = (move.get_move().board_position % 9)
-                row = (move.get_move().board_position // 9)
-                move_values[row][col] = move.get_value()
+                move_values[move.get_move().get_row(
+                )][move.get_move().get_col()] = move.get_value()
         norm = np.max(np.abs(move_values[np.isfinite(move_values)])) + 0.001
         move_values[np.isposinf(move_values)] = norm + 1
         move_values[np.isneginf(move_values)] = -norm - 1
