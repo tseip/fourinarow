@@ -41,20 +41,6 @@ class SuccessFrequencyTracker:
             self.attempt_count += 1
 
 
-def bads_parameters_to_model_parameters(params):
-    if (len(params) != 10):
-        raise Exception(
-            "Parameter file must contain 10 parameters: {}".format(params))
-    params = list(map(float, params))
-    out = [10000.0, params[0], params[1], params[3], 1, 1, params[5]]
-    out.extend([x for x in params[6:]] * 4)
-    out.append(0)
-    out.extend([x * params[4] for x in params[6:]] * 4)
-    out.append(0)
-    out.extend([params[2]] * 17)
-    return out
-
-
 def generate_splits(moves, split_count):
     indices = list(range(len(moves)))
     if (split_count != 1):
