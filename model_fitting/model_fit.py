@@ -56,7 +56,7 @@ def generate_splits(moves, split_count):
 
 
 class ModelFitter:
-    def __init__(self):
+    def __init__(self, args):
         self.expt_factor = 1.0
         self.cutoff = 3.5
 
@@ -71,6 +71,15 @@ class ModelFitter:
         self.plb = np.array([1, 0.1, 0.001, 0.05, 0.5, -5, -
                              5, -5, -5, -5], dtype=np.float64)
         self.c = 50
+        if args.random_sample:
+            self.random_sample = True
+            self.sample_count = args.random_sample[0]
+            if self.sample_count <= 1:
+                raise Exception("Sample count must be greater than one!")
+        else:
+            self.random_sample = False
+            self.sample_count = 0
+        self.verbose = args.verbose
 
     def create_heuristic(self, params):
         return fourbynine.fourbynine_heuristic.create(fourbynine.DoubleVector(params), True)
@@ -158,7 +167,7 @@ class ModelFitter:
         times = (self.c * interp1(p)) / np.mean(interp2(p))
         return np.vectorize(lambda x: max(x, 1))(np.round(times))
 
-    def fit_model(self, moves, verbose=False):
+    def fit_model(self, moves):
         move_tasks = {}
         for move in moves:
             move_tasks[move] = SuccessFrequencyTracker(self.expt_factor)
@@ -180,13 +189,25 @@ class ModelFitter:
         for i in range(len(counts)):
             move_tasks[moves[i]].required_success_count = int(counts[i])
 
+        if self.random_sample:
+            clamped_sample_count = min(self.sample_count, len(move_tasks))
+            if clamped_sample_count != self.sample_count:
+                print("Requested sample count ({}) is larger than the dataset size ({})! Clamping sample count and using entire set...".format(
+                    self.sample_count, len(move_tasks)))
+
         def opt_fun(x):
-            if verbose:
+            if self.verbose:
                 print("Probing function at theta = {}".format(x))
                 print("Current iteration: {}".format(
                     opt_fun.current_iteration_count))
                 opt_fun.current_iteration_count += 1
-            return sum(list(self.compute_loglik(move_tasks, self.bads_parameters_to_model_parameters(x)).values()))
+            if self.random_sample:
+                subsampled_keys = random.sample(
+                    sorted(move_tasks), clamped_sample_count)
+                subsampled_tasks = {k: move_tasks[k] for k in subsampled_keys}
+            else:
+                subsampled_tasks = move_tasks
+            return sum(list(self.compute_loglik(subsampled_tasks, self.bads_parameters_to_model_parameters(x)).values()))
 
         opt_fun.current_iteration_count = 0
         badsopts = {}
@@ -201,7 +222,7 @@ class ModelFitter:
             l_values.append(opt_fun(out_params))
         return out_params, l_values
 
-    def cross_validate(self, groups, i, verbose=False):
+    def cross_validate(self, groups, i):
         print("Cross validating split {} against the other {} splits".format(
             i + 1, len(groups) - 1))
         test = groups[i]
@@ -212,7 +233,7 @@ class ModelFitter:
             for j in range(len(groups)):
                 if i != j:
                     train.extend(groups[j])
-        params, loglik_train = self.fit_model(train, verbose)
+        params, loglik_train = self.fit_model(train)
         test_tasks = {}
         for move in test:
             test_tasks[move] = SuccessFrequencyTracker(self.expt_factor)
@@ -271,6 +292,13 @@ Read in splits from the above command, and only process/cross validate a single 
         type=int,
         help="If specified, only process a single split, specified by the number passed as an argument to this flag. The split is expected to be named [arg].csv. This split will then be cross-validated against the other splits in the folder specified by the -i flag. Cannot be used with the -f flag; pre-split a -f argument with -s if desired.",
         metavar=('local_split'))
+    parser.add_argument(
+        "-r",
+        "--random-sample",
+        nargs=1,
+        type=int,
+        help="If specified, instead of testing each position on a BADS function evaluation, instead randomly sample up to N positions without replacement.",
+        metavar=('sample_count'))
     args = parser.parse_args()
     if args.participant_file and args.input_dir:
         raise Exception("Can't specify both -f and -i!")
@@ -315,14 +343,14 @@ Read in splits from the above command, and only process/cross validate a single 
     if args.splits_only:
         exit()
 
-    model_fitter = ModelFitter()
+    model_fitter = ModelFitter(args)
     start, end = 0, len(groups)
     if (args.cluster_mode):
         start = args.cluster_mode[0] - 1
         end = start + 1
     for i in range(start, end):
         params, loglik_train, loglik_test = model_fitter.cross_validate(
-            groups, i, args.verbose)
+            groups, i)
         with (output_path / ("params" + str(i + 1) + ".csv")).open('w') as f:
             f.write(','.join(str(x) for x in params))
         with (output_path / ("lltrain" + str(i + 1) + ".csv")).open('w') as f:
