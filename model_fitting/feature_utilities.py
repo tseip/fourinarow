@@ -4,28 +4,28 @@ import numpy as np
 
 def count_features(heuristic, position, player):
     """
-    Given a heuristic, returns a count of the number of features detected per feature-pack in the given position for the given player.
-    For example, if the first feature pack of a heuristic contained all horizontal connect-twos, and the second feature pack contained
+    Given a heuristic, returns a count of the number of features detected per feature-group in the given position for the given player.
+    For example, if the first feature group of a heuristic contained all horizontal connect-twos, and the second feature group contained
     all horizontal connect threes, and we passed in a position with a single horizontal connect 3 for the black player and a single
     horizontal connect 2 for the white player, we would return [2, 1] for the black player and [1, 0] for the white player (since a
     connect 3 necessarily contains two connect 2s).
 
     Args:
-        heuristic: The heuristic containing a list of feature packs to count.
+        heuristic: The heuristic containing a list of feature groups to count.
         position: The position to count features over.
         player: The player to count features for.
 
     Returns:
-        A list of counts of features per feature-pack contained in the position for the given player.
+        A list of counts of features per feature-group contained in the position for the given player.
     """
-    feature_counts_per_pack = []
-    for feature_pack in heuristic.get_feature_packs():
-        feature_count = 0
-        for feature in feature_pack.features:
-            if feature.is_active(position, player) and feature.contained(position, player):
-                feature_count += 1
-        feature_counts_per_pack.append(feature_count)
-    return feature_counts_per_pack
+    feature_counts_per_group = []
+    for feature_group in heuristic.get_feature_group_weights():
+        feature_counts_per_group.append(0)
+
+    for feature in heuristic.get_features_with_metadata():
+        if feature.feature.contained_in(position, player):
+            feature_counts_per_group[feature.weight_index] += 1
+    return feature_counts_per_group
 
 
 def pattern_to_array(pattern):

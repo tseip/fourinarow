@@ -9,8 +9,8 @@
 TEST(BFSNodeTest, TestCreate) {
   using Board = NInARow::Board<3, 3, 3>;
   auto game_tree = BFSNode<Board>::create(Board(), 0.0);
-  ASSERT_EQ(game_tree->get_num_leaves(), 1);
-  ASSERT_FALSE(game_tree->determined());
+  EXPECT_EQ(game_tree->get_num_leaves(), 1);
+  EXPECT_FALSE(game_tree->determined());
 
   // Provide an invalid move.
   std::vector<Board::MoveT> bad_moves = {
@@ -34,11 +34,11 @@ TEST(BFSNodeTest, TestCreate) {
   bad_moves.emplace_back(0, 0, 0.0, Player::Player1);
   EXPECT_THROW(game_tree->expand(bad_moves), std::logic_error);
 
-  ASSERT_EQ(game_tree->get_num_leaves(), 9);
-  ASSERT_FALSE(game_tree->determined());
+  EXPECT_EQ(game_tree->get_num_leaves(), 9);
+  EXPECT_FALSE(game_tree->determined());
 
   const auto best_move = Board::MoveT(0, 0, 0.0, Player::Player1);
-  ASSERT_EQ(game_tree->get_best_move().board_position,
+  EXPECT_EQ(game_tree->get_best_move().board_position,
             best_move.board_position);
 }
 
@@ -48,8 +48,8 @@ TEST(BFSNodeTest, TestCreate) {
 TEST(BFSNodeTest, TestNodeCountingFunctions) {
   using Board = NInARow::Board<3, 3, 3>;
   auto game_tree = BFSNode<Board>::create(Board(), 0.0);
-  ASSERT_EQ(game_tree->get_num_leaves(), 1);
-  ASSERT_FALSE(game_tree->determined());
+  EXPECT_EQ(game_tree->get_num_leaves(), 1);
+  EXPECT_FALSE(game_tree->determined());
 
   std::vector<Board::MoveT> moves;
   moves.emplace_back(0, 0, 1.0, Player::Player1);
@@ -57,8 +57,8 @@ TEST(BFSNodeTest, TestNodeCountingFunctions) {
   moves.emplace_back(0, 2, -1.0, Player::Player1);
   game_tree->expand(moves);
 
-  ASSERT_EQ(game_tree->get_num_leaves(), 3);
-  ASSERT_FALSE(game_tree->determined());
+  EXPECT_EQ(game_tree->get_num_leaves(), 3);
+  EXPECT_FALSE(game_tree->determined());
 
   for (auto child : game_tree->get_children()) {
     moves.clear();
@@ -81,19 +81,19 @@ TEST(BFSNodeTest, TestNodeCountingFunctions) {
   // 9 nodes at depth 3, and 9 nodes at depth 4. There are 1 + 3 + 9 + 9 =
   // 22 nodes in total. Since there are 3 leaf nodes at
   // depth 3 and 9 at depth 4, the mean should be 3.75.
-  ASSERT_EQ(game_tree->get_node_count(), 22U);
-  ASSERT_EQ(game_tree->get_num_leaves(), 12U);
-  ASSERT_EQ(game_tree->get_num_internal_nodes(), 10U);
-  ASSERT_EQ(game_tree->get_mean_depth(), 3.75);
+  EXPECT_EQ(game_tree->get_node_count(), 22U);
+  EXPECT_EQ(game_tree->get_num_leaves(), 12U);
+  EXPECT_EQ(game_tree->get_num_internal_nodes(), 10U);
+  EXPECT_EQ(game_tree->get_mean_depth(), 3.75);
 
   // The average branching factor of the tree is the number of nodes in the tree
   // (not counting the root) divided by the number of internal nodes in the
   // tree, i.e., 21 / 10 = 2.1.
-  ASSERT_EQ(game_tree->get_average_branching_factor(), 2.1);
+  EXPECT_EQ(game_tree->get_average_branching_factor(), 2.1);
 
   // The best path through the tree for player 1 leads us to a position at depth
   // 4, and 4 - 1 - 1 = 2;
-  ASSERT_EQ(game_tree->get_depth_of_pv(), 2U);
+  EXPECT_EQ(game_tree->get_depth_of_pv(), 2U);
 }
 
 /**
@@ -102,8 +102,8 @@ TEST(BFSNodeTest, TestNodeCountingFunctions) {
 TEST(BFSNodeTest, TestGetBestMove) {
   using Board = NInARow::Board<1, 3, 2>;
   auto game_tree = BFSNode<Board>::create(Board(), 0.0);
-  ASSERT_EQ(game_tree->get_num_leaves(), 1);
-  ASSERT_FALSE(game_tree->determined());
+  EXPECT_EQ(game_tree->get_num_leaves(), 1);
+  EXPECT_FALSE(game_tree->determined());
 
   // Construct the entire game tree for this super simple game.
   const std::vector<Board::MoveT> first_moves{
@@ -130,29 +130,29 @@ TEST(BFSNodeTest, TestGetBestMove) {
     }
   }
 
-  ASSERT_TRUE(game_tree->determined());
+  EXPECT_TRUE(game_tree->determined());
 
   for (auto& node : *game_tree) {
     switch (node.get_depth()) {
       case 1:
         // Player 1 should play in the middle of the board in order to win.
-        ASSERT_EQ(node.get_best_move().board_position, 1U);
+        EXPECT_EQ(node.get_best_move().board_position, 1U);
         break;
       case 2:
         // Player 2 should play in the middle of the board if they can,
         // otherwise they can play anywhere. Default to the first possible move.
-        ASSERT_EQ(node.get_best_move().board_position,
+        EXPECT_EQ(node.get_best_move().board_position,
                   node.get_move().board_position == 1U ? 0U : 1U);
         break;
       case 3:
         // Player 1 must play in the remaining spot.
-        ASSERT_EQ(node.get_best_move().board_position,
+        EXPECT_EQ(node.get_best_move().board_position,
                   3 - (node.get_move().board_position +
                        node.get_parent()->get_move().board_position));
         break;
       case 4:
         // There are no more moves available.
-        ASSERT_THROW(node.get_best_move(), std::logic_error);
+        EXPECT_THROW(node.get_best_move(), std::logic_error);
         break;
       default:
         FAIL() << "This isn't a valid depth.";

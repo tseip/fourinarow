@@ -56,9 +56,9 @@
 %template(fourbynine_board) NInARow::Board<4, 9, 4>;
 %template(fourbynine_move) NInARow::Move<4, 9, 4>;
 %template(fourbynine_pattern) NInARow::Pattern<4, 9, 4>;
-%template(fourbynine_heuristic_feature_pack) NInARow::FeaturePack<NInARow::Board<4, 9, 4>>;
 %template(fourbynine_heuristic) NInARow::Heuristic<NInARow::Board<4, 9, 4>>;
 %template(fourbynine_heuristic_feature) NInARow::HeuristicFeature<NInARow::Board<4, 9, 4>>;
+%template(fourbynine_heuristic_feature_with_metadata) NInARow::HeuristicFeatureWithMetadata<NInARow::Board<4, 9, 4>>;
 %template(fourbynine_game_tree_node) Node<NInARow::Board<4, 9, 4>>;
 %template(fourbynine_bfs_node) BFSNode<NInARow::Board<4, 9, 4>>;
 
@@ -66,8 +66,8 @@
 %template(MoveVector) std::vector<NInARow::Move<4, 9, 4>>;
 %template(NodeVector) std::vector<std::shared_ptr<Node<NInARow::Board<4, 9, 4>>>>;
 %template(BFSNodeVector) std::vector<std::shared_ptr<BFSNode<NInARow::Board<4, 9, 4>>>>;
-%template(FeaturePackVector) std::vector<NInARow::FeaturePack<NInARow::Board<4, 9, 4>>>;
-%template(FeatureVector) std::vector<NInARow::HeuristicFeature<NInARow::Board<4, 9, 4>>>;
+%template(FeatureGroupWeightVector) std::vector<NInARow::FeatureGroupWeight>;
+%template(FeatureWithMetadataVector) std::vector<NInARow::HeuristicFeatureWithMetadata<NInARow::Board<4, 9, 4>>>;
 %template(Search) Search<NInARow::Heuristic<NInARow::Board<4, 9, 4>>>;
 %template(BestFirstSearch) BestFirstSearch<NInARow::Heuristic<NInARow::Board<4, 9, 4>>>;
 

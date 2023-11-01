@@ -184,6 +184,14 @@ class Board {
   }
 
   /**
+   * @return A pattern containing all empty spaces on the board.
+   */
+  PatternT get_spaces() const {
+    return ~(pieces[static_cast<size_t>(Player::Player1)].positions |
+             pieces[static_cast<size_t>(Player::Player2)].positions);
+  }
+
+  /**
    * @param p The pattern to check.
    *
    * @return The number of positions that the given player has covered in the

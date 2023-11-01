@@ -24,15 +24,23 @@ class Pattern {
  public:
   using bitset = std::bitset<BOARD_SIZE>;
 
+  /**
+   * Creates an empty pattern.
+   */
   Pattern() = default;
 
   /**
    * Creates a pattern with the specified bitset.
+   *
+   * @param positions A number containing the bitset to be represented by this
+   * pattern.
    */
   Pattern(unsigned long long positions) : Pattern(bitset{positions}) {}
 
   /**
    * Creates a pattern with the specified bitset.
+   *
+   * @param positions A bitset to be represented by this pattern.
    */
   Pattern(const bitset positions) : positions(positions) {}
 
@@ -309,6 +317,35 @@ class Pattern {
    * @return True if the given pattern is not identical to this one.
    */
   bool operator!=(const Pattern &p) const { return !(*this == p); }
+
+  /**
+   * @return A list of 1-hot positions, where each element in the list
+   * represents a single set element of the original position.
+   */
+  std::vector<Pattern> get_all_positions() const {
+    std::vector<Pattern> all_positions;
+    for (size_t i = 0; i < BOARD_SIZE; ++i) {
+      if (positions.test(i)) {
+        all_positions.emplace_back(1LLU << i);
+      }
+    }
+
+    return all_positions;
+  }
+
+  /**
+   * @return A list of indices referencing set bits in the given position.
+   */
+  std::vector<std::size_t> get_all_position_indices() const {
+    std::vector<std::size_t> position_indices;
+    for (size_t i = 0; i < BOARD_SIZE; ++i) {
+      if (positions.test(i)) {
+        position_indices.emplace_back(i);
+      }
+    }
+
+    return position_indices;
+  }
 
   /**
    * Encodes positions on the game board into a bitset, where board positions

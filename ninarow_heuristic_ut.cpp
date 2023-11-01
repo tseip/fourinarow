@@ -14,14 +14,14 @@ TEST(NInARowHeuristicTest, TestHeuristicRandomMoves) {
   heuristic->seed_generator(0);
 
   Board b;
-  ASSERT_EQ(heuristic->evaluate(b), 0);
+  EXPECT_EQ(heuristic->evaluate(b), 0);
   std::size_t moves_remaining = Board::get_max_num_moves();
   while (moves_remaining-- != 0) {
     b = b + heuristic->get_random_move(b);
-    ASSERT_EQ(heuristic->get_moves(b, Player::Player1).size(), moves_remaining);
+    EXPECT_EQ(heuristic->get_moves(b, Player::Player1).size(), moves_remaining);
   }
 
-  ASSERT_EQ(b.num_pieces(), Board::get_max_num_moves());
+  EXPECT_EQ(b.num_pieces(), Board::get_max_num_moves());
 }
 
 TEST(NInARowHeuristicTest, TestHeuristicGetBestMoveBFS) {

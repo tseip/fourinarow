@@ -280,7 +280,7 @@ class BoardDisplay(QWidget):
         self.bfs.begin_search(
             self.heuristic, self.board.active_player(), self.board)
         self.feature_list.update(
-            self.heuristic.get_feature_packs(), self.board)
+            self.heuristic, self.board)
 
     def dispatch(self):
         self.iteration += 1
@@ -351,15 +351,16 @@ class FeatureList(QListWidget):
         self.pieces = fourbynine_pattern().to_string()
         self.spaces = fourbynine_pattern().to_string()
 
-    def update(self, feature_packs, board):
+    def update(self, heuristic, board):
         self.clear()
-        for i, feature_pack in enumerate(feature_packs):
-            label = "w_act: {}, w_pass: {}, delta: {}".format(
-                feature_pack.weight_act, feature_pack.weight_pass, feature_pack.drop_rate)
-            for j, feature in enumerate(feature_pack.features):
-                if feature.is_active(board, board.active_player()):
-                    self.addItem(FeatureListItem("fp {}, idx {}: ".format(
-                        i, j) + label + " " + feature.to_string(), feature))
+        feature_group_weights = heuristic.get_feature_group_weights()
+        for i, feature in enumerate(heuristic.get_features_with_metadata()):
+            feature_group = feature_group_weights[feature.weight_index]
+            if feature.feature.contained_in(board, board.active_player()):
+                label = "w_act: {}, w_pass: {}, delta: {}".format(
+                    feature_group.weight_act, feature_group.weight_pass, feature_group.drop_rate)
+                self.addItem(FeatureListItem("idx {}: ".format(
+                    i) + label + " " + feature.feature.to_string(), feature.feature))
 
 
 class HeuristicViewToggleRadio(QWidget):

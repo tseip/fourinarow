@@ -424,55 +424,55 @@ TEST(NInARowPatternTest, TestComparison) {
       "101"
       "010"
       "101");
-  ASSERT_EQ(test_pattern.count_overlap(test_pattern),
+  EXPECT_EQ(test_pattern.count_overlap(test_pattern),
             test_pattern.positions.count());
 
-  ASSERT_EQ(test_pattern.count_spaces(test_pattern), 0U);
+  EXPECT_EQ(test_pattern.count_spaces(test_pattern), 0U);
 
-  ASSERT_TRUE(test_pattern.contains(test_pattern));
+  EXPECT_TRUE(test_pattern.contains(test_pattern));
 
   Pattern all("111111111");
-  ASSERT_EQ(test_pattern.count_overlap(all), test_pattern.positions.count());
-  ASSERT_EQ(all.count_overlap(test_pattern), test_pattern.positions.count());
+  EXPECT_EQ(test_pattern.count_overlap(all), test_pattern.positions.count());
+  EXPECT_EQ(all.count_overlap(test_pattern), test_pattern.positions.count());
 
-  ASSERT_EQ(test_pattern.count_spaces(all), 4U);
-  ASSERT_EQ(all.count_spaces(test_pattern), 0U);
+  EXPECT_EQ(test_pattern.count_spaces(all), 4U);
+  EXPECT_EQ(all.count_spaces(test_pattern), 0U);
 
-  ASSERT_FALSE(test_pattern.contains(all));
-  ASSERT_TRUE(all.contains(test_pattern));
+  EXPECT_FALSE(test_pattern.contains(all));
+  EXPECT_TRUE(all.contains(test_pattern));
 
   Pattern none;
-  ASSERT_EQ(test_pattern.count_overlap(none), 0U);
-  ASSERT_EQ(none.count_overlap(test_pattern), 0U);
+  EXPECT_EQ(test_pattern.count_overlap(none), 0U);
+  EXPECT_EQ(none.count_overlap(test_pattern), 0U);
 
-  ASSERT_EQ(test_pattern.count_spaces(none), 0U);
-  ASSERT_EQ(none.count_spaces(test_pattern), test_pattern.positions.count());
+  EXPECT_EQ(test_pattern.count_spaces(none), 0U);
+  EXPECT_EQ(none.count_spaces(test_pattern), test_pattern.positions.count());
 
-  ASSERT_TRUE(test_pattern.contains(none));
-  ASSERT_FALSE(none.contains(test_pattern));
+  EXPECT_TRUE(test_pattern.contains(none));
+  EXPECT_FALSE(none.contains(test_pattern));
 
   Pattern anti_test_pattern(~test_pattern.positions);
-  ASSERT_EQ(test_pattern.count_overlap(anti_test_pattern), 0U);
-  ASSERT_EQ(anti_test_pattern.count_overlap(test_pattern), 0U);
+  EXPECT_EQ(test_pattern.count_overlap(anti_test_pattern), 0U);
+  EXPECT_EQ(anti_test_pattern.count_overlap(test_pattern), 0U);
 
-  ASSERT_EQ(test_pattern.count_spaces(anti_test_pattern),
+  EXPECT_EQ(test_pattern.count_spaces(anti_test_pattern),
             anti_test_pattern.positions.count());
-  ASSERT_EQ(anti_test_pattern.count_spaces(test_pattern),
+  EXPECT_EQ(anti_test_pattern.count_spaces(test_pattern),
             test_pattern.positions.count());
 
-  ASSERT_FALSE(test_pattern.contains(anti_test_pattern));
-  ASSERT_FALSE(anti_test_pattern.contains(test_pattern));
+  EXPECT_FALSE(test_pattern.contains(anti_test_pattern));
+  EXPECT_FALSE(anti_test_pattern.contains(test_pattern));
 
   Pattern sub_pattern(
       "100"
       "010"
       "001");
-  ASSERT_EQ(test_pattern.count_overlap(sub_pattern), 3U);
-  ASSERT_EQ(sub_pattern.count_overlap(test_pattern), 3U);
+  EXPECT_EQ(test_pattern.count_overlap(sub_pattern), 3U);
+  EXPECT_EQ(sub_pattern.count_overlap(test_pattern), 3U);
 
-  ASSERT_EQ(test_pattern.count_spaces(sub_pattern), 0U);
-  ASSERT_EQ(sub_pattern.count_spaces(test_pattern), 2U);
+  EXPECT_EQ(test_pattern.count_spaces(sub_pattern), 0U);
+  EXPECT_EQ(sub_pattern.count_spaces(test_pattern), 2U);
 
-  ASSERT_TRUE(test_pattern.contains(sub_pattern));
-  ASSERT_FALSE(sub_pattern.contains(test_pattern));
+  EXPECT_TRUE(test_pattern.contains(sub_pattern));
+  EXPECT_FALSE(sub_pattern.contains(test_pattern));
 }

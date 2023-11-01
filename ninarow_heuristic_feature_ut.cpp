@@ -17,7 +17,7 @@ TEST(NInARowHeuristicFeatureTest, TestHeuristicFeature) {
    * .o.
    * o.o
    * where x is a piece, . is don't care, and o is a space.
-   * IF we are in this position and either o is unoccupied, we have a win.
+   * If we are in this position and either o is unoccupied, we have a win.
    */
   HeuristicFeature<Board> feature{{0b000000101}, {0b101010000}, 2};
 
@@ -25,74 +25,81 @@ TEST(NInARowHeuristicFeatureTest, TestHeuristicFeature) {
   Board board;
   board.add({0, 0, 0.0, Player::Player1});
 
-  ASSERT_FALSE(feature.contained(board, Player::Player1));
-  ASSERT_FALSE(feature.contained(board, Player::Player2));
-  ASSERT_TRUE(feature.is_active(board, Player::Player1));
-  ASSERT_FALSE(feature.is_active(board, Player::Player2));
-  ASSERT_FALSE(feature.just_active(board, Player::Player1));
-  ASSERT_FALSE(feature.just_active(board, Player::Player2));
-  ASSERT_EQ(Board::PatternT{0b000000100},
+  EXPECT_FALSE(feature.contained_in(board, Player::Player1));
+  EXPECT_FALSE(feature.contained_in(board, Player::Player2));
+  EXPECT_TRUE(feature.can_be_completed(board, Player::Player1));
+  EXPECT_FALSE(feature.can_be_completed(board, Player::Player2));
+  EXPECT_FALSE(feature.can_be_removed(board, Player::Player1));
+  EXPECT_FALSE(feature.can_be_removed(board, Player::Player2));
+  EXPECT_EQ(Board::PatternT{0b000000100},
             feature.missing_pieces(board, Player::Player1));
-  ASSERT_EQ(Board::PatternT{0b000000101},
+  EXPECT_EQ(Board::PatternT{0b000000101},
             feature.missing_pieces(board, Player::Player2));
+  EXPECT_EQ(1, feature.count_pieces(board, Player::Player1));
+  EXPECT_EQ(0, feature.count_pieces(board, Player::Player2));
+  EXPECT_EQ(3, feature.count_spaces(board));
 
   // Player 2 encroaches.
   board.add({0, 2, 0.0, Player::Player2});
-  ASSERT_FALSE(feature.contained(board, Player::Player1));
-  ASSERT_FALSE(feature.contained(board, Player::Player2));
-  ASSERT_FALSE(feature.is_active(board, Player::Player1));
-  ASSERT_FALSE(feature.is_active(board, Player::Player2));
-  ASSERT_FALSE(feature.just_active(board, Player::Player1));
-  ASSERT_FALSE(feature.just_active(board, Player::Player2));
-  ASSERT_EQ(Board::PatternT{0b000000100},
+  EXPECT_FALSE(feature.contained_in(board, Player::Player1));
+  EXPECT_FALSE(feature.contained_in(board, Player::Player2));
+  EXPECT_FALSE(feature.can_be_completed(board, Player::Player1));
+  EXPECT_FALSE(feature.can_be_completed(board, Player::Player2));
+  EXPECT_FALSE(feature.can_be_removed(board, Player::Player1));
+  EXPECT_FALSE(feature.can_be_removed(board, Player::Player2));
+  EXPECT_EQ(Board::PatternT{0b000000100},
             feature.missing_pieces(board, Player::Player1));
-  ASSERT_EQ(Board::PatternT{0b000000001},
+  EXPECT_EQ(Board::PatternT{0b000000001},
             feature.missing_pieces(board, Player::Player2));
+  EXPECT_EQ(1, feature.count_pieces(board, Player::Player1));
+  EXPECT_EQ(1, feature.count_pieces(board, Player::Player2));
+  EXPECT_EQ(3, feature.count_spaces(board));
 
+  // Remove Player 2's encroachment and replace it with Player 1.
   board.remove({0, 2, 0.0, Player::Player2});
   board.add({0, 1, 0.0, Player::Player2});
   board.add({0, 2, 0.0, Player::Player1});
-  ASSERT_TRUE(feature.contained(board, Player::Player1));
-  ASSERT_FALSE(feature.contained(board, Player::Player2));
-  ASSERT_TRUE(feature.is_active(board, Player::Player1));
-  ASSERT_FALSE(feature.is_active(board, Player::Player2));
-  ASSERT_FALSE(feature.just_active(board, Player::Player1));
-  ASSERT_FALSE(feature.just_active(board, Player::Player2));
-  ASSERT_EQ(Board::PatternT{0}, feature.missing_pieces(board, Player::Player1));
-  ASSERT_EQ(Board::PatternT{0b000000101},
+  EXPECT_TRUE(feature.contained_in(board, Player::Player1));
+  EXPECT_FALSE(feature.contained_in(board, Player::Player2));
+  EXPECT_FALSE(feature.can_be_completed(board, Player::Player1));
+  EXPECT_FALSE(feature.can_be_completed(board, Player::Player2));
+  EXPECT_FALSE(feature.can_be_removed(board, Player::Player1));
+  EXPECT_FALSE(feature.can_be_removed(board, Player::Player2));
+  EXPECT_EQ(Board::PatternT{0}, feature.missing_pieces(board, Player::Player1));
+  EXPECT_EQ(Board::PatternT{0b000000101},
             feature.missing_pieces(board, Player::Player2));
+  EXPECT_EQ(2, feature.count_pieces(board, Player::Player1));
+  EXPECT_EQ(0, feature.count_pieces(board, Player::Player2));
+  EXPECT_EQ(3, feature.count_spaces(board));
 
-  // Cover a space in the pattern from player 2. just_active should now become
-  // true.
+  // Cover a space in the pattern from player 2. can_be_removed should now
+  // become true.
   board.add({2, 0, 0.0, Player::Player2});
-  ASSERT_TRUE(feature.contained(board, Player::Player1));
-  ASSERT_FALSE(feature.contained(board, Player::Player2));
-  ASSERT_TRUE(feature.is_active(board, Player::Player1));
-  ASSERT_FALSE(feature.is_active(board, Player::Player2));
-  ASSERT_TRUE(feature.just_active(board, Player::Player1));
-  ASSERT_FALSE(feature.just_active(board, Player::Player2));
-  ASSERT_EQ(Board::PatternT{0}, feature.missing_pieces(board, Player::Player1));
-  ASSERT_EQ(Board::PatternT{0b000000101},
+  EXPECT_TRUE(feature.contained_in(board, Player::Player1));
+  EXPECT_FALSE(feature.contained_in(board, Player::Player2));
+  EXPECT_FALSE(feature.can_be_completed(board, Player::Player1));
+  EXPECT_FALSE(feature.can_be_completed(board, Player::Player2));
+  EXPECT_TRUE(feature.can_be_removed(board, Player::Player1));
+  EXPECT_FALSE(feature.can_be_removed(board, Player::Player2));
+  EXPECT_EQ(Board::PatternT{0}, feature.missing_pieces(board, Player::Player1));
+  EXPECT_EQ(Board::PatternT{0b000000101},
             feature.missing_pieces(board, Player::Player2));
+  EXPECT_EQ(2, feature.count_pieces(board, Player::Player1));
+  EXPECT_EQ(0, feature.count_pieces(board, Player::Player2));
+  EXPECT_EQ(2, feature.count_spaces(board));
 
   // Cover another space. Now the feature should be inactive.
   board.add({1, 1, 0.0, Player::Player1});
-  ASSERT_TRUE(feature.contained(board, Player::Player1));
-  ASSERT_FALSE(feature.contained(board, Player::Player2));
-  ASSERT_FALSE(feature.is_active(board, Player::Player1));
-  ASSERT_FALSE(feature.is_active(board, Player::Player2));
-  ASSERT_FALSE(feature.just_active(board, Player::Player1));
-  ASSERT_FALSE(feature.just_active(board, Player::Player2));
-  ASSERT_EQ(Board::PatternT{0}, feature.missing_pieces(board, Player::Player1));
-  ASSERT_EQ(Board::PatternT{0b000000101},
+  EXPECT_FALSE(feature.contained_in(board, Player::Player1));
+  EXPECT_FALSE(feature.contained_in(board, Player::Player2));
+  EXPECT_FALSE(feature.can_be_completed(board, Player::Player1));
+  EXPECT_FALSE(feature.can_be_completed(board, Player::Player2));
+  EXPECT_FALSE(feature.can_be_removed(board, Player::Player1));
+  EXPECT_FALSE(feature.can_be_removed(board, Player::Player2));
+  EXPECT_EQ(Board::PatternT{0}, feature.missing_pieces(board, Player::Player1));
+  EXPECT_EQ(Board::PatternT{0b000000101},
             feature.missing_pieces(board, Player::Player2));
-
-  // Test contains_spaces.
-  ASSERT_TRUE(feature.contains_spaces(Board::PatternT{0}));
-  ASSERT_TRUE(feature.contains_spaces(Board::PatternT{0b000010000}));
-  ASSERT_TRUE(feature.contains_spaces(Board::PatternT{0b001010000}));
-  ASSERT_TRUE(feature.contains_spaces(Board::PatternT{0b101010000}));
-
-  ASSERT_FALSE(feature.contains_spaces(Board::PatternT{0b111010000}));
-  ASSERT_FALSE(feature.contains_spaces(Board::PatternT{0b010000000}));
+  EXPECT_EQ(2, feature.count_pieces(board, Player::Player1));
+  EXPECT_EQ(0, feature.count_pieces(board, Player::Player2));
+  EXPECT_EQ(1, feature.count_spaces(board));
 }

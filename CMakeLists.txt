@@ -26,6 +26,14 @@ FetchContent_Declare(
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 
+FetchContent_Declare(
+      Eigen
+      GIT_REPOSITORY    https://gitlab.com/libeigen/eigen.git
+      GIT_TAG           master
+    )
+FetchContent_MakeAvailable(Eigen)
+
+find_package(Eigen3 3.3 REQUIRED NO_MODULE)
 find_package(SWIG REQUIRED)
 find_package(PythonLibs REQUIRED)
 
@@ -45,11 +53,13 @@ add_executable(tests
   ninarow_board_ut.cpp
   ninarow_heuristic_ut.cpp
   ninarow_heuristic_feature_ut.cpp
+  ninarow_vectorized_feature_evaluator_ut.cpp
   ninarow_move_ut.cpp
   ninarow_pattern_ut.cpp
 )
 target_link_libraries(tests
   GTest::gtest_main
+  Eigen3::Eigen
 )
 
 include(GoogleTest)
@@ -59,7 +69,10 @@ SET_SOURCE_FILES_PROPERTIES(fourbynine.i PROPERTIES CPLUSPLUS ON)
 SWIG_ADD_LIBRARY(swig_fourbynine TYPE SHARED LANGUAGE python OUTPUT_DIR "../model_fitting" OUTFILE_DIR "./" SOURCES fourbynine.i)
 set_property(TARGET swig_fourbynine PROPERTY SWIG_USE_TARGET_INCLUDE_DIRECTORIES TRUE)
 target_include_directories(swig_fourbynine PUBLIC "./")
-target_link_libraries(swig_fourbynine ${PYTHON_LIBRARIES})
+target_link_libraries(swig_fourbynine
+  ${PYTHON_LIBRARIES}
+  Eigen3::Eigen
+)
 
 add_custom_command(TARGET swig_fourbynine POST_BUILD 
   COMMAND "${CMAKE_COMMAND}" -E copy 

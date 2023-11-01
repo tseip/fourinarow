@@ -27,43 +27,51 @@ def create_feature(white_pieces, black_pieces, min_occupancy):
 
 
 def create_custom_heuristic():
-    # Creating a heuristic with a single feature pack
+    # Creating a heuristic with a single feature group
     heuristic_params = DoubleVector([7.0, 5.0, 0.01, 0.01, 1.0, 0.0, 1.0])
     heuristic = fourbynine_heuristic.create(heuristic_params, False)
-    heuristic.add_feature_pack(0.8, 0.8, 0.2)
+    heuristic.add_feature_group(0.8, 0.8, 0.2)
     heuristic.add_feature(0, create_feature(0x3, 0xc, 2))
     heuristic.add_feature(0, create_feature(0x600, 0x1800, 2))
     return heuristic
 
 
 def modify_default_heuristic():
-    # Taking the default heuristic and adding a new pack of features as well
-    # as modifying an old feature and an old feature pack.
+    # Taking the default heuristic and adding a new group of features as well
+    # as modifying an old feature and an old feature group.
     heuristic = fourbynine_heuristic.create()
-    feature_packs = heuristic.get_feature_packs()
+    feature_group_weights = heuristic.get_feature_group_weights()
+    features = heuristic.get_features_with_metadata()
 
-    # Replace a feature in the first pack, and remove a feature
-    feature_packs[0].features[0] = create_feature(0x1, 0x2, 2)
-    feature_packs[0].weight_act = 0.75
-    feature_packs[0].features.erase(feature_packs[0].features.begin() + 1)
+    # Replace a feature and remove a feature
+    features[0].feature = create_feature(0x1, 0x2, 2)
 
-    # Disable the second feature pack entirely
-    feature_packs[1].weight_act = 0.0
-    feature_packs[1].weight_pass = 0.0
-    feature_packs[1].drop_rate = 1.0
+    # Move this feature to group 1
+    features[0].group_index = 1
 
-    # Add a new feature pack
-    heuristic.add_feature_pack(0.1, 0.2, 0.3)
+    # Change the weighting of all features in group 0.
+    feature_group_weights[0].weight_act = 0.75
+
+    # Erase the second feature.
+    features.erase(features.begin() + 1)
+
+    # Disable the second feature group entirely
+    feature_group_weights[1].weight_act = 0.0
+    feature_group_weights[1].weight_pass = 0.0
+    feature_group_weights[1].drop_rate = 1.0
+
+    # Add a new feature group
+    heuristic.add_feature_group(0.1, 0.2, 0.3)
     heuristic.add_feature(17, create_feature(0x3, 0xc, 2))
     return heuristic
 
 
 def create_triangle_heuristic():
-    # Taking the default heuristic and adding a new pack of features.
+    # Taking the default heuristic and adding a new group of features.
     heuristic = fourbynine_heuristic.create()
 
-    # Add a new feature pack. These weights are arbitrary.
-    heuristic.add_feature_pack(0.8, 0.2, 0.2)
+    # Add a new feature group. These weights are arbitrary.
+    heuristic.add_feature_group(0.8, 0.2, 0.2)
 
     # Construct the features we want.
     triangle_features = []
