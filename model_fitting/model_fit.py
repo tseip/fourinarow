@@ -167,16 +167,14 @@ class ModelFitter:
         times = (self.c * interp1(p)) / np.mean(interp2(p))
         return np.vectorize(lambda x: max(x, 1))(np.round(times))
 
-    def fit_model(self, moves):
+    def estimate_l_values(self, moves, params, sample_count):
         move_tasks = {}
         for move in moves:
             move_tasks[move] = SuccessFrequencyTracker(self.expt_factor)
-        print("Beginning model fit pre-processing: log-likelihood estimation")
-        l_value_sample_count = 10
         l_values = []
-        for i in tqdm(range(l_value_sample_count)):
+        for i in tqdm(range(sample_count)):
             l_values.append(self.compute_loglik(
-                move_tasks, self.bads_parameters_to_model_parameters(self.x0)))
+                move_tasks, self.bads_parameters_to_model_parameters(params)))
         average_l_values = []
         for move in tqdm(moves):
             average = 0.0
@@ -184,8 +182,16 @@ class ModelFitter:
                 average += l_value[move]
             average /= len(l_values)
             average_l_values.append(average)
+        return average_l_values
+
+    def fit_model(self, moves):
+        print("Beginning model fit pre-processing: log-likelihood estimation")
+        average_l_values = self.estimate_l_values(moves, self.x0, 10)
         counts = self.generate_attempt_counts(
             np.array(average_l_values), self.c)
+        move_tasks = {}
+        for move in moves:
+            move_tasks[move] = SuccessFrequencyTracker(self.expt_factor)
         for i in range(len(counts)):
             move_tasks[moves[i]].required_success_count = int(counts[i])
 
@@ -217,10 +223,10 @@ class ModelFitter:
         bads = BADS(opt_fun, self.x0, self.lb, self.ub,
                     self.plb, self.pub, options=badsopts)
         out_params = bads.optimize()['x']
-        l_values = []
-        for i in range(l_value_sample_count):
-            l_values.append(opt_fun(out_params))
-        return out_params, l_values
+        print("Final estimated params: {}".format(out_params))
+        print("Beginning model fit post-processing: log-likelihood estimation")
+        final_l_values = self.estimate_l_values(moves, out_params, 10)
+        return out_params, final_l_values
 
     def cross_validate(self, groups, i):
         print("Cross validating split {} against the other {} splits".format(
