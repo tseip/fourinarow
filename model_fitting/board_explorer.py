@@ -319,19 +319,21 @@ class MoveList(QListWidget):
     def _itemChanged(self):
         if self.currentItem():
             self.board_view.hover = self.currentItem().board_position
+        else:
+            self.board_view.hover = None
 
     def _update(self, moves):
-        currentItem = self.currentItem()
-        if currentItem:
-            currentPosition = currentItem.board_position
+        old_item = self.currentItem()
+        if old_item:
+            old_position = old_item.board_position
         else:
-            currentPosition = 0
+            old_position = 0
         self.clear()
         reverse = not player_to_bool(self.board_view.board.active_player())
         for move in sorted(moves, key=fourbynine_game_tree_node.get_value, reverse=reverse):
             self.addItem(MoveListItem(move))
         for i in range(self.count()):
-            if (self.item(i).board_position == currentPosition):
+            if (self.item(i).board_position == old_position):
                 self.setCurrentRow(i)
                 break
 
@@ -391,40 +393,167 @@ class HeuristicViewToggleRadio(QWidget):
 class LoadPositionsWidget(QWidget):
     def __init__(self, board_view):
         super().__init__(board_view)
+
+        self.start_bound = 0
+        self.end_bound = 0
+
         self.board_view = board_view
-        layout = QHBoxLayout()
-        self.load_button = QPushButton("Load")
+        layout = QVBoxLayout()
+
+        top_widget = QWidget()
+        top_layout = QHBoxLayout()
+        top_widget.setLayout(top_layout)
+        layout.addWidget(top_widget)
+
+        top_layout.addWidget(QLabel("Positions:"))
+        self.position_combo_box = QComboBox()
+        top_layout.addWidget(self.position_combo_box)
+        self.display_position_button = QPushButton("Display position")
+        self.display_position_button.clicked.connect(self.display_position)
+        top_layout.addWidget(self.display_position_button)
+
+        bottom_widget = QWidget()
+        bottom_layout = QHBoxLayout()
+        bottom_widget.setLayout(bottom_layout)
+        layout.addWidget(bottom_widget)
+
+        bottom_layout.addWidget(QLabel("Detected games:"))
+        self.game_combo_box = QComboBox()
+        bottom_layout.addWidget(self.game_combo_box)
+        self.display_game_button = QPushButton("Display game")
+        self.display_game_button.clicked.connect(self.display_game)
+        bottom_layout.addWidget(self.display_game_button)
+
+        navigation_widget = QWidget()
+        navigation_layout = QHBoxLayout()
+        navigation_widget.setLayout(navigation_layout)
+        layout.addWidget(navigation_widget)
+
+        self.to_beginning_button = QPushButton("<<")
+        self.to_beginning_button.setEnabled(False)
+        self.to_beginning_button.clicked.connect(self.to_beginning)
+        self.back_button = QPushButton("<")
+        self.back_button.setEnabled(False)
+        self.back_button.clicked.connect(self.back)
+        self.current_position_label = QLabel("0 / 0")
+        self.current_position_label.setAlignment(Qt.AlignmentFlag.AlignHCenter)
+        self.forward_button = QPushButton(">")
+        self.forward_button.setEnabled(False)
+        self.forward_button.clicked.connect(self.forward)
+        self.to_end_button = QPushButton(">>")
+        self.to_end_button.setEnabled(False)
+        self.to_end_button.clicked.connect(self.to_end)
+
+        self.position_combo_box.setEnabled(False)
+        self.display_position_button.setEnabled(False)
+        self.game_combo_box.setEnabled(False)
+        self.display_game_button.setEnabled(False)
+
+        navigation_layout.addWidget(self.to_beginning_button)
+        navigation_layout.addWidget(self.back_button)
+        navigation_layout.addWidget(self.current_position_label)
+        navigation_layout.addWidget(self.forward_button)
+        navigation_layout.addWidget(self.to_end_button)
+
+        self.load_button = QPushButton("Load positions from file")
         self.load_button.clicked.connect(self.load)
         layout.addWidget(self.load_button)
-        self.combo_box = QComboBox()
-        layout.addWidget(self.combo_box)
-        self.display_button = QPushButton("Display")
-        self.display_button.clicked.connect(self.display)
-        layout.addWidget(self.display_button)
+
         self.setLayout(layout)
         self.board_view = board_view
 
+    def reset_bounds(self):
+        self.start_bound = 0
+        self.end_bound = max(self.position_combo_box.count() - 1, 0)
+
+    def to_beginning(self):
+        self.set_position(self.start_bound)
+
+    def forward(self):
+        self.set_position(
+            min(self.end_bound, self.position_combo_box.currentIndex() + 1))
+
+    def back(self):
+        self.set_position(
+            max(self.start_bound, self.position_combo_box.currentIndex() - 1))
+
+    def to_end(self):
+        self.set_position(self.end_bound)
+
     def parse_move(self, move):
         return (str(move).replace("\t", " "), move.board, move.move)
+
+    def parse_games(self, moves):
+        games = []
+        i = 0
+        while i < len(moves):
+            if (moves[i].board == fourbynine_board()):
+                j = i
+                while (j + 1 < len(moves) and moves[j + 1].board == moves[j].board + moves[j].move):
+                    j += 1
+                if (i != j):
+                    game_name = "{} vs {}: elements {} - {}".format(
+                        moves[i].participant_id, moves[i + 1].participant_id, i, j)
+                    games.append((game_name, i, j))
+                i = j + 1
+            else:
+                i += 1
+        return games
 
     def load(self):
         dialog = QFileDialog(self)
         dialog.setFileMode(QFileDialog.FileMode.ExistingFiles)
         if dialog.exec():
             filenames = dialog.selectedFiles()
-            self.combo_box.clear()
+            self.position_combo_box.clear()
             moves = []
             for f in filenames:
-                moves.extend(parse_participant_file(f))
-            for move in moves:
-                display_text, b, m = self.parse_move(move)
-                self.combo_box.addItem(display_text, (b, m))
+                try:
+                    moves.extend(parse_participant_file(f))
+                    for move in moves:
+                        display_text, b, m = self.parse_move(move)
+                        self.position_combo_box.addItem(display_text, (b, m))
+                except Exception:
+                    print("Could not parse input file {}".format(f))
+            games = self.parse_games(moves)
+            for game in games:
+                self.game_combo_box.addItem(game[0], (game[1], game[2]))
+            positions_exist = self.position_combo_box.count() > 0
+            self.position_combo_box.setEnabled(positions_exist)
+            self.display_position_button.setEnabled(positions_exist)
+            games_exist = self.game_combo_box.count() > 0
+            self.game_combo_box.setEnabled(games_exist)
+            self.display_game_button.setEnabled(games_exist)
+            self.display_position()
 
-    def display(self):
-        idx = self.combo_box.currentIndex()
-        if (idx >= 0):
-            board, move = self.combo_box.itemData(idx)
+    def display_position(self):
+        self.reset_bounds()
+        self.set_position(self.position_combo_box.currentIndex())
+
+    def set_position(self, idx):
+        if (idx >= 0 and idx < self.position_combo_box.count()):
+            self.position_combo_box.setCurrentIndex(idx)
+            board, move = self.position_combo_box.itemData(idx)
             self.board_view.set_board(board, move.board_position)
+            self.to_beginning_button.setEnabled(idx != self.start_bound)
+            self.back_button.setEnabled(idx != self.start_bound)
+            self.forward_button.setEnabled(idx != self.end_bound)
+            self.to_end_button.setEnabled(idx != self.end_bound)
+            self.current_position_label.setText(
+                "{} / {}".format(idx - self.start_bound + 1, self.end_bound - self.start_bound + 1))
+        else:
+            self.to_beginning_button.setEnabled(False)
+            self.back_button.setEnabled(False)
+            self.forward_button.setEnabled(False)
+            self.to_end_button.setEnabled(False)
+            self.current_position_label.setText("{} / {}".format(0, 0))
+
+    def display_game(self):
+        idx = self.game_combo_box.currentIndex()
+        if idx >= 0:
+            self.start_bound, self.end_bound = self.game_combo_box.itemData(
+                idx)
+            self.set_position(self.start_bound)
 
 
 class MainWindow(QMainWindow):

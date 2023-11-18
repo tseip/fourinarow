@@ -75,7 +75,7 @@ class CSVMove:
             return CSVMove(board, move, time, group_id, participant_id)
         else:
             raise Exception(
-                "Given input has incorrect number of parameters (expected 6 or 7): " + csv_string)
+                "Given input has incorrect number of parameters (expected 6 or 7): " + line)
 
     def __init__(
             self,
@@ -149,7 +149,13 @@ def _parse_participant_csv(lines, group_id=1):
     Returns:
         A list of CSVMove objects, one for each valid line passed in.
     """
-    return [CSVMove.create(line) for line in lines]
+    moves = []
+    for line in lines:
+        if line.isspace():
+            continue
+        else:
+            moves.append(CSVMove.create(line))
+    return moves
 
 
 def _parse_participant_json(json_file, group_id=1, participant_id="1"):
