@@ -1,5 +1,5 @@
 from fourbynine import *
-from parsers import parse_participant_file
+from parsers import parse_participant_file, parse_bads_parameter_file_to_model_parameters
 import argparse
 import random
 from tqdm import tqdm
@@ -40,12 +40,24 @@ def calculate_tree_statistics_from_file(path, heuristic, num_samples=10):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument(
-        "path",
+        "-f",
+        "--participant_file",
         help="The file containing a list of positions to analyze.",
+        required=True,
+        type=str)
+    parser.add_argument(
+        "-p",
+        "--params",
+        help="The file containing the parameters for the model.",
         type=str)
     args = parser.parse_args()
+    if args.params:
+        params = parse_bads_parameter_file_to_model_parameters(args.params)
+        heuristic = fourbynine_heuristic.create(DoubleVector(params), True)
+    else:
+        heuristic = fourbynine_heuristic.create()
     print("Average planning depth: {}, Average branching factor: {}".format(
-        *calculate_tree_statistics_from_file(args.path, fourbynine_heuristic.create())))
+        *calculate_tree_statistics_from_file(args.participant_file, heuristic)))
 
 
 if __name__ == "__main__":
