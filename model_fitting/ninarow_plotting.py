@@ -73,7 +73,7 @@ class SearchRenderer():
         self.root = None
         self.g = None
         self.max_branching_factor = 5
-        self.max_depth = None
+        self.max_depth = 0
         self.board_size = 0.3
         self.board_axes = []
         self.onclick_callback = lambda board: None
@@ -94,18 +94,6 @@ class SearchRenderer():
         self.root = None
         self.g = None
 
-    def set_max_branching_factor(self, max_branching_factor):
-        self.max_branching_factor = max_branching_factor
-        self.set_root(self.root)
-
-    def set_max_depth(self, max_depth):
-        self.max_depth = max_depth
-        self.set_root(self.root)
-
-    def set_board_size(self, board_size):
-        self.board_size = board_size
-        self.draw()
-
     def set_root(self, root):
         self.clear()
         self.root = root
@@ -121,7 +109,7 @@ class SearchRenderer():
 
     def _populate_graph(self):
         self.g = nx.Graph()
-        active_player = self.root.get_board().active_player()
+        reverse = not player_to_bool(self.root.get_board().active_player())
         nodes_to_process = [self.root]
         while nodes_to_process:
             node = nodes_to_process.pop(0)
@@ -132,7 +120,7 @@ class SearchRenderer():
             if (node.get_parent()):
                 self.g.add_edge(node.get_parent().get_board().to_string(
                 ), node.get_board().to_string(), weight=node.get_value())
-            for i, child in enumerate(sorted(node.get_children(), key=fourbynine_game_tree_node.get_value, reverse=active_player == node.get_board().active_player())):
+            for i, child in enumerate(sorted(node.get_children(), key=fourbynine_game_tree_node.get_value, reverse=reverse)):
                 if self.max_branching_factor and i >= self.max_branching_factor:
                     break
                 nodes_to_process.append(child)
@@ -154,9 +142,10 @@ class SearchRenderer():
             br.set_board(board)
 
     def onclick(self, event):
-        for axis, board in self.board_axes:
-            if (axis.in_axes(event)):
-                self.onclick_callback(board)
+        if event.dblclick and event.button == 1:
+            for axis, board in self.board_axes:
+                if (axis.in_axes(event)):
+                    self.onclick_callback(board)
 
 
 def main():

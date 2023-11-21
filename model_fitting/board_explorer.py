@@ -1,6 +1,6 @@
 from fourbynine import *
 from parsers import parse_participant_file, parse_bads_parameter_file_to_model_parameters
-from ninarow_plotting import BoardRenderer
+from ninarow_plotting import BoardRenderer, SearchRenderer
 import random
 import time
 import matplotlib.pyplot as plt
@@ -22,6 +22,61 @@ def pattern_string_to_board_positions(pattern_string):
         if pattern_string[-i-1] == "1":
             output.append(i)
     return output
+
+
+class TreeView(QMainWindow):
+    def __init__(self, parent):
+        super().__init__(parent)
+
+        self.parent = parent
+
+        self.fig = FigureCanvas(Figure(figsize=(10, 10)))
+        self.ax = self.fig.figure.add_subplot(111, aspect='auto')
+        self.renderer = SearchRenderer(self.ax)
+        self.fig.mpl_connect('button_press_event', self.renderer.onclick)
+        self.renderer.register_onclick_callback(
+            lambda board: self.parent.set_board(board))
+        self.setWindowTitle("Tree View")
+
+        tree_view_settings_widget = QWidget()
+        tree_view_settings_layout = QHBoxLayout()
+        tree_view_settings_layout.addWidget(QLabel("Max branching factor:"))
+        self.max_branching_factor = QLineEdit(
+            str(self.renderer.max_branching_factor))
+        tree_view_settings_layout.addWidget(self.max_branching_factor)
+        tree_view_settings_layout.addWidget(QLabel("Max depth:"))
+        self.max_depth = QLineEdit(str(self.renderer.max_depth))
+        tree_view_settings_layout.addWidget(self.max_depth)
+        tree_view_settings_layout.addWidget(QLabel("Board size:"))
+        self.board_size = QLineEdit(str(self.renderer.board_size))
+        tree_view_settings_layout.addWidget(self.board_size)
+        update_button = QPushButton("Update")
+        update_button.clicked.connect(self.update)
+        tree_view_settings_layout.addWidget(update_button)
+
+        tree_view_settings_widget.setLayout(tree_view_settings_layout)
+
+        mpl_layout = QVBoxLayout()
+        mpl_layout.addWidget(self.fig)
+        mpl_layout.addWidget(NavigationToolbar(self.fig, self))
+        mpl_layout.addWidget(tree_view_settings_widget)
+        widget = QWidget()
+        widget.setLayout(mpl_layout)
+        self.setCentralWidget(widget)
+
+    def update(self):
+        self.renderer.max_branching_factor = int(
+            self.max_branching_factor.displayText())
+        self.renderer.max_depth = int(self.max_depth.displayText())
+        self.renderer.board_size = float(self.board_size.displayText())
+        bfs = self.parent.bfs
+        if bfs.root_valid():
+            self.renderer.set_root(bfs.get_tree())
+        self.fig.figure.canvas.draw()
+
+    def open_view(self):
+        self.update()
+        self.show()
 
 
 class HeuristicParameters(QMainWindow):
@@ -121,6 +176,7 @@ class BoardDisplay(QWidget):
         self.iteration = 0
         self.heuristic_values = []
         self.heuristic_view = True
+        self.tree_view = TreeView(self)
         self.parameter_editor = HeuristicParameters(self)
         self.feature_list = feature_list
         self.feature_list_toggle = feature_list_toggle
@@ -167,15 +223,19 @@ class BoardDisplay(QWidget):
         seed_layout.addWidget(seed_button)
         noise_widget.setLayout(seed_layout)
 
-        button = QPushButton("Edit heuristic parameters")
-        button.clicked.connect(self.parameter_editor.open_edit)
+        params_button = QPushButton("Edit heuristic parameters")
+        params_button.clicked.connect(self.parameter_editor.open_edit)
+
+        tree_button = QPushButton("Open tree view")
+        tree_button.clicked.connect(self.tree_view.open_view)
 
         splitter.addWidget(board_widget)
         splitter.addWidget(HeuristicViewToggleRadio(self))
         splitter.addWidget(LoadPositionsWidget(self))
         splitter.addWidget(middle_widget)
         splitter.addWidget(noise_widget)
-        splitter.addWidget(button)
+        splitter.addWidget(params_button)
+        splitter.addWidget(tree_button)
 
         splitter.setHandleWidth(10)
 
