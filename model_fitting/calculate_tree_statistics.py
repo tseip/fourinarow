@@ -3,14 +3,7 @@ from parsers import parse_participant_file, parse_bads_parameter_file_to_model_p
 import argparse
 import random
 from tqdm import tqdm
-
-
-def search_from_position(position, heuristic, noise_enabled=True):
-    heuristic.seed_generator(random.randint(0, 2**64))
-    heuristic.set_noise_enabled(noise_enabled)
-    bfs = NInARowBestFirstSearch.create()
-    bfs.search(heuristic, position.active_player(), position)
-    return bfs.get_tree()
+from ninarow_utilities import search_from_position
 
 
 def sample_planning_depth(heuristic, positions, num_samples, disable_tqdm=True):
