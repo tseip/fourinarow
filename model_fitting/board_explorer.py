@@ -116,7 +116,7 @@ class BoardDisplay(QWidget):
         self.fig = FigureCanvas(Figure(figsize=(5, 3)))
         self.fig.mpl_connect('button_release_event', self.onclick)
         self.ax = self.fig.figure.add_subplot(111, aspect='equal')
-        self.board_renderer = BoardRenderer(self.fig, self.ax)
+        self.board_renderer = BoardRenderer(self.ax)
         self.bfs = NInARowBestFirstSearch.create()
         self.iteration = 0
         self.heuristic_values = []
@@ -225,6 +225,7 @@ class BoardDisplay(QWidget):
                 position_values[(move.get_move().get_row(),
                                  move.get_move().get_col())] = move.get_value()
         self.board_renderer.set_position_values(position_values)
+        self.fig.figure.canvas.draw()
 
     def reset(self):
         self.board.reset()
