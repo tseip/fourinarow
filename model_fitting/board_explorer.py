@@ -1,5 +1,6 @@
 from fourbynine import *
 from parsers import parse_participant_file, parse_bads_parameter_file_to_model_parameters
+from ninarow_plotting import BoardRenderer
 import random
 import time
 import matplotlib.pyplot as plt
@@ -115,6 +116,7 @@ class BoardDisplay(QWidget):
         self.fig = FigureCanvas(Figure(figsize=(5, 3)))
         self.fig.mpl_connect('button_release_event', self.onclick)
         self.ax = self.fig.figure.add_subplot(111, aspect='equal')
+        self.board_renderer = BoardRenderer(self.fig, self.ax)
         self.bfs = NInARowBestFirstSearch.create()
         self.iteration = 0
         self.heuristic_values = []
@@ -201,56 +203,28 @@ class BoardDisplay(QWidget):
         """
         Code to display a board as a matplotlib figure
         """
+        self.board_renderer.set_board(self.board)
 
-        cm = colors.LinearSegmentedColormap.from_list('red_green_map', [colors.to_rgb('tab:red'),
-                                                                        colors.to_rgb('lightgray'), colors.to_rgb('tab:green')], N=100)
-        cm.set_over(color='k')
-        cm.set_under(color='w')
-
-        self.ax.clear()
-        self.ax.vlines(np.arange(-0.5, 9.5, 1), -0.5, 3.5)
-        self.ax.hlines(np.arange(-0.5, 4.5, 1), -0.5, 8.5)
-
-        def plot_circle(position, color, alpha=1.0):
-            circ = patches.Circle((position % fourbynine_board().get_board_width(), position//fourbynine_board().get_board_width()), 0.33,
-                                  color=color, fill=True, alpha=alpha)
-            circ = self.ax.add_patch(circ)
-        pieces = set()
-        for p in pattern_string_to_board_positions(self.board.get_pieces(Player_Player1).to_string()):
-            plot_circle(p, "black")
-            pieces.add(p)
-        for p in pattern_string_to_board_positions(self.board.get_pieces(Player_Player2).to_string()):
-            plot_circle(p, "white")
-            pieces.add(p)
-
-        def render_ghost(position, color):
-            if position is not None and position not in pieces and self.ghost_check.isChecked() and not self.board.game_has_ended():
-                plot_circle(position, color, 0.5)
-
-        render_ghost(self.hover, player_to_string(self.board.active_player()))
-        render_ghost(self.player_ghost, "blue")
+        if self.ghost_check.isChecked() and not self.board.game_has_ended():
+            self.board_renderer.add_ghost(
+                self.hover, player_to_string(self.board.active_player()))
+            self.board_renderer.add_ghost(self.player_ghost, "blue")
 
         if self.feature_list_toggle.isChecked() and self.feature_list.currentItem():
             for p in pattern_string_to_board_positions(self.feature_list.currentItem().pieces):
-                plot_circle(p, "darkgreen", 0.8)
+                self.board_renderer.add_piece(p, "darkgreen", 0.8)
             for p in pattern_string_to_board_positions(self.feature_list.currentItem().spaces):
-                plot_circle(p, "darkred", 0.8)
+                self.board_renderer.add_piece(p, "darkred", 0.8)
 
-        move_values = np.zeros(shape=[4, 9])
+        position_values = {}
         if self.heuristic_view:
             for move in self.heuristic_values:
-                move_values[move.get_row()][move.get_col()] = move.val
+                position_values[(move.get_row(), move.get_col())] = move.val
         else:
             for move in self.candidate_moves:
-                move_values[move.get_move().get_row(
-                )][move.get_move().get_col()] = move.get_value()
-        norm = np.max(np.abs(move_values[np.isfinite(move_values)])) + 0.001
-        move_values[np.isposinf(move_values)] = norm + 1
-        move_values[np.isneginf(move_values)] = -norm - 1
-        self.ax.imshow(move_values, cmap=cm, vmin=-norm, vmax=norm,
-                       interpolation='nearest', origin='upper')
-        self.ax.axis('off')
-        self.fig.figure.canvas.draw()
+                position_values[(move.get_move().get_row(),
+                                 move.get_move().get_col())] = move.get_value()
+        self.board_renderer.set_position_values(position_values)
 
     def reset(self):
         self.board.reset()
