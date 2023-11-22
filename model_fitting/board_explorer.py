@@ -34,8 +34,10 @@ class TreeView(QMainWindow):
         self.ax = self.fig.figure.add_subplot(111, aspect='auto')
         self.renderer = SearchRenderer(self.ax)
         self.fig.mpl_connect('button_press_event', self.renderer.onclick)
-        self.renderer.register_onclick_callback(
-            lambda board: self.parent.set_board(board))
+
+        def on_click_callback(boards):
+            self.parent.move_history.splice_boards(boards)
+        self.renderer.register_onclick_callback(on_click_callback)
         self.setWindowTitle("Tree View")
 
         tree_view_settings_widget = QWidget()
@@ -167,7 +169,7 @@ class BoardDisplay(QWidget):
         self.board = fourbynine_board(
             fourbynine_pattern(0b0), fourbynine_pattern(0b0))
         self.heuristic = fourbynine_heuristic.create()
-        self.bfs = NInARowBestFirstSearch(
+        self.search = self.create_search(
             self.heuristic, self.board.active_player(), self.board)
         self.fig = FigureCanvas(Figure(figsize=(5, 3)))
         self.fig.mpl_connect('button_release_event', self.onclick)
@@ -180,6 +182,7 @@ class BoardDisplay(QWidget):
         self.parameter_editor = HeuristicParameters(self)
         self.feature_list = feature_list
         self.feature_list_toggle = feature_list_toggle
+        self.move_history = MoveHistory(self)
 
         self.hover = None
         self.player_ghost = None
@@ -244,6 +247,9 @@ class BoardDisplay(QWidget):
         self.setLayout(layout)
         self.update_heuristic_parameters()
 
+    def create_search(self, heuristic, player, board):
+        return NInARowBestFirstSearch(heuristic, player, board)
+
     def onclick(self, event):
         if not event.xdata or not event.ydata:
             return
@@ -256,7 +262,8 @@ class BoardDisplay(QWidget):
             old_move = fourbynine_move(
                 row, col, 0.0, get_other_player(self.board.active_player()))
             if (self.board.contains_move(old_move)):
-                self.board -= old_move
+                self.board = self.board - old_move
+                self.move_history.splice_boards([self.board])
                 self.on_board_update()
 
     def show(self):
@@ -288,22 +295,28 @@ class BoardDisplay(QWidget):
         self.fig.figure.canvas.draw()
 
     def reset(self):
-        self.board.reset()
-        self.on_board_update()
+        self.clear_history()
+        self.set_board(fourbynine_board())
 
-    def set_board(self, board, ghost=None):
+    def clear_history(self):
+        self.move_history.clear()
+
+    def set_board(self, board, ghost=None, update_history=True):
         self.board = board
+        if update_history:
+            self.move_history.set_boards([board])
         self.on_board_update(ghost)
 
     def play_move(self, new_move):
         if (self.board.contains_spaces(new_move.board_position) and not self.board.game_has_ended()):
             self.board += new_move
+            self.move_history.add_board(self.board)
             self.on_board_update()
 
     def play_best_move(self):
         if not self.board.game_has_ended():
             self.play_move(
-                self.heuristic.get_best_move(self.bfs.get_tree()))
+                self.heuristic.get_best_move(self.search.get_tree()))
 
     def on_board_update(self, player_ghost=None):
         self.heuristic_values = self.heuristic.get_moves(
@@ -312,15 +325,16 @@ class BoardDisplay(QWidget):
         self.hover = None
         self.player_ghost = player_ghost
         self.candidate_moves = []
-        self.bfs = NInARowBestFirstSearch(
+        self.search = None
+        self.search = self.create_search(
             self.heuristic, self.board.active_player(), self.board)
         self.feature_list.update(
             self.heuristic, self.board)
 
     def dispatch(self):
         self.iteration += 1
-        self.bfs.advance_search()
-        root = self.bfs.get_tree()
+        self.search.advance_search()
+        root = self.search.get_tree()
         if (root):
             self.candidate_moves = root.get_children()
 
@@ -401,6 +415,125 @@ class FeatureList(QListWidget):
                     i) + label + " " + feature.feature.to_string(), feature.feature))
 
 
+class MoveHistoryListItem(QListWidgetItem):
+    def __init__(self, board):
+        super().__init__("{} {}".format(board.get_pieces(Player_Player1).to_string(),
+                                        board.get_pieces(Player_Player2).to_string()))
+        self.board = board
+
+
+class MoveHistory(QWidget):
+    def __init__(self, board_view):
+        super().__init__()
+
+        self.board_view = board_view
+
+        layout = QVBoxLayout()
+
+        self.move_history = QListWidget()
+        self.move_history.setSortingEnabled(False)
+        self.move_history.itemSelectionChanged.connect(
+            self._itemSelectionChanged)
+        layout.addWidget(self.move_history)
+
+        self.to_beginning_button = QPushButton("<<")
+        self.to_beginning_button.setEnabled(False)
+        self.to_beginning_button.clicked.connect(self.to_beginning)
+        self.back_button = QPushButton("<")
+        self.back_button.setEnabled(False)
+        self.back_button.clicked.connect(self.back)
+        self.forward_button = QPushButton(">")
+        self.forward_button.setEnabled(False)
+        self.forward_button.clicked.connect(self.forward)
+        self.to_end_button = QPushButton(">>")
+        self.to_end_button.setEnabled(False)
+        self.to_end_button.clicked.connect(self.to_end)
+
+        navigation_widget = QWidget()
+        navigation_layout = QHBoxLayout()
+        navigation_widget.setLayout(navigation_layout)
+
+        navigation_layout.addWidget(self.to_beginning_button)
+        navigation_layout.addWidget(self.back_button)
+        navigation_layout.addWidget(self.forward_button)
+        navigation_layout.addWidget(self.to_end_button)
+
+        layout.addWidget(navigation_widget)
+        self.setLayout(layout)
+
+        self.clear()
+
+    def to_beginning(self):
+        self.set_selection(0)
+
+    def forward(self):
+        self.set_selection(self.move_history.currentRow() + 1)
+
+    def back(self):
+        self.set_selection(self.move_history.currentRow() - 1)
+
+    def to_end(self):
+        self.set_selection(self.move_history.count() - 1)
+
+    def _itemSelectionChanged(self):
+        self.board_view.set_board(
+            self.move_history.currentItem().board, update_history=False)
+        current_idx = self.move_history.currentRow()
+        self.to_beginning_button.setEnabled(current_idx != 0)
+        self.back_button.setEnabled(current_idx != 0)
+        self.forward_button.setEnabled(
+            current_idx != self.move_history.count() - 1)
+        self.to_end_button.setEnabled(
+            current_idx != self.move_history.count() - 1)
+
+    def set_selection(self, idx):
+        if (idx >= 0 and idx < self.move_history.count()):
+            self.move_history.setCurrentRow(idx)
+
+    def _succeeds(self, second_board, first_board):
+        if first_board.num_pieces() + 1 != second_board.num_pieces():
+            return False
+        last_player = first_board.active_player()
+        if first_board.get_pieces(get_other_player(last_player)) != second_board.get_pieces(get_other_player(last_player)):
+            return False
+        return first_board.missing_pieces(second_board.get_pieces(last_player), last_player).count() == 1
+
+    def splice_boards(self, new_boards):
+        if not self.boards or not new_boards:
+            self.set_boards(new_boards)
+        for i, board in enumerate(self.boards):
+            if self._succeeds(new_boards[0], board):
+                self.boards = self.boards[:i + 1] + new_boards
+                self._update()
+                return
+        self.set_boards(new_boards)
+
+    def add_board(self, new_board):
+        for i, board in enumerate(self.boards):
+            if self._succeeds(new_board, board):
+                self.boards = self.boards[:i+1]
+                self.boards.append(new_board)
+                self._update()
+                return
+        self.set_boards([new_board])
+
+    def clear(self):
+        self.boards = [fourbynine_board()]
+        self._update()
+
+    def set_boards(self, boards):
+        self.boards = boards
+        self._update()
+
+    def _update(self):
+        self.move_history.clear()
+        if not self.boards:
+            return
+        for board in self.boards:
+            self.move_history.addItem(MoveHistoryListItem(board))
+        self.to_end()
+
+
 class HeuristicViewToggleRadio(QWidget):
     def __init__(self, board_view):
         super().__init__()
@@ -430,9 +563,6 @@ class LoadPositionsWidget(QWidget):
     def __init__(self, board_view):
         super().__init__(board_view)
 
-        self.start_bound = 0
-        self.end_bound = 0
-
         self.board_view = board_view
         layout = QVBoxLayout()
 
@@ -460,36 +590,10 @@ class LoadPositionsWidget(QWidget):
         self.display_game_button.clicked.connect(self.display_game)
         bottom_layout.addWidget(self.display_game_button)
 
-        navigation_widget = QWidget()
-        navigation_layout = QHBoxLayout()
-        navigation_widget.setLayout(navigation_layout)
-        layout.addWidget(navigation_widget)
-
-        self.to_beginning_button = QPushButton("<<")
-        self.to_beginning_button.setEnabled(False)
-        self.to_beginning_button.clicked.connect(self.to_beginning)
-        self.back_button = QPushButton("<")
-        self.back_button.setEnabled(False)
-        self.back_button.clicked.connect(self.back)
-        self.current_position_label = QLabel("0 / 0")
-        self.current_position_label.setAlignment(Qt.AlignmentFlag.AlignHCenter)
-        self.forward_button = QPushButton(">")
-        self.forward_button.setEnabled(False)
-        self.forward_button.clicked.connect(self.forward)
-        self.to_end_button = QPushButton(">>")
-        self.to_end_button.setEnabled(False)
-        self.to_end_button.clicked.connect(self.to_end)
-
         self.position_combo_box.setEnabled(False)
         self.display_position_button.setEnabled(False)
         self.game_combo_box.setEnabled(False)
         self.display_game_button.setEnabled(False)
-
-        navigation_layout.addWidget(self.to_beginning_button)
-        navigation_layout.addWidget(self.back_button)
-        navigation_layout.addWidget(self.current_position_label)
-        navigation_layout.addWidget(self.forward_button)
-        navigation_layout.addWidget(self.to_end_button)
 
         self.load_button = QPushButton("Load positions from file")
         self.load_button.clicked.connect(self.load)
@@ -497,24 +601,6 @@ class LoadPositionsWidget(QWidget):
 
         self.setLayout(layout)
         self.board_view = board_view
-
-    def reset_bounds(self):
-        self.start_bound = 0
-        self.end_bound = max(self.position_combo_box.count() - 1, 0)
-
-    def to_beginning(self):
-        self.set_position(self.start_bound)
-
-    def forward(self):
-        self.set_position(
-            min(self.end_bound, self.position_combo_box.currentIndex() + 1))
-
-    def back(self):
-        self.set_position(
-            max(self.start_bound, self.position_combo_box.currentIndex() - 1))
-
-    def to_end(self):
-        self.set_position(self.end_bound)
 
     def parse_move(self, move):
         return (str(move).replace("\t", " "), move.board, move.move)
@@ -563,33 +649,23 @@ class LoadPositionsWidget(QWidget):
             self.display_position()
 
     def display_position(self):
-        self.reset_bounds()
         self.set_position(self.position_combo_box.currentIndex())
 
     def set_position(self, idx):
         if (idx >= 0 and idx < self.position_combo_box.count()):
             self.position_combo_box.setCurrentIndex(idx)
             board, move = self.position_combo_box.itemData(idx)
+            self.board_view.clear_history()
             self.board_view.set_board(board, move.board_position)
-            self.to_beginning_button.setEnabled(idx != self.start_bound)
-            self.back_button.setEnabled(idx != self.start_bound)
-            self.forward_button.setEnabled(idx != self.end_bound)
-            self.to_end_button.setEnabled(idx != self.end_bound)
-            self.current_position_label.setText(
-                "{} / {}".format(idx - self.start_bound + 1, self.end_bound - self.start_bound + 1))
-        else:
-            self.to_beginning_button.setEnabled(False)
-            self.back_button.setEnabled(False)
-            self.forward_button.setEnabled(False)
-            self.to_end_button.setEnabled(False)
-            self.current_position_label.setText("{} / {}".format(0, 0))
 
     def display_game(self):
         idx = self.game_combo_box.currentIndex()
         if idx >= 0:
-            self.start_bound, self.end_bound = self.game_combo_box.itemData(
-                idx)
-            self.set_position(self.start_bound)
+            bounds = self.game_combo_box.itemData(idx)
+            board_list = [self.position_combo_box.itemData(
+                x)[0] for x in range(*bounds)]
+            self.set_position(bounds[0])
+            self.board_view.move_history.set_boards(board_list)
 
 
 class MainWindow(QMainWindow):
@@ -623,6 +699,9 @@ class MainWindow(QMainWindow):
         splitter.addWidget(move_list_widget)
 
         feature_list_layout = QVBoxLayout()
+        feature_list_layout.addWidget(QLabel("Move history"))
+        feature_list_layout.addWidget(self.board.move_history)
+
         feature_list_layout.addWidget(QLabel("Active features"))
         feature_list_layout.addWidget(feature_list)
         feature_list_layout.addWidget(feature_list_toggle)

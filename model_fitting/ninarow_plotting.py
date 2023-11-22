@@ -147,7 +147,11 @@ class SearchRenderer():
         if event.dblclick and event.button == 1:
             for axis, board in self.board_axes:
                 if (axis.in_axes(event)):
-                    self.onclick_callback(board)
+                    path = nx.shortest_path(
+                        self.g, source=self.root.get_board().to_string(), target=board.to_string())
+                    attributes = nx.get_node_attributes(self.g, "board")
+                    boards = [attributes[n] for n in path]
+                    self.onclick_callback(boards)
 
 
 def main():
@@ -160,7 +164,8 @@ def main():
     bfs.complete_search()
     root = bfs.get_tree()
     renderer = SearchRenderer(ax)
-    renderer.register_onclick_callback(lambda board: print(board.to_string()))
+    renderer.register_onclick_callback(
+        lambda boards: print(boards[-1].to_string()))
     fig.canvas.mpl_connect('button_press_event', renderer.onclick)
     renderer.set_root(root)
     renderer.draw()

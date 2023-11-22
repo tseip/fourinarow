@@ -113,6 +113,11 @@ class Pattern {
   bool is_empty() const { return positions.none(); }
 
   /**
+   * @return The count of set bits in this pattern.
+   */
+  std::size_t count() const { return positions.count(); }
+
+  /**
    * @return The index of the minimum row containing a set bit. If no bit is
    * set, return 0.
    */
