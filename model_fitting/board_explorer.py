@@ -175,7 +175,6 @@ class BoardDisplay(QWidget):
         self.fig.mpl_connect('button_release_event', self.onclick)
         self.ax = self.fig.figure.add_subplot(111, aspect='equal')
         self.board_renderer = BoardRenderer(self.ax)
-        self.iteration = 0
         self.heuristic_values = []
         self.heuristic_view = True
         self.tree_view = TreeView(self)
@@ -321,7 +320,6 @@ class BoardDisplay(QWidget):
     def on_board_update(self, player_ghost=None):
         self.heuristic_values = self.heuristic.get_moves(
             self.board, self.board.active_player())
-        self.iteration = 0
         self.hover = None
         self.player_ghost = player_ghost
         self.candidate_moves = []
@@ -332,7 +330,6 @@ class BoardDisplay(QWidget):
             self.heuristic, self.board)
 
     def dispatch(self):
-        self.iteration += 1
         self.search.advance_search()
         root = self.search.get_tree()
         if (root):

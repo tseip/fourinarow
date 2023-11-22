@@ -22,6 +22,26 @@ class NInARowBestFirstSearch
         iterations(0) {}
   ~NInARowBestFirstSearch() = default;
 
+  /**
+   * @note Due to limitations of SWIG's inheritance system, we have to redefine
+   * the public interface of any classes we expect to directly subclass in
+   * Python. They can simply be defined as pure pass-throughs.
+   *
+   * @{
+   */
+  virtual bool advance_search() override {
+    return Search<Heuristic,
+                  BFSNode<typename Heuristic::BoardT>>::advance_search();
+  }
+
+  virtual std::shared_ptr<Node<typename Heuristic::BoardT>> get_tree()
+      override {
+    return Search<Heuristic, BFSNode<typename Heuristic::BoardT>>::get_tree();
+  }
+  /**
+   * @}
+   */
+
   std::size_t get_iterations() const { return iterations; }
 
   std::size_t get_num_repetitions() const { return num_repetitions; }

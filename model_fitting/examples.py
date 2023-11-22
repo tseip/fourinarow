@@ -6,14 +6,17 @@ import time
 
 
 class ModifiedBestFirstSearch(NInARowBestFirstSearch):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, heuristic, player, board):
+        super().__init__(heuristic, player, board)
 
     def select_next_node(self):
         return super().select_next_node()
 
     def stopping_conditions(self, heuristic, player, board):
         return super().stopping_conditions(heuristic, player, board)
+
+    def on_node_expansion(self, expanded_node, heuristic, player, board):
+        return super().on_node_expansion(expanded_node, heuristic, player, board)
 
 
 def move_to_csv_string(board, move, time, group_id, participant):
@@ -156,6 +159,8 @@ def main():
         count_features(triangle_heuristic, triangle_position, Player_Player1)))
     print("Active feature counts per pack for white: {}".format(
         count_features(triangle_heuristic, triangle_position, Player_Player2)))
+    search = ModifiedBestFirstSearch(
+        heuristic, position.active_player(), position)
 
 
 if __name__ == "__main__":

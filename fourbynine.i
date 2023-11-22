@@ -68,7 +68,11 @@
 %template(BFSNodeVector) std::vector<std::shared_ptr<BFSNode<NInARow::Board<4, 9, 4>>>>;
 %template(FeatureGroupWeightVector) std::vector<NInARow::FeatureGroupWeight>;
 %template(FeatureWithMetadataVector) std::vector<NInARow::HeuristicFeatureWithMetadata<NInARow::Board<4, 9, 4>>>;
+
+%feature("director") AbstractSearch;
 %template(AbstractSearch) AbstractSearch<NInARow::Heuristic<NInARow::Board<4, 9, 4>>>;
+
+%feature("director") BestFirstSearch;
 %template(BestFirstSearch) Search<NInARow::Heuristic<NInARow::Board<4, 9, 4>>, BFSNode<NInARow::Board<4, 9, 4>>>;
 
 %feature("director") NInARowBestFirstSearch;
