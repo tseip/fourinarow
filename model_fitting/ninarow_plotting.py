@@ -96,6 +96,8 @@ class SearchRenderer():
 
     def set_root(self, root):
         self.clear()
+        if not root:
+            return
         self.root = root
         self._populate_graph()
         self.pos = nx.multipartite_layout(self.g, scale=1)
@@ -154,8 +156,8 @@ def main():
     heuristic = fourbynine_heuristic.create()
     heuristic.seed_generator(random.randint(0, 2**64))
     heuristic.set_noise_enabled(False)
-    bfs = NInARowBestFirstSearch.create()
-    bfs.search(heuristic, board.active_player(), board)
+    bfs = NInARowBestFirstSearch(heuristic, board.active_player(), board)
+    bfs.complete_search()
     root = bfs.get_tree()
     renderer = SearchRenderer(ax)
     renderer.register_onclick_callback(lambda board: print(board.to_string()))

@@ -69,9 +69,7 @@ class TreeView(QMainWindow):
             self.max_branching_factor.displayText())
         self.renderer.max_depth = int(self.max_depth.displayText())
         self.renderer.board_size = float(self.board_size.displayText())
-        bfs = self.parent.bfs
-        if bfs.root_valid():
-            self.renderer.set_root(bfs.get_tree())
+        self.renderer.set_root(self.parent.bfs.get_tree())
         self.fig.figure.canvas.draw()
 
     def open_view(self):
@@ -168,11 +166,13 @@ class BoardDisplay(QWidget):
         super().__init__()
         self.board = fourbynine_board(
             fourbynine_pattern(0b0), fourbynine_pattern(0b0))
+        self.heuristic = fourbynine_heuristic.create()
+        self.bfs = NInARowBestFirstSearch(
+            self.heuristic, self.board.active_player(), self.board)
         self.fig = FigureCanvas(Figure(figsize=(5, 3)))
         self.fig.mpl_connect('button_release_event', self.onclick)
         self.ax = self.fig.figure.add_subplot(111, aspect='equal')
         self.board_renderer = BoardRenderer(self.ax)
-        self.bfs = NInARowBestFirstSearch.create()
         self.iteration = 0
         self.heuristic_values = []
         self.heuristic_view = True
@@ -303,7 +303,7 @@ class BoardDisplay(QWidget):
     def play_best_move(self):
         if not self.board.game_has_ended():
             self.play_move(
-                self.heuristic.get_best_known_move_from_search_tree(self.bfs))
+                self.heuristic.get_best_move(self.bfs.get_tree()))
 
     def on_board_update(self, player_ghost=None):
         self.heuristic_values = self.heuristic.get_moves(
@@ -312,16 +312,17 @@ class BoardDisplay(QWidget):
         self.hover = None
         self.player_ghost = player_ghost
         self.candidate_moves = []
-        self.bfs.begin_search(
+        self.bfs = NInARowBestFirstSearch(
             self.heuristic, self.board.active_player(), self.board)
         self.feature_list.update(
             self.heuristic, self.board)
 
     def dispatch(self):
         self.iteration += 1
-        self.bfs.dispatch()
-        if (self.bfs.root_valid()):
-            self.candidate_moves = self.bfs.get_tree().get_children()
+        self.bfs.advance_search()
+        root = self.bfs.get_tree()
+        if (root):
+            self.candidate_moves = root.get_children()
 
     def update_heuristic_parameters(self):
         self.heuristic = fourbynine_heuristic.create(

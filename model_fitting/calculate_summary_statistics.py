@@ -186,9 +186,9 @@ def construct_move_histogram_from_position(board, heuristic, num_samples=200):
     """
     position_counts = [0] * board.get_board_size()
     for i in range(num_samples):
-        bfs = NInARowBestFirstSearch.create()
-        best_move = heuristic.get_best_move(
-            board, board.active_player(), bfs)
+        bfs = NInARowBestFirstSearch(heuristic, board.active_player(), board)
+        bfs.complete_search()
+        best_move = heuristic.get_best_move(bfs.get_tree())
         position_counts[best_move.board_position] += 1
     return position_counts
 

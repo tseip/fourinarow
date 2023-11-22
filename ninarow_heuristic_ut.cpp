@@ -39,8 +39,10 @@ TEST(NInARowHeuristicTest, TestHeuristicGetBestMoveBFS) {
       return m1.board_position < m2.board_position;
     });
 
-    auto bfs = NInARowBestFirstSearch<Heuristic<Board>>::create();
-    auto move = heuristic->get_best_move(b, player, bfs);
+    auto bfs = std::make_shared<NInARowBestFirstSearch<Heuristic<Board>>>(
+        heuristic, b.active_player(), b);
+    bfs->complete_search();
+    auto move = heuristic->get_best_move(bfs->get_tree());
     b = b + move;
 
     player = get_other_player(player);

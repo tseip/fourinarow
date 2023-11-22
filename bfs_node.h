@@ -255,7 +255,7 @@ class BFSNode : public Node<Board> {
    * @return True if the heuristic value of this node has converged, i.e. if the
    * pessimistic and optimistic bounds on the value of the node are equal.
    */
-  bool determined() const { return pess == opt; }
+  virtual bool determined() const override { return pess == opt; }
 
   /**
    * @return A string representing the state of this node.
@@ -290,26 +290,11 @@ class BFSNode : public Node<Board> {
   }
 
   /**
-   * Select the best move from among our children. If we have no good child,
-   * return ourselves. Note that the returned move may be multiple moves in the
-   * future, i.e. we may return a move that represents an entire line of play.
-   *
-   * @return The best move from amongst our children and ourselves.
-   */
-  std::shared_ptr<const Node<Board>> select() const override {
-    if (best_known_child) {
-      return best_known_child->select();
-    } else {
-      return downcast(this->shared_from_this());
-    }
-  }
-
-  /**
    * @return The number of moves between us and our recursively best known
    * child.
    */
   std::size_t get_depth_of_pv() const override {
-    const auto selected_node = select();
+    const auto selected_node = this->select();
     if (selected_node == this->shared_from_this()) return 0;
     return downcast(selected_node)->depth - this->depth - 1;
   }
@@ -343,6 +328,22 @@ class BFSNode : public Node<Board> {
 
     return typename Board::MoveT(best_position, val_temp,
                                  this->board.active_player());
+  }
+
+ protected:
+  /**
+   * Select the best move from among our children. If we have no good child,
+   * return ourselves. Note that the returned move may be multiple moves in the
+   * future, i.e. we may return a move that represents an entire line of play.
+   *
+   * @return The best move from amongst our children and ourselves.
+   */
+  virtual std::shared_ptr<const Node<Board>> virtual_select() const override {
+    if (best_known_child) {
+      return best_known_child->select();
+    } else {
+      return downcast(this->shared_from_this());
+    }
   }
 };
 

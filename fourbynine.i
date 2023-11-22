@@ -34,8 +34,8 @@
 %shared_ptr(NInARow::Heuristic<NInARow::Board<4, 9, 4>>);
 %shared_ptr(Node<NInARow::Board<4, 9, 4>>);
 %shared_ptr(BFSNode<NInARow::Board<4, 9, 4>>);
-%shared_ptr(Search<NInARow::Heuristic<NInARow::Board<4, 9, 4>>>);
-%shared_ptr(BestFirstSearch<NInARow::Heuristic<NInARow::Board<4, 9, 4>>>);
+%shared_ptr(AbstractSearch<NInARow::Heuristic<NInARow::Board<4, 9, 4>>>);
+%shared_ptr(Search<NInARow::Heuristic<NInARow::Board<4, 9, 4>>, BFSNode<NInARow::Board<4, 9, 4>>>);
 %shared_ptr(NInARow::NInARowBestFirstSearch<NInARow::Heuristic<NInARow::Board<4, 9, 4>>>);
 
 // Parse the original header files
@@ -68,8 +68,8 @@
 %template(BFSNodeVector) std::vector<std::shared_ptr<BFSNode<NInARow::Board<4, 9, 4>>>>;
 %template(FeatureGroupWeightVector) std::vector<NInARow::FeatureGroupWeight>;
 %template(FeatureWithMetadataVector) std::vector<NInARow::HeuristicFeatureWithMetadata<NInARow::Board<4, 9, 4>>>;
-%template(Search) Search<NInARow::Heuristic<NInARow::Board<4, 9, 4>>>;
-%template(BestFirstSearch) BestFirstSearch<NInARow::Heuristic<NInARow::Board<4, 9, 4>>>;
+%template(AbstractSearch) AbstractSearch<NInARow::Heuristic<NInARow::Board<4, 9, 4>>>;
+%template(BestFirstSearch) Search<NInARow::Heuristic<NInARow::Board<4, 9, 4>>, BFSNode<NInARow::Board<4, 9, 4>>>;
 
 %feature("director") NInARowBestFirstSearch;
 %template(NInARowBestFirstSearch) NInARow::NInARowBestFirstSearch<NInARow::Heuristic<NInARow::Board<4, 9, 4>>>;

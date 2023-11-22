@@ -124,6 +124,12 @@ class Node : public std::enable_shared_from_this<Node<Board>> {
    */
   virtual double get_value() const { return move.board_position; }
 
+  /**
+   * @return True if this node is solved, i.e. if the outcome of the game is
+   * known from this position.
+   */
+  virtual bool determined() const = 0;
+
   bool operator<(const Node &other) { return get_value() < other.get_value(); }
 
   /**
@@ -294,19 +300,20 @@ class Node : public std::enable_shared_from_this<Node<Board>> {
   virtual void expand(const std::vector<typename Board::MoveT> &moves) = 0;
 
   /**
-   * Select the best move from among our children. If we have no good child,
-   * return ourselves. Note that the returned move may be multiple moves in the
-   * future, i.e. we may return a move that represents an entire line of play.
-   *
-   * @return The best move from amongst our children and ourselves.
-   */
-  virtual std::shared_ptr<const Node> select() const = 0;
-
-  /**
    * @return The number of moves between us and our recursively best known
    * child.
    */
   virtual std::size_t get_depth_of_pv() const = 0;
+
+  /**
+   * Select the next move to be searched from among our children recursively.
+   *
+   * @note We delegate this to a virtual function so that we don't have to
+   * define a const and non-const version of select in all subclasses.
+   *
+   * @return The best move from amongst our children and ourselves.
+   */
+  std::shared_ptr<const Node> select() const { return virtual_select(); }
 
   /**
    * Select the next move to be searched from among our children recursively.
@@ -386,6 +393,17 @@ class Node : public std::enable_shared_from_this<Node<Board>> {
    * player.
    */
   virtual typename Board::MoveT get_best_move() const = 0;
+
+ protected:
+  /**
+   * Select the next move to be searched from among our children recursively.
+   *
+   * @note We split this out so that we don't have to define a const and
+   * non-const version of select in all subclasses.
+   *
+   * @return The best move from amongst our children and ourselves.
+   */
+  virtual std::shared_ptr<const Node> virtual_select() const = 0;
 };
 
 #endif  // GAME_TREE_NODE_H_INCLUDED

@@ -55,8 +55,8 @@ def generate_splits(moves, split_count):
     return groups
 
 
-class ModelFitter:
-    def __init__(self, args):
+class DefaultModel:
+    def __init__(self):
         self.expt_factor = 1.0
         self.cutoff = 3.5
 
@@ -71,6 +71,20 @@ class ModelFitter:
         self.plb = np.array([1, 0.1, 0.001, 0.05, 0.5, -5, -
                              5, -5, -5, -5], dtype=np.float64)
         self.c = 50
+
+    def create_heuristic(self, params):
+        return fourbynine.fourbynine_heuristic.create(fourbynine.DoubleVector(bads_parameters_to_model_parameters(params)), True)
+
+    def create_search(self, params, heuristic, player, board):
+        return fourbynine.NInARowBestFirstSearch(heuristic, player, board)
+
+    def estimate_initial_l_value_guess(self, fitter, moves):
+        return fitter.estimate_l_values(moves, self.x0, 10)
+
+
+class ModelFitter:
+    def __init__(self, model, args):
+        self.model = model
         if args.random_sample:
             self.random_sample = True
             self.sample_count = args.random_sample[0]
@@ -81,27 +95,19 @@ class ModelFitter:
             self.sample_count = 0
         self.verbose = args.verbose
 
-    def create_heuristic(self, params):
-        return fourbynine.fourbynine_heuristic.create(fourbynine.DoubleVector(params), True)
-
-    def create_search(self, params):
-        return fourbynine.NInARowBestFirstSearch.create()
-
-    def bads_parameters_to_model_parameters(self, params):
-        return bads_parameters_to_model_parameters(params)
-
     def estimate_log_lik_ibs(
             self,
             parameters,
             input_queue,
             output_queue):
-        heuristic = self.create_heuristic(parameters)
+        heuristic = self.model.create_heuristic(parameters)
         heuristic.seed_generator(random.randint(0, 2**64))
-        search = self.create_search(parameters)
         while True:
             move = input_queue.get()
-            best_move = heuristic.get_best_move(
-                move.board, move.player, search)
+            search = self.model.create_search(
+                parameters, heuristic, move.player, move.board)
+            search.complete_search()
+            best_move = heuristic.get_best_move(search.get_tree())
             success = best_move.board_position == move.move.board_position
             output_queue.put((success, move))
 
@@ -109,7 +115,7 @@ class ModelFitter:
         move_tasks = copy.deepcopy(move_tasks)
         moves_to_process = len(move_tasks)
         N = moves_to_process
-        Lexpt = N * self.expt_factor
+        Lexpt = N * self.model.expt_factor
         num_workers = 32
         submission_queue = Queue(num_workers * 8)
         results_queue = Queue(num_workers * 8)
@@ -118,7 +124,7 @@ class ModelFitter:
                     (params, submission_queue, results_queue,))
         for move in move_tasks:
             to_submit_queue.put((0, move))
-        while moves_to_process and Lexpt <= self.cutoff * N:
+        while moves_to_process and Lexpt <= self.model.cutoff * N:
             # Feed the furnace
             while not submission_queue.full():
                 try:
@@ -139,10 +145,10 @@ class ModelFitter:
                     success, move = results_queue.get_nowait()
                     if not move_tasks[move].is_done():
                         if (success):
-                            Lexpt -= self.expt_factor / \
+                            Lexpt -= self.model.expt_factor / \
                                 move_tasks[move].required_success_count
                         else:
-                            Lexpt += self.expt_factor / \
+                            Lexpt += self.model.expt_factor / \
                                 (move_tasks[move].required_success_count *
                                  move_tasks[move].attempt_count)
                         move_tasks[move].report_success(success)
@@ -164,17 +170,17 @@ class ModelFitter:
         p = np.exp(-L_values)
         interp1 = CubicSpline(x, np.sqrt(x * dilog), extrapolate=True)
         interp2 = CubicSpline(x, np.sqrt(dilog / x), extrapolate=True)
-        times = (self.c * interp1(p)) / np.mean(interp2(p))
+        times = (c * interp1(p)) / np.mean(interp2(p))
         return np.vectorize(lambda x: max(x, 1))(np.round(times))
 
     def estimate_l_values(self, moves, params, sample_count):
         move_tasks = {}
         for move in moves:
-            move_tasks[move] = SuccessFrequencyTracker(self.expt_factor)
+            move_tasks[move] = SuccessFrequencyTracker(self.model.expt_factor)
         l_values = []
         for i in tqdm(range(sample_count)):
             l_values.append(self.compute_loglik(
-                move_tasks, self.bads_parameters_to_model_parameters(params)))
+                move_tasks, params))
         average_l_values = []
         for move in tqdm(moves):
             average = 0.0
@@ -186,12 +192,13 @@ class ModelFitter:
 
     def fit_model(self, moves):
         print("Beginning model fit pre-processing: log-likelihood estimation")
-        average_l_values = self.estimate_l_values(moves, self.x0, 10)
+        average_l_values = self.model.estimate_initial_l_value_guess(
+            self, moves)
         counts = self.generate_attempt_counts(
-            np.array(average_l_values), self.c)
+            np.array(average_l_values), self.model.c)
         move_tasks = {}
         for move in moves:
-            move_tasks[move] = SuccessFrequencyTracker(self.expt_factor)
+            move_tasks[move] = SuccessFrequencyTracker(self.model.expt_factor)
         for i in range(len(counts)):
             move_tasks[moves[i]].required_success_count = int(counts[i])
 
@@ -213,15 +220,15 @@ class ModelFitter:
                 subsampled_tasks = {k: move_tasks[k] for k in subsampled_keys}
             else:
                 subsampled_tasks = move_tasks
-            return sum(list(self.compute_loglik(subsampled_tasks, self.bads_parameters_to_model_parameters(x)).values()))
+            return sum(list(self.compute_loglik(subsampled_tasks, x).values()))
 
         opt_fun.current_iteration_count = 0
         badsopts = {}
         badsopts['uncertainty_handling'] = True
         badsopts['noise_final_samples'] = 0
         badsopts['max_fun_evals'] = 2000
-        bads = BADS(opt_fun, self.x0, self.lb, self.ub,
-                    self.plb, self.pub, options=badsopts)
+        bads = BADS(opt_fun, self.model.x0, self.model.lb, self.model.ub,
+                    self.model.plb, self.model.pub, options=badsopts)
         out_params = bads.optimize()['x']
         print("Final estimated params: {}".format(out_params))
         print("Beginning model fit post-processing: log-likelihood estimation")
@@ -242,9 +249,8 @@ class ModelFitter:
         params, loglik_train = self.fit_model(train)
         test_tasks = {}
         for move in test:
-            test_tasks[move] = SuccessFrequencyTracker(self.expt_factor)
-        loglik_test = list(self.compute_loglik(
-            test_tasks, self.bads_parameters_to_model_parameters(params)).values())
+            test_tasks[move] = SuccessFrequencyTracker(self.model.expt_factor)
+        loglik_test = list(self.compute_loglik(test_tasks, params).values())
         return params, loglik_train, loglik_test
 
 
@@ -349,7 +355,7 @@ Read in splits from the above command, and only process/cross validate a single 
     if args.splits_only:
         exit()
 
-    model_fitter = ModelFitter(args)
+    model_fitter = ModelFitter(DefaultModel(), args)
     start, end = 0, len(groups)
     if (args.cluster_mode):
         start = args.cluster_mode[0] - 1

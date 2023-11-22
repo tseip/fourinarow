@@ -316,26 +316,11 @@ class Heuristic : public std::enable_shared_from_this<Heuristic<Board>> {
     }
   }
 
-  typename Board::MoveT get_best_move(
-      const Board& b, Player player,
-      std::shared_ptr<Search<Heuristic>> search) {
-    if (search_in_progress)
-      throw std::logic_error(
-          "Cannot start a search when a previous search is being executed!");
-    if (noise_enabled && lapse(engine)) return get_random_move(b);
-
-    search->search(this->shared_from_this(), player, b);
-
-    return search->get_tree()->get_best_move();
-  }
-
-  typename Board::MoveT get_best_known_move_from_search_tree(
-      std::shared_ptr<Search<Heuristic>> search) {
-    auto root = search->get_tree();
+  typename Board::MoveT get_best_move(std::shared_ptr<Node<Board>> tree) {
     if (noise_enabled && lapse(engine))
-      return get_random_move(root->get_board());
+      return get_random_move(tree->get_board());
 
-    return root->get_best_move();
+    return tree->get_best_move();
   }
 
   void start_search() {

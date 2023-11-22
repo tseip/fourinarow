@@ -9,46 +9,35 @@
 namespace NInARow {
 
 template <class Heuristic>
-class NInARowBestFirstSearch : public BestFirstSearch<Heuristic> {
+class NInARowBestFirstSearch
+    : public Search<Heuristic, BFSNode<typename Heuristic::BoardT>> {
  public:
-  static std::shared_ptr<NInARowBestFirstSearch> create() {
-    return std::shared_ptr<NInARowBestFirstSearch<Heuristic>>(
-        new NInARowBestFirstSearch());
-  }
-
-  ~NInARowBestFirstSearch(){};
+  NInARowBestFirstSearch(std::shared_ptr<Heuristic> heuristic, Player player,
+                         const typename Heuristic::BoardT& board)
+      : Search<Heuristic, BFSNode<typename Heuristic::BoardT>>(heuristic,
+                                                               player, board),
+        old_best_move(),
+        best_move(),
+        num_repetitions(0),
+        iterations(0) {}
+  ~NInARowBestFirstSearch() = default;
 
   std::size_t get_iterations() const { return iterations; }
 
   std::size_t get_num_repetitions() const { return num_repetitions; }
 
  protected:
-  NInARowBestFirstSearch()
-      : BestFirstSearch<Heuristic>(),
-        old_best_move(),
-        best_move(),
-        num_repetitions(0),
-        iterations(0) {}
-
-  void clear_state() override {
-    Search<Heuristic>::clear_state();
-    old_best_move = typename Heuristic::BoardT::MoveT();
-    best_move = typename Heuristic::BoardT::MoveT();
-    num_repetitions = 0;
-    iterations = 0;
-  }
-
   bool stopping_conditions(
       std::shared_ptr<Heuristic> heuristic, Player player,
       const typename Heuristic::BoardT& board) const override {
     return iterations >= (std::size_t(1.0 / heuristic->get_gamma()) + 1) ||
            num_repetitions >= heuristic->get_stopping_thresh() ||
-           BestFirstSearch<Heuristic>::stopping_conditions(heuristic, player,
-                                                           board);
+           Search<Heuristic, BFSNode<typename Heuristic::BoardT>>::
+               stopping_conditions(heuristic, player, board);
   }
 
   void on_node_expansion(
-      std::shared_ptr<Node<typename Heuristic::BoardT>> /*expanded_node*/,
+      std::shared_ptr<BFSNode<typename Heuristic::BoardT>> /*expanded_node*/,
       std::shared_ptr<Heuristic> heuristic, Player /*player*/,
       const typename Heuristic::BoardT& /*board*/) override {
     old_best_move = best_move;
