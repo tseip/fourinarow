@@ -71,7 +71,7 @@ class TreeView(QMainWindow):
             self.max_branching_factor.displayText())
         self.renderer.max_depth = int(self.max_depth.displayText())
         self.renderer.board_size = float(self.board_size.displayText())
-        self.renderer.set_root(self.parent.bfs.get_tree())
+        self.renderer.set_root(self.parent.search.get_tree())
         self.fig.figure.canvas.draw()
 
     def open_view(self):
