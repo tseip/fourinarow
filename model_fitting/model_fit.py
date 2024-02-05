@@ -68,7 +68,7 @@ class DefaultModel:
                             10, -10, -10, -10], dtype=np.float64)
         self.pub = np.array([9.99, 0.99, 0.5, 0.5, 2, 5,
                             5, 5, 5, 5], dtype=np.float64)
-        self.plb = np.array([1, 0.1, 0.001, 0.05, 0.5, -5, -
+        self.plb = np.array([1, 0.1, 0.001, 0.001, 0.5, -5, -
                              5, -5, -5, -5], dtype=np.float64)
         self.c = 50
 
