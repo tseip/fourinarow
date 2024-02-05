@@ -5,14 +5,13 @@
 
 #include "bfs_node.h"
 #include "game_tree_node.h"
-#include "player.h"
 
 template <class Heuristic>
 class AbstractSearch {
  public:
-  AbstractSearch(std::shared_ptr<Heuristic> heuristic, Player player,
+  AbstractSearch(std::shared_ptr<Heuristic> heuristic,
                  const typename Heuristic::BoardT &board)
-      : heuristic(heuristic), player(player), board(board) {
+      : heuristic(heuristic), board(board) {
     if (!heuristic)
       throw std::invalid_argument("Must pass a non-null heuristic!");
     this->heuristic->start_search();
@@ -35,30 +34,29 @@ class AbstractSearch {
 
  protected:
   std::shared_ptr<Heuristic> heuristic;
-  Player player;
   const typename Heuristic::BoardT board;
 };
 
 template <class Heuristic, class NodeT>
 class Search : public AbstractSearch<Heuristic> {
  public:
-  Search(std::shared_ptr<Heuristic> heuristic, Player player,
+  Search(std::shared_ptr<Heuristic> heuristic,
          const typename Heuristic::BoardT &board)
-      : AbstractSearch<Heuristic>(heuristic, player, board),
+      : AbstractSearch<Heuristic>(heuristic, board),
         root(NodeT::create(board, heuristic->evaluate(board))) {}
 
   virtual bool advance_search() override {
-    if (stopping_conditions(this->heuristic, this->player, this->board)) {
+    if (stopping_conditions(this->heuristic, this->board)) {
       this->heuristic->complete_search();
       return true;
     } else {
       auto current_node = select_next_node();
+      const auto current_board = current_node->get_board();
       const std::vector<typename Heuristic::BoardT::MoveT> candidate_moves =
-          this->heuristic->get_pruned_moves(current_node->get_board(),
-                                            this->player);
+          this->heuristic->get_pruned_moves(current_board,
+                                            current_board.active_player());
       current_node->expand(candidate_moves);
-      on_node_expansion(current_node, this->heuristic, this->player,
-                        this->board);
+      on_node_expansion(current_node, this->heuristic, this->board);
       return false;
     }
   }
@@ -74,14 +72,13 @@ class Search : public AbstractSearch<Heuristic> {
   }
 
   virtual bool stopping_conditions(
-      std::shared_ptr<Heuristic> heuristic, Player player,
+      std::shared_ptr<Heuristic> heuristic,
       const typename Heuristic::BoardT &board) const {
     return this->root->determined();
   }
 
   virtual void on_node_expansion(std::shared_ptr<NodeT> expanded_node,
                                  std::shared_ptr<Heuristic> heuristic,
-                                 Player player,
                                  const typename Heuristic::BoardT &board) {}
 
   std::shared_ptr<NodeT> root;

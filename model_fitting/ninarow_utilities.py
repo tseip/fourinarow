@@ -11,7 +11,7 @@ def search_from_position(position, heuristic, noise_enabled=True, seed=None):
     else:
         heuristic.seed_generator(random.randint(0, 2**64))
     heuristic.set_noise_enabled(noise_enabled)
-    bfs = NInARowBestFirstSearch(heuristic, position.active_player(), position)
+    bfs = NInARowBestFirstSearch(heuristic, position)
     bfs.complete_search()
     return bfs.get_tree()
 

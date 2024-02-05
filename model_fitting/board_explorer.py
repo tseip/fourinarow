@@ -170,7 +170,7 @@ class BoardDisplay(QWidget):
             fourbynine_pattern(0b0), fourbynine_pattern(0b0))
         self.heuristic = fourbynine_heuristic.create()
         self.search = self.create_search(
-            self.heuristic, self.board.active_player(), self.board)
+            self.heuristic, self.board)
         self.fig = FigureCanvas(Figure(figsize=(5, 3)))
         self.fig.mpl_connect('button_release_event', self.onclick)
         self.ax = self.fig.figure.add_subplot(111, aspect='equal')
@@ -246,8 +246,8 @@ class BoardDisplay(QWidget):
         self.setLayout(layout)
         self.update_heuristic_parameters()
 
-    def create_search(self, heuristic, player, board):
-        return NInARowBestFirstSearch(heuristic, player, board)
+    def create_search(self, heuristic, board):
+        return NInARowBestFirstSearch(heuristic, board)
 
     def onclick(self, event):
         if not event.xdata or not event.ydata:
@@ -325,7 +325,7 @@ class BoardDisplay(QWidget):
         self.candidate_moves = []
         self.search = None
         self.search = self.create_search(
-            self.heuristic, self.board.active_player(), self.board)
+            self.heuristic, self.board)
         self.feature_list.update(
             self.heuristic, self.board)
 

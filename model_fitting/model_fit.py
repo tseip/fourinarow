@@ -75,8 +75,8 @@ class DefaultModel:
     def create_heuristic(self, params):
         return fourbynine.fourbynine_heuristic.create(fourbynine.DoubleVector(bads_parameters_to_model_parameters(params)), True)
 
-    def create_search(self, params, heuristic, player, board):
-        return fourbynine.NInARowBestFirstSearch(heuristic, player, board)
+    def create_search(self, params, heuristic, board):
+        return fourbynine.NInARowBestFirstSearch(heuristic, board)
 
     def estimate_initial_l_value_guess(self, fitter, moves):
         return fitter.estimate_l_values(moves, self.x0, 10)
@@ -105,7 +105,7 @@ class ModelFitter:
         while True:
             move = input_queue.get()
             search = self.model.create_search(
-                parameters, heuristic, move.player, move.board)
+                parameters, heuristic, move.board)
             search.complete_search()
             best_move = heuristic.get_best_move(search.get_tree())
             success = best_move.board_position == move.move.board_position

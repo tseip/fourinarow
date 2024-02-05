@@ -12,6 +12,5 @@ TEST(SearchesTest, TestCreate) {
   using Board = Board<4, 9, 4>;
   auto heuristic = Heuristic<Board>::create();
   Board board;
-  auto bfs = NInARowBestFirstSearch<Heuristic<Board>>(
-      heuristic, board.active_player(), board);
+  auto bfs = NInARowBestFirstSearch<Heuristic<Board>>(heuristic, board);
 }

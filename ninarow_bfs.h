@@ -12,10 +12,10 @@ template <class Heuristic>
 class NInARowBestFirstSearch
     : public Search<Heuristic, BFSNode<typename Heuristic::BoardT>> {
  public:
-  NInARowBestFirstSearch(std::shared_ptr<Heuristic> heuristic, Player player,
+  NInARowBestFirstSearch(std::shared_ptr<Heuristic> heuristic,
                          const typename Heuristic::BoardT& board)
       : Search<Heuristic, BFSNode<typename Heuristic::BoardT>>(heuristic,
-                                                               player, board),
+                                                               board),
         old_best_move(),
         best_move(),
         num_repetitions(0),
@@ -48,17 +48,17 @@ class NInARowBestFirstSearch
 
  protected:
   bool stopping_conditions(
-      std::shared_ptr<Heuristic> heuristic, Player player,
+      std::shared_ptr<Heuristic> heuristic,
       const typename Heuristic::BoardT& board) const override {
     return iterations >= (std::size_t(1.0 / heuristic->get_gamma()) + 1) ||
            num_repetitions >= heuristic->get_stopping_thresh() ||
            Search<Heuristic, BFSNode<typename Heuristic::BoardT>>::
-               stopping_conditions(heuristic, player, board);
+               stopping_conditions(heuristic, board);
   }
 
   void on_node_expansion(
       std::shared_ptr<BFSNode<typename Heuristic::BoardT>> /*expanded_node*/,
-      std::shared_ptr<Heuristic> heuristic, Player /*player*/,
+      std::shared_ptr<Heuristic> heuristic,
       const typename Heuristic::BoardT& /*board*/) override {
     old_best_move = best_move;
     best_move = this->root->get_best_move();

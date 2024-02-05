@@ -6,17 +6,17 @@ import time
 
 
 class ModifiedBestFirstSearch(NInARowBestFirstSearch):
-    def __init__(self, heuristic, player, board):
-        super().__init__(heuristic, player, board)
+    def __init__(self, heuristic, board):
+        super().__init__(heuristic, board)
 
     def select_next_node(self):
         return super().select_next_node()
 
-    def stopping_conditions(self, heuristic, player, board):
-        return super().stopping_conditions(heuristic, player, board)
+    def stopping_conditions(self, heuristic, board):
+        return super().stopping_conditions(heuristic, board)
 
-    def on_node_expansion(self, expanded_node, heuristic, player, board):
-        return super().on_node_expansion(expanded_node, heuristic, player, board)
+    def on_node_expansion(self, expanded_node, heuristic, board):
+        return super().on_node_expansion(expanded_node, heuristic, board)
 
 
 def move_to_csv_string(board, move, time, group_id, participant):
@@ -97,7 +97,7 @@ def evaluate_best_move_from_position(position, noise_enabled=True):
     heuristic = fourbynine_heuristic.create()
     heuristic.seed_generator(random.randint(0, 2**64))
     heuristic.set_noise_enabled(noise_enabled)
-    bfs = NInARowBestFirstSearch(heuristic, position.active_player(), position)
+    bfs = NInARowBestFirstSearch(heuristic, position)
     bfs.complete_search()
     best_move = heuristic.get_best_move(bfs.get_tree())
     return best_move
@@ -112,7 +112,7 @@ def play_game_to_completion(heuristic):
     while not current_position.game_has_ended():
         start = time.time()
         bfs = NInARowBestFirstSearch(
-            heuristic, bool_to_player(current_player), current_position)
+            heuristic, current_position)
         bfs.complete_search()
         best_move = heuristic.get_best_move(bfs.get_tree())
         end = time.time()
@@ -160,7 +160,7 @@ def main():
     print("Active feature counts per pack for white: {}".format(
         count_features(triangle_heuristic, triangle_position, Player_Player2)))
     search = ModifiedBestFirstSearch(
-        heuristic, position.active_player(), position)
+        heuristic, position)
 
 
 if __name__ == "__main__":

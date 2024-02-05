@@ -160,7 +160,7 @@ def main():
     heuristic = fourbynine_heuristic.create()
     heuristic.seed_generator(random.randint(0, 2**64))
     heuristic.set_noise_enabled(False)
-    bfs = NInARowBestFirstSearch(heuristic, board.active_player(), board)
+    bfs = NInARowBestFirstSearch(heuristic, board)
     bfs.complete_search()
     root = bfs.get_tree()
     renderer = SearchRenderer(ax)
