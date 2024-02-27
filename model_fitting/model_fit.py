@@ -1,4 +1,6 @@
 from collections import defaultdict
+from functools import total_ordering
+from UltraDict import UltraDict
 import argparse
 import numpy as np
 from scipy.interpolate import CubicSpline
@@ -6,9 +8,7 @@ import random
 import fourbynine
 import copy
 import time
-from queue import Empty, Full, PriorityQueue
-from multiprocessing import Process, Pool, Value, Lock, Queue
-from multiprocessing.managers import SyncManager
+from multiprocessing import Process, Pool, Value, Lock
 from pybads import BADS
 from pathlib import Path
 from tqdm import tqdm
@@ -35,10 +35,13 @@ class SuccessFrequencyTracker:
             self.success_count += 1
             if not self.is_done():
                 self.attempt_count = 1
+            return -(self.expt_factor / self.required_success_count)
         else:
-            self.L += self.expt_factor / \
+            delta = self.expt_factor / \
                 (self.required_success_count * self.attempt_count)
+            self.L += delta
             self.attempt_count += 1
+            return delta
 
 
 def generate_splits(moves, split_count):
@@ -97,71 +100,54 @@ class ModelFitter:
 
     def estimate_log_lik_ibs(
             self,
-            parameters,
-            input_queue,
-            output_queue):
-        heuristic = self.model.create_heuristic(parameters)
+            params,
+            cutoff,
+            move_tasks):
+        heuristic = self.model.create_heuristic(params)
         heuristic.seed_generator(random.randint(0, 2**64))
-        while True:
-            move = input_queue.get()
-            search = self.model.create_search(
-                parameters, heuristic, move.board)
-            search.complete_search()
-            best_move = heuristic.get_best_move(search.get_tree())
-            success = best_move.board_position == move.move.board_position
-            output_queue.put((success, move))
+        while Lexpt.value <= cutoff:
+            unfinished_items = list(
+                filter(lambda x: not x[1].is_done(), move_tasks.items()))
+            if not unfinished_items:
+                break
+            move, task = copy.deepcopy(random.choice(unfinished_items))
+            local_Lexpt_delta = 0
+            while not move_tasks[move].is_done():
+                search = self.model.create_search(
+                    params, heuristic, move.board)
+                search.complete_search()
+                best_move = heuristic.get_best_move(search.get_tree())
+                success = best_move.board_position == move.move.board_position
+                local_Lexpt_delta += task.report_success(success)
+                if (success):
+                    with move_tasks.lock:
+                        if task.success_count == move_tasks[move].success_count + 1:
+                            move_tasks[move] = task
+                            Lexpt.value += local_Lexpt_delta
+                    break
+                else:
+                    # We may need to exit early. This implicitly signals all of the other processes as well.
+                    if Lexpt.value + local_Lexpt_delta > cutoff:
+                        with move_tasks.lock:
+                            Lexpt.value += local_Lexpt_delta
+                        break
 
     def compute_loglik(self, move_tasks, params):
+        global pool, Lexpt
         move_tasks = copy.deepcopy(move_tasks)
-        moves_to_process = len(move_tasks)
-        N = moves_to_process
-        Lexpt = N * self.model.expt_factor
-        num_workers = 32
-        submission_queue = Queue(num_workers * 8)
-        results_queue = Queue(num_workers * 8)
-        to_submit_queue = PriorityQueue()
-        pool = Pool(num_workers, self.estimate_log_lik_ibs,
-                    (params, submission_queue, results_queue,))
-        for move in move_tasks:
-            to_submit_queue.put((0, move))
-        while moves_to_process and Lexpt <= self.model.cutoff * N:
-            # Feed the furnace
-            while not submission_queue.full():
-                try:
-                    submission_count, move = to_submit_queue.get_nowait()
-                except Empty:
-                    break
-                try:
-                    submission_queue.put_nowait(move)
-                    submission_count += 1
-                except Full:
-                    break
-                finally:
-                    if not move_tasks[move].is_done():
-                        to_submit_queue.put((submission_count, move))
-            # Process results
-            while not results_queue.empty():
-                try:
-                    success, move = results_queue.get_nowait()
-                    if not move_tasks[move].is_done():
-                        if (success):
-                            Lexpt -= self.model.expt_factor / \
-                                move_tasks[move].required_success_count
-                        else:
-                            Lexpt += self.model.expt_factor / \
-                                (move_tasks[move].required_success_count *
-                                 move_tasks[move].attempt_count)
-                        move_tasks[move].report_success(success)
-                        if move_tasks[move].is_done():
-                            moves_to_process -= 1
-                except Empty:
-                    break
-        pool.terminate()
-        pool.join()
+        N = len(move_tasks)
+        num_workers = 16
+
+        cutoff = N * self.model.cutoff
+        Lexpt.value = N * self.model.expt_factor
+        shared_tasks = UltraDict(move_tasks)
+        results = [pool.apply_async(
+            self.estimate_log_lik_ibs, (params, cutoff, shared_tasks,)) for i in range(num_workers)]
+        [result.wait() for result in results]
 
         L_values = {}
-        for move in move_tasks:
-            L_values[move] = move_tasks[move].L
+        for move in shared_tasks:
+            L_values[move] = shared_tasks[move].L
         return L_values
 
     def generate_attempt_counts(self, L_values, c):
@@ -311,6 +297,13 @@ Read in splits from the above command, and only process/cross validate a single 
         type=int,
         help="If specified, instead of testing each position on a BADS function evaluation, instead randomly sample up to N positions without replacement.",
         metavar=('sample_count'))
+    parser.add_argument(
+        "-t",
+        "--threads",
+        nargs=1,
+        type=int,
+        default=16,
+        help="The number of threads to use when fitting.")
     args = parser.parse_args()
     if args.participant_file and args.input_dir:
         raise Exception("Can't specify both -f and -i!")
@@ -355,6 +348,14 @@ Read in splits from the above command, and only process/cross validate a single 
     if args.splits_only:
         exit()
 
+    global pool, Lexpt
+    Lexpt = Value('d', 0)
+
+    def thread_initializer(shared_val):
+        global Lexpt
+        Lexpt = shared_val
+    pool = Pool(args.threads, initializer=thread_initializer,
+                initargs=(Lexpt,))
     model_fitter = ModelFitter(DefaultModel(), args)
     start, end = 0, len(groups)
     if (args.cluster_mode):
