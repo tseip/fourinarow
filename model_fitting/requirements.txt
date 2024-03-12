@@ -1,3 +1,4 @@
+atomics==1.0.2
 matplotlib==3.7.1
 networkx==3.2.1
 numpy==1.25.0

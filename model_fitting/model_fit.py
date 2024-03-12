@@ -1,5 +1,6 @@
 from collections import defaultdict
 from functools import total_ordering
+import atomics
 from UltraDict import UltraDict
 import argparse
 import numpy as np
@@ -8,7 +9,7 @@ import random
 import fourbynine
 import copy
 import time
-from multiprocessing import Process, Pool, Value, Lock
+from multiprocessing import Pool, Value, set_start_method
 from pybads import BADS
 from pathlib import Path
 from tqdm import tqdm
@@ -97,6 +98,7 @@ class ModelFitter:
             self.random_sample = False
             self.sample_count = 0
         self.verbose = args.verbose
+        self.num_workers = args.threads
 
     def estimate_log_lik_ibs(
             self,
@@ -133,17 +135,18 @@ class ModelFitter:
                         break
 
     def compute_loglik(self, move_tasks, params):
-        global pool, Lexpt
-        move_tasks = copy.deepcopy(move_tasks)
         N = len(move_tasks)
-        num_workers = 16
 
         cutoff = N * self.model.cutoff
+        shared_tasks = UltraDict(move_tasks, shared_lock=True)
+
+        global Lexpt
         Lexpt.value = N * self.model.expt_factor
-        shared_tasks = UltraDict(move_tasks)
+
+        global pool
         results = [pool.apply_async(
-            self.estimate_log_lik_ibs, (params, cutoff, shared_tasks,)) for i in range(num_workers)]
-        [result.wait() for result in results]
+            self.estimate_log_lik_ibs, (params, cutoff, shared_tasks,)) for i in range(self.num_workers)]
+        [result.get() for result in results]
 
         L_values = {}
         for move in shared_tasks:
@@ -240,6 +243,11 @@ class ModelFitter:
         return params, loglik_train, loglik_test
 
 
+def initialize_thread(shared_value):
+    global Lexpt
+    Lexpt = shared_value
+
+
 def main():
     random.seed()
     parser = argparse.ArgumentParser(formatter_class=argparse.RawDescriptionHelpFormatter, epilog="""Example usages:
@@ -300,7 +308,6 @@ Read in splits from the above command, and only process/cross validate a single 
     parser.add_argument(
         "-t",
         "--threads",
-        nargs=1,
         type=int,
         default=16,
         help="The number of threads to use when fitting.")
@@ -348,14 +355,10 @@ Read in splits from the above command, and only process/cross validate a single 
     if args.splits_only:
         exit()
 
+    set_start_method('spawn')
     global pool, Lexpt
     Lexpt = Value('d', 0)
-
-    def thread_initializer(shared_val):
-        global Lexpt
-        Lexpt = shared_val
-    pool = Pool(args.threads, initializer=thread_initializer,
-                initargs=(Lexpt,))
+    pool = Pool(args.threads, initializer=initialize_thread, initargs=(Lexpt,))
     model_fitter = ModelFitter(DefaultModel(), args)
     start, end = 0, len(groups)
     if (args.cluster_mode):
