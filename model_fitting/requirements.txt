@@ -4,6 +4,7 @@ networkx==3.2.1
 numpy==1.25.0
 PyBADS==1.0.0
 PyQt6==6.5.1
+PyQt6-Qt6==6.5.1
 PyQt6_sip==13.5.1
 scipy==1.11.1
 tqdm==4.65.0

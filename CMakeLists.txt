@@ -68,6 +68,7 @@ gtest_discover_tests(tests)
 SET_SOURCE_FILES_PROPERTIES(fourbynine.i PROPERTIES CPLUSPLUS ON)
 SWIG_ADD_LIBRARY(swig_fourbynine TYPE SHARED LANGUAGE python OUTPUT_DIR "../model_fitting" OUTFILE_DIR "./" SOURCES fourbynine.i)
 set_property(TARGET swig_fourbynine PROPERTY SWIG_USE_TARGET_INCLUDE_DIRECTORIES TRUE)
+set_target_properties(swig_fourbynine PROPERTIES SUFFIX ".so")
 target_include_directories(swig_fourbynine PUBLIC "./")
 target_link_libraries(swig_fourbynine
   ${PYTHON_LIBRARIES}

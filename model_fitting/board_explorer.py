@@ -172,6 +172,7 @@ class BoardDisplay(QWidget):
         self.search = self.create_search(
             self.heuristic, self.board)
         self.fig = FigureCanvas(Figure(figsize=(5, 3)))
+        self.fig.setMinimumSize(QSize(50, 30))
         self.fig.mpl_connect('button_release_event', self.onclick)
         self.ax = self.fig.figure.add_subplot(111, aspect='equal')
         self.board_renderer = BoardRenderer(self.ax)
