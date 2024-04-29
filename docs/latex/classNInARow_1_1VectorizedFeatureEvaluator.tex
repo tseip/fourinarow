@@ -1,0 +1,100 @@
+\doxysection{NIn\+ARow\+::Vectorized\+Feature\+Evaluator\texorpdfstring{$<$}{<} Board \texorpdfstring{$>$}{>} Class Template Reference}
+\hypertarget{classNInARow_1_1VectorizedFeatureEvaluator}{}\label{classNInARow_1_1VectorizedFeatureEvaluator}\index{NInARow::VectorizedFeatureEvaluator$<$ Board $>$@{NInARow::VectorizedFeatureEvaluator$<$ Board $>$}}
+
+
+{\ttfamily \#include $<$ninarow\+\_\+vectorized\+\_\+feature\+\_\+evaluator.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classNInARow_1_1VectorizedFeatureEvaluator_a79ed063a4a443ffc4d17343867fe5b75}{Vectorized\+Feature\+Evaluator}} ()
+\item 
+std\+::size\+\_\+t \mbox{\hyperlink{classNInARow_1_1VectorizedFeatureEvaluator_a64b557eef6163708c1d4eed2152e0452}{register\+\_\+feature}} (const \mbox{\hyperlink{classNInARow_1_1HeuristicFeature}{Heuristic\+Feature}}$<$ \mbox{\hyperlink{classNInARow_1_1Board}{Board}} $>$ \&feature)
+\item 
+std\+::vector$<$ std\+::size\+\_\+t $>$ \mbox{\hyperlink{classNInARow_1_1VectorizedFeatureEvaluator_a0cabe8bf99826dd6f6405636e97ee251}{query\+\_\+pieces}} (const \mbox{\hyperlink{classNInARow_1_1Board}{Board}} \&b, Player player) const
+\item 
+std\+::vector$<$ std\+::size\+\_\+t $>$ \mbox{\hyperlink{classNInARow_1_1VectorizedFeatureEvaluator_a1c7508f7046e0516ab88d7b14f7562fe}{query\+\_\+spaces}} (const \mbox{\hyperlink{classNInARow_1_1Board}{Board}} \&b) const
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\subsubsection*{template$<$typename \mbox{\hyperlink{classNInARow_1_1Board}{Board}}$>$\newline
+class NIn\+ARow\+::\+Vectorized\+Feature\+Evaluator$<$ Board $>$}
+Registers a number of features that can all be evaluated simultaneously and efficiently on given boards.
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em \doxylink{classNInARow_1_1Board}{Board}} & The board that the feature will evaluate. \\
+\hline
+\end{DoxyTemplParams}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classNInARow_1_1VectorizedFeatureEvaluator_a79ed063a4a443ffc4d17343867fe5b75}\label{classNInARow_1_1VectorizedFeatureEvaluator_a79ed063a4a443ffc4d17343867fe5b75} 
+\index{NInARow::VectorizedFeatureEvaluator$<$ Board $>$@{NInARow::VectorizedFeatureEvaluator$<$ Board $>$}!VectorizedFeatureEvaluator@{VectorizedFeatureEvaluator}}
+\index{VectorizedFeatureEvaluator@{VectorizedFeatureEvaluator}!NInARow::VectorizedFeatureEvaluator$<$ Board $>$@{NInARow::VectorizedFeatureEvaluator$<$ Board $>$}}
+\doxysubsubsection{\texorpdfstring{VectorizedFeatureEvaluator()}{VectorizedFeatureEvaluator()}}
+{\footnotesize\ttfamily template$<$typename \mbox{\hyperlink{classNInARow_1_1Board}{Board}} $>$ \\
+\mbox{\hyperlink{classNInARow_1_1VectorizedFeatureEvaluator}{NIn\+ARow\+::\+Vectorized\+Feature\+Evaluator}}$<$ \mbox{\hyperlink{classNInARow_1_1Board}{Board}} $>$\+::\+Vectorized\+Feature\+Evaluator (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Constructor. 
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classNInARow_1_1VectorizedFeatureEvaluator_a0cabe8bf99826dd6f6405636e97ee251}\label{classNInARow_1_1VectorizedFeatureEvaluator_a0cabe8bf99826dd6f6405636e97ee251} 
+\index{NInARow::VectorizedFeatureEvaluator$<$ Board $>$@{NInARow::VectorizedFeatureEvaluator$<$ Board $>$}!query\_pieces@{query\_pieces}}
+\index{query\_pieces@{query\_pieces}!NInARow::VectorizedFeatureEvaluator$<$ Board $>$@{NInARow::VectorizedFeatureEvaluator$<$ Board $>$}}
+\doxysubsubsection{\texorpdfstring{query\_pieces()}{query\_pieces()}}
+{\footnotesize\ttfamily template$<$typename \mbox{\hyperlink{classNInARow_1_1Board}{Board}} $>$ \\
+std\+::vector$<$ std\+::size\+\_\+t $>$ \mbox{\hyperlink{classNInARow_1_1VectorizedFeatureEvaluator}{NIn\+ARow\+::\+Vectorized\+Feature\+Evaluator}}$<$ \mbox{\hyperlink{classNInARow_1_1Board}{Board}} $>$\+::query\+\_\+pieces (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classNInARow_1_1Board}{Board}} \&}]{b,  }\item[{Player}]{player }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+Given a board and a player, count the number of pieces that the player has on the board which overlap with each of our registered features\textquotesingle{} pieces.
+
+
+\begin{DoxyParams}{Parameters}
+{\em b} & The board to evaluate. \\
+\hline
+{\em player} & The player whose pieces we are evaluating.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A list of counts representing the number of pieces that the player has on the board that overlap with each feature in order. 
+\end{DoxyReturn}
+\Hypertarget{classNInARow_1_1VectorizedFeatureEvaluator_a1c7508f7046e0516ab88d7b14f7562fe}\label{classNInARow_1_1VectorizedFeatureEvaluator_a1c7508f7046e0516ab88d7b14f7562fe} 
+\index{NInARow::VectorizedFeatureEvaluator$<$ Board $>$@{NInARow::VectorizedFeatureEvaluator$<$ Board $>$}!query\_spaces@{query\_spaces}}
+\index{query\_spaces@{query\_spaces}!NInARow::VectorizedFeatureEvaluator$<$ Board $>$@{NInARow::VectorizedFeatureEvaluator$<$ Board $>$}}
+\doxysubsubsection{\texorpdfstring{query\_spaces()}{query\_spaces()}}
+{\footnotesize\ttfamily template$<$typename \mbox{\hyperlink{classNInARow_1_1Board}{Board}} $>$ \\
+std\+::vector$<$ std\+::size\+\_\+t $>$ \mbox{\hyperlink{classNInARow_1_1VectorizedFeatureEvaluator}{NIn\+ARow\+::\+Vectorized\+Feature\+Evaluator}}$<$ \mbox{\hyperlink{classNInARow_1_1Board}{Board}} $>$\+::query\+\_\+spaces (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classNInARow_1_1Board}{Board}} \&}]{b }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+Given a board, count the number of spaces on the board which overlap with each of our registered features\textquotesingle{} spaces.
+
+
+\begin{DoxyParams}{Parameters}
+{\em b} & The board to evaluate.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A list of counts representing the amount of overlap between between the board\textquotesingle{}s spaces and each feature\textquotesingle{}s spaces. 
+\end{DoxyReturn}
+\Hypertarget{classNInARow_1_1VectorizedFeatureEvaluator_a64b557eef6163708c1d4eed2152e0452}\label{classNInARow_1_1VectorizedFeatureEvaluator_a64b557eef6163708c1d4eed2152e0452} 
+\index{NInARow::VectorizedFeatureEvaluator$<$ Board $>$@{NInARow::VectorizedFeatureEvaluator$<$ Board $>$}!register\_feature@{register\_feature}}
+\index{register\_feature@{register\_feature}!NInARow::VectorizedFeatureEvaluator$<$ Board $>$@{NInARow::VectorizedFeatureEvaluator$<$ Board $>$}}
+\doxysubsubsection{\texorpdfstring{register\_feature()}{register\_feature()}}
+{\footnotesize\ttfamily template$<$typename \mbox{\hyperlink{classNInARow_1_1Board}{Board}} $>$ \\
+std\+::size\+\_\+t \mbox{\hyperlink{classNInARow_1_1VectorizedFeatureEvaluator}{NIn\+ARow\+::\+Vectorized\+Feature\+Evaluator}}$<$ \mbox{\hyperlink{classNInARow_1_1Board}{Board}} $>$\+::register\+\_\+feature (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classNInARow_1_1HeuristicFeature}{Heuristic\+Feature}}$<$ \mbox{\hyperlink{classNInARow_1_1Board}{Board}} $>$ \&}]{feature }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Adds a new feature to the evaluator.
+
+
+\begin{DoxyParams}{Parameters}
+{\em feature} & The feature to add.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The total number of features this evaluator is tracking. 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+ninarow\+\_\+vectorized\+\_\+feature\+\_\+evaluator.\+h\end{DoxyCompactItemize}

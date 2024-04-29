@@ -1,0 +1,264 @@
+\doxysection{BFSNode\texorpdfstring{$<$}{<} Board \texorpdfstring{$>$}{>} Class Template Reference}
+\hypertarget{classBFSNode}{}\label{classBFSNode}\index{BFSNode$<$ Board $>$@{BFSNode$<$ Board $>$}}
+
+
+{\ttfamily \#include $<$bfs\+\_\+node.\+h$>$}
+
+Inheritance diagram for BFSNode\texorpdfstring{$<$}{<} Board \texorpdfstring{$>$}{>}\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{classBFSNode}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual double \mbox{\hyperlink{classBFSNode_a4127764e459d6b9d1df888e411b7fc1f}{get\+\_\+value}} () const override
+\item 
+virtual bool \mbox{\hyperlink{classBFSNode_ab575f386fa56808c926fb392384a96c9}{determined}} () const override
+\item 
+std\+::string \mbox{\hyperlink{classBFSNode_abf42fa383fcc7dbdd5da403729ba9985}{to\+\_\+string}} () const override
+\item 
+void \mbox{\hyperlink{classBFSNode_a7983c9229297b3d187b7fb712797456b}{expand}} (const std\+::vector$<$ typename Board\+::\+MoveT $>$ \&moves) override
+\item 
+std\+::size\+\_\+t \mbox{\hyperlink{classBFSNode_aac8a70e25370b62453db919c20c06154}{get\+\_\+depth\+\_\+of\+\_\+pv}} () const override
+\item 
+Board\+::\+MoveT \mbox{\hyperlink{classBFSNode_aafe24a6de54d1b667e87ccb54242ebb7}{get\+\_\+best\+\_\+move}} () const override
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{classNode}{Node$<$ Board $>$}}}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{structNode_1_1Iterator}{Iterator}}$<$ \mbox{\hyperlink{classNode}{Node}} $>$ \mbox{\hyperlink{classNode_acc4d194f3836423dd30ef667a5154d12}{begin}} ()
+\item 
+\mbox{\hyperlink{structNode_1_1Iterator}{Iterator}}$<$ \mbox{\hyperlink{classNode}{Node}} $>$ \mbox{\hyperlink{classNode_a9876071a2f4d27fcbaa804d78fd1248b}{end}} ()
+\item 
+\mbox{\hyperlink{structNode_1_1Iterator}{Iterator}}$<$ const \mbox{\hyperlink{classNode}{Node}} $>$ \mbox{\hyperlink{classNode_ad889a991fbe8ded67adb9dbd2b656d92}{begin}} () const
+\item 
+\mbox{\hyperlink{structNode_1_1Iterator}{Iterator}}$<$ const \mbox{\hyperlink{classNode}{Node}} $>$ \mbox{\hyperlink{classNode_ac56dd9588cbea5dccadf5844d4a59eb7}{end}} () const
+\item 
+virtual double \mbox{\hyperlink{classNode_adb0d7941c0f6e1a7226527317f5ddb27}{get\+\_\+value}} () const
+\item 
+virtual bool \mbox{\hyperlink{classNode_a868faa177f02c3fedc04d9b9bf7ecf93}{determined}} () const =0
+\item 
+\Hypertarget{classNode_a2deb4ab7f9699d13e5aa35ef64a78735}\label{classNode_a2deb4ab7f9699d13e5aa35ef64a78735} 
+bool {\bfseries operator$<$} (const \mbox{\hyperlink{classNode}{Node}} \&other)
+\item 
+const Board \mbox{\hyperlink{classNode_ab311598fed12653111397db58e5a7001}{get\+\_\+board}} () const
+\item 
+const Board\+::\+MoveT \mbox{\hyperlink{classNode_a6de631214544e4cf3b183c77d4dfe1e8}{get\+\_\+move}} () const
+\item 
+std\+::vector$<$ std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classNode}{Node}} $>$ $>$ \& \mbox{\hyperlink{classNode_a7c5b04e0febe3632036ec445f99a8bee}{get\+\_\+children}} ()
+\item 
+const std\+::vector$<$ std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classNode}{Node}} $>$ $>$ \& \mbox{\hyperlink{classNode_a00ff93234c202e54264dbe80b4756a00}{get\+\_\+children}} () const
+\item 
+std\+::size\+\_\+t \mbox{\hyperlink{classNode_a1210874aa5964085bceddff1c1c740d3}{get\+\_\+depth}} () const
+\item 
+std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classNode}{Node}} $>$ \mbox{\hyperlink{classNode_a15d6c7037cfc6f1ef1af4a1941679dd3}{get\+\_\+parent}} () const
+\item 
+virtual std\+::string \mbox{\hyperlink{classNode_a09ca7726777dfdb219f59888c57c16f7}{to\+\_\+string}} () const
+\item 
+std\+::string \mbox{\hyperlink{classNode_a96378c9b639bde5829f2187826b9e394}{to\+\_\+string}} (std\+::size\+\_\+t max\+\_\+depth) const
+\item 
+virtual void \mbox{\hyperlink{classNode_a96caba185e8bc662cbf3225a84e248c1}{expand}} (const std\+::vector$<$ typename Board\+::\+MoveT $>$ \&moves)=0
+\item 
+virtual std\+::size\+\_\+t \mbox{\hyperlink{classNode_ae0d492e045fcbed75d1d4ec6afe0a42b}{get\+\_\+depth\+\_\+of\+\_\+pv}} () const =0
+\item 
+std\+::shared\+\_\+ptr$<$ const \mbox{\hyperlink{classNode}{Node}} $>$ \mbox{\hyperlink{classNode_a32d2d72c8112b24a44782e11edf534aa}{select}} () const
+\item 
+std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classNode}{Node}} $>$ \mbox{\hyperlink{classNode_a98a3ff381af39aacb22d290338859561}{select}} ()
+\item 
+std\+::size\+\_\+t \mbox{\hyperlink{classNode_a53e3fc86e02144b940cdff29b5cb8f57}{get\+\_\+num\+\_\+leaves}} () const
+\item 
+std\+::size\+\_\+t \mbox{\hyperlink{classNode_a902cda76237a080d0b514bf057fe0bd1}{get\+\_\+node\+\_\+count}} () const
+\item 
+double \mbox{\hyperlink{classNode_a9c17f7a340cd270187cc17448b12f407}{get\+\_\+average\+\_\+branching\+\_\+factor}} () const
+\item 
+std\+::size\+\_\+t \mbox{\hyperlink{classNode_ad01ea2de9edb8b45161b25a1480d4724}{get\+\_\+num\+\_\+internal\+\_\+nodes}} () const
+\item 
+double \mbox{\hyperlink{classNode_a679562f0d169cc82beb2996e2af60a14}{get\+\_\+mean\+\_\+depth}} () const
+\item 
+virtual Board\+::\+MoveT \mbox{\hyperlink{classNode_a87091fb8455cbc9797ddc80a262e04e7}{get\+\_\+best\+\_\+move}} () const =0
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classBFSNode}{BFSNode}} $>$ \mbox{\hyperlink{classBFSNode_aff20733b2a88f5feb2904034acc89232}{create}} (const Board \&\mbox{\hyperlink{classNode_ac14767b41676460f9e838443e00ac50a}{board}}, double val)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual std\+::shared\+\_\+ptr$<$ const \mbox{\hyperlink{classNode}{Node}}$<$ Board $>$ $>$ \mbox{\hyperlink{classBFSNode_aa675b13acb70f932aa3aaaf9b61976f0}{virtual\+\_\+select}} () const override
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Member Functions inherited from \mbox{\hyperlink{classNode}{Node$<$ Board $>$}}}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classNode_ae07350ede45b2156498cb01aaea56475}{Node}} (const Board \&\mbox{\hyperlink{classNode_ac14767b41676460f9e838443e00ac50a}{board}})
+\item 
+\mbox{\hyperlink{classNode_aae8ad9f55540e320917b5ae282bba8cb}{Node}} (const std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classNode}{Node}} $>$ \mbox{\hyperlink{classNode_a9fab43181fecc1e9eff1918dbb403362}{parent}}, const typename Board\+::\+MoveT \&\mbox{\hyperlink{classNode_afed75881ae880fef65f1993b5d3fa607}{move}})
+\item 
+{\footnotesize template$<$class Field $>$ }\\bool \mbox{\hyperlink{classNode_a72acef9415d9d0845cb7fb0cd9dfabb4}{update\+\_\+field\+\_\+against\+\_\+child}} (const Field \&child\+\_\+field, Field \&field) const
+\item 
+std\+::size\+\_\+t \mbox{\hyperlink{classNode_a56bc8b5b9920ca516e3180bd928e6c79}{get\+\_\+sum\+\_\+depth}} () const
+\item 
+virtual std\+::shared\+\_\+ptr$<$ const \mbox{\hyperlink{classNode}{Node}} $>$ \mbox{\hyperlink{classNode_a20de8d171f42484738b81bcfcb0519ec}{virtual\+\_\+select}} () const =0
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Additional Inherited Members}
+\doxysubsection*{Protected Attributes inherited from \mbox{\hyperlink{classNode}{Node$<$ Board $>$}}}
+\begin{DoxyCompactItemize}
+\item 
+std\+::vector$<$ std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classNode}{Node}} $>$ $>$ \mbox{\hyperlink{classNode_a430ad6a899a7fff5868fe7f3668b50eb}{children}}
+\item 
+const std\+::weak\+\_\+ptr$<$ \mbox{\hyperlink{classNode}{Node}} $>$ \mbox{\hyperlink{classNode_a9fab43181fecc1e9eff1918dbb403362}{parent}}
+\item 
+const std\+::size\+\_\+t \mbox{\hyperlink{classNode_a034524f13d60063a604e4be013fac1fb}{depth}}
+\item 
+const Board \mbox{\hyperlink{classNode_ac14767b41676460f9e838443e00ac50a}{board}}
+\item 
+const Board\+::\+MoveT \mbox{\hyperlink{classNode_afed75881ae880fef65f1993b5d3fa607}{move}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\subsubsection*{template$<$class Board$>$\newline
+class BFSNode$<$ Board $>$}
+Represents a single node in the game tree.
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em Board} & The board representation used by the game. \\
+\hline
+\end{DoxyTemplParams}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classBFSNode_aff20733b2a88f5feb2904034acc89232}\label{classBFSNode_aff20733b2a88f5feb2904034acc89232} 
+\index{BFSNode$<$ Board $>$@{BFSNode$<$ Board $>$}!create@{create}}
+\index{create@{create}!BFSNode$<$ Board $>$@{BFSNode$<$ Board $>$}}
+\doxysubsubsection{\texorpdfstring{create()}{create()}}
+{\footnotesize\ttfamily template$<$class Board $>$ \\
+static std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classBFSNode}{BFSNode}} $>$ \mbox{\hyperlink{classBFSNode}{BFSNode}}$<$ Board $>$\+::create (\begin{DoxyParamCaption}\item[{const Board \&}]{board,  }\item[{double}]{val }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}
+
+Creates a node with no move history on the heap and returns a pointer to it.
+
+
+\begin{DoxyParams}{Parameters}
+{\em board} & The board state prior to the move being represented by this node is made. \\
+\hline
+{\em val} & The heuristic value of the move this node represents.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A pointer to the newly created node. 
+\end{DoxyReturn}
+\Hypertarget{classBFSNode_ab575f386fa56808c926fb392384a96c9}\label{classBFSNode_ab575f386fa56808c926fb392384a96c9} 
+\index{BFSNode$<$ Board $>$@{BFSNode$<$ Board $>$}!determined@{determined}}
+\index{determined@{determined}!BFSNode$<$ Board $>$@{BFSNode$<$ Board $>$}}
+\doxysubsubsection{\texorpdfstring{determined()}{determined()}}
+{\footnotesize\ttfamily template$<$class Board $>$ \\
+virtual bool \mbox{\hyperlink{classBFSNode}{BFSNode}}$<$ Board $>$\+::determined (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+\begin{DoxyReturn}{Returns}
+True if the heuristic value of this node has converged, i.\+e. if the pessimistic and optimistic bounds on the value of the node are equal. 
+\end{DoxyReturn}
+
+
+Implements \mbox{\hyperlink{classNode_a868faa177f02c3fedc04d9b9bf7ecf93}{Node$<$ Board $>$}}.
+
+\Hypertarget{classBFSNode_a7983c9229297b3d187b7fb712797456b}\label{classBFSNode_a7983c9229297b3d187b7fb712797456b} 
+\index{BFSNode$<$ Board $>$@{BFSNode$<$ Board $>$}!expand@{expand}}
+\index{expand@{expand}!BFSNode$<$ Board $>$@{BFSNode$<$ Board $>$}}
+\doxysubsubsection{\texorpdfstring{expand()}{expand()}}
+{\footnotesize\ttfamily template$<$class Board $>$ \\
+void \mbox{\hyperlink{classBFSNode}{BFSNode}}$<$ Board $>$\+::expand (\begin{DoxyParamCaption}\item[{const std\+::vector$<$ typename Board\+::\+MoveT $>$ \&}]{moves }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+Accepts a list of moves that can be played from this position represented by this node and adds them to the game tree.
+
+
+\begin{DoxyParams}{Parameters}
+{\em moves} & A list of moves that can be played from this position. \\
+\hline
+\end{DoxyParams}
+
+
+Implements \mbox{\hyperlink{classNode_a96caba185e8bc662cbf3225a84e248c1}{Node$<$ Board $>$}}.
+
+\Hypertarget{classBFSNode_aafe24a6de54d1b667e87ccb54242ebb7}\label{classBFSNode_aafe24a6de54d1b667e87ccb54242ebb7} 
+\index{BFSNode$<$ Board $>$@{BFSNode$<$ Board $>$}!get\_best\_move@{get\_best\_move}}
+\index{get\_best\_move@{get\_best\_move}!BFSNode$<$ Board $>$@{BFSNode$<$ Board $>$}}
+\doxysubsubsection{\texorpdfstring{get\_best\_move()}{get\_best\_move()}}
+{\footnotesize\ttfamily template$<$class Board $>$ \\
+Board\+::\+MoveT \mbox{\hyperlink{classBFSNode}{BFSNode}}$<$ Board $>$\+::get\+\_\+best\+\_\+move (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+\begin{DoxyReturn}{Returns}
+The best known move from the current position for the current player. 
+\end{DoxyReturn}
+
+
+Implements \mbox{\hyperlink{classNode_a87091fb8455cbc9797ddc80a262e04e7}{Node$<$ Board $>$}}.
+
+\Hypertarget{classBFSNode_aac8a70e25370b62453db919c20c06154}\label{classBFSNode_aac8a70e25370b62453db919c20c06154} 
+\index{BFSNode$<$ Board $>$@{BFSNode$<$ Board $>$}!get\_depth\_of\_pv@{get\_depth\_of\_pv}}
+\index{get\_depth\_of\_pv@{get\_depth\_of\_pv}!BFSNode$<$ Board $>$@{BFSNode$<$ Board $>$}}
+\doxysubsubsection{\texorpdfstring{get\_depth\_of\_pv()}{get\_depth\_of\_pv()}}
+{\footnotesize\ttfamily template$<$class Board $>$ \\
+std\+::size\+\_\+t \mbox{\hyperlink{classBFSNode}{BFSNode}}$<$ Board $>$\+::get\+\_\+depth\+\_\+of\+\_\+pv (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+\begin{DoxyReturn}{Returns}
+The number of moves between us and our recursively best known child. 
+\end{DoxyReturn}
+
+
+Implements \mbox{\hyperlink{classNode_ae0d492e045fcbed75d1d4ec6afe0a42b}{Node$<$ Board $>$}}.
+
+\Hypertarget{classBFSNode_a4127764e459d6b9d1df888e411b7fc1f}\label{classBFSNode_a4127764e459d6b9d1df888e411b7fc1f} 
+\index{BFSNode$<$ Board $>$@{BFSNode$<$ Board $>$}!get\_value@{get\_value}}
+\index{get\_value@{get\_value}!BFSNode$<$ Board $>$@{BFSNode$<$ Board $>$}}
+\doxysubsubsection{\texorpdfstring{get\_value()}{get\_value()}}
+{\footnotesize\ttfamily template$<$class Board $>$ \\
+virtual double \mbox{\hyperlink{classBFSNode}{BFSNode}}$<$ Board $>$\+::get\+\_\+value (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+\begin{DoxyReturn}{Returns}
+The node\textquotesingle{}s heuristic value, determined by the search algorithm used. 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+Since the base class has no search algorithm associated with it, we order arbitrarily by board position. 
+\end{DoxyNote}
+
+
+Reimplemented from \mbox{\hyperlink{classNode_adb0d7941c0f6e1a7226527317f5ddb27}{Node$<$ Board $>$}}.
+
+\Hypertarget{classBFSNode_abf42fa383fcc7dbdd5da403729ba9985}\label{classBFSNode_abf42fa383fcc7dbdd5da403729ba9985} 
+\index{BFSNode$<$ Board $>$@{BFSNode$<$ Board $>$}!to\_string@{to\_string}}
+\index{to\_string@{to\_string}!BFSNode$<$ Board $>$@{BFSNode$<$ Board $>$}}
+\doxysubsubsection{\texorpdfstring{to\_string()}{to\_string()}}
+{\footnotesize\ttfamily template$<$class Board $>$ \\
+std\+::string \mbox{\hyperlink{classBFSNode}{BFSNode}}$<$ Board $>$\+::to\+\_\+string (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+\begin{DoxyReturn}{Returns}
+A string representing the state of this node. 
+\end{DoxyReturn}
+
+
+Reimplemented from \mbox{\hyperlink{classNode_a09ca7726777dfdb219f59888c57c16f7}{Node$<$ Board $>$}}.
+
+\Hypertarget{classBFSNode_aa675b13acb70f932aa3aaaf9b61976f0}\label{classBFSNode_aa675b13acb70f932aa3aaaf9b61976f0} 
+\index{BFSNode$<$ Board $>$@{BFSNode$<$ Board $>$}!virtual\_select@{virtual\_select}}
+\index{virtual\_select@{virtual\_select}!BFSNode$<$ Board $>$@{BFSNode$<$ Board $>$}}
+\doxysubsubsection{\texorpdfstring{virtual\_select()}{virtual\_select()}}
+{\footnotesize\ttfamily template$<$class Board $>$ \\
+virtual std\+::shared\+\_\+ptr$<$ const \mbox{\hyperlink{classNode}{Node}}$<$ Board $>$ $>$ \mbox{\hyperlink{classBFSNode}{BFSNode}}$<$ Board $>$\+::virtual\+\_\+select (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [protected]}, {\ttfamily [virtual]}}
+
+Select the best move from among our children. If we have no good child, return ourselves. Note that the returned move may be multiple moves in the future, i.\+e. we may return a move that represents an entire line of play.
+
+\begin{DoxyReturn}{Returns}
+The best move from amongst our children and ourselves. 
+\end{DoxyReturn}
+
+
+Implements \mbox{\hyperlink{classNode_a20de8d171f42484738b81bcfcb0519ec}{Node$<$ Board $>$}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+bfs\+\_\+node.\+h\end{DoxyCompactItemize}

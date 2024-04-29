@@ -6,6 +6,19 @@ from fourbynine import NInARowBestFirstSearch
 
 
 def search_from_position(position, heuristic, noise_enabled=True, seed=None):
+    """
+    Given a position and a heuristic, execute a search from the given position
+    and return the best move.
+
+    Args:
+        position: The position (board) to search from.
+        heuristic: The heuristic to use to evaluate the position.
+        noise_enabled: If true, enable noise, else disable it.
+        seed: The seed for the RNG in the heuristic.
+
+    Returns:
+        The best move from the given position as evaluated by the heuristic.
+    """
     if seed:
         heuristic.seed_generator(seed)
     else:
@@ -17,6 +30,16 @@ def search_from_position(position, heuristic, noise_enabled=True, seed=None):
 
 
 def bads_parameters_to_model_parameters(params):
+    """
+    Expands a truncated set of BADS parameters into a full set of heuristic params
+    for constructing a heuristic.
+
+    Args:
+        params: The BADS parameters to convert (of length 10)
+
+    Returns:
+        The corresponding heuristic parameters (of length 58)
+    """
     if (len(params) != 10):
         raise Exception(
             "Parameter file must contain 10 parameters: {}".format(params))

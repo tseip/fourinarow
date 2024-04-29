@@ -1,0 +1,194 @@
+\doxysection{NIn\+ARow\+::NIn\+ARow\+Best\+First\+Search\texorpdfstring{$<$}{<} Heuristic \texorpdfstring{$>$}{>} Class Template Reference}
+\hypertarget{classNInARow_1_1NInARowBestFirstSearch}{}\label{classNInARow_1_1NInARowBestFirstSearch}\index{NInARow::NInARowBestFirstSearch$<$ Heuristic $>$@{NInARow::NInARowBestFirstSearch$<$ Heuristic $>$}}
+
+
+{\ttfamily \#include $<$ninarow\+\_\+bfs.\+h$>$}
+
+Inheritance diagram for NIn\+ARow\+::NIn\+ARow\+Best\+First\+Search\texorpdfstring{$<$}{<} Heuristic \texorpdfstring{$>$}{>}\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{classNInARow_1_1NInARowBestFirstSearch}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classNInARow_1_1NInARowBestFirstSearch_a00391df76c0a8e252afb1854493566f7}{NIn\+ARow\+Best\+First\+Search}} (std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classNInARow_1_1Heuristic}{Heuristic}} $>$ \mbox{\hyperlink{classAbstractSearch_a744d099727fdb421cbe1e31facf50017}{heuristic}}, const typename \mbox{\hyperlink{classNInARow_1_1Board}{Heuristic\+::\+BoardT}} \&\mbox{\hyperlink{classAbstractSearch_ac1ec9e7962844e8dbd86f12a6d073d94}{board}})
+\item 
+std\+::size\+\_\+t \mbox{\hyperlink{classNInARow_1_1NInARowBestFirstSearch_a757f3eb9ad4961aaf46929c0e23da1f6}{get\+\_\+iterations}} () const
+\item 
+std\+::size\+\_\+t \mbox{\hyperlink{classNInARow_1_1NInARowBestFirstSearch_a562fff49b9c714c59b8ed41afcf9ad6c}{get\+\_\+num\+\_\+repetitions}} () const
+\end{DoxyCompactItemize}
+\textbf{ }\par
+\begin{DoxyCompactItemize}
+\item 
+virtual bool \mbox{\hyperlink{classNInARow_1_1NInARowBestFirstSearch_a43d52291a89a8534e33f63bf455e32c6}{advance\+\_\+search}} () override
+\item 
+virtual std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classNode}{Node}}$<$ typename \mbox{\hyperlink{classNInARow_1_1Board}{Heuristic\+::\+BoardT}} $>$ $>$ \mbox{\hyperlink{classNInARow_1_1NInARowBestFirstSearch_ac10ec6055962c16b9c3c1f7350803630}{get\+\_\+tree}} () override
+\end{DoxyCompactItemize}
+
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{classSearch}{Search$<$ Heuristic, BFSNode$<$ Heuristic\+::\+Board\+T $>$ $>$}}}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classSearch_ab862117f735cc5addb0d9b525dee163c}{Search}} (std\+::shared\+\_\+ptr$<$ Heuristic $>$ \mbox{\hyperlink{classAbstractSearch_a744d099727fdb421cbe1e31facf50017}{heuristic}}, const typename Heuristic\+::\+BoardT \&\mbox{\hyperlink{classAbstractSearch_ac1ec9e7962844e8dbd86f12a6d073d94}{board}})
+\item 
+virtual bool \mbox{\hyperlink{classSearch_a13750aafda8b06f87baf62e59b8076f1}{advance\+\_\+search}} () override
+\item 
+virtual std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classNode}{Node}}$<$ typename Heuristic\+::\+BoardT $>$ $>$ \mbox{\hyperlink{classSearch_a55e7b0463d420d1b2fd32aeb11456049}{get\+\_\+tree}} () override
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{classAbstractSearch}{Abstract\+Search$<$ Heuristic $>$}}}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classAbstractSearch_a4496c55eba254ec5ea81961da27c531d}{Abstract\+Search}} (std\+::shared\+\_\+ptr$<$ Heuristic $>$ \mbox{\hyperlink{classAbstractSearch_a744d099727fdb421cbe1e31facf50017}{heuristic}}, const typename Heuristic\+::\+BoardT \&\mbox{\hyperlink{classAbstractSearch_ac1ec9e7962844e8dbd86f12a6d073d94}{board}})
+\item 
+virtual bool \mbox{\hyperlink{classAbstractSearch_a855da60f8f33a100a1eb3c348ba376f9}{advance\+\_\+search}} ()=0
+\item 
+void \mbox{\hyperlink{classAbstractSearch_ab9f53c4ba1e6a5aa6f871df495fb1323}{complete\+\_\+search}} ()
+\item 
+virtual \mbox{\hyperlink{classAbstractSearch_a98825786c8e1967135a370723d512516}{$\sim$\+Abstract\+Search}} ()
+\item 
+virtual std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classNode}{Node}}$<$ typename Heuristic\+::\+BoardT $>$ $>$ \mbox{\hyperlink{classAbstractSearch_a54d76b0f9a1ea047af37197155ed873d}{get\+\_\+tree}} ()=0
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classNInARow_1_1NInARowBestFirstSearch_ae8bca1fa87f634125b5d506a5dcec8ef}\label{classNInARow_1_1NInARowBestFirstSearch_ae8bca1fa87f634125b5d506a5dcec8ef} 
+bool {\bfseries stopping\+\_\+conditions} (std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classNInARow_1_1Heuristic}{Heuristic}} $>$ \mbox{\hyperlink{classAbstractSearch_a744d099727fdb421cbe1e31facf50017}{heuristic}}, const typename \mbox{\hyperlink{classNInARow_1_1Board}{Heuristic\+::\+BoardT}} \&\mbox{\hyperlink{classAbstractSearch_ac1ec9e7962844e8dbd86f12a6d073d94}{board}}) const override
+\item 
+\Hypertarget{classNInARow_1_1NInARowBestFirstSearch_abe6931682daa1a2df0f012c7720147e3}\label{classNInARow_1_1NInARowBestFirstSearch_abe6931682daa1a2df0f012c7720147e3} 
+void {\bfseries on\+\_\+node\+\_\+expansion} (std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classBFSNode}{BFSNode}}$<$ typename \mbox{\hyperlink{classNInARow_1_1Board}{Heuristic\+::\+BoardT}} $>$ $>$, std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classNInARow_1_1Heuristic}{Heuristic}} $>$ \mbox{\hyperlink{classAbstractSearch_a744d099727fdb421cbe1e31facf50017}{heuristic}}, const typename \mbox{\hyperlink{classNInARow_1_1Board}{Heuristic\+::\+BoardT}} \&) override
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Member Functions inherited from \mbox{\hyperlink{classSearch}{Search$<$ Heuristic, BFSNode$<$ Heuristic\+::\+Board\+T $>$ $>$}}}
+\begin{DoxyCompactItemize}
+\item 
+virtual std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classBFSNode}{BFSNode}}$<$ Heuristic\+::\+BoardT $>$ $>$ \mbox{\hyperlink{classSearch_a8a3b9aeca1a81ccbac1aab29c380aa1a}{select\+\_\+next\+\_\+node}} ()
+\item 
+virtual bool \mbox{\hyperlink{classSearch_aae556cae02133ccd0afb5c0100c5fad3}{stopping\+\_\+conditions}} (std\+::shared\+\_\+ptr$<$ Heuristic $>$ \mbox{\hyperlink{classAbstractSearch_a744d099727fdb421cbe1e31facf50017}{heuristic}}, const typename Heuristic\+::\+BoardT \&\mbox{\hyperlink{classAbstractSearch_ac1ec9e7962844e8dbd86f12a6d073d94}{board}}) const
+\item 
+virtual void \mbox{\hyperlink{classSearch_a87f4b3101544762f7a80023fef198fa0}{on\+\_\+node\+\_\+expansion}} (std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classBFSNode}{BFSNode}}$<$ Heuristic\+::\+BoardT $>$ $>$ expanded\+\_\+node, std\+::shared\+\_\+ptr$<$ Heuristic $>$ \mbox{\hyperlink{classAbstractSearch_a744d099727fdb421cbe1e31facf50017}{heuristic}}, const typename Heuristic\+::\+BoardT \&\mbox{\hyperlink{classAbstractSearch_ac1ec9e7962844e8dbd86f12a6d073d94}{board}})
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classNInARow_1_1Move}{Heuristic\+::\+Board\+T\+::\+MoveT}} \mbox{\hyperlink{classNInARow_1_1NInARowBestFirstSearch_a74217d6e1dea8fe96418dba564fe20ad}{best\+\_\+move}}
+\item 
+std\+::size\+\_\+t \mbox{\hyperlink{classNInARow_1_1NInARowBestFirstSearch_ad36ee9f70c7dccf87e6c341440418e11}{num\+\_\+repetitions}}
+\item 
+std\+::size\+\_\+t \mbox{\hyperlink{classNInARow_1_1NInARowBestFirstSearch_a23bbd530c99a748c22d0d0258a12b72c}{iterations}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Attributes inherited from \mbox{\hyperlink{classSearch}{Search$<$ Heuristic, BFSNode$<$ Heuristic\+::\+Board\+T $>$ $>$}}}
+\begin{DoxyCompactItemize}
+\item 
+std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classBFSNode}{BFSNode}}$<$ Heuristic\+::\+BoardT $>$ $>$ \mbox{\hyperlink{classSearch_aaf7631e66228551e7914e68c94d6f08f}{root}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Attributes inherited from \mbox{\hyperlink{classAbstractSearch}{Abstract\+Search$<$ Heuristic $>$}}}
+\begin{DoxyCompactItemize}
+\item 
+std\+::shared\+\_\+ptr$<$ Heuristic $>$ \mbox{\hyperlink{classAbstractSearch_a744d099727fdb421cbe1e31facf50017}{heuristic}}
+\item 
+const Heuristic\+::\+BoardT \mbox{\hyperlink{classAbstractSearch_ac1ec9e7962844e8dbd86f12a6d073d94}{board}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\subsubsection*{template$<$class \mbox{\hyperlink{classNInARow_1_1Heuristic}{Heuristic}}$>$\newline
+class NIn\+ARow\+::\+NIn\+ARow\+Best\+First\+Search$<$ Heuristic $>$}
+Represents a best-\/first-\/search algorithm with customized stopping conditions (with precisely the same behavior as Bas\textquotesingle{}s original implementation). 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classNInARow_1_1NInARowBestFirstSearch_a00391df76c0a8e252afb1854493566f7}\label{classNInARow_1_1NInARowBestFirstSearch_a00391df76c0a8e252afb1854493566f7} 
+\index{NInARow::NInARowBestFirstSearch$<$ Heuristic $>$@{NInARow::NInARowBestFirstSearch$<$ Heuristic $>$}!NInARowBestFirstSearch@{NInARowBestFirstSearch}}
+\index{NInARowBestFirstSearch@{NInARowBestFirstSearch}!NInARow::NInARowBestFirstSearch$<$ Heuristic $>$@{NInARow::NInARowBestFirstSearch$<$ Heuristic $>$}}
+\doxysubsubsection{\texorpdfstring{NInARowBestFirstSearch()}{NInARowBestFirstSearch()}}
+{\footnotesize\ttfamily template$<$class \mbox{\hyperlink{classNInARow_1_1Heuristic}{Heuristic}} $>$ \\
+\mbox{\hyperlink{classNInARow_1_1NInARowBestFirstSearch}{NIn\+ARow\+::\+NIn\+ARow\+Best\+First\+Search}}$<$ \mbox{\hyperlink{classNInARow_1_1Heuristic}{Heuristic}} $>$\+::\+NIn\+ARow\+Best\+First\+Search (\begin{DoxyParamCaption}\item[{std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classNInARow_1_1Heuristic}{Heuristic}} $>$}]{heuristic,  }\item[{const typename \mbox{\hyperlink{classNInARow_1_1Board}{Heuristic\+::\+BoardT}} \&}]{board }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Constructor.
+
+
+\begin{DoxyParams}{Parameters}
+{\em heuristic} & The heuristic used to evaluated the board at each position. \\
+\hline
+{\em board} & The board position to search from. \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classNInARow_1_1NInARowBestFirstSearch_a43d52291a89a8534e33f63bf455e32c6}\label{classNInARow_1_1NInARowBestFirstSearch_a43d52291a89a8534e33f63bf455e32c6} 
+\index{NInARow::NInARowBestFirstSearch$<$ Heuristic $>$@{NInARow::NInARowBestFirstSearch$<$ Heuristic $>$}!advance\_search@{advance\_search}}
+\index{advance\_search@{advance\_search}!NInARow::NInARowBestFirstSearch$<$ Heuristic $>$@{NInARow::NInARowBestFirstSearch$<$ Heuristic $>$}}
+\doxysubsubsection{\texorpdfstring{advance\_search()}{advance\_search()}}
+{\footnotesize\ttfamily template$<$class \mbox{\hyperlink{classNInARow_1_1Heuristic}{Heuristic}} $>$ \\
+virtual bool \mbox{\hyperlink{classNInARow_1_1NInARowBestFirstSearch}{NIn\+ARow\+::\+NIn\+ARow\+Best\+First\+Search}}$<$ \mbox{\hyperlink{classNInARow_1_1Heuristic}{Heuristic}} $>$\+::advance\+\_\+search (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+\begin{DoxyNote}{Note}
+Due to limitations of SWIG\textquotesingle{}s inheritance system, we have to redefine the public interface of any classes we expect to directly subclass in Python. They can simply be defined as pure pass-\/throughs. 
+\end{DoxyNote}
+
+
+Reimplemented from \mbox{\hyperlink{classSearch_a13750aafda8b06f87baf62e59b8076f1}{Search$<$ Heuristic, BFSNode$<$ Heuristic\+::\+Board\+T $>$ $>$}}.
+
+\Hypertarget{classNInARow_1_1NInARowBestFirstSearch_a757f3eb9ad4961aaf46929c0e23da1f6}\label{classNInARow_1_1NInARowBestFirstSearch_a757f3eb9ad4961aaf46929c0e23da1f6} 
+\index{NInARow::NInARowBestFirstSearch$<$ Heuristic $>$@{NInARow::NInARowBestFirstSearch$<$ Heuristic $>$}!get\_iterations@{get\_iterations}}
+\index{get\_iterations@{get\_iterations}!NInARow::NInARowBestFirstSearch$<$ Heuristic $>$@{NInARow::NInARowBestFirstSearch$<$ Heuristic $>$}}
+\doxysubsubsection{\texorpdfstring{get\_iterations()}{get\_iterations()}}
+{\footnotesize\ttfamily template$<$class \mbox{\hyperlink{classNInARow_1_1Heuristic}{Heuristic}} $>$ \\
+std\+::size\+\_\+t \mbox{\hyperlink{classNInARow_1_1NInARowBestFirstSearch}{NIn\+ARow\+::\+NIn\+ARow\+Best\+First\+Search}}$<$ \mbox{\hyperlink{classNInARow_1_1Heuristic}{Heuristic}} $>$\+::get\+\_\+iterations (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\begin{DoxyReturn}{Returns}
+The number of iterations the current search has performed. 
+\end{DoxyReturn}
+\Hypertarget{classNInARow_1_1NInARowBestFirstSearch_a562fff49b9c714c59b8ed41afcf9ad6c}\label{classNInARow_1_1NInARowBestFirstSearch_a562fff49b9c714c59b8ed41afcf9ad6c} 
+\index{NInARow::NInARowBestFirstSearch$<$ Heuristic $>$@{NInARow::NInARowBestFirstSearch$<$ Heuristic $>$}!get\_num\_repetitions@{get\_num\_repetitions}}
+\index{get\_num\_repetitions@{get\_num\_repetitions}!NInARow::NInARowBestFirstSearch$<$ Heuristic $>$@{NInARow::NInARowBestFirstSearch$<$ Heuristic $>$}}
+\doxysubsubsection{\texorpdfstring{get\_num\_repetitions()}{get\_num\_repetitions()}}
+{\footnotesize\ttfamily template$<$class \mbox{\hyperlink{classNInARow_1_1Heuristic}{Heuristic}} $>$ \\
+std\+::size\+\_\+t \mbox{\hyperlink{classNInARow_1_1NInARowBestFirstSearch}{NIn\+ARow\+::\+NIn\+ARow\+Best\+First\+Search}}$<$ \mbox{\hyperlink{classNInARow_1_1Heuristic}{Heuristic}} $>$\+::get\+\_\+num\+\_\+repetitions (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\begin{DoxyReturn}{Returns}
+The number of times the current search has returned the same move as the best consecutively. 
+\end{DoxyReturn}
+\Hypertarget{classNInARow_1_1NInARowBestFirstSearch_ac10ec6055962c16b9c3c1f7350803630}\label{classNInARow_1_1NInARowBestFirstSearch_ac10ec6055962c16b9c3c1f7350803630} 
+\index{NInARow::NInARowBestFirstSearch$<$ Heuristic $>$@{NInARow::NInARowBestFirstSearch$<$ Heuristic $>$}!get\_tree@{get\_tree}}
+\index{get\_tree@{get\_tree}!NInARow::NInARowBestFirstSearch$<$ Heuristic $>$@{NInARow::NInARowBestFirstSearch$<$ Heuristic $>$}}
+\doxysubsubsection{\texorpdfstring{get\_tree()}{get\_tree()}}
+{\footnotesize\ttfamily template$<$class \mbox{\hyperlink{classNInARow_1_1Heuristic}{Heuristic}} $>$ \\
+virtual std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classNode}{Node}}$<$ typename \mbox{\hyperlink{classNInARow_1_1Board}{Heuristic\+::\+BoardT}} $>$ $>$ \mbox{\hyperlink{classNInARow_1_1NInARowBestFirstSearch}{NIn\+ARow\+::\+NIn\+ARow\+Best\+First\+Search}}$<$ \mbox{\hyperlink{classNInARow_1_1Heuristic}{Heuristic}} $>$\+::get\+\_\+tree (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+\begin{DoxyReturn}{Returns}
+(the root of) The current search tree. 
+\end{DoxyReturn}
+
+
+Reimplemented from \mbox{\hyperlink{classSearch_a55e7b0463d420d1b2fd32aeb11456049}{Search$<$ Heuristic, BFSNode$<$ Heuristic\+::\+Board\+T $>$ $>$}}.
+
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{classNInARow_1_1NInARowBestFirstSearch_a74217d6e1dea8fe96418dba564fe20ad}\label{classNInARow_1_1NInARowBestFirstSearch_a74217d6e1dea8fe96418dba564fe20ad} 
+\index{NInARow::NInARowBestFirstSearch$<$ Heuristic $>$@{NInARow::NInARowBestFirstSearch$<$ Heuristic $>$}!best\_move@{best\_move}}
+\index{best\_move@{best\_move}!NInARow::NInARowBestFirstSearch$<$ Heuristic $>$@{NInARow::NInARowBestFirstSearch$<$ Heuristic $>$}}
+\doxysubsubsection{\texorpdfstring{best\_move}{best\_move}}
+{\footnotesize\ttfamily template$<$class \mbox{\hyperlink{classNInARow_1_1Heuristic}{Heuristic}} $>$ \\
+\mbox{\hyperlink{classNInARow_1_1Move}{Heuristic\+::\+Board\+T\+::\+MoveT}} \mbox{\hyperlink{classNInARow_1_1NInARowBestFirstSearch}{NIn\+ARow\+::\+NIn\+ARow\+Best\+First\+Search}}$<$ \mbox{\hyperlink{classNInARow_1_1Heuristic}{Heuristic}} $>$\+::best\+\_\+move\hspace{0.3cm}{\ttfamily [protected]}}
+
+The current best known move. \Hypertarget{classNInARow_1_1NInARowBestFirstSearch_a23bbd530c99a748c22d0d0258a12b72c}\label{classNInARow_1_1NInARowBestFirstSearch_a23bbd530c99a748c22d0d0258a12b72c} 
+\index{NInARow::NInARowBestFirstSearch$<$ Heuristic $>$@{NInARow::NInARowBestFirstSearch$<$ Heuristic $>$}!iterations@{iterations}}
+\index{iterations@{iterations}!NInARow::NInARowBestFirstSearch$<$ Heuristic $>$@{NInARow::NInARowBestFirstSearch$<$ Heuristic $>$}}
+\doxysubsubsection{\texorpdfstring{iterations}{iterations}}
+{\footnotesize\ttfamily template$<$class \mbox{\hyperlink{classNInARow_1_1Heuristic}{Heuristic}} $>$ \\
+std\+::size\+\_\+t \mbox{\hyperlink{classNInARow_1_1NInARowBestFirstSearch}{NIn\+ARow\+::\+NIn\+ARow\+Best\+First\+Search}}$<$ \mbox{\hyperlink{classNInARow_1_1Heuristic}{Heuristic}} $>$\+::iterations\hspace{0.3cm}{\ttfamily [protected]}}
+
+The number of iterations the current search has performed. \Hypertarget{classNInARow_1_1NInARowBestFirstSearch_ad36ee9f70c7dccf87e6c341440418e11}\label{classNInARow_1_1NInARowBestFirstSearch_ad36ee9f70c7dccf87e6c341440418e11} 
+\index{NInARow::NInARowBestFirstSearch$<$ Heuristic $>$@{NInARow::NInARowBestFirstSearch$<$ Heuristic $>$}!num\_repetitions@{num\_repetitions}}
+\index{num\_repetitions@{num\_repetitions}!NInARow::NInARowBestFirstSearch$<$ Heuristic $>$@{NInARow::NInARowBestFirstSearch$<$ Heuristic $>$}}
+\doxysubsubsection{\texorpdfstring{num\_repetitions}{num\_repetitions}}
+{\footnotesize\ttfamily template$<$class \mbox{\hyperlink{classNInARow_1_1Heuristic}{Heuristic}} $>$ \\
+std\+::size\+\_\+t \mbox{\hyperlink{classNInARow_1_1NInARowBestFirstSearch}{NIn\+ARow\+::\+NIn\+ARow\+Best\+First\+Search}}$<$ \mbox{\hyperlink{classNInARow_1_1Heuristic}{Heuristic}} $>$\+::num\+\_\+repetitions\hspace{0.3cm}{\ttfamily [protected]}}
+
+The number of times the current search has returned the same move as the best consecutively. 
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+ninarow\+\_\+bfs.\+h\end{DoxyCompactItemize}

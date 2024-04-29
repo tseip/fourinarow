@@ -1,0 +1,83 @@
+\doxysection{model\+\_\+fitting.\+model\+\_\+fit.\+Success\+Frequency\+Tracker Class Reference}
+\hypertarget{classmodel__fitting_1_1model__fit_1_1SuccessFrequencyTracker}{}\label{classmodel__fitting_1_1model__fit_1_1SuccessFrequencyTracker}\index{model\_fitting.model\_fit.SuccessFrequencyTracker@{model\_fitting.model\_fit.SuccessFrequencyTracker}}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classmodel__fitting_1_1model__fit_1_1SuccessFrequencyTracker_a96c632e14404a67f1ba6cf09d3076d5e}{\+\_\+\+\_\+init\+\_\+\+\_\+}} (self, expt\+\_\+factor)
+\item 
+\Hypertarget{classmodel__fitting_1_1model__fit_1_1SuccessFrequencyTracker_aa6ab66428d8a4ae8dd9911cef26f2aef}\label{classmodel__fitting_1_1model__fit_1_1SuccessFrequencyTracker_aa6ab66428d8a4ae8dd9911cef26f2aef} 
+{\bfseries \+\_\+\+\_\+repr\+\_\+\+\_\+} (self)
+\item 
+\mbox{\hyperlink{classmodel__fitting_1_1model__fit_1_1SuccessFrequencyTracker_a4b6098177768cd86d143410da3507f95}{is\+\_\+done}} (self)
+\item 
+\mbox{\hyperlink{classmodel__fitting_1_1model__fit_1_1SuccessFrequencyTracker_a7521831407e1efb89b07db5f164ad54c}{report\+\_\+trial}} (self, success)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classmodel__fitting_1_1model__fit_1_1SuccessFrequencyTracker_aa21c1209ed1613c3b83f31c8d644d655}\label{classmodel__fitting_1_1model__fit_1_1SuccessFrequencyTracker_aa21c1209ed1613c3b83f31c8d644d655} 
+{\bfseries attempt\+\_\+count}
+\item 
+\Hypertarget{classmodel__fitting_1_1model__fit_1_1SuccessFrequencyTracker_a0aca98623ecd0d838f1f9259c1abe434}\label{classmodel__fitting_1_1model__fit_1_1SuccessFrequencyTracker_a0aca98623ecd0d838f1f9259c1abe434} 
+{\bfseries success\+\_\+count}
+\item 
+\Hypertarget{classmodel__fitting_1_1model__fit_1_1SuccessFrequencyTracker_aa1aebf074d8f9c6cd7e9ba393a1d797f}\label{classmodel__fitting_1_1model__fit_1_1SuccessFrequencyTracker_aa1aebf074d8f9c6cd7e9ba393a1d797f} 
+{\bfseries required\+\_\+success\+\_\+count}
+\item 
+\Hypertarget{classmodel__fitting_1_1model__fit_1_1SuccessFrequencyTracker_ace44bf396ab292efe6874a18b669eca9}\label{classmodel__fitting_1_1model__fit_1_1SuccessFrequencyTracker_ace44bf396ab292efe6874a18b669eca9} 
+{\bfseries L}
+\item 
+\Hypertarget{classmodel__fitting_1_1model__fit_1_1SuccessFrequencyTracker_a94d79e7d82b6aeaefba690e10cd615c3}\label{classmodel__fitting_1_1model__fit_1_1SuccessFrequencyTracker_a94d79e7d82b6aeaefba690e10cd615c3} 
+{\bfseries expt\+\_\+factor}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyVerb}Tracks the number of times the heuristic has evaluated a given position to the expected evaluation. Used for
+fitting the heuristic to a given dataset.
+\end{DoxyVerb}
+ 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classmodel__fitting_1_1model__fit_1_1SuccessFrequencyTracker_a96c632e14404a67f1ba6cf09d3076d5e}\label{classmodel__fitting_1_1model__fit_1_1SuccessFrequencyTracker_a96c632e14404a67f1ba6cf09d3076d5e} 
+\index{model\_fitting.model\_fit.SuccessFrequencyTracker@{model\_fitting.model\_fit.SuccessFrequencyTracker}!\_\_init\_\_@{\_\_init\_\_}}
+\index{\_\_init\_\_@{\_\_init\_\_}!model\_fitting.model\_fit.SuccessFrequencyTracker@{model\_fitting.model\_fit.SuccessFrequencyTracker}}
+\doxysubsubsection{\texorpdfstring{\_\_init\_\_()}{\_\_init\_\_()}}
+{\footnotesize\ttfamily model\+\_\+fitting.\+model\+\_\+fit.\+Success\+Frequency\+Tracker.\+\_\+\+\_\+init\+\_\+\+\_\+ (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{expt\+\_\+factor }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Constructor.
+
+Args:
+    expt_factor: Controls the fitting cutoff of the BADS process.
+\end{DoxyVerb}
+ 
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classmodel__fitting_1_1model__fit_1_1SuccessFrequencyTracker_a4b6098177768cd86d143410da3507f95}\label{classmodel__fitting_1_1model__fit_1_1SuccessFrequencyTracker_a4b6098177768cd86d143410da3507f95} 
+\index{model\_fitting.model\_fit.SuccessFrequencyTracker@{model\_fitting.model\_fit.SuccessFrequencyTracker}!is\_done@{is\_done}}
+\index{is\_done@{is\_done}!model\_fitting.model\_fit.SuccessFrequencyTracker@{model\_fitting.model\_fit.SuccessFrequencyTracker}}
+\doxysubsubsection{\texorpdfstring{is\_done()}{is\_done()}}
+{\footnotesize\ttfamily model\+\_\+fitting.\+model\+\_\+fit.\+Success\+Frequency\+Tracker.\+is\+\_\+done (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Returns:
+    True if we've observed the expected number of evaluations.
+\end{DoxyVerb}
+ \Hypertarget{classmodel__fitting_1_1model__fit_1_1SuccessFrequencyTracker_a7521831407e1efb89b07db5f164ad54c}\label{classmodel__fitting_1_1model__fit_1_1SuccessFrequencyTracker_a7521831407e1efb89b07db5f164ad54c} 
+\index{model\_fitting.model\_fit.SuccessFrequencyTracker@{model\_fitting.model\_fit.SuccessFrequencyTracker}!report\_trial@{report\_trial}}
+\index{report\_trial@{report\_trial}!model\_fitting.model\_fit.SuccessFrequencyTracker@{model\_fitting.model\_fit.SuccessFrequencyTracker}}
+\doxysubsubsection{\texorpdfstring{report\_trial()}{report\_trial()}}
+{\footnotesize\ttfamily model\+\_\+fitting.\+model\+\_\+fit.\+Success\+Frequency\+Tracker.\+report\+\_\+trial (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{success }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Report a heuristic evaluation of the tracked position. If success is true, mark a success, else mark a failure.
+
+Args:
+    success: If true, mark a success, else mark a failure
+
+Returns:
+    The current log-loss of this tracker; if log-loss grows too much, we give up.
+\end{DoxyVerb}
+ 
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+model\+\_\+fitting/model\+\_\+fit.\+py\end{DoxyCompactItemize}

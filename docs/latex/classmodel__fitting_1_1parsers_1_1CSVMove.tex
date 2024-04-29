@@ -1,0 +1,135 @@
+\doxysection{model\+\_\+fitting.\+parsers.\+CSVMove Class Reference}
+\hypertarget{classmodel__fitting_1_1parsers_1_1CSVMove}{}\label{classmodel__fitting_1_1parsers_1_1CSVMove}\index{model\_fitting.parsers.CSVMove@{model\_fitting.parsers.CSVMove}}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classmodel__fitting_1_1parsers_1_1CSVMove_a6b15e4365bbbfc65e57600b47d1819a8}{\+\_\+\+\_\+init\+\_\+\+\_\+}} (self, board, move, time, group\+\_\+id, participant\+\_\+id)
+\item 
+\mbox{\hyperlink{classmodel__fitting_1_1parsers_1_1CSVMove_a5c15ab40a179de0b27cc61cbfe5a7113}{\+\_\+\+\_\+repr\+\_\+\+\_\+}} (self)
+\item 
+\mbox{\hyperlink{classmodel__fitting_1_1parsers_1_1CSVMove_a3d91c5aa00c6e26fc7c4dfad5fd099fd}{\+\_\+\+\_\+hash\+\_\+\+\_\+}} (self)
+\item 
+\mbox{\hyperlink{classmodel__fitting_1_1parsers_1_1CSVMove_acd3289186e702e6080fc58616d45eb28}{\+\_\+\+\_\+eq\+\_\+\+\_\+}} (self, other)
+\item 
+\mbox{\hyperlink{classmodel__fitting_1_1parsers_1_1CSVMove_a9ae5a8c34b7faf1cbdaf079a5600243c}{\+\_\+\+\_\+lt\+\_\+\+\_\+}} (self, other)
+\item 
+\Hypertarget{classmodel__fitting_1_1parsers_1_1CSVMove_a7d5f0ab5725b4153214903e1ac87de8e}\label{classmodel__fitting_1_1parsers_1_1CSVMove_a7d5f0ab5725b4153214903e1ac87de8e} 
+{\bfseries \+\_\+\+\_\+getstate\+\_\+\+\_\+} (self)
+\item 
+\Hypertarget{classmodel__fitting_1_1parsers_1_1CSVMove_aaaab2b8003868fdd1e27f8c642c32780}\label{classmodel__fitting_1_1parsers_1_1CSVMove_aaaab2b8003868fdd1e27f8c642c32780} 
+{\bfseries \+\_\+\+\_\+setstate\+\_\+\+\_\+} (self, state\+\_\+string)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classmodel__fitting_1_1parsers_1_1CSVMove_a96ea1299e794553a526986510acbfd3b}{create}} (line)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classmodel__fitting_1_1parsers_1_1CSVMove_a6647ff1a9144528faa673ffb83c088fa}\label{classmodel__fitting_1_1parsers_1_1CSVMove_a6647ff1a9144528faa673ffb83c088fa} 
+{\bfseries board}
+\item 
+\Hypertarget{classmodel__fitting_1_1parsers_1_1CSVMove_ae5ea9b2b6a588887c03d5f64b97a6155}\label{classmodel__fitting_1_1parsers_1_1CSVMove_ae5ea9b2b6a588887c03d5f64b97a6155} 
+{\bfseries move}
+\item 
+\Hypertarget{classmodel__fitting_1_1parsers_1_1CSVMove_aebbd0e86478623406f65ca364f9fb1dc}\label{classmodel__fitting_1_1parsers_1_1CSVMove_aebbd0e86478623406f65ca364f9fb1dc} 
+{\bfseries player}
+\item 
+\Hypertarget{classmodel__fitting_1_1parsers_1_1CSVMove_a5e2527c9c18b7639c465305c3f42c072}\label{classmodel__fitting_1_1parsers_1_1CSVMove_a5e2527c9c18b7639c465305c3f42c072} 
+{\bfseries time}
+\item 
+\Hypertarget{classmodel__fitting_1_1parsers_1_1CSVMove_a4ac318fadb333da64ec717dd22325e5b}\label{classmodel__fitting_1_1parsers_1_1CSVMove_a4ac318fadb333da64ec717dd22325e5b} 
+{\bfseries group\+\_\+id}
+\item 
+\Hypertarget{classmodel__fitting_1_1parsers_1_1CSVMove_a507cd482928b3a4d06f4f3923c26683e}\label{classmodel__fitting_1_1parsers_1_1CSVMove_a507cd482928b3a4d06f4f3923c26683e} 
+{\bfseries participant\+\_\+id}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyVerb}Encodes a single move made by a player at a given position.
+\end{DoxyVerb}
+ 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classmodel__fitting_1_1parsers_1_1CSVMove_a6b15e4365bbbfc65e57600b47d1819a8}\label{classmodel__fitting_1_1parsers_1_1CSVMove_a6b15e4365bbbfc65e57600b47d1819a8} 
+\index{model\_fitting.parsers.CSVMove@{model\_fitting.parsers.CSVMove}!\_\_init\_\_@{\_\_init\_\_}}
+\index{\_\_init\_\_@{\_\_init\_\_}!model\_fitting.parsers.CSVMove@{model\_fitting.parsers.CSVMove}}
+\doxysubsubsection{\texorpdfstring{\_\_init\_\_()}{\_\_init\_\_()}}
+{\footnotesize\ttfamily model\+\_\+fitting.\+parsers.\+CSVMove.\+\_\+\+\_\+init\+\_\+\+\_\+ (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{board,  }\item[{}]{move,  }\item[{}]{time,  }\item[{}]{group\+\_\+id,  }\item[{}]{participant\+\_\+id }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Construct a move.
+
+Args:
+    board: The board that the move was played on as a fourbynine_board object.
+    move: The move that was made as a fourbynine_move object.
+    time: The amount of time it took to play this move in milliseconds.
+    group_id: The integer group that this player belonged to.
+    participant_id: A string identifying the player.
+\end{DoxyVerb}
+ 
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classmodel__fitting_1_1parsers_1_1CSVMove_acd3289186e702e6080fc58616d45eb28}\label{classmodel__fitting_1_1parsers_1_1CSVMove_acd3289186e702e6080fc58616d45eb28} 
+\index{model\_fitting.parsers.CSVMove@{model\_fitting.parsers.CSVMove}!\_\_eq\_\_@{\_\_eq\_\_}}
+\index{\_\_eq\_\_@{\_\_eq\_\_}!model\_fitting.parsers.CSVMove@{model\_fitting.parsers.CSVMove}}
+\doxysubsubsection{\texorpdfstring{\_\_eq\_\_()}{\_\_eq\_\_()}}
+{\footnotesize\ttfamily model\+\_\+fitting.\+parsers.\+CSVMove.\+\_\+\+\_\+eq\+\_\+\+\_\+ (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{other }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Returns:
+    True if both moves are equivalent.
+\end{DoxyVerb}
+ \Hypertarget{classmodel__fitting_1_1parsers_1_1CSVMove_a3d91c5aa00c6e26fc7c4dfad5fd099fd}\label{classmodel__fitting_1_1parsers_1_1CSVMove_a3d91c5aa00c6e26fc7c4dfad5fd099fd} 
+\index{model\_fitting.parsers.CSVMove@{model\_fitting.parsers.CSVMove}!\_\_hash\_\_@{\_\_hash\_\_}}
+\index{\_\_hash\_\_@{\_\_hash\_\_}!model\_fitting.parsers.CSVMove@{model\_fitting.parsers.CSVMove}}
+\doxysubsubsection{\texorpdfstring{\_\_hash\_\_()}{\_\_hash\_\_()}}
+{\footnotesize\ttfamily model\+\_\+fitting.\+parsers.\+CSVMove.\+\_\+\+\_\+hash\+\_\+\+\_\+ (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Hashes the move.
+\end{DoxyVerb}
+ \Hypertarget{classmodel__fitting_1_1parsers_1_1CSVMove_a9ae5a8c34b7faf1cbdaf079a5600243c}\label{classmodel__fitting_1_1parsers_1_1CSVMove_a9ae5a8c34b7faf1cbdaf079a5600243c} 
+\index{model\_fitting.parsers.CSVMove@{model\_fitting.parsers.CSVMove}!\_\_lt\_\_@{\_\_lt\_\_}}
+\index{\_\_lt\_\_@{\_\_lt\_\_}!model\_fitting.parsers.CSVMove@{model\_fitting.parsers.CSVMove}}
+\doxysubsubsection{\texorpdfstring{\_\_lt\_\_()}{\_\_lt\_\_()}}
+{\footnotesize\ttfamily model\+\_\+fitting.\+parsers.\+CSVMove.\+\_\+\+\_\+lt\+\_\+\+\_\+ (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{other }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Returns:
+    True if a given move is "less than" another move. Ordering is mostly arbitrary, this function just establishes a canonical ordering.
+\end{DoxyVerb}
+ \Hypertarget{classmodel__fitting_1_1parsers_1_1CSVMove_a5c15ab40a179de0b27cc61cbfe5a7113}\label{classmodel__fitting_1_1parsers_1_1CSVMove_a5c15ab40a179de0b27cc61cbfe5a7113} 
+\index{model\_fitting.parsers.CSVMove@{model\_fitting.parsers.CSVMove}!\_\_repr\_\_@{\_\_repr\_\_}}
+\index{\_\_repr\_\_@{\_\_repr\_\_}!model\_fitting.parsers.CSVMove@{model\_fitting.parsers.CSVMove}}
+\doxysubsubsection{\texorpdfstring{\_\_repr\_\_()}{\_\_repr\_\_()}}
+{\footnotesize\ttfamily model\+\_\+fitting.\+parsers.\+CSVMove.\+\_\+\+\_\+repr\+\_\+\+\_\+ (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Returns:
+    A valid CSV string representing the given move.
+\end{DoxyVerb}
+ \Hypertarget{classmodel__fitting_1_1parsers_1_1CSVMove_a96ea1299e794553a526986510acbfd3b}\label{classmodel__fitting_1_1parsers_1_1CSVMove_a96ea1299e794553a526986510acbfd3b} 
+\index{model\_fitting.parsers.CSVMove@{model\_fitting.parsers.CSVMove}!create@{create}}
+\index{create@{create}!model\_fitting.parsers.CSVMove@{model\_fitting.parsers.CSVMove}}
+\doxysubsubsection{\texorpdfstring{create()}{create()}}
+{\footnotesize\ttfamily model\+\_\+fitting.\+parsers.\+CSVMove.\+create (\begin{DoxyParamCaption}\item[{}]{line }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+\begin{DoxyVerb}Creates a CSVMove from a single CSV line. The format of the CSV string should be:
+
+black_pieces white_pieces player move time [group_id] participant_id, where group_id is optional.
+
+black_pieces and white_pieces should both be base-10 numbers encoding the positions of all of the black and white pieces on the board respectively as a bitfield, with the LSB corresponding to the upper left corner of the board, i.e. 0b1 corresponding to a piece at index 0.
+player should be either the string Black, White, black, white, 0, or 1, where 0 corresponds to black and 1 corresponds to white.
+move should be a base-10 number encoding the position at which the move being specified is played, i.e. 1 corresponding to a move at index 0, 2 to a move at index 1, 4 to index 2, etc.
+time is the time in milliseconds that the player took to play the move.
+group_id is an optional integer encoding a group ID for the player.
+participant_id is a string denoting the given player.
+
+Args:
+    line: The line to parse.
+
+Returns: A CSVMove corresponding to the given line.
+\end{DoxyVerb}
+ 
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+model\+\_\+fitting/parsers.\+py\end{DoxyCompactItemize}

@@ -1,0 +1,91 @@
+\doxysection{NIn\+ARow\+::Feature\+Group\+Weight Struct Reference}
+\hypertarget{structNInARow_1_1FeatureGroupWeight}{}\label{structNInARow_1_1FeatureGroupWeight}\index{NInARow::FeatureGroupWeight@{NInARow::FeatureGroupWeight}}
+
+
+{\ttfamily \#include $<$ninarow\+\_\+heuristic.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{structNInARow_1_1FeatureGroupWeight_aa816d3b6940c569c383704a9807b9e5f}{Feature\+Group\+Weight}} ()
+\item 
+\mbox{\hyperlink{structNInARow_1_1FeatureGroupWeight_abe7ca749ed99fc7967faa2814bda5447}{Feature\+Group\+Weight}} (double \mbox{\hyperlink{structNInARow_1_1FeatureGroupWeight_ae8d60d38ac0a5ab451b71efce5745b66}{weight\+\_\+act}}, double \mbox{\hyperlink{structNInARow_1_1FeatureGroupWeight_a16705378c1aa0bda5bf4aec7f6c76888}{weight\+\_\+pass}}, double \mbox{\hyperlink{structNInARow_1_1FeatureGroupWeight_ad1103fd53b0301c067b6fa6022c688b8}{drop\+\_\+rate}})
+\item 
+double \mbox{\hyperlink{structNInARow_1_1FeatureGroupWeight_aec3f2433e4192e271b0f9bdea8093323}{diff\+\_\+act\+\_\+pass}} () const
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+double \mbox{\hyperlink{structNInARow_1_1FeatureGroupWeight_ae8d60d38ac0a5ab451b71efce5745b66}{weight\+\_\+act}}
+\item 
+double \mbox{\hyperlink{structNInARow_1_1FeatureGroupWeight_a16705378c1aa0bda5bf4aec7f6c76888}{weight\+\_\+pass}}
+\item 
+double \mbox{\hyperlink{structNInARow_1_1FeatureGroupWeight_ad1103fd53b0301c067b6fa6022c688b8}{drop\+\_\+rate}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Stores the evaluation weights for a group of features. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{structNInARow_1_1FeatureGroupWeight_aa816d3b6940c569c383704a9807b9e5f}\label{structNInARow_1_1FeatureGroupWeight_aa816d3b6940c569c383704a9807b9e5f} 
+\index{NInARow::FeatureGroupWeight@{NInARow::FeatureGroupWeight}!FeatureGroupWeight@{FeatureGroupWeight}}
+\index{FeatureGroupWeight@{FeatureGroupWeight}!NInARow::FeatureGroupWeight@{NInARow::FeatureGroupWeight}}
+\doxysubsubsection{\texorpdfstring{FeatureGroupWeight()}{FeatureGroupWeight()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily NIn\+ARow\+::\+Feature\+Group\+Weight\+::\+Feature\+Group\+Weight (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Default constructor. \Hypertarget{structNInARow_1_1FeatureGroupWeight_abe7ca749ed99fc7967faa2814bda5447}\label{structNInARow_1_1FeatureGroupWeight_abe7ca749ed99fc7967faa2814bda5447} 
+\index{NInARow::FeatureGroupWeight@{NInARow::FeatureGroupWeight}!FeatureGroupWeight@{FeatureGroupWeight}}
+\index{FeatureGroupWeight@{FeatureGroupWeight}!NInARow::FeatureGroupWeight@{NInARow::FeatureGroupWeight}}
+\doxysubsubsection{\texorpdfstring{FeatureGroupWeight()}{FeatureGroupWeight()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily NIn\+ARow\+::\+Feature\+Group\+Weight\+::\+Feature\+Group\+Weight (\begin{DoxyParamCaption}\item[{double}]{weight\+\_\+act,  }\item[{double}]{weight\+\_\+pass,  }\item[{double}]{drop\+\_\+rate }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Constructor.
+
+
+\begin{DoxyParams}{Parameters}
+{\em weight\+\_\+act} & The weight given to the feature when it\textquotesingle{}s being evaluated from the perspective of the active player. \\
+\hline
+{\em weight\+\_\+pass} & The weight given to the feature when it\textquotesingle{}s being evaluated from the perspective of the passive player. \\
+\hline
+{\em drop\+\_\+rate} & The percent chance that a feature in this group will be ignored randomly. Ranges from 0 to 1. \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{structNInARow_1_1FeatureGroupWeight_aec3f2433e4192e271b0f9bdea8093323}\label{structNInARow_1_1FeatureGroupWeight_aec3f2433e4192e271b0f9bdea8093323} 
+\index{NInARow::FeatureGroupWeight@{NInARow::FeatureGroupWeight}!diff\_act\_pass@{diff\_act\_pass}}
+\index{diff\_act\_pass@{diff\_act\_pass}!NInARow::FeatureGroupWeight@{NInARow::FeatureGroupWeight}}
+\doxysubsubsection{\texorpdfstring{diff\_act\_pass()}{diff\_act\_pass()}}
+{\footnotesize\ttfamily double NIn\+ARow\+::\+Feature\+Group\+Weight\+::diff\+\_\+act\+\_\+pass (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\begin{DoxyReturn}{Returns}
+The difference between the active and passive weights for this feature group. 
+\end{DoxyReturn}
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{structNInARow_1_1FeatureGroupWeight_ad1103fd53b0301c067b6fa6022c688b8}\label{structNInARow_1_1FeatureGroupWeight_ad1103fd53b0301c067b6fa6022c688b8} 
+\index{NInARow::FeatureGroupWeight@{NInARow::FeatureGroupWeight}!drop\_rate@{drop\_rate}}
+\index{drop\_rate@{drop\_rate}!NInARow::FeatureGroupWeight@{NInARow::FeatureGroupWeight}}
+\doxysubsubsection{\texorpdfstring{drop\_rate}{drop\_rate}}
+{\footnotesize\ttfamily double NIn\+ARow\+::\+Feature\+Group\+Weight\+::drop\+\_\+rate}
+
+The percent chance that a feature in this group will be ignored randomly. Ranges from 0 to 1. \Hypertarget{structNInARow_1_1FeatureGroupWeight_ae8d60d38ac0a5ab451b71efce5745b66}\label{structNInARow_1_1FeatureGroupWeight_ae8d60d38ac0a5ab451b71efce5745b66} 
+\index{NInARow::FeatureGroupWeight@{NInARow::FeatureGroupWeight}!weight\_act@{weight\_act}}
+\index{weight\_act@{weight\_act}!NInARow::FeatureGroupWeight@{NInARow::FeatureGroupWeight}}
+\doxysubsubsection{\texorpdfstring{weight\_act}{weight\_act}}
+{\footnotesize\ttfamily double NIn\+ARow\+::\+Feature\+Group\+Weight\+::weight\+\_\+act}
+
+The weight given to the feature when it\textquotesingle{}s being evaluated from the perspective of the active player. \Hypertarget{structNInARow_1_1FeatureGroupWeight_a16705378c1aa0bda5bf4aec7f6c76888}\label{structNInARow_1_1FeatureGroupWeight_a16705378c1aa0bda5bf4aec7f6c76888} 
+\index{NInARow::FeatureGroupWeight@{NInARow::FeatureGroupWeight}!weight\_pass@{weight\_pass}}
+\index{weight\_pass@{weight\_pass}!NInARow::FeatureGroupWeight@{NInARow::FeatureGroupWeight}}
+\doxysubsubsection{\texorpdfstring{weight\_pass}{weight\_pass}}
+{\footnotesize\ttfamily double NIn\+ARow\+::\+Feature\+Group\+Weight\+::weight\+\_\+pass}
+
+The weight given to the feature when it\textquotesingle{}s being evaluated from the perspective of the passive player. 
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+ninarow\+\_\+heuristic.\+h\end{DoxyCompactItemize}

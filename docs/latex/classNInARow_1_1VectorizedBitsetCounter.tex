@@ -1,0 +1,76 @@
+\doxysection{NIn\+ARow\+::Vectorized\+Bitset\+Counter\texorpdfstring{$<$}{<} N \texorpdfstring{$>$}{>} Class Template Reference}
+\hypertarget{classNInARow_1_1VectorizedBitsetCounter}{}\label{classNInARow_1_1VectorizedBitsetCounter}\index{NInARow::VectorizedBitsetCounter$<$ N $>$@{NInARow::VectorizedBitsetCounter$<$ N $>$}}
+
+
+{\ttfamily \#include $<$ninarow\+\_\+vectorized\+\_\+feature\+\_\+evaluator.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classNInARow_1_1VectorizedBitsetCounter_abe9af7e3f665f02ebe9f420cdfffcf78}{Vectorized\+Bitset\+Counter}} ()
+\item 
+void \mbox{\hyperlink{classNInARow_1_1VectorizedBitsetCounter_a115251e40b50e630e7d6b321e1e3a6aa}{register\+\_\+bitset}} (const std\+::bitset$<$ N $>$ \&bitset)
+\item 
+std\+::vector$<$ std\+::size\+\_\+t $>$ \mbox{\hyperlink{classNInARow_1_1VectorizedBitsetCounter_a0b199bdc319b2180877b38a58ff93ad9}{query}} (std\+::bitset$<$ N $>$ bitset) const
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\subsubsection*{template$<$std\+::size\+\_\+t N$>$\newline
+class NIn\+ARow\+::\+Vectorized\+Bitset\+Counter$<$ N $>$}
+Counts the number of overlapping bits between a given bitset and a vector of known bitsets in an efficient, vectorized way. Uses size\+\_\+t instead of actual bits to keep track of total overlap counts in the final evaluation.
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em N} & The maximum length of all of the bitsets in the known vector of bitsets. \\
+\hline
+\end{DoxyTemplParams}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classNInARow_1_1VectorizedBitsetCounter_abe9af7e3f665f02ebe9f420cdfffcf78}\label{classNInARow_1_1VectorizedBitsetCounter_abe9af7e3f665f02ebe9f420cdfffcf78} 
+\index{NInARow::VectorizedBitsetCounter$<$ N $>$@{NInARow::VectorizedBitsetCounter$<$ N $>$}!VectorizedBitsetCounter@{VectorizedBitsetCounter}}
+\index{VectorizedBitsetCounter@{VectorizedBitsetCounter}!NInARow::VectorizedBitsetCounter$<$ N $>$@{NInARow::VectorizedBitsetCounter$<$ N $>$}}
+\doxysubsubsection{\texorpdfstring{VectorizedBitsetCounter()}{VectorizedBitsetCounter()}}
+{\footnotesize\ttfamily template$<$std\+::size\+\_\+t N$>$ \\
+\mbox{\hyperlink{classNInARow_1_1VectorizedBitsetCounter}{NIn\+ARow\+::\+Vectorized\+Bitset\+Counter}}$<$ N $>$\+::\+Vectorized\+Bitset\+Counter (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Constructor. 
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classNInARow_1_1VectorizedBitsetCounter_a0b199bdc319b2180877b38a58ff93ad9}\label{classNInARow_1_1VectorizedBitsetCounter_a0b199bdc319b2180877b38a58ff93ad9} 
+\index{NInARow::VectorizedBitsetCounter$<$ N $>$@{NInARow::VectorizedBitsetCounter$<$ N $>$}!query@{query}}
+\index{query@{query}!NInARow::VectorizedBitsetCounter$<$ N $>$@{NInARow::VectorizedBitsetCounter$<$ N $>$}}
+\doxysubsubsection{\texorpdfstring{query()}{query()}}
+{\footnotesize\ttfamily template$<$std\+::size\+\_\+t N$>$ \\
+std\+::vector$<$ std\+::size\+\_\+t $>$ \mbox{\hyperlink{classNInARow_1_1VectorizedBitsetCounter}{NIn\+ARow\+::\+Vectorized\+Bitset\+Counter}}$<$ N $>$\+::query (\begin{DoxyParamCaption}\item[{std\+::bitset$<$ N $>$}]{bitset }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+Queries all of the added bitsets against a new bitset. Returns a vector where each element of the vector corresponds to a count of the overlapping bits between each line of our registered bitsets and the given bitset.
+
+
+\begin{DoxyParams}{Parameters}
+{\em bitset} & The bitset to query against.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A list of bit overlap counts, where each element corresponds to the bit overlap count for each registered bitset against the given bitset. 
+\end{DoxyReturn}
+\Hypertarget{classNInARow_1_1VectorizedBitsetCounter_a115251e40b50e630e7d6b321e1e3a6aa}\label{classNInARow_1_1VectorizedBitsetCounter_a115251e40b50e630e7d6b321e1e3a6aa} 
+\index{NInARow::VectorizedBitsetCounter$<$ N $>$@{NInARow::VectorizedBitsetCounter$<$ N $>$}!register\_bitset@{register\_bitset}}
+\index{register\_bitset@{register\_bitset}!NInARow::VectorizedBitsetCounter$<$ N $>$@{NInARow::VectorizedBitsetCounter$<$ N $>$}}
+\doxysubsubsection{\texorpdfstring{register\_bitset()}{register\_bitset()}}
+{\footnotesize\ttfamily template$<$std\+::size\+\_\+t N$>$ \\
+void \mbox{\hyperlink{classNInARow_1_1VectorizedBitsetCounter}{NIn\+ARow\+::\+Vectorized\+Bitset\+Counter}}$<$ N $>$\+::register\+\_\+bitset (\begin{DoxyParamCaption}\item[{const std\+::bitset$<$ N $>$ \&}]{bitset }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Adds a bitset into our known pool. After this function is called, each query will return an additional line representing the bit overlap count with this bitset.
+
+
+\begin{DoxyParams}{Parameters}
+{\em bitset} & The bitset to add. \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+ninarow\+\_\+vectorized\+\_\+feature\+\_\+evaluator.\+h\end{DoxyCompactItemize}

@@ -1,0 +1,173 @@
+\doxysection{NIn\+ARow\+::Move\texorpdfstring{$<$}{<} HEIGHT, WIDTH, N \texorpdfstring{$>$}{>} Class Template Reference}
+\hypertarget{classNInARow_1_1Move}{}\label{classNInARow_1_1Move}\index{NInARow::Move$<$ HEIGHT, WIDTH, N $>$@{NInARow::Move$<$ HEIGHT, WIDTH, N $>$}}
+
+
+{\ttfamily \#include $<$ninarow\+\_\+move.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classNInARow_1_1Move_ae217382e15468efa09e1b0e697a28d7e}{Move}} ()
+\item 
+\mbox{\hyperlink{classNInARow_1_1Move_a2ddc1e786bdb801c50b8f4faf09eda0c}{Move}} (std\+::size\+\_\+t m, double v, Player p)
+\item 
+\mbox{\hyperlink{classNInARow_1_1Move_ada057507f51819b7fffa8d6c7535b9dc}{Move}} (std\+::size\+\_\+t row, std\+::size\+\_\+t col, double v, Player p)
+\item 
+bool \mbox{\hyperlink{classNInARow_1_1Move_a710874fccdd276651ff94f5546ae6801}{operator$<$}} (const \mbox{\hyperlink{classNInARow_1_1Move}{Move}} \&m) const
+\item 
+bool \mbox{\hyperlink{classNInARow_1_1Move_aac5118e9c2c9339a07253ee6a7893503}{operator$>$}} (const \mbox{\hyperlink{classNInARow_1_1Move}{Move}} \&m) const
+\item 
+std\+::size\+\_\+t \mbox{\hyperlink{classNInARow_1_1Move_a372ebc65757e30391876be046848eef6}{get\+\_\+row}} () const
+\item 
+std\+::size\+\_\+t \mbox{\hyperlink{classNInARow_1_1Move_a61bf086256c9f24792b4f6d8190a76b2}{get\+\_\+col}} () const
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std\+::size\+\_\+t \mbox{\hyperlink{classNInARow_1_1Move_a50e59c1b264d36da126d0762056963cb}{board\+\_\+position}}
+\item 
+double \mbox{\hyperlink{classNInARow_1_1Move_af77e392cdc73e610bba0a7d32d0f12cc}{val}}
+\item 
+Player \mbox{\hyperlink{classNInARow_1_1Move_a424df4f38d5695abc46b69cbdd0405f5}{player}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\subsubsection*{template$<$std\+::size\+\_\+t HEIGHT, std\+::size\+\_\+t WIDTH, std\+::size\+\_\+t N$>$\newline
+class NIn\+ARow\+::\+Move$<$ HEIGHT, WIDTH, N $>$}
+Represents a single move in a game of N in a Row. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classNInARow_1_1Move_ae217382e15468efa09e1b0e697a28d7e}\label{classNInARow_1_1Move_ae217382e15468efa09e1b0e697a28d7e} 
+\index{NInARow::Move$<$ HEIGHT, WIDTH, N $>$@{NInARow::Move$<$ HEIGHT, WIDTH, N $>$}!Move@{Move}}
+\index{Move@{Move}!NInARow::Move$<$ HEIGHT, WIDTH, N $>$@{NInARow::Move$<$ HEIGHT, WIDTH, N $>$}}
+\doxysubsubsection{\texorpdfstring{Move()}{Move()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily template$<$std\+::size\+\_\+t HEIGHT, std\+::size\+\_\+t WIDTH, std\+::size\+\_\+t N$>$ \\
+\mbox{\hyperlink{classNInARow_1_1Move}{NIn\+ARow\+::\+Move}}$<$ HEIGHT, WIDTH, N $>$\+::\+Move (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Default constructor. \Hypertarget{classNInARow_1_1Move_a2ddc1e786bdb801c50b8f4faf09eda0c}\label{classNInARow_1_1Move_a2ddc1e786bdb801c50b8f4faf09eda0c} 
+\index{NInARow::Move$<$ HEIGHT, WIDTH, N $>$@{NInARow::Move$<$ HEIGHT, WIDTH, N $>$}!Move@{Move}}
+\index{Move@{Move}!NInARow::Move$<$ HEIGHT, WIDTH, N $>$@{NInARow::Move$<$ HEIGHT, WIDTH, N $>$}}
+\doxysubsubsection{\texorpdfstring{Move()}{Move()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily template$<$std\+::size\+\_\+t HEIGHT, std\+::size\+\_\+t WIDTH, std\+::size\+\_\+t N$>$ \\
+\mbox{\hyperlink{classNInARow_1_1Move}{NIn\+ARow\+::\+Move}}$<$ HEIGHT, WIDTH, N $>$\+::\+Move (\begin{DoxyParamCaption}\item[{std\+::size\+\_\+t}]{m,  }\item[{double}]{v,  }\item[{Player}]{p }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+\begin{DoxyParams}{Parameters}
+{\em m} & The board position of the move, where m is the bit position of the move (m = 0 is the LSB). \\
+\hline
+{\em v} & The heuristic value of the given move. \\
+\hline
+{\em p} & The player who played the given move.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A move played by player p at position \mbox{[}row, col\mbox{]} with value v. 
+\end{DoxyReturn}
+\Hypertarget{classNInARow_1_1Move_ada057507f51819b7fffa8d6c7535b9dc}\label{classNInARow_1_1Move_ada057507f51819b7fffa8d6c7535b9dc} 
+\index{NInARow::Move$<$ HEIGHT, WIDTH, N $>$@{NInARow::Move$<$ HEIGHT, WIDTH, N $>$}!Move@{Move}}
+\index{Move@{Move}!NInARow::Move$<$ HEIGHT, WIDTH, N $>$@{NInARow::Move$<$ HEIGHT, WIDTH, N $>$}}
+\doxysubsubsection{\texorpdfstring{Move()}{Move()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily template$<$std\+::size\+\_\+t HEIGHT, std\+::size\+\_\+t WIDTH, std\+::size\+\_\+t N$>$ \\
+\mbox{\hyperlink{classNInARow_1_1Move}{NIn\+ARow\+::\+Move}}$<$ HEIGHT, WIDTH, N $>$\+::\+Move (\begin{DoxyParamCaption}\item[{std\+::size\+\_\+t}]{row,  }\item[{std\+::size\+\_\+t}]{col,  }\item[{double}]{v,  }\item[{Player}]{p }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+\begin{DoxyParams}{Parameters}
+{\em row} & The row index of the given move. \\
+\hline
+{\em col} & The column index of the given move. \\
+\hline
+{\em v} & The heuristic value of the given move. \\
+\hline
+{\em p} & The player who played the given move.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A move played by player p at position \mbox{[}row, col\mbox{]} with value v. 
+\end{DoxyReturn}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classNInARow_1_1Move_a61bf086256c9f24792b4f6d8190a76b2}\label{classNInARow_1_1Move_a61bf086256c9f24792b4f6d8190a76b2} 
+\index{NInARow::Move$<$ HEIGHT, WIDTH, N $>$@{NInARow::Move$<$ HEIGHT, WIDTH, N $>$}!get\_col@{get\_col}}
+\index{get\_col@{get\_col}!NInARow::Move$<$ HEIGHT, WIDTH, N $>$@{NInARow::Move$<$ HEIGHT, WIDTH, N $>$}}
+\doxysubsubsection{\texorpdfstring{get\_col()}{get\_col()}}
+{\footnotesize\ttfamily template$<$std\+::size\+\_\+t HEIGHT, std\+::size\+\_\+t WIDTH, std\+::size\+\_\+t N$>$ \\
+std\+::size\+\_\+t \mbox{\hyperlink{classNInARow_1_1Move}{NIn\+ARow\+::\+Move}}$<$ HEIGHT, WIDTH, N $>$\+::get\+\_\+col (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\begin{DoxyReturn}{Returns}
+The index of the column of this move. 
+\end{DoxyReturn}
+\Hypertarget{classNInARow_1_1Move_a372ebc65757e30391876be046848eef6}\label{classNInARow_1_1Move_a372ebc65757e30391876be046848eef6} 
+\index{NInARow::Move$<$ HEIGHT, WIDTH, N $>$@{NInARow::Move$<$ HEIGHT, WIDTH, N $>$}!get\_row@{get\_row}}
+\index{get\_row@{get\_row}!NInARow::Move$<$ HEIGHT, WIDTH, N $>$@{NInARow::Move$<$ HEIGHT, WIDTH, N $>$}}
+\doxysubsubsection{\texorpdfstring{get\_row()}{get\_row()}}
+{\footnotesize\ttfamily template$<$std\+::size\+\_\+t HEIGHT, std\+::size\+\_\+t WIDTH, std\+::size\+\_\+t N$>$ \\
+std\+::size\+\_\+t \mbox{\hyperlink{classNInARow_1_1Move}{NIn\+ARow\+::\+Move}}$<$ HEIGHT, WIDTH, N $>$\+::get\+\_\+row (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\begin{DoxyReturn}{Returns}
+The index of the row of this move. 
+\end{DoxyReturn}
+\Hypertarget{classNInARow_1_1Move_a710874fccdd276651ff94f5546ae6801}\label{classNInARow_1_1Move_a710874fccdd276651ff94f5546ae6801} 
+\index{NInARow::Move$<$ HEIGHT, WIDTH, N $>$@{NInARow::Move$<$ HEIGHT, WIDTH, N $>$}!operator$<$@{operator$<$}}
+\index{operator$<$@{operator$<$}!NInARow::Move$<$ HEIGHT, WIDTH, N $>$@{NInARow::Move$<$ HEIGHT, WIDTH, N $>$}}
+\doxysubsubsection{\texorpdfstring{operator$<$()}{operator<()}}
+{\footnotesize\ttfamily template$<$std\+::size\+\_\+t HEIGHT, std\+::size\+\_\+t WIDTH, std\+::size\+\_\+t N$>$ \\
+bool \mbox{\hyperlink{classNInARow_1_1Move}{NIn\+ARow\+::\+Move}}$<$ HEIGHT, WIDTH, N $>$\+::operator$<$ (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classNInARow_1_1Move}{Move}}$<$ HEIGHT, WIDTH, N $>$ \&}]{m }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+Compares two moves using the heuristic value.
+
+
+\begin{DoxyParams}{Parameters}
+{\em m} & The move to compare.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True if the heuristic value of m is less than our heuristic value. 
+\end{DoxyReturn}
+\Hypertarget{classNInARow_1_1Move_aac5118e9c2c9339a07253ee6a7893503}\label{classNInARow_1_1Move_aac5118e9c2c9339a07253ee6a7893503} 
+\index{NInARow::Move$<$ HEIGHT, WIDTH, N $>$@{NInARow::Move$<$ HEIGHT, WIDTH, N $>$}!operator$>$@{operator$>$}}
+\index{operator$>$@{operator$>$}!NInARow::Move$<$ HEIGHT, WIDTH, N $>$@{NInARow::Move$<$ HEIGHT, WIDTH, N $>$}}
+\doxysubsubsection{\texorpdfstring{operator$>$()}{operator>()}}
+{\footnotesize\ttfamily template$<$std\+::size\+\_\+t HEIGHT, std\+::size\+\_\+t WIDTH, std\+::size\+\_\+t N$>$ \\
+bool \mbox{\hyperlink{classNInARow_1_1Move}{NIn\+ARow\+::\+Move}}$<$ HEIGHT, WIDTH, N $>$\+::operator$>$ (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classNInARow_1_1Move}{Move}}$<$ HEIGHT, WIDTH, N $>$ \&}]{m }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+Compares two moves using the heuristic value.
+
+
+\begin{DoxyParams}{Parameters}
+{\em m} & The move to compare.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True if the heuristic value of m is greater than our heuristic value. 
+\end{DoxyReturn}
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{classNInARow_1_1Move_a50e59c1b264d36da126d0762056963cb}\label{classNInARow_1_1Move_a50e59c1b264d36da126d0762056963cb} 
+\index{NInARow::Move$<$ HEIGHT, WIDTH, N $>$@{NInARow::Move$<$ HEIGHT, WIDTH, N $>$}!board\_position@{board\_position}}
+\index{board\_position@{board\_position}!NInARow::Move$<$ HEIGHT, WIDTH, N $>$@{NInARow::Move$<$ HEIGHT, WIDTH, N $>$}}
+\doxysubsubsection{\texorpdfstring{board\_position}{board\_position}}
+{\footnotesize\ttfamily template$<$std\+::size\+\_\+t HEIGHT, std\+::size\+\_\+t WIDTH, std\+::size\+\_\+t N$>$ \\
+std\+::size\+\_\+t \mbox{\hyperlink{classNInARow_1_1Move}{NIn\+ARow\+::\+Move}}$<$ HEIGHT, WIDTH, N $>$\+::board\+\_\+position}
+
+The position of the move on the board. 0 is the upper left tile on the board, and positions increment along columns. \Hypertarget{classNInARow_1_1Move_a424df4f38d5695abc46b69cbdd0405f5}\label{classNInARow_1_1Move_a424df4f38d5695abc46b69cbdd0405f5} 
+\index{NInARow::Move$<$ HEIGHT, WIDTH, N $>$@{NInARow::Move$<$ HEIGHT, WIDTH, N $>$}!player@{player}}
+\index{player@{player}!NInARow::Move$<$ HEIGHT, WIDTH, N $>$@{NInARow::Move$<$ HEIGHT, WIDTH, N $>$}}
+\doxysubsubsection{\texorpdfstring{player}{player}}
+{\footnotesize\ttfamily template$<$std\+::size\+\_\+t HEIGHT, std\+::size\+\_\+t WIDTH, std\+::size\+\_\+t N$>$ \\
+Player \mbox{\hyperlink{classNInARow_1_1Move}{NIn\+ARow\+::\+Move}}$<$ HEIGHT, WIDTH, N $>$\+::player}
+
+The player who played the move. \Hypertarget{classNInARow_1_1Move_af77e392cdc73e610bba0a7d32d0f12cc}\label{classNInARow_1_1Move_af77e392cdc73e610bba0a7d32d0f12cc} 
+\index{NInARow::Move$<$ HEIGHT, WIDTH, N $>$@{NInARow::Move$<$ HEIGHT, WIDTH, N $>$}!val@{val}}
+\index{val@{val}!NInARow::Move$<$ HEIGHT, WIDTH, N $>$@{NInARow::Move$<$ HEIGHT, WIDTH, N $>$}}
+\doxysubsubsection{\texorpdfstring{val}{val}}
+{\footnotesize\ttfamily template$<$std\+::size\+\_\+t HEIGHT, std\+::size\+\_\+t WIDTH, std\+::size\+\_\+t N$>$ \\
+double \mbox{\hyperlink{classNInARow_1_1Move}{NIn\+ARow\+::\+Move}}$<$ HEIGHT, WIDTH, N $>$\+::val}
+
+The heuristic value of a given move. 
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+ninarow\+\_\+move.\+h\end{DoxyCompactItemize}

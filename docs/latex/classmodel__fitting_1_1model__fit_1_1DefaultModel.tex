@@ -1,0 +1,115 @@
+\doxysection{model\+\_\+fitting.\+model\+\_\+fit.\+Default\+Model Class Reference}
+\hypertarget{classmodel__fitting_1_1model__fit_1_1DefaultModel}{}\label{classmodel__fitting_1_1model__fit_1_1DefaultModel}\index{model\_fitting.model\_fit.DefaultModel@{model\_fitting.model\_fit.DefaultModel}}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classmodel__fitting_1_1model__fit_1_1DefaultModel_a76052ce3a4229dbc6500abf0d8b655a3}{\+\_\+\+\_\+init\+\_\+\+\_\+}} (self)
+\item 
+\mbox{\hyperlink{classmodel__fitting_1_1model__fit_1_1DefaultModel_acad33f26cb5017c32e5e95ad4a42f8a0}{create\+\_\+heuristic}} (self, params)
+\item 
+\mbox{\hyperlink{classmodel__fitting_1_1model__fit_1_1DefaultModel_ae51224a46b2d740177697f7701b191e2}{create\+\_\+search}} (self, params, heuristic, board)
+\item 
+\mbox{\hyperlink{classmodel__fitting_1_1model__fit_1_1DefaultModel_a126b9d0506e5994306d84e192b53f59e}{estimate\+\_\+initial\+\_\+l\+\_\+value\+\_\+guess}} (self, fitter, moves)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classmodel__fitting_1_1model__fit_1_1DefaultModel_a2e7035ba8049bdf7a75c93a8f2f58edd}\label{classmodel__fitting_1_1model__fit_1_1DefaultModel_a2e7035ba8049bdf7a75c93a8f2f58edd} 
+{\bfseries expt\+\_\+factor}
+\item 
+\Hypertarget{classmodel__fitting_1_1model__fit_1_1DefaultModel_a6871b68facca4db5f3b9e87ac3f5a381}\label{classmodel__fitting_1_1model__fit_1_1DefaultModel_a6871b68facca4db5f3b9e87ac3f5a381} 
+{\bfseries cutoff}
+\item 
+\Hypertarget{classmodel__fitting_1_1model__fit_1_1DefaultModel_a915f76f52df1e26a6c0f87d7bb49ad38}\label{classmodel__fitting_1_1model__fit_1_1DefaultModel_a915f76f52df1e26a6c0f87d7bb49ad38} 
+{\bfseries x0}
+\item 
+\Hypertarget{classmodel__fitting_1_1model__fit_1_1DefaultModel_a29a637c16e0bdaf65e6d52fba48d5ad9}\label{classmodel__fitting_1_1model__fit_1_1DefaultModel_a29a637c16e0bdaf65e6d52fba48d5ad9} 
+{\bfseries ub}
+\item 
+\Hypertarget{classmodel__fitting_1_1model__fit_1_1DefaultModel_a8059f666e1656b0a4b2eb33506bdc26f}\label{classmodel__fitting_1_1model__fit_1_1DefaultModel_a8059f666e1656b0a4b2eb33506bdc26f} 
+{\bfseries lb}
+\item 
+\Hypertarget{classmodel__fitting_1_1model__fit_1_1DefaultModel_a0f2784ce9c3d45ec1ddfa3ea8788669d}\label{classmodel__fitting_1_1model__fit_1_1DefaultModel_a0f2784ce9c3d45ec1ddfa3ea8788669d} 
+{\bfseries pub}
+\item 
+\Hypertarget{classmodel__fitting_1_1model__fit_1_1DefaultModel_ab8616f89d7ff1b86fe4f4a01b6b43364}\label{classmodel__fitting_1_1model__fit_1_1DefaultModel_ab8616f89d7ff1b86fe4f4a01b6b43364} 
+{\bfseries plb}
+\item 
+\Hypertarget{classmodel__fitting_1_1model__fit_1_1DefaultModel_a1a87f87f9a55f6dbb8bfd8c1123c8206}\label{classmodel__fitting_1_1model__fit_1_1DefaultModel_a1a87f87f9a55f6dbb8bfd8c1123c8206} 
+{\bfseries c}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyVerb}The default model used by Bas. In general, a model defines:
+- what search to use
+- what heuristic to use
+- how to estimate the initial L-value guesses for fitting to a dataset
+- what parameters to search over, and what bounds should be used.
+
+This can be extended to change any of the above.
+\end{DoxyVerb}
+ 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classmodel__fitting_1_1model__fit_1_1DefaultModel_a76052ce3a4229dbc6500abf0d8b655a3}\label{classmodel__fitting_1_1model__fit_1_1DefaultModel_a76052ce3a4229dbc6500abf0d8b655a3} 
+\index{model\_fitting.model\_fit.DefaultModel@{model\_fitting.model\_fit.DefaultModel}!\_\_init\_\_@{\_\_init\_\_}}
+\index{\_\_init\_\_@{\_\_init\_\_}!model\_fitting.model\_fit.DefaultModel@{model\_fitting.model\_fit.DefaultModel}}
+\doxysubsubsection{\texorpdfstring{\_\_init\_\_()}{\_\_init\_\_()}}
+{\footnotesize\ttfamily model\+\_\+fitting.\+model\+\_\+fit.\+Default\+Model.\+\_\+\+\_\+init\+\_\+\+\_\+ (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Constructor.
+\end{DoxyVerb}
+ 
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classmodel__fitting_1_1model__fit_1_1DefaultModel_acad33f26cb5017c32e5e95ad4a42f8a0}\label{classmodel__fitting_1_1model__fit_1_1DefaultModel_acad33f26cb5017c32e5e95ad4a42f8a0} 
+\index{model\_fitting.model\_fit.DefaultModel@{model\_fitting.model\_fit.DefaultModel}!create\_heuristic@{create\_heuristic}}
+\index{create\_heuristic@{create\_heuristic}!model\_fitting.model\_fit.DefaultModel@{model\_fitting.model\_fit.DefaultModel}}
+\doxysubsubsection{\texorpdfstring{create\_heuristic()}{create\_heuristic()}}
+{\footnotesize\ttfamily model\+\_\+fitting.\+model\+\_\+fit.\+Default\+Model.\+create\+\_\+heuristic (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{params }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Used by the model fitter to construct heuristics with different parameters
+during the search process.
+
+Args:
+    params: The parameters of the heuristic.
+Returns:
+    A heuristic with the given parameters.
+\end{DoxyVerb}
+ \Hypertarget{classmodel__fitting_1_1model__fit_1_1DefaultModel_ae51224a46b2d740177697f7701b191e2}\label{classmodel__fitting_1_1model__fit_1_1DefaultModel_ae51224a46b2d740177697f7701b191e2} 
+\index{model\_fitting.model\_fit.DefaultModel@{model\_fitting.model\_fit.DefaultModel}!create\_search@{create\_search}}
+\index{create\_search@{create\_search}!model\_fitting.model\_fit.DefaultModel@{model\_fitting.model\_fit.DefaultModel}}
+\doxysubsubsection{\texorpdfstring{create\_search()}{create\_search()}}
+{\footnotesize\ttfamily model\+\_\+fitting.\+model\+\_\+fit.\+Default\+Model.\+create\+\_\+search (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{params,  }\item[{}]{heuristic,  }\item[{}]{board }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Used by the model fitter to construct searches with different parameters
+during the search process.
+
+Args:
+    params: The parameters of the search.
+    heuristic: The heuristic to use in the search.
+    board: The position to search from.
+Returns:
+    A search from the given position using the heuristic with the given parameters.
+\end{DoxyVerb}
+ \Hypertarget{classmodel__fitting_1_1model__fit_1_1DefaultModel_a126b9d0506e5994306d84e192b53f59e}\label{classmodel__fitting_1_1model__fit_1_1DefaultModel_a126b9d0506e5994306d84e192b53f59e} 
+\index{model\_fitting.model\_fit.DefaultModel@{model\_fitting.model\_fit.DefaultModel}!estimate\_initial\_l\_value\_guess@{estimate\_initial\_l\_value\_guess}}
+\index{estimate\_initial\_l\_value\_guess@{estimate\_initial\_l\_value\_guess}!model\_fitting.model\_fit.DefaultModel@{model\_fitting.model\_fit.DefaultModel}}
+\doxysubsubsection{\texorpdfstring{estimate\_initial\_l\_value\_guess()}{estimate\_initial\_l\_value\_guess()}}
+{\footnotesize\ttfamily model\+\_\+fitting.\+model\+\_\+fit.\+Default\+Model.\+estimate\+\_\+initial\+\_\+l\+\_\+value\+\_\+guess (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{fitter,  }\item[{}]{moves }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Given a model fitter and a list of moves, estimate initial L-value guesses for each move.
+
+Args:
+    fitter: The model fitter.
+    moves: The moves to estimate.
+
+Returns:
+    A list of L-values corresponding to each of the given moves.
+\end{DoxyVerb}
+ 
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+model\+\_\+fitting/model\+\_\+fit.\+py\end{DoxyCompactItemize}

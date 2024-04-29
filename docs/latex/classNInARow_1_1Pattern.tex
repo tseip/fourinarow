@@ -1,0 +1,361 @@
+\doxysection{NIn\+ARow\+::Pattern\texorpdfstring{$<$}{<} HEIGHT, WIDTH, N \texorpdfstring{$>$}{>} Class Template Reference}
+\hypertarget{classNInARow_1_1Pattern}{}\label{classNInARow_1_1Pattern}\index{NInARow::Pattern$<$ HEIGHT, WIDTH, N $>$@{NInARow::Pattern$<$ HEIGHT, WIDTH, N $>$}}
+
+
+{\ttfamily \#include $<$ninarow\+\_\+pattern.\+h$>$}
+
+\doxysubsubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classNInARow_1_1Pattern_a82434228719cd40df24828026113dbef}\label{classNInARow_1_1Pattern_a82434228719cd40df24828026113dbef} 
+using {\bfseries bitset} = std\+::bitset$<$ BOARD\+\_\+\+SIZE $>$
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classNInARow_1_1Pattern_a81b101e2b180dab015ea5b3898a82e60}{Pattern}} ()=default
+\item 
+\mbox{\hyperlink{classNInARow_1_1Pattern_ab762674103dca7273b6f1d5d077a03fb}{Pattern}} (unsigned long long \mbox{\hyperlink{classNInARow_1_1Pattern_a5021ed3ff7f8b6d07ea6c0151ecd0467}{positions}})
+\item 
+\mbox{\hyperlink{classNInARow_1_1Pattern_a7684703ddd9749d14d6fd16ff21528b8}{Pattern}} (const bitset \mbox{\hyperlink{classNInARow_1_1Pattern_a5021ed3ff7f8b6d07ea6c0151ecd0467}{positions}})
+\item 
+\mbox{\hyperlink{classNInARow_1_1Pattern_a83e04ce431a99639bec53566f7fbf9b3}{Pattern}} (const std\+::string s)
+\item 
+std\+::string \mbox{\hyperlink{classNInARow_1_1Pattern_a3b0f9c8aca034703e714664c9586741a}{to\+\_\+string}} () const
+\item 
+void \mbox{\hyperlink{classNInARow_1_1Pattern_a29f36bcff82f12f52b37bd161602893f}{shift}} (int row, int col)
+\item 
+bool \mbox{\hyperlink{classNInARow_1_1Pattern_ae9c6f2cf1192bc140fefd6712bfe582a}{is\+\_\+empty}} () const
+\item 
+std\+::size\+\_\+t \mbox{\hyperlink{classNInARow_1_1Pattern_a3d1bed006ee45e761e025c8788291a36}{count}} () const
+\item 
+std\+::size\+\_\+t \mbox{\hyperlink{classNInARow_1_1Pattern_a08183885dace29596113eab0659d4ff5}{min\+\_\+row}} () const
+\item 
+std\+::size\+\_\+t \mbox{\hyperlink{classNInARow_1_1Pattern_a7371cb25b3f848c0e960cfd53519304e}{max\+\_\+row}} () const
+\item 
+std\+::size\+\_\+t \mbox{\hyperlink{classNInARow_1_1Pattern_aeecfb51265379d7e89ec9a8408af255b}{min\+\_\+col}} () const
+\item 
+std\+::size\+\_\+t \mbox{\hyperlink{classNInARow_1_1Pattern_a311d736d1b3bbab30cb069854023665c}{max\+\_\+col}} () const
+\item 
+bool \mbox{\hyperlink{classNInARow_1_1Pattern_aedef9f830e808133fa7de46e062d2c9b}{contains\+\_\+win}} () const
+\item 
+std\+::size\+\_\+t \mbox{\hyperlink{classNInARow_1_1Pattern_af448570afd7d2cd3c5ea413e2d2a94ea}{count\+\_\+overlap}} (const \mbox{\hyperlink{classNInARow_1_1Pattern}{Pattern}} p) const
+\item 
+std\+::size\+\_\+t \mbox{\hyperlink{classNInARow_1_1Pattern_a575a444b030cd381be61ce8c26910e75}{count\+\_\+spaces}} (const \mbox{\hyperlink{classNInARow_1_1Pattern}{Pattern}} p) const
+\item 
+bool \mbox{\hyperlink{classNInARow_1_1Pattern_ad710793678de1d8d83cb29af119763cc}{contains}} (const \mbox{\hyperlink{classNInARow_1_1Pattern}{Pattern}} p) const
+\item 
+bool \mbox{\hyperlink{classNInARow_1_1Pattern_aa153496b80e1ff5156e96232c604600f}{operator==}} (const \mbox{\hyperlink{classNInARow_1_1Pattern}{Pattern}} \&p) const
+\item 
+bool \mbox{\hyperlink{classNInARow_1_1Pattern_a53d1571735d4c0e7b38195464601a66b}{operator!=}} (const \mbox{\hyperlink{classNInARow_1_1Pattern}{Pattern}} \&p) const
+\item 
+std\+::vector$<$ \mbox{\hyperlink{classNInARow_1_1Pattern}{Pattern}} $>$ \mbox{\hyperlink{classNInARow_1_1Pattern_aea8df3537ccad0d73eddd468981dcde1}{get\+\_\+all\+\_\+positions}} () const
+\item 
+std\+::vector$<$ std\+::size\+\_\+t $>$ \mbox{\hyperlink{classNInARow_1_1Pattern_a5b8385be7c114d6c083fd8287ebffc3b}{get\+\_\+all\+\_\+position\+\_\+indices}} () const
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static std\+::size\+\_\+t \mbox{\hyperlink{classNInARow_1_1Pattern_a4fc754551cf09b9ac0dd168d8c0151f2}{get\+\_\+height}} ()
+\item 
+static std\+::size\+\_\+t \mbox{\hyperlink{classNInARow_1_1Pattern_a725091ecfa4efad1414efda84a12fc5f}{get\+\_\+width}} ()
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+bitset \mbox{\hyperlink{classNInARow_1_1Pattern_a5021ed3ff7f8b6d07ea6c0151ecd0467}{positions}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\subsubsection*{template$<$std\+::size\+\_\+t HEIGHT, std\+::size\+\_\+t WIDTH, std\+::size\+\_\+t N$>$\newline
+class NIn\+ARow\+::\+Pattern$<$ HEIGHT, WIDTH, N $>$}
+Represents a set of positions on the game board.
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em HEIGHT} & The height of the pattern. \\
+\hline
+{\em WIDTH} & The width of the pattern. \\
+\hline
+{\em N} & The number of stones in a row required to win. \\
+\hline
+\end{DoxyTemplParams}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classNInARow_1_1Pattern_a81b101e2b180dab015ea5b3898a82e60}\label{classNInARow_1_1Pattern_a81b101e2b180dab015ea5b3898a82e60} 
+\index{NInARow::Pattern$<$ HEIGHT, WIDTH, N $>$@{NInARow::Pattern$<$ HEIGHT, WIDTH, N $>$}!Pattern@{Pattern}}
+\index{Pattern@{Pattern}!NInARow::Pattern$<$ HEIGHT, WIDTH, N $>$@{NInARow::Pattern$<$ HEIGHT, WIDTH, N $>$}}
+\doxysubsubsection{\texorpdfstring{Pattern()}{Pattern()}\hspace{0.1cm}{\footnotesize\ttfamily [1/4]}}
+{\footnotesize\ttfamily template$<$std\+::size\+\_\+t HEIGHT, std\+::size\+\_\+t WIDTH, std\+::size\+\_\+t N$>$ \\
+\mbox{\hyperlink{classNInARow_1_1Pattern}{NIn\+ARow\+::\+Pattern}}$<$ HEIGHT, WIDTH, N $>$\+::\+Pattern (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [default]}}
+
+Creates an empty pattern. \Hypertarget{classNInARow_1_1Pattern_ab762674103dca7273b6f1d5d077a03fb}\label{classNInARow_1_1Pattern_ab762674103dca7273b6f1d5d077a03fb} 
+\index{NInARow::Pattern$<$ HEIGHT, WIDTH, N $>$@{NInARow::Pattern$<$ HEIGHT, WIDTH, N $>$}!Pattern@{Pattern}}
+\index{Pattern@{Pattern}!NInARow::Pattern$<$ HEIGHT, WIDTH, N $>$@{NInARow::Pattern$<$ HEIGHT, WIDTH, N $>$}}
+\doxysubsubsection{\texorpdfstring{Pattern()}{Pattern()}\hspace{0.1cm}{\footnotesize\ttfamily [2/4]}}
+{\footnotesize\ttfamily template$<$std\+::size\+\_\+t HEIGHT, std\+::size\+\_\+t WIDTH, std\+::size\+\_\+t N$>$ \\
+\mbox{\hyperlink{classNInARow_1_1Pattern}{NIn\+ARow\+::\+Pattern}}$<$ HEIGHT, WIDTH, N $>$\+::\+Pattern (\begin{DoxyParamCaption}\item[{unsigned long long}]{positions }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Creates a pattern with the specified bitset.
+
+
+\begin{DoxyParams}{Parameters}
+{\em positions} & A number containing the bitset to be represented by this pattern. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classNInARow_1_1Pattern_a7684703ddd9749d14d6fd16ff21528b8}\label{classNInARow_1_1Pattern_a7684703ddd9749d14d6fd16ff21528b8} 
+\index{NInARow::Pattern$<$ HEIGHT, WIDTH, N $>$@{NInARow::Pattern$<$ HEIGHT, WIDTH, N $>$}!Pattern@{Pattern}}
+\index{Pattern@{Pattern}!NInARow::Pattern$<$ HEIGHT, WIDTH, N $>$@{NInARow::Pattern$<$ HEIGHT, WIDTH, N $>$}}
+\doxysubsubsection{\texorpdfstring{Pattern()}{Pattern()}\hspace{0.1cm}{\footnotesize\ttfamily [3/4]}}
+{\footnotesize\ttfamily template$<$std\+::size\+\_\+t HEIGHT, std\+::size\+\_\+t WIDTH, std\+::size\+\_\+t N$>$ \\
+\mbox{\hyperlink{classNInARow_1_1Pattern}{NIn\+ARow\+::\+Pattern}}$<$ HEIGHT, WIDTH, N $>$\+::\+Pattern (\begin{DoxyParamCaption}\item[{const bitset}]{positions }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Creates a pattern with the specified bitset.
+
+
+\begin{DoxyParams}{Parameters}
+{\em positions} & A bitset to be represented by this pattern. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classNInARow_1_1Pattern_a83e04ce431a99639bec53566f7fbf9b3}\label{classNInARow_1_1Pattern_a83e04ce431a99639bec53566f7fbf9b3} 
+\index{NInARow::Pattern$<$ HEIGHT, WIDTH, N $>$@{NInARow::Pattern$<$ HEIGHT, WIDTH, N $>$}!Pattern@{Pattern}}
+\index{Pattern@{Pattern}!NInARow::Pattern$<$ HEIGHT, WIDTH, N $>$@{NInARow::Pattern$<$ HEIGHT, WIDTH, N $>$}}
+\doxysubsubsection{\texorpdfstring{Pattern()}{Pattern()}\hspace{0.1cm}{\footnotesize\ttfamily [4/4]}}
+{\footnotesize\ttfamily template$<$std\+::size\+\_\+t HEIGHT, std\+::size\+\_\+t WIDTH, std\+::size\+\_\+t N$>$ \\
+\mbox{\hyperlink{classNInARow_1_1Pattern}{NIn\+ARow\+::\+Pattern}}$<$ HEIGHT, WIDTH, N $>$\+::\+Pattern (\begin{DoxyParamCaption}\item[{const std\+::string}]{s }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Creates a pattern from a binary string. 
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classNInARow_1_1Pattern_ad710793678de1d8d83cb29af119763cc}\label{classNInARow_1_1Pattern_ad710793678de1d8d83cb29af119763cc} 
+\index{NInARow::Pattern$<$ HEIGHT, WIDTH, N $>$@{NInARow::Pattern$<$ HEIGHT, WIDTH, N $>$}!contains@{contains}}
+\index{contains@{contains}!NInARow::Pattern$<$ HEIGHT, WIDTH, N $>$@{NInARow::Pattern$<$ HEIGHT, WIDTH, N $>$}}
+\doxysubsubsection{\texorpdfstring{contains()}{contains()}}
+{\footnotesize\ttfamily template$<$std\+::size\+\_\+t HEIGHT, std\+::size\+\_\+t WIDTH, std\+::size\+\_\+t N$>$ \\
+bool \mbox{\hyperlink{classNInARow_1_1Pattern}{NIn\+ARow\+::\+Pattern}}$<$ HEIGHT, WIDTH, N $>$\+::contains (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classNInARow_1_1Pattern}{Pattern}}$<$ HEIGHT, WIDTH, N $>$}]{p }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+\begin{DoxyParams}{Parameters}
+{\em p} & The pattern to check.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True if the given pattern is fully contained within this pattern. An empty pattern is contained in all patterns. 
+\end{DoxyReturn}
+\Hypertarget{classNInARow_1_1Pattern_aedef9f830e808133fa7de46e062d2c9b}\label{classNInARow_1_1Pattern_aedef9f830e808133fa7de46e062d2c9b} 
+\index{NInARow::Pattern$<$ HEIGHT, WIDTH, N $>$@{NInARow::Pattern$<$ HEIGHT, WIDTH, N $>$}!contains\_win@{contains\_win}}
+\index{contains\_win@{contains\_win}!NInARow::Pattern$<$ HEIGHT, WIDTH, N $>$@{NInARow::Pattern$<$ HEIGHT, WIDTH, N $>$}}
+\doxysubsubsection{\texorpdfstring{contains\_win()}{contains\_win()}}
+{\footnotesize\ttfamily template$<$std\+::size\+\_\+t HEIGHT, std\+::size\+\_\+t WIDTH, std\+::size\+\_\+t N$>$ \\
+bool \mbox{\hyperlink{classNInARow_1_1Pattern}{NIn\+ARow\+::\+Pattern}}$<$ HEIGHT, WIDTH, N $>$\+::contains\+\_\+win (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\begin{DoxyReturn}{Returns}
+True if a win exists in the pattern, false otherwise. 
+\end{DoxyReturn}
+\Hypertarget{classNInARow_1_1Pattern_a3d1bed006ee45e761e025c8788291a36}\label{classNInARow_1_1Pattern_a3d1bed006ee45e761e025c8788291a36} 
+\index{NInARow::Pattern$<$ HEIGHT, WIDTH, N $>$@{NInARow::Pattern$<$ HEIGHT, WIDTH, N $>$}!count@{count}}
+\index{count@{count}!NInARow::Pattern$<$ HEIGHT, WIDTH, N $>$@{NInARow::Pattern$<$ HEIGHT, WIDTH, N $>$}}
+\doxysubsubsection{\texorpdfstring{count()}{count()}}
+{\footnotesize\ttfamily template$<$std\+::size\+\_\+t HEIGHT, std\+::size\+\_\+t WIDTH, std\+::size\+\_\+t N$>$ \\
+std\+::size\+\_\+t \mbox{\hyperlink{classNInARow_1_1Pattern}{NIn\+ARow\+::\+Pattern}}$<$ HEIGHT, WIDTH, N $>$\+::count (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\begin{DoxyReturn}{Returns}
+The count of set bits in this pattern. 
+\end{DoxyReturn}
+\Hypertarget{classNInARow_1_1Pattern_af448570afd7d2cd3c5ea413e2d2a94ea}\label{classNInARow_1_1Pattern_af448570afd7d2cd3c5ea413e2d2a94ea} 
+\index{NInARow::Pattern$<$ HEIGHT, WIDTH, N $>$@{NInARow::Pattern$<$ HEIGHT, WIDTH, N $>$}!count\_overlap@{count\_overlap}}
+\index{count\_overlap@{count\_overlap}!NInARow::Pattern$<$ HEIGHT, WIDTH, N $>$@{NInARow::Pattern$<$ HEIGHT, WIDTH, N $>$}}
+\doxysubsubsection{\texorpdfstring{count\_overlap()}{count\_overlap()}}
+{\footnotesize\ttfamily template$<$std\+::size\+\_\+t HEIGHT, std\+::size\+\_\+t WIDTH, std\+::size\+\_\+t N$>$ \\
+std\+::size\+\_\+t \mbox{\hyperlink{classNInARow_1_1Pattern}{NIn\+ARow\+::\+Pattern}}$<$ HEIGHT, WIDTH, N $>$\+::count\+\_\+overlap (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classNInARow_1_1Pattern}{Pattern}}$<$ HEIGHT, WIDTH, N $>$}]{p }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+\begin{DoxyParams}{Parameters}
+{\em p} & The pattern to check.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The number of positions that both the given pattern and this pattern share. 
+\end{DoxyReturn}
+\Hypertarget{classNInARow_1_1Pattern_a575a444b030cd381be61ce8c26910e75}\label{classNInARow_1_1Pattern_a575a444b030cd381be61ce8c26910e75} 
+\index{NInARow::Pattern$<$ HEIGHT, WIDTH, N $>$@{NInARow::Pattern$<$ HEIGHT, WIDTH, N $>$}!count\_spaces@{count\_spaces}}
+\index{count\_spaces@{count\_spaces}!NInARow::Pattern$<$ HEIGHT, WIDTH, N $>$@{NInARow::Pattern$<$ HEIGHT, WIDTH, N $>$}}
+\doxysubsubsection{\texorpdfstring{count\_spaces()}{count\_spaces()}}
+{\footnotesize\ttfamily template$<$std\+::size\+\_\+t HEIGHT, std\+::size\+\_\+t WIDTH, std\+::size\+\_\+t N$>$ \\
+std\+::size\+\_\+t \mbox{\hyperlink{classNInARow_1_1Pattern}{NIn\+ARow\+::\+Pattern}}$<$ HEIGHT, WIDTH, N $>$\+::count\+\_\+spaces (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classNInARow_1_1Pattern}{Pattern}}$<$ HEIGHT, WIDTH, N $>$}]{p }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+\begin{DoxyParams}{Parameters}
+{\em p} & The pattern to check.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The number of positions in the given pattern that are not covered by this pattern. 
+\end{DoxyReturn}
+\Hypertarget{classNInARow_1_1Pattern_a5b8385be7c114d6c083fd8287ebffc3b}\label{classNInARow_1_1Pattern_a5b8385be7c114d6c083fd8287ebffc3b} 
+\index{NInARow::Pattern$<$ HEIGHT, WIDTH, N $>$@{NInARow::Pattern$<$ HEIGHT, WIDTH, N $>$}!get\_all\_position\_indices@{get\_all\_position\_indices}}
+\index{get\_all\_position\_indices@{get\_all\_position\_indices}!NInARow::Pattern$<$ HEIGHT, WIDTH, N $>$@{NInARow::Pattern$<$ HEIGHT, WIDTH, N $>$}}
+\doxysubsubsection{\texorpdfstring{get\_all\_position\_indices()}{get\_all\_position\_indices()}}
+{\footnotesize\ttfamily template$<$std\+::size\+\_\+t HEIGHT, std\+::size\+\_\+t WIDTH, std\+::size\+\_\+t N$>$ \\
+std\+::vector$<$ std\+::size\+\_\+t $>$ \mbox{\hyperlink{classNInARow_1_1Pattern}{NIn\+ARow\+::\+Pattern}}$<$ HEIGHT, WIDTH, N $>$\+::get\+\_\+all\+\_\+position\+\_\+indices (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\begin{DoxyReturn}{Returns}
+A list of indices referencing set bits in the given position. 
+\end{DoxyReturn}
+\Hypertarget{classNInARow_1_1Pattern_aea8df3537ccad0d73eddd468981dcde1}\label{classNInARow_1_1Pattern_aea8df3537ccad0d73eddd468981dcde1} 
+\index{NInARow::Pattern$<$ HEIGHT, WIDTH, N $>$@{NInARow::Pattern$<$ HEIGHT, WIDTH, N $>$}!get\_all\_positions@{get\_all\_positions}}
+\index{get\_all\_positions@{get\_all\_positions}!NInARow::Pattern$<$ HEIGHT, WIDTH, N $>$@{NInARow::Pattern$<$ HEIGHT, WIDTH, N $>$}}
+\doxysubsubsection{\texorpdfstring{get\_all\_positions()}{get\_all\_positions()}}
+{\footnotesize\ttfamily template$<$std\+::size\+\_\+t HEIGHT, std\+::size\+\_\+t WIDTH, std\+::size\+\_\+t N$>$ \\
+std\+::vector$<$ \mbox{\hyperlink{classNInARow_1_1Pattern}{Pattern}} $>$ \mbox{\hyperlink{classNInARow_1_1Pattern}{NIn\+ARow\+::\+Pattern}}$<$ HEIGHT, WIDTH, N $>$\+::get\+\_\+all\+\_\+positions (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\begin{DoxyReturn}{Returns}
+A list of 1-\/hot positions, where each element in the list represents a single set element of the original position. 
+\end{DoxyReturn}
+\Hypertarget{classNInARow_1_1Pattern_a4fc754551cf09b9ac0dd168d8c0151f2}\label{classNInARow_1_1Pattern_a4fc754551cf09b9ac0dd168d8c0151f2} 
+\index{NInARow::Pattern$<$ HEIGHT, WIDTH, N $>$@{NInARow::Pattern$<$ HEIGHT, WIDTH, N $>$}!get\_height@{get\_height}}
+\index{get\_height@{get\_height}!NInARow::Pattern$<$ HEIGHT, WIDTH, N $>$@{NInARow::Pattern$<$ HEIGHT, WIDTH, N $>$}}
+\doxysubsubsection{\texorpdfstring{get\_height()}{get\_height()}}
+{\footnotesize\ttfamily template$<$std\+::size\+\_\+t HEIGHT, std\+::size\+\_\+t WIDTH, std\+::size\+\_\+t N$>$ \\
+static std\+::size\+\_\+t \mbox{\hyperlink{classNInARow_1_1Pattern}{NIn\+ARow\+::\+Pattern}}$<$ HEIGHT, WIDTH, N $>$\+::get\+\_\+height (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}
+
+\begin{DoxyReturn}{Returns}
+The total maximum height of the pattern. 
+\end{DoxyReturn}
+\Hypertarget{classNInARow_1_1Pattern_a725091ecfa4efad1414efda84a12fc5f}\label{classNInARow_1_1Pattern_a725091ecfa4efad1414efda84a12fc5f} 
+\index{NInARow::Pattern$<$ HEIGHT, WIDTH, N $>$@{NInARow::Pattern$<$ HEIGHT, WIDTH, N $>$}!get\_width@{get\_width}}
+\index{get\_width@{get\_width}!NInARow::Pattern$<$ HEIGHT, WIDTH, N $>$@{NInARow::Pattern$<$ HEIGHT, WIDTH, N $>$}}
+\doxysubsubsection{\texorpdfstring{get\_width()}{get\_width()}}
+{\footnotesize\ttfamily template$<$std\+::size\+\_\+t HEIGHT, std\+::size\+\_\+t WIDTH, std\+::size\+\_\+t N$>$ \\
+static std\+::size\+\_\+t \mbox{\hyperlink{classNInARow_1_1Pattern}{NIn\+ARow\+::\+Pattern}}$<$ HEIGHT, WIDTH, N $>$\+::get\+\_\+width (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}
+
+\begin{DoxyReturn}{Returns}
+The total maximum width of the pattern. 
+\end{DoxyReturn}
+\Hypertarget{classNInARow_1_1Pattern_ae9c6f2cf1192bc140fefd6712bfe582a}\label{classNInARow_1_1Pattern_ae9c6f2cf1192bc140fefd6712bfe582a} 
+\index{NInARow::Pattern$<$ HEIGHT, WIDTH, N $>$@{NInARow::Pattern$<$ HEIGHT, WIDTH, N $>$}!is\_empty@{is\_empty}}
+\index{is\_empty@{is\_empty}!NInARow::Pattern$<$ HEIGHT, WIDTH, N $>$@{NInARow::Pattern$<$ HEIGHT, WIDTH, N $>$}}
+\doxysubsubsection{\texorpdfstring{is\_empty()}{is\_empty()}}
+{\footnotesize\ttfamily template$<$std\+::size\+\_\+t HEIGHT, std\+::size\+\_\+t WIDTH, std\+::size\+\_\+t N$>$ \\
+bool \mbox{\hyperlink{classNInARow_1_1Pattern}{NIn\+ARow\+::\+Pattern}}$<$ HEIGHT, WIDTH, N $>$\+::is\+\_\+empty (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\begin{DoxyReturn}{Returns}
+True if this pattern contains no set bits. 
+\end{DoxyReturn}
+\Hypertarget{classNInARow_1_1Pattern_a311d736d1b3bbab30cb069854023665c}\label{classNInARow_1_1Pattern_a311d736d1b3bbab30cb069854023665c} 
+\index{NInARow::Pattern$<$ HEIGHT, WIDTH, N $>$@{NInARow::Pattern$<$ HEIGHT, WIDTH, N $>$}!max\_col@{max\_col}}
+\index{max\_col@{max\_col}!NInARow::Pattern$<$ HEIGHT, WIDTH, N $>$@{NInARow::Pattern$<$ HEIGHT, WIDTH, N $>$}}
+\doxysubsubsection{\texorpdfstring{max\_col()}{max\_col()}}
+{\footnotesize\ttfamily template$<$std\+::size\+\_\+t HEIGHT, std\+::size\+\_\+t WIDTH, std\+::size\+\_\+t N$>$ \\
+std\+::size\+\_\+t \mbox{\hyperlink{classNInARow_1_1Pattern}{NIn\+ARow\+::\+Pattern}}$<$ HEIGHT, WIDTH, N $>$\+::max\+\_\+col (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\begin{DoxyReturn}{Returns}
+The index of the maximum column containing a set bit. If no bit is set, return total width. 
+\end{DoxyReturn}
+\Hypertarget{classNInARow_1_1Pattern_a7371cb25b3f848c0e960cfd53519304e}\label{classNInARow_1_1Pattern_a7371cb25b3f848c0e960cfd53519304e} 
+\index{NInARow::Pattern$<$ HEIGHT, WIDTH, N $>$@{NInARow::Pattern$<$ HEIGHT, WIDTH, N $>$}!max\_row@{max\_row}}
+\index{max\_row@{max\_row}!NInARow::Pattern$<$ HEIGHT, WIDTH, N $>$@{NInARow::Pattern$<$ HEIGHT, WIDTH, N $>$}}
+\doxysubsubsection{\texorpdfstring{max\_row()}{max\_row()}}
+{\footnotesize\ttfamily template$<$std\+::size\+\_\+t HEIGHT, std\+::size\+\_\+t WIDTH, std\+::size\+\_\+t N$>$ \\
+std\+::size\+\_\+t \mbox{\hyperlink{classNInARow_1_1Pattern}{NIn\+ARow\+::\+Pattern}}$<$ HEIGHT, WIDTH, N $>$\+::max\+\_\+row (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\begin{DoxyReturn}{Returns}
+The index of the maximum row containing a set bit. If no bit is set, return total height. 
+\end{DoxyReturn}
+\Hypertarget{classNInARow_1_1Pattern_aeecfb51265379d7e89ec9a8408af255b}\label{classNInARow_1_1Pattern_aeecfb51265379d7e89ec9a8408af255b} 
+\index{NInARow::Pattern$<$ HEIGHT, WIDTH, N $>$@{NInARow::Pattern$<$ HEIGHT, WIDTH, N $>$}!min\_col@{min\_col}}
+\index{min\_col@{min\_col}!NInARow::Pattern$<$ HEIGHT, WIDTH, N $>$@{NInARow::Pattern$<$ HEIGHT, WIDTH, N $>$}}
+\doxysubsubsection{\texorpdfstring{min\_col()}{min\_col()}}
+{\footnotesize\ttfamily template$<$std\+::size\+\_\+t HEIGHT, std\+::size\+\_\+t WIDTH, std\+::size\+\_\+t N$>$ \\
+std\+::size\+\_\+t \mbox{\hyperlink{classNInARow_1_1Pattern}{NIn\+ARow\+::\+Pattern}}$<$ HEIGHT, WIDTH, N $>$\+::min\+\_\+col (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\begin{DoxyReturn}{Returns}
+The index of the minimum column containing a set bit. If no bit is set, return 0. 
+\end{DoxyReturn}
+\Hypertarget{classNInARow_1_1Pattern_a08183885dace29596113eab0659d4ff5}\label{classNInARow_1_1Pattern_a08183885dace29596113eab0659d4ff5} 
+\index{NInARow::Pattern$<$ HEIGHT, WIDTH, N $>$@{NInARow::Pattern$<$ HEIGHT, WIDTH, N $>$}!min\_row@{min\_row}}
+\index{min\_row@{min\_row}!NInARow::Pattern$<$ HEIGHT, WIDTH, N $>$@{NInARow::Pattern$<$ HEIGHT, WIDTH, N $>$}}
+\doxysubsubsection{\texorpdfstring{min\_row()}{min\_row()}}
+{\footnotesize\ttfamily template$<$std\+::size\+\_\+t HEIGHT, std\+::size\+\_\+t WIDTH, std\+::size\+\_\+t N$>$ \\
+std\+::size\+\_\+t \mbox{\hyperlink{classNInARow_1_1Pattern}{NIn\+ARow\+::\+Pattern}}$<$ HEIGHT, WIDTH, N $>$\+::min\+\_\+row (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\begin{DoxyReturn}{Returns}
+The index of the minimum row containing a set bit. If no bit is set, return 0. 
+\end{DoxyReturn}
+\Hypertarget{classNInARow_1_1Pattern_a53d1571735d4c0e7b38195464601a66b}\label{classNInARow_1_1Pattern_a53d1571735d4c0e7b38195464601a66b} 
+\index{NInARow::Pattern$<$ HEIGHT, WIDTH, N $>$@{NInARow::Pattern$<$ HEIGHT, WIDTH, N $>$}!operator"!=@{operator"!=}}
+\index{operator"!=@{operator"!=}!NInARow::Pattern$<$ HEIGHT, WIDTH, N $>$@{NInARow::Pattern$<$ HEIGHT, WIDTH, N $>$}}
+\doxysubsubsection{\texorpdfstring{operator"!=()}{operator!=()}}
+{\footnotesize\ttfamily template$<$std\+::size\+\_\+t HEIGHT, std\+::size\+\_\+t WIDTH, std\+::size\+\_\+t N$>$ \\
+bool \mbox{\hyperlink{classNInARow_1_1Pattern}{NIn\+ARow\+::\+Pattern}}$<$ HEIGHT, WIDTH, N $>$\+::operator!= (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classNInARow_1_1Pattern}{Pattern}}$<$ HEIGHT, WIDTH, N $>$ \&}]{p }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+\begin{DoxyParams}{Parameters}
+{\em p} & A different pattern.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True if the given pattern is not identical to this one. 
+\end{DoxyReturn}
+\Hypertarget{classNInARow_1_1Pattern_aa153496b80e1ff5156e96232c604600f}\label{classNInARow_1_1Pattern_aa153496b80e1ff5156e96232c604600f} 
+\index{NInARow::Pattern$<$ HEIGHT, WIDTH, N $>$@{NInARow::Pattern$<$ HEIGHT, WIDTH, N $>$}!operator==@{operator==}}
+\index{operator==@{operator==}!NInARow::Pattern$<$ HEIGHT, WIDTH, N $>$@{NInARow::Pattern$<$ HEIGHT, WIDTH, N $>$}}
+\doxysubsubsection{\texorpdfstring{operator==()}{operator==()}}
+{\footnotesize\ttfamily template$<$std\+::size\+\_\+t HEIGHT, std\+::size\+\_\+t WIDTH, std\+::size\+\_\+t N$>$ \\
+bool \mbox{\hyperlink{classNInARow_1_1Pattern}{NIn\+ARow\+::\+Pattern}}$<$ HEIGHT, WIDTH, N $>$\+::operator== (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classNInARow_1_1Pattern}{Pattern}}$<$ HEIGHT, WIDTH, N $>$ \&}]{p }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+\begin{DoxyParams}{Parameters}
+{\em p} & A different pattern.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True if the given pattern is identical to this one. 
+\end{DoxyReturn}
+\Hypertarget{classNInARow_1_1Pattern_a29f36bcff82f12f52b37bd161602893f}\label{classNInARow_1_1Pattern_a29f36bcff82f12f52b37bd161602893f} 
+\index{NInARow::Pattern$<$ HEIGHT, WIDTH, N $>$@{NInARow::Pattern$<$ HEIGHT, WIDTH, N $>$}!shift@{shift}}
+\index{shift@{shift}!NInARow::Pattern$<$ HEIGHT, WIDTH, N $>$@{NInARow::Pattern$<$ HEIGHT, WIDTH, N $>$}}
+\doxysubsubsection{\texorpdfstring{shift()}{shift()}}
+{\footnotesize\ttfamily template$<$std\+::size\+\_\+t HEIGHT, std\+::size\+\_\+t WIDTH, std\+::size\+\_\+t N$>$ \\
+void \mbox{\hyperlink{classNInARow_1_1Pattern}{NIn\+ARow\+::\+Pattern}}$<$ HEIGHT, WIDTH, N $>$\+::shift (\begin{DoxyParamCaption}\item[{int}]{row,  }\item[{int}]{col }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Shifts the pattern by row, col.
+
+
+\begin{DoxyParams}{Parameters}
+{\em row} & The number of rows to shift the pattern by. \\
+\hline
+{\em col} & The number of columns to shift the pattern by. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classNInARow_1_1Pattern_a3b0f9c8aca034703e714664c9586741a}\label{classNInARow_1_1Pattern_a3b0f9c8aca034703e714664c9586741a} 
+\index{NInARow::Pattern$<$ HEIGHT, WIDTH, N $>$@{NInARow::Pattern$<$ HEIGHT, WIDTH, N $>$}!to\_string@{to\_string}}
+\index{to\_string@{to\_string}!NInARow::Pattern$<$ HEIGHT, WIDTH, N $>$@{NInARow::Pattern$<$ HEIGHT, WIDTH, N $>$}}
+\doxysubsubsection{\texorpdfstring{to\_string()}{to\_string()}}
+{\footnotesize\ttfamily template$<$std\+::size\+\_\+t HEIGHT, std\+::size\+\_\+t WIDTH, std\+::size\+\_\+t N$>$ \\
+std\+::string \mbox{\hyperlink{classNInARow_1_1Pattern}{NIn\+ARow\+::\+Pattern}}$<$ HEIGHT, WIDTH, N $>$\+::to\+\_\+string (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+Turns a pattern into a binary string. 
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{classNInARow_1_1Pattern_a5021ed3ff7f8b6d07ea6c0151ecd0467}\label{classNInARow_1_1Pattern_a5021ed3ff7f8b6d07ea6c0151ecd0467} 
+\index{NInARow::Pattern$<$ HEIGHT, WIDTH, N $>$@{NInARow::Pattern$<$ HEIGHT, WIDTH, N $>$}!positions@{positions}}
+\index{positions@{positions}!NInARow::Pattern$<$ HEIGHT, WIDTH, N $>$@{NInARow::Pattern$<$ HEIGHT, WIDTH, N $>$}}
+\doxysubsubsection{\texorpdfstring{positions}{positions}}
+{\footnotesize\ttfamily template$<$std\+::size\+\_\+t HEIGHT, std\+::size\+\_\+t WIDTH, std\+::size\+\_\+t N$>$ \\
+bitset \mbox{\hyperlink{classNInARow_1_1Pattern}{NIn\+ARow\+::\+Pattern}}$<$ HEIGHT, WIDTH, N $>$\+::positions}
+
+Encodes positions on the game board into a bitset, where board positions are specified starting at the LSB of the bitset for the upper left position and incrementing along columns, e.\+g., for a 4x3 board, the bit positions are as follows\+:
+
+\DoxyHorRuler{0}
+ \hypertarget{classNInARow_1_1Pattern_autotoc_md1}{}\doxysubsubsection{\texorpdfstring{$\vert$ 0$\vert$ 1$\vert$ 2$\vert$}{| 0| 1| 2|}}\label{classNInARow_1_1Pattern_autotoc_md1}
+\hypertarget{classNInARow_1_1Pattern_autotoc_md2}{}\doxysubsubsection{\texorpdfstring{$\vert$ 3$\vert$ 4$\vert$ 5$\vert$}{| 3| 4| 5|}}\label{classNInARow_1_1Pattern_autotoc_md2}
+\hypertarget{classNInARow_1_1Pattern_autotoc_md3}{}\doxysubsubsection{\texorpdfstring{$\vert$ 6$\vert$ 7$\vert$ 8$\vert$}{| 6| 7| 8|}}\label{classNInARow_1_1Pattern_autotoc_md3}
+\hypertarget{classNInARow_1_1Pattern_autotoc_md4}{}\doxysubsubsection{\texorpdfstring{$\vert$ 9$\vert$10$\vert$11$\vert$}{| 9|10|11|}}\label{classNInARow_1_1Pattern_autotoc_md4}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+ninarow\+\_\+pattern.\+h\end{DoxyCompactItemize}

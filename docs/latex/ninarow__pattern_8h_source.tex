@@ -1,0 +1,273 @@
+\doxysection{ninarow\+\_\+pattern.\+h}
+\hypertarget{ninarow__pattern_8h_source}{}\label{ninarow__pattern_8h_source}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ NINAROW\_PATTERN\_H\_INCLUDED}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ NINAROW\_PATTERN\_H\_INCLUDED}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <bitset>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <stdexcept>}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ "{}player.h"{}}}
+\DoxyCodeLine{00009\ }
+\DoxyCodeLine{00010\ \textcolor{keyword}{namespace\ }NInARow\ \{}
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00019\ \textcolor{keyword}{template}\ <std::\textcolor{keywordtype}{size\_t}\ HEIGHT,\ std::\textcolor{keywordtype}{size\_t}\ WIDTH,\ std::\textcolor{keywordtype}{size\_t}\ N>}
+\DoxyCodeLine{00020\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classNInARow_1_1Pattern}{Pattern}}\ \{}
+\DoxyCodeLine{00021\ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00022\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ std::size\_t\ BOARD\_SIZE\ =\ HEIGHT\ *\ WIDTH;}
+\DoxyCodeLine{00023\ }
+\DoxyCodeLine{00024\ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00025\ \ \ \textcolor{keyword}{using\ }bitset\ =\ std::bitset<BOARD\_SIZE>;}
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00030\ \ \ \mbox{\hyperlink{classNInARow_1_1Pattern_a81b101e2b180dab015ea5b3898a82e60}{Pattern}}()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00038\ \ \ \mbox{\hyperlink{classNInARow_1_1Pattern_ab762674103dca7273b6f1d5d077a03fb}{Pattern}}(\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{long}\ \textcolor{keywordtype}{long}\ \mbox{\hyperlink{classNInARow_1_1Pattern_a5021ed3ff7f8b6d07ea6c0151ecd0467}{positions}})\ :\ \mbox{\hyperlink{classNInARow_1_1Pattern}{Pattern}}(bitset\{\mbox{\hyperlink{classNInARow_1_1Pattern_a5021ed3ff7f8b6d07ea6c0151ecd0467}{positions}}\})\ \{\}}
+\DoxyCodeLine{00039\ }
+\DoxyCodeLine{00045\ \ \ \mbox{\hyperlink{classNInARow_1_1Pattern_a7684703ddd9749d14d6fd16ff21528b8}{Pattern}}(\textcolor{keyword}{const}\ bitset\ \mbox{\hyperlink{classNInARow_1_1Pattern_a5021ed3ff7f8b6d07ea6c0151ecd0467}{positions}})\ :\ \mbox{\hyperlink{classNInARow_1_1Pattern_a5021ed3ff7f8b6d07ea6c0151ecd0467}{positions}}(\mbox{\hyperlink{classNInARow_1_1Pattern_a5021ed3ff7f8b6d07ea6c0151ecd0467}{positions}})\ \{\}}
+\DoxyCodeLine{00046\ }
+\DoxyCodeLine{00050\ \ \ \mbox{\hyperlink{classNInARow_1_1Pattern_a83e04ce431a99639bec53566f7fbf9b3}{Pattern}}(\textcolor{keyword}{const}\ std::string\ s)\ :\ \mbox{\hyperlink{classNInARow_1_1Pattern_a5021ed3ff7f8b6d07ea6c0151ecd0467}{positions}}(bitset(std::stoull(s,\ nullptr,\ 2)))\ \{}
+\DoxyCodeLine{00051\ \ \ \ \ \textcolor{keywordflow}{if}\ (s.size()\ !=\ BOARD\_SIZE)}
+\DoxyCodeLine{00052\ \ \ \ \ \ \ \textcolor{keywordflow}{throw}\ std::invalid\_argument(}
+\DoxyCodeLine{00053\ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Provided\ string\ incompatible\ length\ to\ uniquely\ specify\ pattern."{}});}
+\DoxyCodeLine{00054\ \ \ \}}
+\DoxyCodeLine{00055\ }
+\DoxyCodeLine{00059\ \ \ std::string\ \mbox{\hyperlink{classNInARow_1_1Pattern_a3b0f9c8aca034703e714664c9586741a}{to\_string}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classNInARow_1_1Pattern_a5021ed3ff7f8b6d07ea6c0151ecd0467}{positions}}.to\_string();\ \}}
+\DoxyCodeLine{00060\ }
+\DoxyCodeLine{00067\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classNInARow_1_1Pattern_a29f36bcff82f12f52b37bd161602893f}{shift}}(\textcolor{keywordtype}{int}\ row,\ \textcolor{keywordtype}{int}\ col)\ \{}
+\DoxyCodeLine{00068\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{static}\ bitset\ all\_but\_last\_col\ =\ []()\ \{}
+\DoxyCodeLine{00069\ \ \ \ \ \ \ bitset\ last\_col;}
+\DoxyCodeLine{00070\ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{size\_t}\ i\ =\ 0;\ i\ <\ HEIGHT;\ ++i)\ \{}
+\DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ last\_col.set((i\ +\ 1U)\ *\ WIDTH\ -\/\ 1U);}
+\DoxyCodeLine{00072\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00073\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ last\_col.flip();}
+\DoxyCodeLine{00074\ \ \ \ \ \}();}
+\DoxyCodeLine{00075\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{static}\ bitset\ all\_but\_first\_col\ =\ []()\ \{}
+\DoxyCodeLine{00076\ \ \ \ \ \ \ bitset\ first\_col;}
+\DoxyCodeLine{00077\ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{size\_t}\ i\ =\ 0;\ i\ <\ HEIGHT;\ ++i)\ \{}
+\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ first\_col.set(i\ *\ WIDTH);}
+\DoxyCodeLine{00079\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00080\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ first\_col.flip();}
+\DoxyCodeLine{00081\ \ \ \ \ \}();}
+\DoxyCodeLine{00082\ \ \ \ \ \textcolor{keywordflow}{if}\ (col\ >=\ 0)\ \{}
+\DoxyCodeLine{00083\ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{size\_t}\ i\ =\ 0;\ i\ <\ static\_cast<std::size\_t>(col);\ ++i)\ \{}
+\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classNInARow_1_1Pattern_a5021ed3ff7f8b6d07ea6c0151ecd0467}{positions}}\ \&=\ all\_but\_last\_col;}
+\DoxyCodeLine{00085\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classNInARow_1_1Pattern_a5021ed3ff7f8b6d07ea6c0151ecd0467}{positions}}\ <<=\ 1;}
+\DoxyCodeLine{00086\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00087\ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00088\ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{size\_t}\ i\ =\ 0;\ i\ <\ static\_cast<std::size\_t>(-\/col);\ ++i)\ \{}
+\DoxyCodeLine{00089\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classNInARow_1_1Pattern_a5021ed3ff7f8b6d07ea6c0151ecd0467}{positions}}\ \&=\ all\_but\_first\_col;}
+\DoxyCodeLine{00090\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classNInARow_1_1Pattern_a5021ed3ff7f8b6d07ea6c0151ecd0467}{positions}}\ >>=\ 1;}
+\DoxyCodeLine{00091\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00092\ \ \ \ \ \}}
+\DoxyCodeLine{00093\ \ \ \ \ \textcolor{keywordflow}{if}\ (row\ >=\ 0)\ \{}
+\DoxyCodeLine{00094\ \ \ \ \ \ \ positions\ <<=\ static\_cast<size\_t>(row\ *\ WIDTH);}
+\DoxyCodeLine{00095\ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00096\ \ \ \ \ \ \ \mbox{\hyperlink{classNInARow_1_1Pattern_a5021ed3ff7f8b6d07ea6c0151ecd0467}{positions}}\ >>=\ \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{size\_t}\textcolor{keyword}{>}(-\/row\ *\ WIDTH);}
+\DoxyCodeLine{00097\ \ \ \ \ \}}
+\DoxyCodeLine{00098\ \ \ \}}
+\DoxyCodeLine{00099\ }
+\DoxyCodeLine{00103\ \ \ \textcolor{keyword}{static}\ std::size\_t\ \mbox{\hyperlink{classNInARow_1_1Pattern_a4fc754551cf09b9ac0dd168d8c0151f2}{get\_height}}()\ \{\ \textcolor{keywordflow}{return}\ HEIGHT;\ \}}
+\DoxyCodeLine{00104\ }
+\DoxyCodeLine{00108\ \ \ \textcolor{keyword}{static}\ std::size\_t\ \mbox{\hyperlink{classNInARow_1_1Pattern_a725091ecfa4efad1414efda84a12fc5f}{get\_width}}()\ \{\ \textcolor{keywordflow}{return}\ WIDTH;\ \}}
+\DoxyCodeLine{00109\ }
+\DoxyCodeLine{00113\ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classNInARow_1_1Pattern_ae9c6f2cf1192bc140fefd6712bfe582a}{is\_empty}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classNInARow_1_1Pattern_a5021ed3ff7f8b6d07ea6c0151ecd0467}{positions}}.none();\ \}}
+\DoxyCodeLine{00114\ }
+\DoxyCodeLine{00118\ \ \ std::size\_t\ \mbox{\hyperlink{classNInARow_1_1Pattern_a3d1bed006ee45e761e025c8788291a36}{count}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classNInARow_1_1Pattern_a5021ed3ff7f8b6d07ea6c0151ecd0467}{positions}}.count();\ \}}
+\DoxyCodeLine{00119\ }
+\DoxyCodeLine{00124\ \ \ std::size\_t\ \mbox{\hyperlink{classNInARow_1_1Pattern_a08183885dace29596113eab0659d4ff5}{min\_row}}()\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00125\ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{classNInARow_1_1Pattern_ae9c6f2cf1192bc140fefd6712bfe582a}{is\_empty}}())\ \textcolor{keywordflow}{return}\ 0;}
+\DoxyCodeLine{00126\ \ \ \ \ \mbox{\hyperlink{classNInARow_1_1Pattern}{Pattern}}\ temp(\mbox{\hyperlink{classNInARow_1_1Pattern_a5021ed3ff7f8b6d07ea6c0151ecd0467}{positions}});}
+\DoxyCodeLine{00127\ \ \ \ \ std::size\_t\ row\ =\ HEIGHT;}
+\DoxyCodeLine{00128\ \ \ \ \ \textcolor{keywordflow}{while}\ (temp.\mbox{\hyperlink{classNInARow_1_1Pattern_a5021ed3ff7f8b6d07ea6c0151ecd0467}{positions}}.any())\ \{}
+\DoxyCodeLine{00129\ \ \ \ \ \ \ temp.\mbox{\hyperlink{classNInARow_1_1Pattern_a29f36bcff82f12f52b37bd161602893f}{shift}}(1,\ 0);}
+\DoxyCodeLine{00130\ \ \ \ \ \ \ row-\/-\/;}
+\DoxyCodeLine{00131\ \ \ \ \ \}}
+\DoxyCodeLine{00132\ \ \ \ \ \textcolor{keywordflow}{return}\ row;}
+\DoxyCodeLine{00133\ \ \ \}}
+\DoxyCodeLine{00134\ }
+\DoxyCodeLine{00139\ \ \ std::size\_t\ \mbox{\hyperlink{classNInARow_1_1Pattern_a7371cb25b3f848c0e960cfd53519304e}{max\_row}}()\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00140\ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{classNInARow_1_1Pattern_ae9c6f2cf1192bc140fefd6712bfe582a}{is\_empty}}())\ \textcolor{keywordflow}{return}\ HEIGHT;}
+\DoxyCodeLine{00141\ \ \ \ \ \mbox{\hyperlink{classNInARow_1_1Pattern}{Pattern}}\ temp(\mbox{\hyperlink{classNInARow_1_1Pattern_a5021ed3ff7f8b6d07ea6c0151ecd0467}{positions}});}
+\DoxyCodeLine{00142\ \ \ \ \ std::size\_t\ row\ =\ 0;}
+\DoxyCodeLine{00143\ \ \ \ \ \textcolor{keywordflow}{while}\ (temp.\mbox{\hyperlink{classNInARow_1_1Pattern_a5021ed3ff7f8b6d07ea6c0151ecd0467}{positions}}.any())\ \{}
+\DoxyCodeLine{00144\ \ \ \ \ \ \ temp.\mbox{\hyperlink{classNInARow_1_1Pattern_a29f36bcff82f12f52b37bd161602893f}{shift}}(-\/1,\ 0);}
+\DoxyCodeLine{00145\ \ \ \ \ \ \ row++;}
+\DoxyCodeLine{00146\ \ \ \ \ \}}
+\DoxyCodeLine{00147\ \ \ \ \ row\ -\/=\ 1U;}
+\DoxyCodeLine{00148\ \ \ \ \ \textcolor{keywordflow}{return}\ row;}
+\DoxyCodeLine{00149\ \ \ \}}
+\DoxyCodeLine{00150\ }
+\DoxyCodeLine{00155\ \ \ std::size\_t\ \mbox{\hyperlink{classNInARow_1_1Pattern_aeecfb51265379d7e89ec9a8408af255b}{min\_col}}()\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00156\ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{classNInARow_1_1Pattern_ae9c6f2cf1192bc140fefd6712bfe582a}{is\_empty}}())\ \textcolor{keywordflow}{return}\ 0;}
+\DoxyCodeLine{00157\ \ \ \ \ \mbox{\hyperlink{classNInARow_1_1Pattern}{Pattern}}\ temp(\mbox{\hyperlink{classNInARow_1_1Pattern_a5021ed3ff7f8b6d07ea6c0151ecd0467}{positions}});}
+\DoxyCodeLine{00158\ \ \ \ \ std::size\_t\ col\ =\ WIDTH;}
+\DoxyCodeLine{00159\ \ \ \ \ \textcolor{keywordflow}{while}\ (temp.\mbox{\hyperlink{classNInARow_1_1Pattern_a5021ed3ff7f8b6d07ea6c0151ecd0467}{positions}}.any())\ \{}
+\DoxyCodeLine{00160\ \ \ \ \ \ \ temp.\mbox{\hyperlink{classNInARow_1_1Pattern_a29f36bcff82f12f52b37bd161602893f}{shift}}(0,\ 1);}
+\DoxyCodeLine{00161\ \ \ \ \ \ \ col-\/-\/;}
+\DoxyCodeLine{00162\ \ \ \ \ \}}
+\DoxyCodeLine{00163\ \ \ \ \ \textcolor{keywordflow}{return}\ col;}
+\DoxyCodeLine{00164\ \ \ \}}
+\DoxyCodeLine{00165\ }
+\DoxyCodeLine{00170\ \ \ std::size\_t\ \mbox{\hyperlink{classNInARow_1_1Pattern_a311d736d1b3bbab30cb069854023665c}{max\_col}}()\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00171\ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{classNInARow_1_1Pattern_ae9c6f2cf1192bc140fefd6712bfe582a}{is\_empty}}())\ \textcolor{keywordflow}{return}\ WIDTH;}
+\DoxyCodeLine{00172\ \ \ \ \ \mbox{\hyperlink{classNInARow_1_1Pattern}{Pattern}}\ temp(\mbox{\hyperlink{classNInARow_1_1Pattern_a5021ed3ff7f8b6d07ea6c0151ecd0467}{positions}});}
+\DoxyCodeLine{00173\ \ \ \ \ std::size\_t\ col\ =\ 0;}
+\DoxyCodeLine{00174\ \ \ \ \ \textcolor{keywordflow}{while}\ (temp.\mbox{\hyperlink{classNInARow_1_1Pattern_a5021ed3ff7f8b6d07ea6c0151ecd0467}{positions}}.any())\ \{}
+\DoxyCodeLine{00175\ \ \ \ \ \ \ temp.\mbox{\hyperlink{classNInARow_1_1Pattern_a29f36bcff82f12f52b37bd161602893f}{shift}}(0,\ -\/1);}
+\DoxyCodeLine{00176\ \ \ \ \ \ \ col++;}
+\DoxyCodeLine{00177\ \ \ \ \ \}}
+\DoxyCodeLine{00178\ \ \ \ \ col\ -\/=\ 1U;}
+\DoxyCodeLine{00179\ \ \ \ \ \textcolor{keywordflow}{return}\ col;}
+\DoxyCodeLine{00180\ \ \ \}}
+\DoxyCodeLine{00181\ }
+\DoxyCodeLine{00185\ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classNInARow_1_1Pattern_aedef9f830e808133fa7de46e062d2c9b}{contains\_win}}()\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00186\ \ \ \ \ \textcolor{comment}{/*}}
+\DoxyCodeLine{00187\ \textcolor{comment}{\ \ \ \ \ *\ Check\ for\ a\ vertical\ win.\ Drag\ the\ pattern\ against\ itself\ vertically}}
+\DoxyCodeLine{00188\ \textcolor{comment}{\ \ \ \ \ *\ for\ the\ length\ of\ the\ win\ window,\ and\ then\ check\ to\ see\ if\ any\ valid}}
+\DoxyCodeLine{00189\ \textcolor{comment}{\ \ \ \ \ *\ starting\ locations\ are\ flagged.}}
+\DoxyCodeLine{00190\ \textcolor{comment}{\ \ \ \ \ */}}
+\DoxyCodeLine{00191\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ vertical\_win\ =\ [\&]()\ \{}
+\DoxyCodeLine{00192\ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ bitset\ vertical\_mask\ =\ []()\ \{}
+\DoxyCodeLine{00193\ \ \ \ \ \ \ \ \ bitset\ vertical\_mask;}
+\DoxyCodeLine{00194\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (std::size\_t\ row\ =\ 0;\ row\ <\ HEIGHT\ -\/\ (N\ -\/\ 1U);\ ++row)\ \{}
+\DoxyCodeLine{00195\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (std::size\_t\ column\ =\ 0;\ column\ <\ WIDTH;\ ++column)\ \{}
+\DoxyCodeLine{00196\ \ \ \ \ \ \ \ \ \ \ \ \ vertical\_mask.set(row\ *\ WIDTH\ +\ column);}
+\DoxyCodeLine{00197\ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00198\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00199\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ vertical\_mask;}
+\DoxyCodeLine{00200\ \ \ \ \ \ \ \}();}
+\DoxyCodeLine{00201\ }
+\DoxyCodeLine{00202\ \ \ \ \ \ \ bitset\ p\ =\ \mbox{\hyperlink{classNInARow_1_1Pattern_a5021ed3ff7f8b6d07ea6c0151ecd0467}{positions}};}
+\DoxyCodeLine{00203\ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{size\_t}\ i\ =\ 0;\ i\ <\ N;\ ++i)\ \{}
+\DoxyCodeLine{00204\ \ \ \ \ \ \ \ \ p\ \&=\ \mbox{\hyperlink{classNInARow_1_1Pattern_a5021ed3ff7f8b6d07ea6c0151ecd0467}{positions}}\ >>\ i\ *\ WIDTH;}
+\DoxyCodeLine{00205\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00206\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ (p\ \&\ vertical\_mask).any();}
+\DoxyCodeLine{00207\ \ \ \ \ \};}
+\DoxyCodeLine{00208\ }
+\DoxyCodeLine{00209\ \ \ \ \ \textcolor{comment}{/*}}
+\DoxyCodeLine{00210\ \textcolor{comment}{\ \ \ \ \ *\ Check\ for\ a\ vertical\ win.\ Drag\ the\ pattern\ against\ itself\ horizontally}}
+\DoxyCodeLine{00211\ \textcolor{comment}{\ \ \ \ \ *\ for\ the\ length\ of\ the\ win\ window,\ and\ then\ check\ to\ see\ if\ any\ valid}}
+\DoxyCodeLine{00212\ \textcolor{comment}{\ \ \ \ \ *\ starting\ locations\ are\ flagged.}}
+\DoxyCodeLine{00213\ \textcolor{comment}{\ \ \ \ \ */}}
+\DoxyCodeLine{00214\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ horizontal\_win\ =\ [\&]()\ \{}
+\DoxyCodeLine{00215\ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ bitset\ horizontal\_mask\ =\ []()\ \{}
+\DoxyCodeLine{00216\ \ \ \ \ \ \ \ \ bitset\ horizontal\_mask;}
+\DoxyCodeLine{00217\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (std::size\_t\ row\ =\ 0;\ row\ <\ HEIGHT;\ ++row)\ \{}
+\DoxyCodeLine{00218\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (std::size\_t\ column\ =\ 0;\ column\ <\ WIDTH\ -\/\ (N\ -\/\ 1U);\ ++column)\ \{}
+\DoxyCodeLine{00219\ \ \ \ \ \ \ \ \ \ \ \ \ horizontal\_mask.set(row\ *\ WIDTH\ +\ column);}
+\DoxyCodeLine{00220\ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00221\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00222\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ horizontal\_mask;}
+\DoxyCodeLine{00223\ \ \ \ \ \ \ \}();}
+\DoxyCodeLine{00224\ }
+\DoxyCodeLine{00225\ \ \ \ \ \ \ bitset\ p\ =\ \mbox{\hyperlink{classNInARow_1_1Pattern_a5021ed3ff7f8b6d07ea6c0151ecd0467}{positions}};}
+\DoxyCodeLine{00226\ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{size\_t}\ i\ =\ 0;\ i\ <\ N;\ ++i)\ \{}
+\DoxyCodeLine{00227\ \ \ \ \ \ \ \ \ p\ \&=\ \mbox{\hyperlink{classNInARow_1_1Pattern_a5021ed3ff7f8b6d07ea6c0151ecd0467}{positions}}\ >>\ i;}
+\DoxyCodeLine{00228\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00229\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ (p\ \&\ horizontal\_mask).any();}
+\DoxyCodeLine{00230\ \ \ \ \ \};}
+\DoxyCodeLine{00231\ }
+\DoxyCodeLine{00232\ \ \ \ \ \textcolor{comment}{/*}}
+\DoxyCodeLine{00233\ \textcolor{comment}{\ \ \ \ \ *\ Check\ for\ a\ left\ diagonal\ win.\ Drag\ the\ pattern\ against\ itself}}
+\DoxyCodeLine{00234\ \textcolor{comment}{\ \ \ \ \ *\ diagonally\ down\ and\ to\ the\ left\ for\ the\ length\ of\ the\ win\ window,\ and}}
+\DoxyCodeLine{00235\ \textcolor{comment}{\ \ \ \ \ *\ then\ check\ to\ see\ if\ any\ valid\ starting\ locations\ are\ flagged.}}
+\DoxyCodeLine{00236\ \textcolor{comment}{\ \ \ \ \ */}}
+\DoxyCodeLine{00237\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ left\_diagonal\_win\ =\ [\&]()\ \{}
+\DoxyCodeLine{00238\ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ bitset\ left\_diagonal\_mask\ =\ []()\ \{}
+\DoxyCodeLine{00239\ \ \ \ \ \ \ \ \ bitset\ left\_diagonal\_mask;}
+\DoxyCodeLine{00240\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (std::size\_t\ row\ =\ 0;\ row\ <\ HEIGHT\ -\/\ (N\ -\/\ 1U);\ ++row)\ \{}
+\DoxyCodeLine{00241\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (std::size\_t\ column\ =\ N\ -\/\ 1U;\ column\ <\ WIDTH;\ ++column)\ \{}
+\DoxyCodeLine{00242\ \ \ \ \ \ \ \ \ \ \ \ \ left\_diagonal\_mask.set(row\ *\ WIDTH\ +\ column);}
+\DoxyCodeLine{00243\ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00244\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00245\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ left\_diagonal\_mask;}
+\DoxyCodeLine{00246\ \ \ \ \ \ \ \}();}
+\DoxyCodeLine{00247\ }
+\DoxyCodeLine{00248\ \ \ \ \ \ \ bitset\ p\ =\ \mbox{\hyperlink{classNInARow_1_1Pattern_a5021ed3ff7f8b6d07ea6c0151ecd0467}{positions}};}
+\DoxyCodeLine{00249\ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{size\_t}\ i\ =\ 0;\ i\ <\ N;\ ++i)\ \{}
+\DoxyCodeLine{00250\ \ \ \ \ \ \ \ \ p\ \&=\ \mbox{\hyperlink{classNInARow_1_1Pattern_a5021ed3ff7f8b6d07ea6c0151ecd0467}{positions}}\ >>\ i\ *\ (WIDTH\ -\/\ 1);}
+\DoxyCodeLine{00251\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00252\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ (p\ \&\ left\_diagonal\_mask).any();}
+\DoxyCodeLine{00253\ \ \ \ \ \};}
+\DoxyCodeLine{00254\ }
+\DoxyCodeLine{00255\ \ \ \ \ \textcolor{comment}{/*}}
+\DoxyCodeLine{00256\ \textcolor{comment}{\ \ \ \ \ *\ Check\ for\ a\ right\ diagonal\ win.\ Drag\ the\ pattern\ against\ itself}}
+\DoxyCodeLine{00257\ \textcolor{comment}{\ \ \ \ \ *\ diagonally\ down\ and\ to\ the\ right\ for\ the\ length\ of\ the\ win\ window,\ and}}
+\DoxyCodeLine{00258\ \textcolor{comment}{\ \ \ \ \ *\ then\ check\ to\ see\ if\ any\ valid\ starting\ locations\ are\ flagged.}}
+\DoxyCodeLine{00259\ \textcolor{comment}{\ \ \ \ \ */}}
+\DoxyCodeLine{00260\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ right\_diagonal\_win\ =\ [\&]()\ \{}
+\DoxyCodeLine{00261\ \ \ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{const}\ bitset\ right\_diagonal\_mask\ =\ []()\ \{}
+\DoxyCodeLine{00262\ \ \ \ \ \ \ \ \ bitset\ right\_diagonal\_mask;}
+\DoxyCodeLine{00263\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (std::size\_t\ row\ =\ 0;\ row\ <\ HEIGHT\ -\/\ (N\ -\/\ 1U);\ ++row)\ \{}
+\DoxyCodeLine{00264\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (std::size\_t\ column\ =\ 0;\ column\ <\ WIDTH\ -\/\ (N\ -\/\ 1U);\ ++column)\ \{}
+\DoxyCodeLine{00265\ \ \ \ \ \ \ \ \ \ \ \ \ right\_diagonal\_mask.set(row\ *\ WIDTH\ +\ column);}
+\DoxyCodeLine{00266\ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00267\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00268\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ right\_diagonal\_mask;}
+\DoxyCodeLine{00269\ \ \ \ \ \ \ \}();}
+\DoxyCodeLine{00270\ }
+\DoxyCodeLine{00271\ \ \ \ \ \ \ bitset\ p\ =\ \mbox{\hyperlink{classNInARow_1_1Pattern_a5021ed3ff7f8b6d07ea6c0151ecd0467}{positions}};}
+\DoxyCodeLine{00272\ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{size\_t}\ i\ =\ 0;\ i\ <\ N;\ ++i)\ \{}
+\DoxyCodeLine{00273\ \ \ \ \ \ \ \ \ p\ \&=\ \mbox{\hyperlink{classNInARow_1_1Pattern_a5021ed3ff7f8b6d07ea6c0151ecd0467}{positions}}\ >>\ i\ *\ (WIDTH\ +\ 1);}
+\DoxyCodeLine{00274\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00275\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ (p\ \&\ right\_diagonal\_mask).any();}
+\DoxyCodeLine{00276\ \ \ \ \ \};}
+\DoxyCodeLine{00277\ }
+\DoxyCodeLine{00278\ \ \ \ \ \textcolor{keywordflow}{return}\ vertical\_win()\ ||\ right\_diagonal\_win()\ ||\ left\_diagonal\_win()\ ||}
+\DoxyCodeLine{00279\ \ \ \ \ \ \ \ \ \ \ \ horizontal\_win();}
+\DoxyCodeLine{00280\ \ \ \}}
+\DoxyCodeLine{00281\ }
+\DoxyCodeLine{00288\ \ \ std::size\_t\ \mbox{\hyperlink{classNInARow_1_1Pattern_af448570afd7d2cd3c5ea413e2d2a94ea}{count\_overlap}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classNInARow_1_1Pattern}{Pattern}}\ p)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00289\ \ \ \ \ \textcolor{keywordflow}{return}\ (p.\mbox{\hyperlink{classNInARow_1_1Pattern_a5021ed3ff7f8b6d07ea6c0151ecd0467}{positions}}\ \&\ \mbox{\hyperlink{classNInARow_1_1Pattern_a5021ed3ff7f8b6d07ea6c0151ecd0467}{positions}}).count();}
+\DoxyCodeLine{00290\ \ \ \}}
+\DoxyCodeLine{00291\ }
+\DoxyCodeLine{00298\ \ \ std::size\_t\ \mbox{\hyperlink{classNInARow_1_1Pattern_a575a444b030cd381be61ce8c26910e75}{count\_spaces}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classNInARow_1_1Pattern}{Pattern}}\ p)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00299\ \ \ \ \ \textcolor{keywordflow}{return}\ (p.\mbox{\hyperlink{classNInARow_1_1Pattern_a5021ed3ff7f8b6d07ea6c0151ecd0467}{positions}}\ \&\ \string~\mbox{\hyperlink{classNInARow_1_1Pattern_a5021ed3ff7f8b6d07ea6c0151ecd0467}{positions}}).count();}
+\DoxyCodeLine{00300\ \ \ \}}
+\DoxyCodeLine{00301\ }
+\DoxyCodeLine{00308\ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classNInARow_1_1Pattern_ad710793678de1d8d83cb29af119763cc}{contains}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classNInARow_1_1Pattern}{Pattern}}\ p)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00309\ \ \ \ \ \textcolor{keywordflow}{return}\ (p.\mbox{\hyperlink{classNInARow_1_1Pattern_a5021ed3ff7f8b6d07ea6c0151ecd0467}{positions}}\ \&\ \string~\mbox{\hyperlink{classNInARow_1_1Pattern_a5021ed3ff7f8b6d07ea6c0151ecd0467}{positions}}).none();}
+\DoxyCodeLine{00310\ \ \ \}}
+\DoxyCodeLine{00311\ }
+\DoxyCodeLine{00317\ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classNInARow_1_1Pattern_aa153496b80e1ff5156e96232c604600f}{operator==}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classNInARow_1_1Pattern}{Pattern}}\ \&p)\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classNInARow_1_1Pattern_a5021ed3ff7f8b6d07ea6c0151ecd0467}{positions}}\ ==\ p.\mbox{\hyperlink{classNInARow_1_1Pattern_a5021ed3ff7f8b6d07ea6c0151ecd0467}{positions}};\ \}}
+\DoxyCodeLine{00318\ }
+\DoxyCodeLine{00324\ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classNInARow_1_1Pattern_a53d1571735d4c0e7b38195464601a66b}{operator!=}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classNInARow_1_1Pattern}{Pattern}}\ \&p)\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ !(*\textcolor{keyword}{this}\ ==\ p);\ \}}
+\DoxyCodeLine{00325\ }
+\DoxyCodeLine{00330\ \ \ std::vector<Pattern>\ \mbox{\hyperlink{classNInARow_1_1Pattern_aea8df3537ccad0d73eddd468981dcde1}{get\_all\_positions}}()\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00331\ \ \ \ \ std::vector<Pattern>\ all\_positions;}
+\DoxyCodeLine{00332\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{size\_t}\ i\ =\ 0;\ i\ <\ BOARD\_SIZE;\ ++i)\ \{}
+\DoxyCodeLine{00333\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{classNInARow_1_1Pattern_a5021ed3ff7f8b6d07ea6c0151ecd0467}{positions}}.test(i))\ \{}
+\DoxyCodeLine{00334\ \ \ \ \ \ \ \ \ all\_positions.emplace\_back(1LLU\ <<\ i);}
+\DoxyCodeLine{00335\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00336\ \ \ \ \ \}}
+\DoxyCodeLine{00337\ }
+\DoxyCodeLine{00338\ \ \ \ \ \textcolor{keywordflow}{return}\ all\_positions;}
+\DoxyCodeLine{00339\ \ \ \}}
+\DoxyCodeLine{00340\ }
+\DoxyCodeLine{00344\ \ \ std::vector<std::size\_t>\ \mbox{\hyperlink{classNInARow_1_1Pattern_a5b8385be7c114d6c083fd8287ebffc3b}{get\_all\_position\_indices}}()\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00345\ \ \ \ \ std::vector<std::size\_t>\ position\_indices;}
+\DoxyCodeLine{00346\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{size\_t}\ i\ =\ 0;\ i\ <\ BOARD\_SIZE;\ ++i)\ \{}
+\DoxyCodeLine{00347\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{classNInARow_1_1Pattern_a5021ed3ff7f8b6d07ea6c0151ecd0467}{positions}}.test(i))\ \{}
+\DoxyCodeLine{00348\ \ \ \ \ \ \ \ \ position\_indices.emplace\_back(i);}
+\DoxyCodeLine{00349\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00350\ \ \ \ \ \}}
+\DoxyCodeLine{00351\ }
+\DoxyCodeLine{00352\ \ \ \ \ \textcolor{keywordflow}{return}\ position\_indices;}
+\DoxyCodeLine{00353\ \ \ \}}
+\DoxyCodeLine{00354\ }
+\DoxyCodeLine{00371\ \ \ bitset\ \mbox{\hyperlink{classNInARow_1_1Pattern_a5021ed3ff7f8b6d07ea6c0151ecd0467}{positions}};}
+\DoxyCodeLine{00372\ \};}
+\DoxyCodeLine{00373\ }
+\DoxyCodeLine{00377\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ Pattern>}
+\DoxyCodeLine{00378\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structNInARow_1_1PatternHasher}{PatternHasher}}\ \{}
+\DoxyCodeLine{00384\ \ \ std::size\_t\ \mbox{\hyperlink{structNInARow_1_1PatternHasher_a8f9a439bf51f84c53810c459514d6739}{operator()}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classNInARow_1_1Pattern}{Pattern}}\ \&k)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00385\ \ \ \ \ \textcolor{keywordflow}{return}\ std::hash<typename\ Pattern::bitset>()(k.\mbox{\hyperlink{classNInARow_1_1Pattern_a5021ed3ff7f8b6d07ea6c0151ecd0467}{positions}});}
+\DoxyCodeLine{00386\ \ \ \}}
+\DoxyCodeLine{00387\ \};}
+\DoxyCodeLine{00388\ }
+\DoxyCodeLine{00389\ \}\ \ \textcolor{comment}{//\ namespace\ NInARow}}
+\DoxyCodeLine{00390\ }
+\DoxyCodeLine{00391\ \textcolor{preprocessor}{\#endif\ \ }\textcolor{comment}{//\ NINAROW\_PATTERN\_H\_INCLUDED}}
+
+\end{DoxyCode}

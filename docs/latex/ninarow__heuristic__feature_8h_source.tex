@@ -1,0 +1,94 @@
+\doxysection{ninarow\+\_\+heuristic\+\_\+feature.\+h}
+\hypertarget{ninarow__heuristic__feature_8h_source}{}\label{ninarow__heuristic__feature_8h_source}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ NINAROW\_HEURISTIC\_FEATURE\_H\_INCLUDED}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ NINAROW\_HEURISTIC\_FEATURE\_H\_INCLUDED}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}player.h"{}}}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{keyword}{namespace\ }NInARow\ \{}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00014\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ Board>}
+\DoxyCodeLine{00015\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classNInARow_1_1HeuristicFeature}{HeuristicFeature}}\ \{}
+\DoxyCodeLine{00016\ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00020\ \ \ \textcolor{keyword}{typename}\ \mbox{\hyperlink{classNInARow_1_1Pattern}{Board::PatternT}}\ \mbox{\hyperlink{classNInARow_1_1HeuristicFeature_a3390a4a1b054927db751b8cae0e6cd78}{pieces}};}
+\DoxyCodeLine{00021\ }
+\DoxyCodeLine{00026\ \ \ \textcolor{keyword}{typename}\ \mbox{\hyperlink{classNInARow_1_1Pattern}{Board::PatternT}}\ \mbox{\hyperlink{classNInARow_1_1HeuristicFeature_af8ac0a2e61c7881f5b4dc31f9706d56d}{spaces}};}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00032\ \ \ std::size\_t\ \mbox{\hyperlink{classNInARow_1_1HeuristicFeature_acf1cec2da1cc22f91b05fa9ad32ba99c}{min\_space\_occupancy}};}
+\DoxyCodeLine{00033\ }
+\DoxyCodeLine{00037\ \ \ std::size\_t\ \mbox{\hyperlink{classNInARow_1_1HeuristicFeature_a7703aa21618ed66db2db704e59450a87}{piece\_count}};}
+\DoxyCodeLine{00038\ }
+\DoxyCodeLine{00039\ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00043\ \ \ \mbox{\hyperlink{classNInARow_1_1HeuristicFeature_acad5393b886b60c0cd85c3022d45742a}{HeuristicFeature}}()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00044\ }
+\DoxyCodeLine{00053\ \ \ \mbox{\hyperlink{classNInARow_1_1HeuristicFeature_a3d35345a95edde301cb1c4d15820e258}{HeuristicFeature}}(\textcolor{keyword}{typename}\ \mbox{\hyperlink{classNInARow_1_1Pattern}{Board::PatternT}}\ \mbox{\hyperlink{classNInARow_1_1HeuristicFeature_a3390a4a1b054927db751b8cae0e6cd78}{pieces}},}
+\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{typename}\ \mbox{\hyperlink{classNInARow_1_1Pattern}{Board::PatternT}}\ \mbox{\hyperlink{classNInARow_1_1HeuristicFeature_af8ac0a2e61c7881f5b4dc31f9706d56d}{spaces}},}
+\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::size\_t\ \mbox{\hyperlink{classNInARow_1_1HeuristicFeature_acf1cec2da1cc22f91b05fa9ad32ba99c}{min\_space\_occupancy}})}
+\DoxyCodeLine{00056\ \ \ \ \ \ \ :\ \mbox{\hyperlink{classNInARow_1_1HeuristicFeature_a3390a4a1b054927db751b8cae0e6cd78}{pieces}}(\mbox{\hyperlink{classNInARow_1_1HeuristicFeature_a3390a4a1b054927db751b8cae0e6cd78}{pieces}}),}
+\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classNInARow_1_1HeuristicFeature_af8ac0a2e61c7881f5b4dc31f9706d56d}{spaces}}(\mbox{\hyperlink{classNInARow_1_1HeuristicFeature_af8ac0a2e61c7881f5b4dc31f9706d56d}{spaces}}),}
+\DoxyCodeLine{00058\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classNInARow_1_1HeuristicFeature_acf1cec2da1cc22f91b05fa9ad32ba99c}{min\_space\_occupancy}}(\mbox{\hyperlink{classNInARow_1_1HeuristicFeature_acf1cec2da1cc22f91b05fa9ad32ba99c}{min\_space\_occupancy}}),}
+\DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classNInARow_1_1HeuristicFeature_a7703aa21618ed66db2db704e59450a87}{piece\_count}}(\mbox{\hyperlink{classNInARow_1_1HeuristicFeature_a3390a4a1b054927db751b8cae0e6cd78}{pieces}}.positions.count())\ \{}
+\DoxyCodeLine{00060\ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{classNInARow_1_1HeuristicFeature_a3390a4a1b054927db751b8cae0e6cd78}{pieces}}.\mbox{\hyperlink{classNInARow_1_1Pattern_af448570afd7d2cd3c5ea413e2d2a94ea}{count\_overlap}}(\mbox{\hyperlink{classNInARow_1_1HeuristicFeature_af8ac0a2e61c7881f5b4dc31f9706d56d}{spaces}})\ !=\ 0)\ \{}
+\DoxyCodeLine{00061\ \ \ \ \ \ \ \textcolor{keywordflow}{throw}\ std::logic\_error(}
+\DoxyCodeLine{00062\ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}The\ supplied\ piece\ and\ void\ patterns\ overlap\ each\ other!"{}});}
+\DoxyCodeLine{00063\ \ \ \ \ \}}
+\DoxyCodeLine{00064\ \ \ \}}
+\DoxyCodeLine{00065\ }
+\DoxyCodeLine{00073\ \ \ std::size\_t\ \mbox{\hyperlink{classNInARow_1_1HeuristicFeature_a2a30f5260b7066c08854f04252fdeb87}{count\_pieces}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classNInARow_1_1Board}{Board}}\&\ b,\ Player\ player)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00074\ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classNInARow_1_1HeuristicFeature_a3390a4a1b054927db751b8cae0e6cd78}{pieces}}.\mbox{\hyperlink{classNInARow_1_1Pattern_af448570afd7d2cd3c5ea413e2d2a94ea}{count\_overlap}}(b.\mbox{\hyperlink{classNInARow_1_1Board_ae41609fe19d91b86767f48450bbe0e7a}{get\_pieces}}(player));}
+\DoxyCodeLine{00075\ \ \ \}}
+\DoxyCodeLine{00076\ }
+\DoxyCodeLine{00083\ \ \ std::size\_t\ \mbox{\hyperlink{classNInARow_1_1HeuristicFeature_addc1d09836a16c234cf55813f1ecef19}{count\_spaces}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classNInARow_1_1Board}{Board}}\&\ b)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00084\ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classNInARow_1_1HeuristicFeature_af8ac0a2e61c7881f5b4dc31f9706d56d}{spaces}}.\mbox{\hyperlink{classNInARow_1_1Pattern_af448570afd7d2cd3c5ea413e2d2a94ea}{count\_overlap}}(b.\mbox{\hyperlink{classNInARow_1_1Board_a571f86a5e057444e0386333d8c195ccf}{get\_spaces}}());}
+\DoxyCodeLine{00085\ \ \ \}}
+\DoxyCodeLine{00086\ }
+\DoxyCodeLine{00095\ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classNInARow_1_1HeuristicFeature_a286f07fd7c727abee4cd684fda627481}{contained\_in}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classNInARow_1_1Board}{Board}}\&\ b,\ Player\ player)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00096\ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classNInARow_1_1HeuristicFeature_a286f07fd7c727abee4cd684fda627481}{contained\_in}}(\mbox{\hyperlink{classNInARow_1_1HeuristicFeature_a2a30f5260b7066c08854f04252fdeb87}{count\_pieces}}(b,\ player),\ \mbox{\hyperlink{classNInARow_1_1HeuristicFeature_addc1d09836a16c234cf55813f1ecef19}{count\_spaces}}(b));}
+\DoxyCodeLine{00097\ \ \ \}}
+\DoxyCodeLine{00098\ }
+\DoxyCodeLine{00106\ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classNInARow_1_1HeuristicFeature_ac1a0327d7365406ca0e9457fbe24b318}{can\_be\_completed}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classNInARow_1_1Board}{Board}}\&\ b,\ Player\ player)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00107\ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classNInARow_1_1HeuristicFeature_ac1a0327d7365406ca0e9457fbe24b318}{can\_be\_completed}}(\mbox{\hyperlink{classNInARow_1_1HeuristicFeature_a2a30f5260b7066c08854f04252fdeb87}{count\_pieces}}(b,\ player),}
+\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classNInARow_1_1HeuristicFeature_a2a30f5260b7066c08854f04252fdeb87}{count\_pieces}}(b,\ get\_other\_player(player)),}
+\DoxyCodeLine{00109\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classNInARow_1_1HeuristicFeature_addc1d09836a16c234cf55813f1ecef19}{count\_spaces}}(b));}
+\DoxyCodeLine{00110\ \ \ \}}
+\DoxyCodeLine{00111\ }
+\DoxyCodeLine{00120\ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classNInARow_1_1HeuristicFeature_a988c99c3e84afa193d4ab105128210a6}{can\_be\_removed}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classNInARow_1_1Board}{Board}}\&\ b,\ Player\ player)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00121\ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classNInARow_1_1HeuristicFeature_a988c99c3e84afa193d4ab105128210a6}{can\_be\_removed}}(\mbox{\hyperlink{classNInARow_1_1HeuristicFeature_a2a30f5260b7066c08854f04252fdeb87}{count\_pieces}}(b,\ player),\ \mbox{\hyperlink{classNInARow_1_1HeuristicFeature_addc1d09836a16c234cf55813f1ecef19}{count\_spaces}}(b));}
+\DoxyCodeLine{00122\ \ \ \}}
+\DoxyCodeLine{00123\ }
+\DoxyCodeLine{00138\ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classNInARow_1_1HeuristicFeature_a4f76c58b2610c80467b2f6cd2f32957e}{contained\_in}}(std::size\_t\ player\_piece\_count,}
+\DoxyCodeLine{00139\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::size\_t\ open\_space\_count)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00140\ \ \ \ \ \textcolor{keywordflow}{return}\ player\_piece\_count\ ==\ \mbox{\hyperlink{classNInARow_1_1HeuristicFeature_a7703aa21618ed66db2db704e59450a87}{piece\_count}}\ \&\&}
+\DoxyCodeLine{00141\ \ \ \ \ \ \ \ \ \ \ \ open\_space\_count\ >=\ \mbox{\hyperlink{classNInARow_1_1HeuristicFeature_acf1cec2da1cc22f91b05fa9ad32ba99c}{min\_space\_occupancy}};}
+\DoxyCodeLine{00142\ \ \ \}}
+\DoxyCodeLine{00143\ }
+\DoxyCodeLine{00159\ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classNInARow_1_1HeuristicFeature_a8acbeeb0a094da65d73ac87909d06da2}{can\_be\_completed}}(std::size\_t\ player\_piece\_count,}
+\DoxyCodeLine{00160\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::size\_t\ opponent\_piece\_count,}
+\DoxyCodeLine{00161\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::size\_t\ open\_space\_count)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00162\ \ \ \ \ \textcolor{keywordflow}{return}\ player\_piece\_count\ +\ 1\ ==\ \mbox{\hyperlink{classNInARow_1_1HeuristicFeature_a7703aa21618ed66db2db704e59450a87}{piece\_count}}\ \&\&\ opponent\_piece\_count\ ==\ 0\ \&\&}
+\DoxyCodeLine{00163\ \ \ \ \ \ \ \ \ \ \ \ open\_space\_count\ >=\ \mbox{\hyperlink{classNInARow_1_1HeuristicFeature_acf1cec2da1cc22f91b05fa9ad32ba99c}{min\_space\_occupancy}};}
+\DoxyCodeLine{00164\ \ \ \}}
+\DoxyCodeLine{00165\ }
+\DoxyCodeLine{00180\ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classNInARow_1_1HeuristicFeature_a5c4ff2e95fb297efb2d13078848875bf}{can\_be\_removed}}(std::size\_t\ player\_piece\_count,}
+\DoxyCodeLine{00181\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::size\_t\ open\_space\_count)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00182\ \ \ \ \ \textcolor{keywordflow}{return}\ player\_piece\_count\ ==\ \mbox{\hyperlink{classNInARow_1_1HeuristicFeature_a7703aa21618ed66db2db704e59450a87}{piece\_count}}\ \&\&}
+\DoxyCodeLine{00183\ \ \ \ \ \ \ \ \ \ \ \ open\_space\_count\ ==\ \mbox{\hyperlink{classNInARow_1_1HeuristicFeature_acf1cec2da1cc22f91b05fa9ad32ba99c}{min\_space\_occupancy}};}
+\DoxyCodeLine{00184\ \ \ \}}
+\DoxyCodeLine{00185\ }
+\DoxyCodeLine{00197\ \ \ \textcolor{keyword}{typename}\ \mbox{\hyperlink{classNInARow_1_1Pattern}{Board::PatternT}}\ \mbox{\hyperlink{classNInARow_1_1HeuristicFeature_abeeb18754dde9f1b42aae68245eaf6dc}{missing\_pieces}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classNInARow_1_1Board}{Board}}\&\ b,\ Player\ player)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00198\ \ \ \ \ \textcolor{keywordflow}{return}\ b.\mbox{\hyperlink{classNInARow_1_1Board_aef4e275bf904404e0d3c96d10696b1fa}{missing\_pieces}}(\mbox{\hyperlink{classNInARow_1_1HeuristicFeature_a3390a4a1b054927db751b8cae0e6cd78}{pieces}},\ player);}
+\DoxyCodeLine{00199\ \ \ \}}
+\DoxyCodeLine{00200\ }
+\DoxyCodeLine{00204\ \ \ std::string\ \mbox{\hyperlink{classNInARow_1_1HeuristicFeature_a12a20dfef1f21b028e20963de829528a}{to\_string}}()\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00205\ \ \ \ \ std::stringstream\ s;}
+\DoxyCodeLine{00206\ \ \ \ \ s\ <<\ \mbox{\hyperlink{classNInARow_1_1HeuristicFeature_a3390a4a1b054927db751b8cae0e6cd78}{pieces}}.\mbox{\hyperlink{classNInARow_1_1Pattern_a3b0f9c8aca034703e714664c9586741a}{to\_string}}()\ <<\ \textcolor{stringliteral}{"{}\ "{}}\ <<\ \mbox{\hyperlink{classNInARow_1_1HeuristicFeature_af8ac0a2e61c7881f5b4dc31f9706d56d}{spaces}}.\mbox{\hyperlink{classNInARow_1_1Pattern_a3b0f9c8aca034703e714664c9586741a}{to\_string}}()\ <<\ \textcolor{stringliteral}{"{}\ "{}}}
+\DoxyCodeLine{00207\ \ \ \ \ \ \ <<\ \mbox{\hyperlink{classNInARow_1_1HeuristicFeature_acf1cec2da1cc22f91b05fa9ad32ba99c}{min\_space\_occupancy}};}
+\DoxyCodeLine{00208\ \ \ \ \ \textcolor{keywordflow}{return}\ s.str();}
+\DoxyCodeLine{00209\ \ \ \}}
+\DoxyCodeLine{00210\ \};}
+\DoxyCodeLine{00211\ \}\ \ \textcolor{comment}{//\ namespace\ NInARow}}
+\DoxyCodeLine{00212\ }
+\DoxyCodeLine{00213\ \textcolor{preprocessor}{\#endif\ \ }\textcolor{comment}{//\ NINAROW\_HEURISTIC\_FEATURE\_H\_INCLUDED}}
+
+\end{DoxyCode}

@@ -1,0 +1,301 @@
+\doxysection{NIn\+ARow\+::Heuristic\texorpdfstring{$<$}{<} Board \texorpdfstring{$>$}{>} Class Template Reference}
+\hypertarget{classNInARow_1_1Heuristic}{}\label{classNInARow_1_1Heuristic}\index{NInARow::Heuristic$<$ Board $>$@{NInARow::Heuristic$<$ Board $>$}}
+
+
+{\ttfamily \#include $<$ninarow\+\_\+heuristic.\+h$>$}
+
+Inheritance diagram for NIn\+ARow\+::Heuristic\texorpdfstring{$<$}{<} Board \texorpdfstring{$>$}{>}\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classNInARow_1_1Heuristic}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classNInARow_1_1Heuristic_a0623a996f71b5992a5e57cf49bcacbae}\label{classNInARow_1_1Heuristic_a0623a996f71b5992a5e57cf49bcacbae} 
+using {\bfseries Feature} = \mbox{\hyperlink{classNInARow_1_1HeuristicFeature}{Heuristic\+Feature}}$<$ \mbox{\hyperlink{classNInARow_1_1Board}{Board}} $>$
+\item 
+\Hypertarget{classNInARow_1_1Heuristic_a0cfd2ecd9e8d57228727c2f24378fdc1}\label{classNInARow_1_1Heuristic_a0cfd2ecd9e8d57228727c2f24378fdc1} 
+using {\bfseries BoardT} = \mbox{\hyperlink{classNInARow_1_1Board}{Board}}
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{classNInARow_1_1Heuristic_af660e023f8c506cb2dab73a44ceb82b2}{seed\+\_\+generator}} (uint64\+\_\+t seed)
+\item 
+std\+::vector$<$ \mbox{\hyperlink{structNInARow_1_1FeatureGroupWeight}{Feature\+Group\+Weight}} $>$ \& \mbox{\hyperlink{classNInARow_1_1Heuristic_aa6d3ec58cb62241cdfe012a65fb0901c}{get\+\_\+feature\+\_\+group\+\_\+weights}} ()
+\item 
+std\+::vector$<$ \mbox{\hyperlink{structNInARow_1_1HeuristicFeatureWithMetadata}{Heuristic\+Feature\+With\+Metadata}}$<$ \mbox{\hyperlink{classNInARow_1_1Board}{Board}} $>$ $>$ \& \mbox{\hyperlink{classNInARow_1_1Heuristic_aba09ae252471d3c9d2259511e2cae7ff}{get\+\_\+features\+\_\+with\+\_\+metadata}} ()
+\item 
+void \mbox{\hyperlink{classNInARow_1_1Heuristic_afcd41377fc007db321d03446fb4f46a2}{add\+\_\+feature\+\_\+group}} (double weight\+\_\+act, double weight\+\_\+pass, double drop\+\_\+rate)
+\item 
+void \mbox{\hyperlink{classNInARow_1_1Heuristic_affdc2cf5bf277db9c56893775025d853}{add\+\_\+feature}} (std\+::size\+\_\+t i, const \mbox{\hyperlink{classNInARow_1_1HeuristicFeature}{Feature}} \&feature)
+\item 
+double \mbox{\hyperlink{classNInARow_1_1Heuristic_ac5db923b44f9fcc6ea6f360a834825c3}{evaluate}} (const \mbox{\hyperlink{classNInARow_1_1Board}{Board}} \&b) const
+\item 
+std\+::vector$<$ typename \mbox{\hyperlink{classNInARow_1_1Move}{Board\+::\+MoveT}} $>$ \mbox{\hyperlink{classNInARow_1_1Heuristic_acb2c494262db7f6d738e26c9f748c971}{get\+\_\+moves}} (const \mbox{\hyperlink{classNInARow_1_1Board}{Board}} \&b, Player eval\+Player, bool sorted=true)
+\item 
+std\+::vector$<$ typename \mbox{\hyperlink{classNInARow_1_1Move}{Board\+::\+MoveT}} $>$ \mbox{\hyperlink{classNInARow_1_1Heuristic_ad190cbc3c3c1286a13360335ca2e61c5}{get\+\_\+pruned\+\_\+moves}} (const \mbox{\hyperlink{classNInARow_1_1Board}{Board}} \&b, Player eval\+Player)
+\item 
+\mbox{\hyperlink{classNInARow_1_1Move}{Board\+::\+MoveT}} \mbox{\hyperlink{classNInARow_1_1Heuristic_aefc54d4744d3a52ab8e36d54822a98e7}{get\+\_\+random\+\_\+move}} (const \mbox{\hyperlink{classNInARow_1_1Board}{Board}} \&b)
+\item 
+\mbox{\hyperlink{classNInARow_1_1Move}{Board\+::\+MoveT}} \mbox{\hyperlink{classNInARow_1_1Heuristic_ac22318cbac5e7198de57d81db641fc8b}{get\+\_\+best\+\_\+move}} (std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classNode}{Node}}$<$ \mbox{\hyperlink{classNInARow_1_1Board}{Board}} $>$ $>$ tree)
+\item 
+void \mbox{\hyperlink{classNInARow_1_1Heuristic_ac1c1740bad22abd13db291ba66900aee}{start\+\_\+search}} ()
+\item 
+void \mbox{\hyperlink{classNInARow_1_1Heuristic_a475ea20f6651173fef7a0a12ba65b9e0}{complete\+\_\+search}} ()
+\item 
+void \mbox{\hyperlink{classNInARow_1_1Heuristic_a0f936005a7652bd7c0e680400032a499}{set\+\_\+noise\+\_\+enabled}} (bool enabled)
+\item 
+double \mbox{\hyperlink{classNInARow_1_1Heuristic_a4e457e8cd5784914ec4ff116310b556a}{get\+\_\+gamma}} () const
+\item 
+double \mbox{\hyperlink{classNInARow_1_1Heuristic_a27f594d1c063e6d694d4d246807decbb}{get\+\_\+stopping\+\_\+thresh}} () const
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classNInARow_1_1Heuristic}{Heuristic}} $>$ \mbox{\hyperlink{classNInARow_1_1Heuristic_ae04d07c6d5c22f68ef6946b109b3b17a}{create}} (const std\+::vector$<$ double $>$ \&params=Default\+Four\+By\+Nine\+Parameters, bool add\+\_\+default\+\_\+features=true)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\subsubsection*{template$<$typename \mbox{\hyperlink{classNInARow_1_1Board}{Board}}$>$\newline
+class NIn\+ARow\+::\+Heuristic$<$ Board $>$}
+A heuristic for games of n-\/in-\/a-\/row.
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em \doxylink{classNInARow_1_1Board}{Board}} & The board representation used by this heuristic. \\
+\hline
+\end{DoxyTemplParams}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classNInARow_1_1Heuristic_affdc2cf5bf277db9c56893775025d853}\label{classNInARow_1_1Heuristic_affdc2cf5bf277db9c56893775025d853} 
+\index{NInARow::Heuristic$<$ Board $>$@{NInARow::Heuristic$<$ Board $>$}!add\_feature@{add\_feature}}
+\index{add\_feature@{add\_feature}!NInARow::Heuristic$<$ Board $>$@{NInARow::Heuristic$<$ Board $>$}}
+\doxysubsubsection{\texorpdfstring{add\_feature()}{add\_feature()}}
+{\footnotesize\ttfamily template$<$typename \mbox{\hyperlink{classNInARow_1_1Board}{Board}} $>$ \\
+void \mbox{\hyperlink{classNInARow_1_1Heuristic}{NIn\+ARow\+::\+Heuristic}}$<$ \mbox{\hyperlink{classNInARow_1_1Board}{Board}} $>$\+::add\+\_\+feature (\begin{DoxyParamCaption}\item[{std\+::size\+\_\+t}]{i,  }\item[{const \mbox{\hyperlink{classNInARow_1_1HeuristicFeature}{Feature}} \&}]{feature }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Adds a single feature to the given feature group.
+
+
+\begin{DoxyParams}{Parameters}
+{\em i} & The index of the group to add the feature to. \\
+\hline
+{\em feature} & The feature to add to the group. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classNInARow_1_1Heuristic_afcd41377fc007db321d03446fb4f46a2}\label{classNInARow_1_1Heuristic_afcd41377fc007db321d03446fb4f46a2} 
+\index{NInARow::Heuristic$<$ Board $>$@{NInARow::Heuristic$<$ Board $>$}!add\_feature\_group@{add\_feature\_group}}
+\index{add\_feature\_group@{add\_feature\_group}!NInARow::Heuristic$<$ Board $>$@{NInARow::Heuristic$<$ Board $>$}}
+\doxysubsubsection{\texorpdfstring{add\_feature\_group()}{add\_feature\_group()}}
+{\footnotesize\ttfamily template$<$typename \mbox{\hyperlink{classNInARow_1_1Board}{Board}} $>$ \\
+void \mbox{\hyperlink{classNInARow_1_1Heuristic}{NIn\+ARow\+::\+Heuristic}}$<$ \mbox{\hyperlink{classNInARow_1_1Board}{Board}} $>$\+::add\+\_\+feature\+\_\+group (\begin{DoxyParamCaption}\item[{double}]{weight\+\_\+act,  }\item[{double}]{weight\+\_\+pass,  }\item[{double}]{drop\+\_\+rate }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Adds a new (empty) feature group to the heuristic.
+
+
+\begin{DoxyParams}{Parameters}
+{\em weight\+\_\+act} & The weight given to the feature when it\textquotesingle{}s being evaluated from the perspective of the active player. \\
+\hline
+{\em weight\+\_\+pass} & The weight given to the feature when it\textquotesingle{}s being evaluated from the perspective of the passive player. \\
+\hline
+{\em drop\+\_\+rate} & The percent chance that a feature in this group will be ignored randomly. Ranges from 0 to 1. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classNInARow_1_1Heuristic_a475ea20f6651173fef7a0a12ba65b9e0}\label{classNInARow_1_1Heuristic_a475ea20f6651173fef7a0a12ba65b9e0} 
+\index{NInARow::Heuristic$<$ Board $>$@{NInARow::Heuristic$<$ Board $>$}!complete\_search@{complete\_search}}
+\index{complete\_search@{complete\_search}!NInARow::Heuristic$<$ Board $>$@{NInARow::Heuristic$<$ Board $>$}}
+\doxysubsubsection{\texorpdfstring{complete\_search()}{complete\_search()}}
+{\footnotesize\ttfamily template$<$typename \mbox{\hyperlink{classNInARow_1_1Board}{Board}} $>$ \\
+void \mbox{\hyperlink{classNInARow_1_1Heuristic}{NIn\+ARow\+::\+Heuristic}}$<$ \mbox{\hyperlink{classNInARow_1_1Board}{Board}} $>$\+::complete\+\_\+search (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Tells the heuristic that a search has completed and restores all dropped features. \Hypertarget{classNInARow_1_1Heuristic_ae04d07c6d5c22f68ef6946b109b3b17a}\label{classNInARow_1_1Heuristic_ae04d07c6d5c22f68ef6946b109b3b17a} 
+\index{NInARow::Heuristic$<$ Board $>$@{NInARow::Heuristic$<$ Board $>$}!create@{create}}
+\index{create@{create}!NInARow::Heuristic$<$ Board $>$@{NInARow::Heuristic$<$ Board $>$}}
+\doxysubsubsection{\texorpdfstring{create()}{create()}}
+{\footnotesize\ttfamily template$<$typename \mbox{\hyperlink{classNInARow_1_1Board}{Board}} $>$ \\
+static std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classNInARow_1_1Heuristic}{Heuristic}} $>$ \mbox{\hyperlink{classNInARow_1_1Heuristic}{NIn\+ARow\+::\+Heuristic}}$<$ \mbox{\hyperlink{classNInARow_1_1Board}{Board}} $>$\+::create (\begin{DoxyParamCaption}\item[{const std\+::vector$<$ double $>$ \&}]{params = {\ttfamily DefaultFourByNineParameters},  }\item[{bool}]{add\+\_\+default\+\_\+features = {\ttfamily true} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}
+
+Creates a heuristic.
+
+
+\begin{DoxyParams}{Parameters}
+{\em params} & The parameters to use for the heuristic. \\
+\hline
+{\em add\+\_\+default\+\_\+features} & If true, use the default feature set in {\ttfamily \doxylink{fourbynine__features_8h_source}{fourbynine\+\_\+features.\+h}}. If false, don\textquotesingle{}t inject any features.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A pointer to a newly created heuristic. 
+\end{DoxyReturn}
+\Hypertarget{classNInARow_1_1Heuristic_ac5db923b44f9fcc6ea6f360a834825c3}\label{classNInARow_1_1Heuristic_ac5db923b44f9fcc6ea6f360a834825c3} 
+\index{NInARow::Heuristic$<$ Board $>$@{NInARow::Heuristic$<$ Board $>$}!evaluate@{evaluate}}
+\index{evaluate@{evaluate}!NInARow::Heuristic$<$ Board $>$@{NInARow::Heuristic$<$ Board $>$}}
+\doxysubsubsection{\texorpdfstring{evaluate()}{evaluate()}}
+{\footnotesize\ttfamily template$<$typename \mbox{\hyperlink{classNInARow_1_1Board}{Board}} $>$ \\
+double \mbox{\hyperlink{classNInARow_1_1Heuristic}{NIn\+ARow\+::\+Heuristic}}$<$ \mbox{\hyperlink{classNInARow_1_1Board}{Board}} $>$\+::evaluate (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classNInARow_1_1Board}{Board}} \&}]{b }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+Evaluates a given board position and returns a heuristic value for it.
+
+
+\begin{DoxyParams}{Parameters}
+{\em b} & The board to evaluate.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The value of the heuristic evaluation function of the given position. 
+\end{DoxyReturn}
+\Hypertarget{classNInARow_1_1Heuristic_ac22318cbac5e7198de57d81db641fc8b}\label{classNInARow_1_1Heuristic_ac22318cbac5e7198de57d81db641fc8b} 
+\index{NInARow::Heuristic$<$ Board $>$@{NInARow::Heuristic$<$ Board $>$}!get\_best\_move@{get\_best\_move}}
+\index{get\_best\_move@{get\_best\_move}!NInARow::Heuristic$<$ Board $>$@{NInARow::Heuristic$<$ Board $>$}}
+\doxysubsubsection{\texorpdfstring{get\_best\_move()}{get\_best\_move()}}
+{\footnotesize\ttfamily template$<$typename \mbox{\hyperlink{classNInARow_1_1Board}{Board}} $>$ \\
+\mbox{\hyperlink{classNInARow_1_1Move}{Board\+::\+MoveT}} \mbox{\hyperlink{classNInARow_1_1Heuristic}{NIn\+ARow\+::\+Heuristic}}$<$ \mbox{\hyperlink{classNInARow_1_1Board}{Board}} $>$\+::get\+\_\+best\+\_\+move (\begin{DoxyParamCaption}\item[{std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classNode}{Node}}$<$ \mbox{\hyperlink{classNInARow_1_1Board}{Board}} $>$ $>$}]{tree }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+A helper function for allowing the heuristic to apply its lapse rate to a given move selection. Does not perform any evaluation itself -\/ assumes that the given tree has already been built up by a search and returns either the best move in the tree, or a lapsed random move if the lapse rate determines we should.
+
+
+\begin{DoxyParams}{Parameters}
+{\em tree} & The tree of moves over which we\textquotesingle{}d like to select the best.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Either the best move in the given tree, or a random move if we lapse. 
+\end{DoxyReturn}
+\Hypertarget{classNInARow_1_1Heuristic_aa6d3ec58cb62241cdfe012a65fb0901c}\label{classNInARow_1_1Heuristic_aa6d3ec58cb62241cdfe012a65fb0901c} 
+\index{NInARow::Heuristic$<$ Board $>$@{NInARow::Heuristic$<$ Board $>$}!get\_feature\_group\_weights@{get\_feature\_group\_weights}}
+\index{get\_feature\_group\_weights@{get\_feature\_group\_weights}!NInARow::Heuristic$<$ Board $>$@{NInARow::Heuristic$<$ Board $>$}}
+\doxysubsubsection{\texorpdfstring{get\_feature\_group\_weights()}{get\_feature\_group\_weights()}}
+{\footnotesize\ttfamily template$<$typename \mbox{\hyperlink{classNInARow_1_1Board}{Board}} $>$ \\
+std\+::vector$<$ \mbox{\hyperlink{structNInARow_1_1FeatureGroupWeight}{Feature\+Group\+Weight}} $>$ \& \mbox{\hyperlink{classNInARow_1_1Heuristic}{NIn\+ARow\+::\+Heuristic}}$<$ \mbox{\hyperlink{classNInARow_1_1Board}{Board}} $>$\+::get\+\_\+feature\+\_\+group\+\_\+weights (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\begin{DoxyReturn}{Returns}
+A list of feature group weights. 
+\end{DoxyReturn}
+\Hypertarget{classNInARow_1_1Heuristic_aba09ae252471d3c9d2259511e2cae7ff}\label{classNInARow_1_1Heuristic_aba09ae252471d3c9d2259511e2cae7ff} 
+\index{NInARow::Heuristic$<$ Board $>$@{NInARow::Heuristic$<$ Board $>$}!get\_features\_with\_metadata@{get\_features\_with\_metadata}}
+\index{get\_features\_with\_metadata@{get\_features\_with\_metadata}!NInARow::Heuristic$<$ Board $>$@{NInARow::Heuristic$<$ Board $>$}}
+\doxysubsubsection{\texorpdfstring{get\_features\_with\_metadata()}{get\_features\_with\_metadata()}}
+{\footnotesize\ttfamily template$<$typename \mbox{\hyperlink{classNInARow_1_1Board}{Board}} $>$ \\
+std\+::vector$<$ \mbox{\hyperlink{structNInARow_1_1HeuristicFeatureWithMetadata}{Heuristic\+Feature\+With\+Metadata}}$<$ \mbox{\hyperlink{classNInARow_1_1Board}{Board}} $>$ $>$ \& \mbox{\hyperlink{classNInARow_1_1Heuristic}{NIn\+ARow\+::\+Heuristic}}$<$ \mbox{\hyperlink{classNInARow_1_1Board}{Board}} $>$\+::get\+\_\+features\+\_\+with\+\_\+metadata (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\begin{DoxyReturn}{Returns}
+All of the features in the heuristic, along with their associated metadata. 
+\end{DoxyReturn}
+\Hypertarget{classNInARow_1_1Heuristic_a4e457e8cd5784914ec4ff116310b556a}\label{classNInARow_1_1Heuristic_a4e457e8cd5784914ec4ff116310b556a} 
+\index{NInARow::Heuristic$<$ Board $>$@{NInARow::Heuristic$<$ Board $>$}!get\_gamma@{get\_gamma}}
+\index{get\_gamma@{get\_gamma}!NInARow::Heuristic$<$ Board $>$@{NInARow::Heuristic$<$ Board $>$}}
+\doxysubsubsection{\texorpdfstring{get\_gamma()}{get\_gamma()}}
+{\footnotesize\ttfamily template$<$typename \mbox{\hyperlink{classNInARow_1_1Board}{Board}} $>$ \\
+double \mbox{\hyperlink{classNInARow_1_1Heuristic}{NIn\+ARow\+::\+Heuristic}}$<$ \mbox{\hyperlink{classNInARow_1_1Board}{Board}} $>$\+::get\+\_\+gamma (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\begin{DoxyReturn}{Returns}
+The {\ttfamily gamma} parameter. 
+\end{DoxyReturn}
+\Hypertarget{classNInARow_1_1Heuristic_acb2c494262db7f6d738e26c9f748c971}\label{classNInARow_1_1Heuristic_acb2c494262db7f6d738e26c9f748c971} 
+\index{NInARow::Heuristic$<$ Board $>$@{NInARow::Heuristic$<$ Board $>$}!get\_moves@{get\_moves}}
+\index{get\_moves@{get\_moves}!NInARow::Heuristic$<$ Board $>$@{NInARow::Heuristic$<$ Board $>$}}
+\doxysubsubsection{\texorpdfstring{get\_moves()}{get\_moves()}}
+{\footnotesize\ttfamily template$<$typename \mbox{\hyperlink{classNInARow_1_1Board}{Board}} $>$ \\
+std\+::vector$<$ typename \mbox{\hyperlink{classNInARow_1_1Move}{Board\+::\+MoveT}} $>$ \mbox{\hyperlink{classNInARow_1_1Heuristic}{NIn\+ARow\+::\+Heuristic}}$<$ \mbox{\hyperlink{classNInARow_1_1Board}{Board}} $>$\+::get\+\_\+moves (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classNInARow_1_1Board}{Board}} \&}]{b,  }\item[{Player}]{eval\+Player,  }\item[{bool}]{sorted = {\ttfamily true} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Returns all possible moves from a given position, as well as their associated heuristic evaluations.
+
+
+\begin{DoxyParams}{Parameters}
+{\em b} & The board containing the starting position. \\
+\hline
+{\em eval\+Player} & The player from whose perspective we\textquotesingle{}re evaluating the board. \\
+\hline
+{\em sorted} & If true, return all of the moves in sorted order by heuristic evaluation.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+All possible moves from the given position, evaluated by the heuristic. 
+\end{DoxyReturn}
+\Hypertarget{classNInARow_1_1Heuristic_ad190cbc3c3c1286a13360335ca2e61c5}\label{classNInARow_1_1Heuristic_ad190cbc3c3c1286a13360335ca2e61c5} 
+\index{NInARow::Heuristic$<$ Board $>$@{NInARow::Heuristic$<$ Board $>$}!get\_pruned\_moves@{get\_pruned\_moves}}
+\index{get\_pruned\_moves@{get\_pruned\_moves}!NInARow::Heuristic$<$ Board $>$@{NInARow::Heuristic$<$ Board $>$}}
+\doxysubsubsection{\texorpdfstring{get\_pruned\_moves()}{get\_pruned\_moves()}}
+{\footnotesize\ttfamily template$<$typename \mbox{\hyperlink{classNInARow_1_1Board}{Board}} $>$ \\
+std\+::vector$<$ typename \mbox{\hyperlink{classNInARow_1_1Move}{Board\+::\+MoveT}} $>$ \mbox{\hyperlink{classNInARow_1_1Heuristic}{NIn\+ARow\+::\+Heuristic}}$<$ \mbox{\hyperlink{classNInARow_1_1Board}{Board}} $>$\+::get\+\_\+pruned\+\_\+moves (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classNInARow_1_1Board}{Board}} \&}]{b,  }\item[{Player}]{eval\+Player }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Returns a pruned set of moves from the given position. Evaluates every move, and then removes the weakest moves as determined by {\ttfamily pruning\+\_\+thresh}.
+
+
+\begin{DoxyParams}{Parameters}
+{\em b} & The board containing the starting position. \\
+\hline
+{\em eval\+Player} & The player from whose perspective we\textquotesingle{}re evaluating the board.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Pruned moves from the given position, evaluated by the heuristic. 
+\end{DoxyReturn}
+\Hypertarget{classNInARow_1_1Heuristic_aefc54d4744d3a52ab8e36d54822a98e7}\label{classNInARow_1_1Heuristic_aefc54d4744d3a52ab8e36d54822a98e7} 
+\index{NInARow::Heuristic$<$ Board $>$@{NInARow::Heuristic$<$ Board $>$}!get\_random\_move@{get\_random\_move}}
+\index{get\_random\_move@{get\_random\_move}!NInARow::Heuristic$<$ Board $>$@{NInARow::Heuristic$<$ Board $>$}}
+\doxysubsubsection{\texorpdfstring{get\_random\_move()}{get\_random\_move()}}
+{\footnotesize\ttfamily template$<$typename \mbox{\hyperlink{classNInARow_1_1Board}{Board}} $>$ \\
+\mbox{\hyperlink{classNInARow_1_1Move}{Board\+::\+MoveT}} \mbox{\hyperlink{classNInARow_1_1Heuristic}{NIn\+ARow\+::\+Heuristic}}$<$ \mbox{\hyperlink{classNInARow_1_1Board}{Board}} $>$\+::get\+\_\+random\+\_\+move (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classNInARow_1_1Board}{Board}} \&}]{b }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+\begin{DoxyParams}{Parameters}
+{\em b} & The board containing the starting position.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A legal move selected uniformly at random from all possible moves on the board. 
+\end{DoxyReturn}
+\Hypertarget{classNInARow_1_1Heuristic_a27f594d1c063e6d694d4d246807decbb}\label{classNInARow_1_1Heuristic_a27f594d1c063e6d694d4d246807decbb} 
+\index{NInARow::Heuristic$<$ Board $>$@{NInARow::Heuristic$<$ Board $>$}!get\_stopping\_thresh@{get\_stopping\_thresh}}
+\index{get\_stopping\_thresh@{get\_stopping\_thresh}!NInARow::Heuristic$<$ Board $>$@{NInARow::Heuristic$<$ Board $>$}}
+\doxysubsubsection{\texorpdfstring{get\_stopping\_thresh()}{get\_stopping\_thresh()}}
+{\footnotesize\ttfamily template$<$typename \mbox{\hyperlink{classNInARow_1_1Board}{Board}} $>$ \\
+double \mbox{\hyperlink{classNInARow_1_1Heuristic}{NIn\+ARow\+::\+Heuristic}}$<$ \mbox{\hyperlink{classNInARow_1_1Board}{Board}} $>$\+::get\+\_\+stopping\+\_\+thresh (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\begin{DoxyReturn}{Returns}
+The {\ttfamily stopping\+\_\+thresh} parameter. 
+\end{DoxyReturn}
+\Hypertarget{classNInARow_1_1Heuristic_af660e023f8c506cb2dab73a44ceb82b2}\label{classNInARow_1_1Heuristic_af660e023f8c506cb2dab73a44ceb82b2} 
+\index{NInARow::Heuristic$<$ Board $>$@{NInARow::Heuristic$<$ Board $>$}!seed\_generator@{seed\_generator}}
+\index{seed\_generator@{seed\_generator}!NInARow::Heuristic$<$ Board $>$@{NInARow::Heuristic$<$ Board $>$}}
+\doxysubsubsection{\texorpdfstring{seed\_generator()}{seed\_generator()}}
+{\footnotesize\ttfamily template$<$typename \mbox{\hyperlink{classNInARow_1_1Board}{Board}} $>$ \\
+void \mbox{\hyperlink{classNInARow_1_1Heuristic}{NIn\+ARow\+::\+Heuristic}}$<$ \mbox{\hyperlink{classNInARow_1_1Board}{Board}} $>$\+::seed\+\_\+generator (\begin{DoxyParamCaption}\item[{uint64\+\_\+t}]{seed }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Sets the seed for the internal random number generator.
+
+
+\begin{DoxyParams}{Parameters}
+{\em seed} & The seed to use for the random number generator. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classNInARow_1_1Heuristic_a0f936005a7652bd7c0e680400032a499}\label{classNInARow_1_1Heuristic_a0f936005a7652bd7c0e680400032a499} 
+\index{NInARow::Heuristic$<$ Board $>$@{NInARow::Heuristic$<$ Board $>$}!set\_noise\_enabled@{set\_noise\_enabled}}
+\index{set\_noise\_enabled@{set\_noise\_enabled}!NInARow::Heuristic$<$ Board $>$@{NInARow::Heuristic$<$ Board $>$}}
+\doxysubsubsection{\texorpdfstring{set\_noise\_enabled()}{set\_noise\_enabled()}}
+{\footnotesize\ttfamily template$<$typename \mbox{\hyperlink{classNInARow_1_1Board}{Board}} $>$ \\
+void \mbox{\hyperlink{classNInARow_1_1Heuristic}{NIn\+ARow\+::\+Heuristic}}$<$ \mbox{\hyperlink{classNInARow_1_1Board}{Board}} $>$\+::set\+\_\+noise\+\_\+enabled (\begin{DoxyParamCaption}\item[{bool}]{enabled }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+\begin{DoxyParams}{Parameters}
+{\em enabled} & If true, enable noise, else, disable noise. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classNInARow_1_1Heuristic_ac1c1740bad22abd13db291ba66900aee}\label{classNInARow_1_1Heuristic_ac1c1740bad22abd13db291ba66900aee} 
+\index{NInARow::Heuristic$<$ Board $>$@{NInARow::Heuristic$<$ Board $>$}!start\_search@{start\_search}}
+\index{start\_search@{start\_search}!NInARow::Heuristic$<$ Board $>$@{NInARow::Heuristic$<$ Board $>$}}
+\doxysubsubsection{\texorpdfstring{start\_search()}{start\_search()}}
+{\footnotesize\ttfamily template$<$typename \mbox{\hyperlink{classNInARow_1_1Board}{Board}} $>$ \\
+void \mbox{\hyperlink{classNInARow_1_1Heuristic}{NIn\+ARow\+::\+Heuristic}}$<$ \mbox{\hyperlink{classNInARow_1_1Board}{Board}} $>$\+::start\+\_\+search (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Tells the heuristic that a search is in progress, triggering the removal of a random subset of features as determined by their respective {\ttfamily drop\+\_\+rate}s. 
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+ninarow\+\_\+heuristic.\+h\end{DoxyCompactItemize}

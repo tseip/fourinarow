@@ -1,0 +1,213 @@
+\doxysection{ninarow\+\_\+board.\+h}
+\hypertarget{ninarow__board_8h_source}{}\label{ninarow__board_8h_source}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ NINAROW\_BOARD\_H\_INCLUDED}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ NINAROW\_BOARD\_H\_INCLUDED}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <bitset>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <cstdlib>}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <sstream>}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ <stdexcept>}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{00009\ }
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ "{}ninarow\_move.h"{}}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ "{}ninarow\_pattern.h"{}}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ "{}player.h"{}}}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00014\ \textcolor{keyword}{namespace\ }NInARow\ \{}
+\DoxyCodeLine{00015\ }
+\DoxyCodeLine{00025\ \textcolor{keyword}{template}\ <std::\textcolor{keywordtype}{size\_t}\ HEIGHT,\ std::\textcolor{keywordtype}{size\_t}\ WIDTH,\ std::\textcolor{keywordtype}{size\_t}\ N>}
+\DoxyCodeLine{00026\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classNInARow_1_1Board}{Board}}\ \{}
+\DoxyCodeLine{00027\ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00028\ \ \ \textcolor{keyword}{using\ }\mbox{\hyperlink{classNInARow_1_1Pattern}{PatternT}}\ =\ \mbox{\hyperlink{classNInARow_1_1Pattern}{Pattern<HEIGHT,\ WIDTH,\ N>}};}
+\DoxyCodeLine{00029\ \ \ \textcolor{keyword}{using\ }\mbox{\hyperlink{structNInARow_1_1PatternHasher}{PatternHasherT}}\ =\ \mbox{\hyperlink{structNInARow_1_1PatternHasher}{PatternHasher<PatternT>}};}
+\DoxyCodeLine{00030\ \ \ \textcolor{keyword}{using\ }\mbox{\hyperlink{classNInARow_1_1Move}{MoveT}}\ =\ \mbox{\hyperlink{classNInARow_1_1Move}{Move<HEIGHT,\ WIDTH,\ N>}};}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00037\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ std::size\_t\ \mbox{\hyperlink{classNInARow_1_1Board_a5e6750c3baf499181704c17e24d50489}{get\_board\_height}}()\ \{\ \textcolor{keywordflow}{return}\ HEIGHT;\ \}}
+\DoxyCodeLine{00038\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ std::size\_t\ get\_board\_width()\ \{\ \textcolor{keywordflow}{return}\ WIDTH;\ \}}
+\DoxyCodeLine{00039\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ std::size\_t\ get\_board\_size()\ \{\ \textcolor{keywordflow}{return}\ HEIGHT\ *\ WIDTH;\ \}}
+\DoxyCodeLine{00048\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ std::size\_t\ \mbox{\hyperlink{classNInARow_1_1Board_a5aaa19a67ed5776131bc6a48d0b4d681}{get\_max\_num\_moves}}()\ \{\ \textcolor{keywordflow}{return}\ get\_board\_size();\ \}}
+\DoxyCodeLine{00049\ }
+\DoxyCodeLine{00050\ \ \ \textcolor{keyword}{static\_assert}(get\_board\_size()\ >=\ 2\ *\ N\ -\/\ 1,}
+\DoxyCodeLine{00051\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}N\ in\ a\ row\ boards\ must\ be\ large\ enough\ to\ accommodate\ a\ "{}}}
+\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}possible\ win,\ at\ least\ for\ the\ first\ player."{}});}
+\DoxyCodeLine{00053\ }
+\DoxyCodeLine{00054\ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00065\ \ \ PatternT\ pieces[2];}
+\DoxyCodeLine{00066\ }
+\DoxyCodeLine{00067\ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00071\ \ \ \mbox{\hyperlink{classNInARow_1_1Board_aa7e780495d8d034d72fad0321ce47350}{Board}}()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00072\ }
+\DoxyCodeLine{00079\ \ \ \mbox{\hyperlink{classNInARow_1_1Board_af61b616015bde0d316f5ad484aab9dd1}{Board}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classNInARow_1_1Pattern}{PatternT}}\ \&black\_pieces,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{classNInARow_1_1Pattern}{PatternT}}\ \&white\_pieces)\ \{}
+\DoxyCodeLine{00080\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ piece\_diff\ =}
+\DoxyCodeLine{00081\ \ \ \ \ \ \ \ \ black\_pieces.\mbox{\hyperlink{classNInARow_1_1Pattern_a5021ed3ff7f8b6d07ea6c0151ecd0467}{positions}}.count()\ -\/\ white\_pieces.\mbox{\hyperlink{classNInARow_1_1Pattern_a5021ed3ff7f8b6d07ea6c0151ecd0467}{positions}}.count();}
+\DoxyCodeLine{00082\ \ \ \ \ \textcolor{keywordflow}{if}\ (black\_pieces.\mbox{\hyperlink{classNInARow_1_1Pattern_af448570afd7d2cd3c5ea413e2d2a94ea}{count\_overlap}}(white\_pieces)\ !=\ 0\ ||\ piece\_diff\ >\ 1U\ ||}
+\DoxyCodeLine{00083\ \ \ \ \ \ \ \ \ piece\_diff\ <\ 0U)\ \{}
+\DoxyCodeLine{00084\ \ \ \ \ \ \ \textcolor{keywordflow}{throw}\ std::logic\_error(\textcolor{stringliteral}{"{}Given\ board\ state\ is\ illegal!"{}});}
+\DoxyCodeLine{00085\ \ \ \ \ \}}
+\DoxyCodeLine{00086\ \ \ \ \ pieces[0]\ =\ black\_pieces;}
+\DoxyCodeLine{00087\ \ \ \ \ pieces[1]\ =\ white\_pieces;}
+\DoxyCodeLine{00088\ \ \ \}}
+\DoxyCodeLine{00089\ }
+\DoxyCodeLine{00093\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classNInARow_1_1Board_a7579a9073126b1e052cb088fb5db4b59}{reset}}()\ \{}
+\DoxyCodeLine{00094\ \ \ \ \ pieces[\textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{size\_t}\textcolor{keyword}{>}(Player::Player1)].positions.reset();}
+\DoxyCodeLine{00095\ \ \ \ \ pieces[\textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{size\_t}\textcolor{keyword}{>}(Player::Player2)].positions.reset();}
+\DoxyCodeLine{00096\ \ \ \}}
+\DoxyCodeLine{00097\ }
+\DoxyCodeLine{00103\ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classNInARow_1_1Board_a84a984f41e911c3a2f714386fdd48b86}{player\_has\_won}}(\textcolor{keyword}{const}\ Player\ player)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00104\ \ \ \ \ \textcolor{keywordflow}{return}\ pieces[\textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{size\_t}\textcolor{keyword}{>}(player)].contains\_win();}
+\DoxyCodeLine{00105\ \ \ \}}
+\DoxyCodeLine{00106\ }
+\DoxyCodeLine{00110\ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classNInARow_1_1Board_a4c7230bda6da66a4f5d6a4f83b005987}{game\_is\_drawn}}()\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00111\ \ \ \ \ \textcolor{comment}{//\ The\ game\ is\ drawn\ if\ both\ players'\ pieces\ cover\ the\ game\ board.}}
+\DoxyCodeLine{00112\ \ \ \ \ \textcolor{keywordflow}{return}\ (pieces[\textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{size\_t}\textcolor{keyword}{>}(Player::Player1)].positions\ |}
+\DoxyCodeLine{00113\ \ \ \ \ \ \ \ \ \ \ \ \ pieces[\textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{size\_t}\textcolor{keyword}{>}(Player::Player2)].positions)}
+\DoxyCodeLine{00114\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .all()\ \&\&}
+\DoxyCodeLine{00115\ \ \ \ \ \ \ \ \ \ \ \ !\mbox{\hyperlink{classNInARow_1_1Board_a84a984f41e911c3a2f714386fdd48b86}{player\_has\_won}}(Player::Player1)\ \&\&\ !\mbox{\hyperlink{classNInARow_1_1Board_a84a984f41e911c3a2f714386fdd48b86}{player\_has\_won}}(Player::Player2);}
+\DoxyCodeLine{00116\ \ \ \}}
+\DoxyCodeLine{00117\ }
+\DoxyCodeLine{00122\ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classNInARow_1_1Board_a99a9b1e9ffdeefc5e8bb764f6d77ad1d}{game\_has\_ended}}()\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00123\ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classNInARow_1_1Board_a84a984f41e911c3a2f714386fdd48b86}{player\_has\_won}}(Player::Player1)\ ||\ \mbox{\hyperlink{classNInARow_1_1Board_a84a984f41e911c3a2f714386fdd48b86}{player\_has\_won}}(Player::Player2)\ ||}
+\DoxyCodeLine{00124\ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classNInARow_1_1Board_a4c7230bda6da66a4f5d6a4f83b005987}{game\_is\_drawn}}();}
+\DoxyCodeLine{00125\ \ \ \}}
+\DoxyCodeLine{00126\ }
+\DoxyCodeLine{00130\ \ \ std::size\_t\ \mbox{\hyperlink{classNInARow_1_1Board_a884ea5eb3e684376d0143fe838826473}{num\_pieces}}()\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00131\ \ \ \ \ \textcolor{keywordflow}{return}\ (pieces[\textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{size\_t}\textcolor{keyword}{>}(Player::Player1)].positions\ |}
+\DoxyCodeLine{00132\ \ \ \ \ \ \ \ \ \ \ \ \ pieces[\textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{size\_t}\textcolor{keyword}{>}(Player::Player2)].positions)}
+\DoxyCodeLine{00133\ \ \ \ \ \ \ \ \ .count();}
+\DoxyCodeLine{00134\ \ \ \}}
+\DoxyCodeLine{00135\ }
+\DoxyCodeLine{00136\ \ \ Player\ active\_player()\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00137\ \ \ \ \ \textcolor{comment}{//\ Player\ 1\ plays\ first,\ and\ play\ proceeds\ in\ alternating\ turns.}}
+\DoxyCodeLine{00138\ \ \ \ \ \textcolor{keywordflow}{return}\ (\mbox{\hyperlink{classNInARow_1_1Board_a884ea5eb3e684376d0143fe838826473}{num\_pieces}}()\ \%\ 2)\ ==\ 0\ ?\ Player::Player1\ :\ Player::Player2;}
+\DoxyCodeLine{00139\ \ \ \}}
+\DoxyCodeLine{00140\ }
+\DoxyCodeLine{00141\ \ \ std::string\ to\_string()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ to\_string(PatternT());\ \}}
+\DoxyCodeLine{00142\ }
+\DoxyCodeLine{00149\ \ \ std::string\ \mbox{\hyperlink{classNInARow_1_1Board_a4887d04cde8c79eaa0eac5de7a7e4513}{to\_string}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classNInARow_1_1Pattern}{PatternT}}\ p)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00150\ \ \ \ \ std::stringstream\ stream;}
+\DoxyCodeLine{00151\ \ \ \ \ stream\ <<\ \textcolor{stringliteral}{"{}+"{}};}
+\DoxyCodeLine{00152\ \ \ \ \ \textcolor{keywordflow}{for}\ (std::size\_t\ col\ =\ 0;\ col\ <\ WIDTH;\ ++col)\ stream\ <<\ \textcolor{stringliteral}{"{}-\/"{}};}
+\DoxyCodeLine{00153\ \ \ \ \ stream\ <<\ \textcolor{stringliteral}{"{}+"{}}\ <<\ std::endl;}
+\DoxyCodeLine{00154\ \ \ \ \ \textcolor{keywordflow}{for}\ (std::size\_t\ row\ =\ 0;\ row\ <\ HEIGHT;\ ++row)\ \{}
+\DoxyCodeLine{00155\ \ \ \ \ \ \ stream\ <<\ \textcolor{stringliteral}{"{}|"{}};}
+\DoxyCodeLine{00156\ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (std::size\_t\ col\ =\ 0;\ col\ <\ WIDTH;\ ++col)\ \{}
+\DoxyCodeLine{00157\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{size\_t}\ position\ =\ row\ *\ WIDTH\ +\ col;}
+\DoxyCodeLine{00158\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (p.\mbox{\hyperlink{classNInARow_1_1Pattern_a5021ed3ff7f8b6d07ea6c0151ecd0467}{positions}}.test(position))}
+\DoxyCodeLine{00159\ \ \ \ \ \ \ \ \ \ \ stream\ <<\ \textcolor{stringliteral}{"{}\#"{}};}
+\DoxyCodeLine{00160\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (pieces[\textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{size\_t}\textcolor{keyword}{>}(Player::Player1)].positions.test(}
+\DoxyCodeLine{00161\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ position))}
+\DoxyCodeLine{00162\ \ \ \ \ \ \ \ \ \ \ stream\ <<\ \textcolor{stringliteral}{"{}o"{}};}
+\DoxyCodeLine{00163\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (pieces[\textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{size\_t}\textcolor{keyword}{>}(Player::Player2)].positions.test(}
+\DoxyCodeLine{00164\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ position))}
+\DoxyCodeLine{00165\ \ \ \ \ \ \ \ \ \ \ stream\ <<\ \textcolor{stringliteral}{"{}x"{}};}
+\DoxyCodeLine{00166\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00167\ \ \ \ \ \ \ \ \ \ \ stream\ <<\ \textcolor{stringliteral}{"{}\ "{}};}
+\DoxyCodeLine{00168\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00169\ \ \ \ \ \ \ stream\ <<\ \textcolor{stringliteral}{"{}|"{}}\ <<\ std::endl;}
+\DoxyCodeLine{00170\ \ \ \ \ \}}
+\DoxyCodeLine{00171\ \ \ \ \ stream\ <<\ \textcolor{stringliteral}{"{}+"{}};}
+\DoxyCodeLine{00172\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{unsigned}\ \textcolor{keywordtype}{int}\ col\ =\ 0;\ col\ <\ WIDTH;\ col++)\ stream\ <<\ \textcolor{stringliteral}{"{}-\/"{}};}
+\DoxyCodeLine{00173\ \ \ \ \ stream\ <<\ \textcolor{stringliteral}{"{}+"{}}\ <<\ std::endl;}
+\DoxyCodeLine{00174\ \ \ \ \ \textcolor{keywordflow}{return}\ stream.str();}
+\DoxyCodeLine{00175\ \ \ \}}
+\DoxyCodeLine{00176\ }
+\DoxyCodeLine{00182\ \ \ \mbox{\hyperlink{classNInARow_1_1Pattern}{PatternT}}\ \mbox{\hyperlink{classNInARow_1_1Board_ae41609fe19d91b86767f48450bbe0e7a}{get\_pieces}}(\textcolor{keyword}{const}\ Player\ player)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00183\ \ \ \ \ \textcolor{keywordflow}{return}\ pieces[\textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{size\_t}\textcolor{keyword}{>}(player)];}
+\DoxyCodeLine{00184\ \ \ \}}
+\DoxyCodeLine{00185\ }
+\DoxyCodeLine{00189\ \ \ \mbox{\hyperlink{classNInARow_1_1Pattern}{PatternT}}\ \mbox{\hyperlink{classNInARow_1_1Board_a571f86a5e057444e0386333d8c195ccf}{get\_spaces}}()\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00190\ \ \ \ \ \textcolor{keywordflow}{return}\ \string~(pieces[\textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{size\_t}\textcolor{keyword}{>}(Player::Player1)].positions\ |}
+\DoxyCodeLine{00191\ \ \ \ \ \ \ \ \ \ \ \ \ \ pieces[\textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{size\_t}\textcolor{keyword}{>}(Player::Player2)].positions);}
+\DoxyCodeLine{00192\ \ \ \}}
+\DoxyCodeLine{00193\ }
+\DoxyCodeLine{00200\ \ \ std::size\_t\ \mbox{\hyperlink{classNInARow_1_1Board_ac8fe37ac18905a6e54232fab38ee5d9a}{count\_pieces}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classNInARow_1_1Pattern}{PatternT}}\ p,\ \textcolor{keyword}{const}\ Player\ player)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00201\ \ \ \ \ \textcolor{keywordflow}{return}\ pieces[\textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{size\_t}\textcolor{keyword}{>}(player)].count\_overlap(p);}
+\DoxyCodeLine{00202\ \ \ \}}
+\DoxyCodeLine{00203\ }
+\DoxyCodeLine{00210\ \ \ std::size\_t\ \mbox{\hyperlink{classNInARow_1_1Board_a711874e8132f01f411f2603a7d2583ea}{count\_spaces}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classNInARow_1_1Pattern}{PatternT}}\ p)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00211\ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classNInARow_1_1Pattern}{PatternT}}(pieces[\textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{size\_t}\textcolor{keyword}{>}(Player::Player1)].positions\ |}
+\DoxyCodeLine{00212\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ pieces[\textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{size\_t}\textcolor{keyword}{>}(Player::Player2)].positions)}
+\DoxyCodeLine{00213\ \ \ \ \ \ \ \ \ .\mbox{\hyperlink{classNInARow_1_1Pattern_a575a444b030cd381be61ce8c26910e75}{count\_spaces}}(p);}
+\DoxyCodeLine{00214\ \ \ \}}
+\DoxyCodeLine{00215\ }
+\DoxyCodeLine{00223\ \ \ \mbox{\hyperlink{classNInARow_1_1Pattern}{Board::PatternT}}\ \mbox{\hyperlink{classNInARow_1_1Board_aef4e275bf904404e0d3c96d10696b1fa}{missing\_pieces}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classNInARow_1_1Pattern}{Board::PatternT}}\ \&pattern,}
+\DoxyCodeLine{00224\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Player\ player)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00225\ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classNInARow_1_1Pattern}{Board::PatternT}}(}
+\DoxyCodeLine{00226\ \ \ \ \ \ \ \ \ pattern.\mbox{\hyperlink{classNInARow_1_1Pattern_a5021ed3ff7f8b6d07ea6c0151ecd0467}{positions}}\ \&}
+\DoxyCodeLine{00227\ \ \ \ \ \ \ \ \ (\string~pieces[\textcolor{keyword}{static\_cast<}std::size\_t\textcolor{keyword}{>}(player)].positions));}
+\DoxyCodeLine{00228\ \ \ \}}
+\DoxyCodeLine{00229\ }
+\DoxyCodeLine{00236\ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classNInARow_1_1Board_a7c8d1a3645c545b7649eb1fdc7fc0254}{contains\_spaces}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classNInARow_1_1Pattern}{PatternT}}\ p)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00237\ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classNInARow_1_1Pattern}{PatternT}}(pieces[\textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{size\_t}\textcolor{keyword}{>}(Player::Player1)].positions\ |}
+\DoxyCodeLine{00238\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ pieces[\textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{size\_t}\textcolor{keyword}{>}(Player::Player2)].positions)}
+\DoxyCodeLine{00239\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ .\mbox{\hyperlink{classNInARow_1_1Pattern_af448570afd7d2cd3c5ea413e2d2a94ea}{count\_overlap}}(p)\ ==\ 0;}
+\DoxyCodeLine{00240\ \ \ \}}
+\DoxyCodeLine{00241\ }
+\DoxyCodeLine{00247\ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classNInARow_1_1Board_a8ceb5c4809db4dbf0252c721feefc814}{contains\_move}}(\mbox{\hyperlink{classNInARow_1_1Move}{MoveT}}\ m)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00248\ \ \ \ \ \textcolor{keywordflow}{return}\ pieces[\textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{size\_t}\textcolor{keyword}{>}(m.\mbox{\hyperlink{classNInARow_1_1Move_a424df4f38d5695abc46b69cbdd0405f5}{player}})].positions.test(}
+\DoxyCodeLine{00249\ \ \ \ \ \ \ \ \ m.\mbox{\hyperlink{classNInARow_1_1Move_a50e59c1b264d36da126d0762056963cb}{board\_position}});}
+\DoxyCodeLine{00250\ \ \ \}}
+\DoxyCodeLine{00251\ }
+\DoxyCodeLine{00258\ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classNInARow_1_1Board_a086b369ecc763fe566e1569d1ef53804}{contains\_spaces}}(std::size\_t\ position)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00259\ \ \ \ \ \textcolor{keywordflow}{return}\ !(}
+\DoxyCodeLine{00260\ \ \ \ \ \ \ \ \ pieces[\textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{size\_t}\textcolor{keyword}{>}(Player::Player1)].positions.test(position)\ ||}
+\DoxyCodeLine{00261\ \ \ \ \ \ \ \ \ pieces[\textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{size\_t}\textcolor{keyword}{>}(Player::Player2)].positions.test(position));}
+\DoxyCodeLine{00262\ \ \ \}}
+\DoxyCodeLine{00263\ }
+\DoxyCodeLine{00270\ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classNInARow_1_1Board_a6c14804df6ec6b8ff469b8f2e1703b37}{contains}}(\mbox{\hyperlink{classNInARow_1_1Pattern}{PatternT}}\ p,\ Player\ player)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00271\ \ \ \ \ \textcolor{keywordflow}{return}\ pieces[\textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{size\_t}\textcolor{keyword}{>}(player)].\mbox{\hyperlink{classNInARow_1_1Board_a6c14804df6ec6b8ff469b8f2e1703b37}{contains}}(p);}
+\DoxyCodeLine{00272\ \ \ \}}
+\DoxyCodeLine{00273\ }
+\DoxyCodeLine{00277\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classNInARow_1_1Board_a56168083a79c5f970e1dea41b34b2738}{add}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classNInARow_1_1Move}{MoveT}}\ m)\ \{}
+\DoxyCodeLine{00278\ \ \ \ \ \textcolor{keywordflow}{if}\ (m.\mbox{\hyperlink{classNInARow_1_1Move_a424df4f38d5695abc46b69cbdd0405f5}{player}}\ !=\ active\_player())\ \{}
+\DoxyCodeLine{00279\ \ \ \ \ \ \ \textcolor{keywordflow}{throw}\ std::logic\_error(\textcolor{stringliteral}{"{}Supplied\ move\ is\ not\ legal\ on\ the\ given\ board!"{}});}
+\DoxyCodeLine{00280\ \ \ \ \ \}}
+\DoxyCodeLine{00281\ }
+\DoxyCodeLine{00282\ \ \ \ \ \textcolor{keywordflow}{if}\ (!\mbox{\hyperlink{classNInARow_1_1Board_a7c8d1a3645c545b7649eb1fdc7fc0254}{contains\_spaces}}(m.\mbox{\hyperlink{classNInARow_1_1Move_a50e59c1b264d36da126d0762056963cb}{board\_position}}))}
+\DoxyCodeLine{00283\ \ \ \ \ \ \ \textcolor{keywordflow}{throw}\ std::invalid\_argument(\textcolor{stringliteral}{"{}Piece\ already\ exists\ at\ position\ "{}}\ +}
+\DoxyCodeLine{00284\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::to\_string(m.\mbox{\hyperlink{classNInARow_1_1Move_a50e59c1b264d36da126d0762056963cb}{board\_position}}));}
+\DoxyCodeLine{00285\ \ \ \ \ pieces[\textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{size\_t}\textcolor{keyword}{>}(m.\mbox{\hyperlink{classNInARow_1_1Move_a424df4f38d5695abc46b69cbdd0405f5}{player}})].positions.set(m.\mbox{\hyperlink{classNInARow_1_1Move_a50e59c1b264d36da126d0762056963cb}{board\_position}});}
+\DoxyCodeLine{00286\ \ \ \}}
+\DoxyCodeLine{00287\ }
+\DoxyCodeLine{00291\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classNInARow_1_1Board_a7672b366297858b87c97a9e273699628}{remove}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classNInARow_1_1Move}{MoveT}}\ m)\ \{}
+\DoxyCodeLine{00292\ \ \ \ \ \textcolor{keywordflow}{if}\ (m.\mbox{\hyperlink{classNInARow_1_1Move_a424df4f38d5695abc46b69cbdd0405f5}{player}}\ !=\ get\_other\_player(active\_player()))\ \{}
+\DoxyCodeLine{00293\ \ \ \ \ \ \ \textcolor{keywordflow}{throw}\ std::logic\_error(}
+\DoxyCodeLine{00294\ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Removing\ given\ move\ would\ lead\ to\ an\ illegal\ board\ state!"{}});}
+\DoxyCodeLine{00295\ \ \ \ \ \}}
+\DoxyCodeLine{00296\ }
+\DoxyCodeLine{00297\ \ \ \ \ \textcolor{keywordflow}{if}\ (!pieces[\textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{size\_t}\textcolor{keyword}{>}(m.\mbox{\hyperlink{classNInARow_1_1Move_a424df4f38d5695abc46b69cbdd0405f5}{player}})].positions.test(m.\mbox{\hyperlink{classNInARow_1_1Move_a50e59c1b264d36da126d0762056963cb}{board\_position}}))}
+\DoxyCodeLine{00298\ \ \ \ \ \ \ \textcolor{keywordflow}{throw}\ std::invalid\_argument(}
+\DoxyCodeLine{00299\ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Piece\ does\ not\ exist\ at\ position\ "{}}\ +}
+\DoxyCodeLine{00300\ \ \ \ \ \ \ \ \ \ \ std::to\_string(m.\mbox{\hyperlink{classNInARow_1_1Move_a50e59c1b264d36da126d0762056963cb}{board\_position}})\ +\ \textcolor{stringliteral}{"{}\ for\ player\ "{}}\ +}
+\DoxyCodeLine{00301\ \ \ \ \ \ \ \ \ \ \ std::to\_string(\textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{size\_t}\textcolor{keyword}{>}(m.\mbox{\hyperlink{classNInARow_1_1Move_a424df4f38d5695abc46b69cbdd0405f5}{player}})\ +\ 1U));}
+\DoxyCodeLine{00302\ \ \ \ \ pieces[\textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{size\_t}\textcolor{keyword}{>}(m.\mbox{\hyperlink{classNInARow_1_1Move_a424df4f38d5695abc46b69cbdd0405f5}{player}})].positions.reset(m.\mbox{\hyperlink{classNInARow_1_1Move_a50e59c1b264d36da126d0762056963cb}{board\_position}});}
+\DoxyCodeLine{00303\ \ \ \}}
+\DoxyCodeLine{00304\ }
+\DoxyCodeLine{00312\ \ \ \mbox{\hyperlink{classNInARow_1_1Board}{Board}}\ \mbox{\hyperlink{classNInARow_1_1Board_a0a13768753a40816ff0e596b65c6c7e3}{operator+}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classNInARow_1_1Move}{MoveT}}\ m)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00313\ \ \ \ \ \mbox{\hyperlink{classNInARow_1_1Board}{Board}}\ temp(*\textcolor{keyword}{this});}
+\DoxyCodeLine{00314\ \ \ \ \ temp.\mbox{\hyperlink{classNInARow_1_1Board_a56168083a79c5f970e1dea41b34b2738}{add}}(m);}
+\DoxyCodeLine{00315\ \ \ \ \ \textcolor{keywordflow}{return}\ temp;}
+\DoxyCodeLine{00316\ \ \ \}}
+\DoxyCodeLine{00317\ }
+\DoxyCodeLine{00325\ \ \ \mbox{\hyperlink{classNInARow_1_1Board}{Board}}\ \mbox{\hyperlink{classNInARow_1_1Board_ab594d48b93cdeb57f79f33b65a98eb88}{operator-\/}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classNInARow_1_1Move}{MoveT}}\ m)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00326\ \ \ \ \ \mbox{\hyperlink{classNInARow_1_1Board}{Board}}\ temp(*\textcolor{keyword}{this});}
+\DoxyCodeLine{00327\ \ \ \ \ temp.\mbox{\hyperlink{classNInARow_1_1Board_a7672b366297858b87c97a9e273699628}{remove}}(m);}
+\DoxyCodeLine{00328\ \ \ \ \ \textcolor{keywordflow}{return}\ temp;}
+\DoxyCodeLine{00329\ \ \ \}}
+\DoxyCodeLine{00330\ }
+\DoxyCodeLine{00337\ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classNInARow_1_1Board_a62ab9433d6c8365c9f528083fdb8155e}{operator==}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classNInARow_1_1Board}{Board}}\ \&b)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00338\ \ \ \ \ \textcolor{keywordflow}{return}\ ((pieces[\textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{size\_t}\textcolor{keyword}{>}(Player::Player2)]\ ==}
+\DoxyCodeLine{00339\ \ \ \ \ \ \ \ \ \ \ \ \ \ b.pieces[\textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{size\_t}\textcolor{keyword}{>}(Player::Player2)])\ \&\&}
+\DoxyCodeLine{00340\ \ \ \ \ \ \ \ \ \ \ \ \ (pieces[\textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{size\_t}\textcolor{keyword}{>}(Player::Player1)]\ ==}
+\DoxyCodeLine{00341\ \ \ \ \ \ \ \ \ \ \ \ \ \ b.pieces[\textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{size\_t}\textcolor{keyword}{>}(Player::Player1)]));}
+\DoxyCodeLine{00342\ \ \ \}}
+\DoxyCodeLine{00343\ }
+\DoxyCodeLine{00349\ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classNInARow_1_1Board_ae6b71f854ddd6a79e35164757dfc5049}{operator!=}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classNInARow_1_1Board}{Board}}\ \&b)\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ !(*\textcolor{keyword}{this}\ ==\ b);\ \}}
+\DoxyCodeLine{00350\ \};}
+\DoxyCodeLine{00351\ }
+\DoxyCodeLine{00352\ \}\ \ \textcolor{comment}{//\ namespace\ NInARow}}
+\DoxyCodeLine{00353\ }
+\DoxyCodeLine{00354\ \textcolor{preprocessor}{\#endif\ \ }\textcolor{comment}{//\ NINAROW\_BOARD\_H\_INCLUDED}}
+
+\end{DoxyCode}

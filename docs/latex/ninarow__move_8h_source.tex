@@ -1,0 +1,50 @@
+\doxysection{ninarow\+\_\+move.\+h}
+\hypertarget{ninarow__move_8h_source}{}\label{ninarow__move_8h_source}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ NINAROW\_MOVE\_H\_INCLUDED}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ NINAROW\_MOVE\_H\_INCLUDED}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ "{}ninarow\_pattern.h"{}}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ "{}player.h"{}}}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{keyword}{namespace\ }NInARow\ \{}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00014\ \textcolor{keyword}{template}\ <std::\textcolor{keywordtype}{size\_t}\ HEIGHT,\ std::\textcolor{keywordtype}{size\_t}\ WIDTH,\ std::\textcolor{keywordtype}{size\_t}\ N>}
+\DoxyCodeLine{00015\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classNInARow_1_1Move}{Move}}\ \{}
+\DoxyCodeLine{00016\ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00017\ \ \ \textcolor{keyword}{using\ }\mbox{\hyperlink{classNInARow_1_1Pattern}{PatternT}}\ =\ \mbox{\hyperlink{classNInARow_1_1Pattern}{Pattern<HEIGHT,\ WIDTH,\ N>}};}
+\DoxyCodeLine{00018\ }
+\DoxyCodeLine{00019\ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00024\ \ \ std::size\_t\ \mbox{\hyperlink{classNInARow_1_1Move_a50e59c1b264d36da126d0762056963cb}{board\_position}};}
+\DoxyCodeLine{00025\ }
+\DoxyCodeLine{00029\ \ \ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{classNInARow_1_1Move_af77e392cdc73e610bba0a7d32d0f12cc}{val}};}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00034\ \ \ Player\ \mbox{\hyperlink{classNInARow_1_1Move_a424df4f38d5695abc46b69cbdd0405f5}{player}};}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00039\ \ \ \mbox{\hyperlink{classNInARow_1_1Move_ae217382e15468efa09e1b0e697a28d7e}{Move}}()\ :\ \mbox{\hyperlink{classNInARow_1_1Move}{Move}}(0,\ 0.0,\ Player::Player1)\{\};}
+\DoxyCodeLine{00040\ }
+\DoxyCodeLine{00049\ \ \ \mbox{\hyperlink{classNInARow_1_1Move_a2ddc1e786bdb801c50b8f4faf09eda0c}{Move}}(std::size\_t\ m,\ \textcolor{keywordtype}{double}\ v,\ Player\ p)}
+\DoxyCodeLine{00050\ \ \ \ \ \ \ :\ \mbox{\hyperlink{classNInARow_1_1Move_a50e59c1b264d36da126d0762056963cb}{board\_position}}(m),\ \mbox{\hyperlink{classNInARow_1_1Move_af77e392cdc73e610bba0a7d32d0f12cc}{val}}(v),\ \mbox{\hyperlink{classNInARow_1_1Move_a424df4f38d5695abc46b69cbdd0405f5}{player}}(p)\ \{}
+\DoxyCodeLine{00051\ \ \ \ \ \textcolor{comment}{//\ Throw\ if\ position\ is\ out\ of\ bounds.}}
+\DoxyCodeLine{00052\ \ \ \ \ \mbox{\hyperlink{classNInARow_1_1Pattern}{PatternT}}\ pattern;}
+\DoxyCodeLine{00053\ \ \ \ \ (void)pattern.\mbox{\hyperlink{classNInARow_1_1Pattern_a5021ed3ff7f8b6d07ea6c0151ecd0467}{positions}}.test(\mbox{\hyperlink{classNInARow_1_1Move_a50e59c1b264d36da126d0762056963cb}{board\_position}});}
+\DoxyCodeLine{00054\ \ \ \}}
+\DoxyCodeLine{00055\ }
+\DoxyCodeLine{00064\ \ \ \mbox{\hyperlink{classNInARow_1_1Move_ada057507f51819b7fffa8d6c7535b9dc}{Move}}(std::size\_t\ row,\ std::size\_t\ col,\ \textcolor{keywordtype}{double}\ v,\ Player\ p)}
+\DoxyCodeLine{00065\ \ \ \ \ \ \ :\ \mbox{\hyperlink{classNInARow_1_1Move}{Move}}(row\ *\ WIDTH\ +\ col,\ v,\ p)\ \{\}}
+\DoxyCodeLine{00066\ }
+\DoxyCodeLine{00075\ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classNInARow_1_1Move_a710874fccdd276651ff94f5546ae6801}{operator<}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classNInARow_1_1Move}{Move}}\ \&m)\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classNInARow_1_1Move_af77e392cdc73e610bba0a7d32d0f12cc}{val}}\ <\ m.\mbox{\hyperlink{classNInARow_1_1Move_af77e392cdc73e610bba0a7d32d0f12cc}{val}};\ \}}
+\DoxyCodeLine{00076\ }
+\DoxyCodeLine{00085\ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classNInARow_1_1Move_aac5118e9c2c9339a07253ee6a7893503}{operator>}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classNInARow_1_1Move}{Move}}\ \&m)\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classNInARow_1_1Move_af77e392cdc73e610bba0a7d32d0f12cc}{val}}\ >\ m.\mbox{\hyperlink{classNInARow_1_1Move_af77e392cdc73e610bba0a7d32d0f12cc}{val}};\ \}}
+\DoxyCodeLine{00086\ }
+\DoxyCodeLine{00090\ \ \ std::size\_t\ \mbox{\hyperlink{classNInARow_1_1Move_a372ebc65757e30391876be046848eef6}{get\_row}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classNInARow_1_1Move_a50e59c1b264d36da126d0762056963cb}{board\_position}}\ /\ WIDTH;\ \}}
+\DoxyCodeLine{00091\ }
+\DoxyCodeLine{00095\ \ \ std::size\_t\ \mbox{\hyperlink{classNInARow_1_1Move_a61bf086256c9f24792b4f6d8190a76b2}{get\_col}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classNInARow_1_1Move_a50e59c1b264d36da126d0762056963cb}{board\_position}}\ \%\ WIDTH;\ \}}
+\DoxyCodeLine{00096\ \};}
+\DoxyCodeLine{00097\ \}\ \ \textcolor{comment}{//\ namespace\ NInARow}}
+\DoxyCodeLine{00098\ }
+\DoxyCodeLine{00099\ \textcolor{preprocessor}{\#endif\ \ }\textcolor{comment}{//\ NINAROW\_MOVE\_H\_INCLUDED}}
+
+\end{DoxyCode}
