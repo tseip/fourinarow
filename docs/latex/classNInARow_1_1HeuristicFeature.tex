@@ -1,0 +1,294 @@
+\doxysection{NIn\+ARow\+::Heuristic\+Feature\texorpdfstring{$<$}{<} Board \texorpdfstring{$>$}{>} Class Template Reference}
+\hypertarget{classNInARow_1_1HeuristicFeature}{}\label{classNInARow_1_1HeuristicFeature}\index{NInARow::HeuristicFeature$<$ Board $>$@{NInARow::HeuristicFeature$<$ Board $>$}}
+
+
+{\ttfamily \#include $<$ninarow\+\_\+heuristic\+\_\+feature.\+h$>$}
+
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classNInARow_1_1HeuristicFeature_acad5393b886b60c0cd85c3022d45742a}{Heuristic\+Feature}} ()=default
+\item 
+\mbox{\hyperlink{classNInARow_1_1HeuristicFeature_a3d35345a95edde301cb1c4d15820e258}{Heuristic\+Feature}} (typename \mbox{\hyperlink{classNInARow_1_1Pattern}{Board\+::\+PatternT}} \mbox{\hyperlink{classNInARow_1_1HeuristicFeature_a3390a4a1b054927db751b8cae0e6cd78}{pieces}}, typename \mbox{\hyperlink{classNInARow_1_1Pattern}{Board\+::\+PatternT}} \mbox{\hyperlink{classNInARow_1_1HeuristicFeature_af8ac0a2e61c7881f5b4dc31f9706d56d}{spaces}}, std\+::size\+\_\+t \mbox{\hyperlink{classNInARow_1_1HeuristicFeature_acf1cec2da1cc22f91b05fa9ad32ba99c}{min\+\_\+space\+\_\+occupancy}})
+\item 
+std\+::size\+\_\+t \mbox{\hyperlink{classNInARow_1_1HeuristicFeature_a2a30f5260b7066c08854f04252fdeb87}{count\+\_\+pieces}} (const \mbox{\hyperlink{classNInARow_1_1Board}{Board}} \&b, Player player) const
+\item 
+std\+::size\+\_\+t \mbox{\hyperlink{classNInARow_1_1HeuristicFeature_addc1d09836a16c234cf55813f1ecef19}{count\+\_\+spaces}} (const \mbox{\hyperlink{classNInARow_1_1Board}{Board}} \&b) const
+\item 
+bool \mbox{\hyperlink{classNInARow_1_1HeuristicFeature_a286f07fd7c727abee4cd684fda627481}{contained\+\_\+in}} (const \mbox{\hyperlink{classNInARow_1_1Board}{Board}} \&b, Player player) const
+\item 
+bool \mbox{\hyperlink{classNInARow_1_1HeuristicFeature_ac1a0327d7365406ca0e9457fbe24b318}{can\+\_\+be\+\_\+completed}} (const \mbox{\hyperlink{classNInARow_1_1Board}{Board}} \&b, Player player) const
+\item 
+bool \mbox{\hyperlink{classNInARow_1_1HeuristicFeature_a988c99c3e84afa193d4ab105128210a6}{can\+\_\+be\+\_\+removed}} (const \mbox{\hyperlink{classNInARow_1_1Board}{Board}} \&b, Player player) const
+\item 
+bool \mbox{\hyperlink{classNInARow_1_1HeuristicFeature_a4f76c58b2610c80467b2f6cd2f32957e}{contained\+\_\+in}} (std\+::size\+\_\+t player\+\_\+piece\+\_\+count, std\+::size\+\_\+t open\+\_\+space\+\_\+count) const
+\item 
+bool \mbox{\hyperlink{classNInARow_1_1HeuristicFeature_a8acbeeb0a094da65d73ac87909d06da2}{can\+\_\+be\+\_\+completed}} (std\+::size\+\_\+t player\+\_\+piece\+\_\+count, std\+::size\+\_\+t opponent\+\_\+piece\+\_\+count, std\+::size\+\_\+t open\+\_\+space\+\_\+count) const
+\item 
+bool \mbox{\hyperlink{classNInARow_1_1HeuristicFeature_a5c4ff2e95fb297efb2d13078848875bf}{can\+\_\+be\+\_\+removed}} (std\+::size\+\_\+t player\+\_\+piece\+\_\+count, std\+::size\+\_\+t open\+\_\+space\+\_\+count) const
+\item 
+\mbox{\hyperlink{classNInARow_1_1Pattern}{Board\+::\+PatternT}} \mbox{\hyperlink{classNInARow_1_1HeuristicFeature_abeeb18754dde9f1b42aae68245eaf6dc}{missing\+\_\+pieces}} (const \mbox{\hyperlink{classNInARow_1_1Board}{Board}} \&b, Player player) const
+\item 
+std\+::string \mbox{\hyperlink{classNInARow_1_1HeuristicFeature_a12a20dfef1f21b028e20963de829528a}{to\+\_\+string}} () const
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classNInARow_1_1Pattern}{Board\+::\+PatternT}} \mbox{\hyperlink{classNInARow_1_1HeuristicFeature_a3390a4a1b054927db751b8cae0e6cd78}{pieces}}
+\item 
+\mbox{\hyperlink{classNInARow_1_1Pattern}{Board\+::\+PatternT}} \mbox{\hyperlink{classNInARow_1_1HeuristicFeature_af8ac0a2e61c7881f5b4dc31f9706d56d}{spaces}}
+\item 
+std\+::size\+\_\+t \mbox{\hyperlink{classNInARow_1_1HeuristicFeature_acf1cec2da1cc22f91b05fa9ad32ba99c}{min\+\_\+space\+\_\+occupancy}}
+\item 
+std\+::size\+\_\+t \mbox{\hyperlink{classNInARow_1_1HeuristicFeature_a7703aa21618ed66db2db704e59450a87}{piece\+\_\+count}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\subsubsection*{template$<$typename \mbox{\hyperlink{classNInARow_1_1Board}{Board}}$>$\newline
+class NIn\+ARow\+::\+Heuristic\+Feature$<$ Board $>$}
+Describes a feature on an n-\/in-\/a-\/row board. A feature is a pattern on the board which has some heuristic gameplay value.
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em \doxylink{classNInARow_1_1Board}{Board}} & The board that the feature will evaluate \\
+\hline
+\end{DoxyTemplParams}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classNInARow_1_1HeuristicFeature_acad5393b886b60c0cd85c3022d45742a}\label{classNInARow_1_1HeuristicFeature_acad5393b886b60c0cd85c3022d45742a} 
+\index{NInARow::HeuristicFeature$<$ Board $>$@{NInARow::HeuristicFeature$<$ Board $>$}!HeuristicFeature@{HeuristicFeature}}
+\index{HeuristicFeature@{HeuristicFeature}!NInARow::HeuristicFeature$<$ Board $>$@{NInARow::HeuristicFeature$<$ Board $>$}}
+\doxysubsubsection{\texorpdfstring{HeuristicFeature()}{HeuristicFeature()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename \mbox{\hyperlink{classNInARow_1_1Board}{Board}} $>$ \\
+\mbox{\hyperlink{classNInARow_1_1HeuristicFeature}{NIn\+ARow\+::\+Heuristic\+Feature}}$<$ \mbox{\hyperlink{classNInARow_1_1Board}{Board}} $>$\+::\+Heuristic\+Feature (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [default]}}
+
+Default constructor. Makes an empty feature. \Hypertarget{classNInARow_1_1HeuristicFeature_a3d35345a95edde301cb1c4d15820e258}\label{classNInARow_1_1HeuristicFeature_a3d35345a95edde301cb1c4d15820e258} 
+\index{NInARow::HeuristicFeature$<$ Board $>$@{NInARow::HeuristicFeature$<$ Board $>$}!HeuristicFeature@{HeuristicFeature}}
+\index{HeuristicFeature@{HeuristicFeature}!NInARow::HeuristicFeature$<$ Board $>$@{NInARow::HeuristicFeature$<$ Board $>$}}
+\doxysubsubsection{\texorpdfstring{HeuristicFeature()}{HeuristicFeature()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename \mbox{\hyperlink{classNInARow_1_1Board}{Board}} $>$ \\
+\mbox{\hyperlink{classNInARow_1_1HeuristicFeature}{NIn\+ARow\+::\+Heuristic\+Feature}}$<$ \mbox{\hyperlink{classNInARow_1_1Board}{Board}} $>$\+::\+Heuristic\+Feature (\begin{DoxyParamCaption}\item[{typename \mbox{\hyperlink{classNInARow_1_1Pattern}{Board\+::\+PatternT}}}]{pieces,  }\item[{typename \mbox{\hyperlink{classNInARow_1_1Pattern}{Board\+::\+PatternT}}}]{spaces,  }\item[{std\+::size\+\_\+t}]{min\+\_\+space\+\_\+occupancy }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Constructor.
+
+
+\begin{DoxyParams}{Parameters}
+{\em pieces} & The pieces in this feature. \\
+\hline
+{\em spaces} & The spaces in this feature. \\
+\hline
+{\em min\+\_\+space\+\_\+occupancy} & The minimum number of spaces that must be unoccupied for this feature to be present. \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classNInARow_1_1HeuristicFeature_ac1a0327d7365406ca0e9457fbe24b318}\label{classNInARow_1_1HeuristicFeature_ac1a0327d7365406ca0e9457fbe24b318} 
+\index{NInARow::HeuristicFeature$<$ Board $>$@{NInARow::HeuristicFeature$<$ Board $>$}!can\_be\_completed@{can\_be\_completed}}
+\index{can\_be\_completed@{can\_be\_completed}!NInARow::HeuristicFeature$<$ Board $>$@{NInARow::HeuristicFeature$<$ Board $>$}}
+\doxysubsubsection{\texorpdfstring{can\_be\_completed()}{can\_be\_completed()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename \mbox{\hyperlink{classNInARow_1_1Board}{Board}} $>$ \\
+bool \mbox{\hyperlink{classNInARow_1_1HeuristicFeature}{NIn\+ARow\+::\+Heuristic\+Feature}}$<$ \mbox{\hyperlink{classNInARow_1_1Board}{Board}} $>$\+::can\+\_\+be\+\_\+completed (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classNInARow_1_1Board}{Board}} \&}]{b,  }\item[{Player}]{player }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+\begin{DoxyParams}{Parameters}
+{\em b} & The board to check. \\
+\hline
+{\em player} & The player whose pieces should be checked.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True if the given player can make this feature in exactly one move, which also means the min\+\_\+space\+\_\+occupancy constraints must be satisfied. 
+\end{DoxyReturn}
+\Hypertarget{classNInARow_1_1HeuristicFeature_a8acbeeb0a094da65d73ac87909d06da2}\label{classNInARow_1_1HeuristicFeature_a8acbeeb0a094da65d73ac87909d06da2} 
+\index{NInARow::HeuristicFeature$<$ Board $>$@{NInARow::HeuristicFeature$<$ Board $>$}!can\_be\_completed@{can\_be\_completed}}
+\index{can\_be\_completed@{can\_be\_completed}!NInARow::HeuristicFeature$<$ Board $>$@{NInARow::HeuristicFeature$<$ Board $>$}}
+\doxysubsubsection{\texorpdfstring{can\_be\_completed()}{can\_be\_completed()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename \mbox{\hyperlink{classNInARow_1_1Board}{Board}} $>$ \\
+bool \mbox{\hyperlink{classNInARow_1_1HeuristicFeature}{NIn\+ARow\+::\+Heuristic\+Feature}}$<$ \mbox{\hyperlink{classNInARow_1_1Board}{Board}} $>$\+::can\+\_\+be\+\_\+completed (\begin{DoxyParamCaption}\item[{std\+::size\+\_\+t}]{player\+\_\+piece\+\_\+count,  }\item[{std\+::size\+\_\+t}]{opponent\+\_\+piece\+\_\+count,  }\item[{std\+::size\+\_\+t}]{open\+\_\+space\+\_\+count }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+This is a helper function for contained\+\_\+in which allows for external overlap calculators to evaluate piece overlaps and feed them into the feature object directly.
+
+
+\begin{DoxyParams}{Parameters}
+{\em player\+\_\+piece\+\_\+count} & The number of pieces that the given player has in this feature on some board. \\
+\hline
+{\em opponent\+\_\+piece\+\_\+count} & The number of pieces that the opposing player has in this feature on some board. \\
+\hline
+{\em open\+\_\+space\+\_\+count} & The number of open spaces that this feature has on some board.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True if the given player can make this feature in exactly one move, which also means the min\+\_\+space\+\_\+occupancy constraints must be satisfied. 
+\end{DoxyReturn}
+\Hypertarget{classNInARow_1_1HeuristicFeature_a988c99c3e84afa193d4ab105128210a6}\label{classNInARow_1_1HeuristicFeature_a988c99c3e84afa193d4ab105128210a6} 
+\index{NInARow::HeuristicFeature$<$ Board $>$@{NInARow::HeuristicFeature$<$ Board $>$}!can\_be\_removed@{can\_be\_removed}}
+\index{can\_be\_removed@{can\_be\_removed}!NInARow::HeuristicFeature$<$ Board $>$@{NInARow::HeuristicFeature$<$ Board $>$}}
+\doxysubsubsection{\texorpdfstring{can\_be\_removed()}{can\_be\_removed()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename \mbox{\hyperlink{classNInARow_1_1Board}{Board}} $>$ \\
+bool \mbox{\hyperlink{classNInARow_1_1HeuristicFeature}{NIn\+ARow\+::\+Heuristic\+Feature}}$<$ \mbox{\hyperlink{classNInARow_1_1Board}{Board}} $>$\+::can\+\_\+be\+\_\+removed (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classNInARow_1_1Board}{Board}} \&}]{b,  }\item[{Player}]{player }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+\begin{DoxyParams}{Parameters}
+{\em b} & The board to check. \\
+\hline
+{\em player} & The player whose pieces should be checked.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True iff the given player has this feature and it can be removed in a single move, i.\+e. the given player\textquotesingle{}s pieces fully cover this feature\textquotesingle{}s pieces and min\+\_\+space\+\_\+occupancy is exactly satisfied. 
+\end{DoxyReturn}
+\Hypertarget{classNInARow_1_1HeuristicFeature_a5c4ff2e95fb297efb2d13078848875bf}\label{classNInARow_1_1HeuristicFeature_a5c4ff2e95fb297efb2d13078848875bf} 
+\index{NInARow::HeuristicFeature$<$ Board $>$@{NInARow::HeuristicFeature$<$ Board $>$}!can\_be\_removed@{can\_be\_removed}}
+\index{can\_be\_removed@{can\_be\_removed}!NInARow::HeuristicFeature$<$ Board $>$@{NInARow::HeuristicFeature$<$ Board $>$}}
+\doxysubsubsection{\texorpdfstring{can\_be\_removed()}{can\_be\_removed()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename \mbox{\hyperlink{classNInARow_1_1Board}{Board}} $>$ \\
+bool \mbox{\hyperlink{classNInARow_1_1HeuristicFeature}{NIn\+ARow\+::\+Heuristic\+Feature}}$<$ \mbox{\hyperlink{classNInARow_1_1Board}{Board}} $>$\+::can\+\_\+be\+\_\+removed (\begin{DoxyParamCaption}\item[{std\+::size\+\_\+t}]{player\+\_\+piece\+\_\+count,  }\item[{std\+::size\+\_\+t}]{open\+\_\+space\+\_\+count }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+This is a helper function for contained\+\_\+in which allows for external overlap calculators to evaluate piece overlaps and feed them into the feature object directly.
+
+
+\begin{DoxyParams}{Parameters}
+{\em player\+\_\+piece\+\_\+count} & The number of pieces that the given player has in this feature on some board. \\
+\hline
+{\em open\+\_\+space\+\_\+count} & The number of open spaces that this feature has on some board.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True iff the given player has this feature and it can be removed in a single move, i.\+e. the given player\textquotesingle{}s pieces fully cover this feature\textquotesingle{}s pieces and min\+\_\+space\+\_\+occupancy is exactly satisfied. 
+\end{DoxyReturn}
+\Hypertarget{classNInARow_1_1HeuristicFeature_a286f07fd7c727abee4cd684fda627481}\label{classNInARow_1_1HeuristicFeature_a286f07fd7c727abee4cd684fda627481} 
+\index{NInARow::HeuristicFeature$<$ Board $>$@{NInARow::HeuristicFeature$<$ Board $>$}!contained\_in@{contained\_in}}
+\index{contained\_in@{contained\_in}!NInARow::HeuristicFeature$<$ Board $>$@{NInARow::HeuristicFeature$<$ Board $>$}}
+\doxysubsubsection{\texorpdfstring{contained\_in()}{contained\_in()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename \mbox{\hyperlink{classNInARow_1_1Board}{Board}} $>$ \\
+bool \mbox{\hyperlink{classNInARow_1_1HeuristicFeature}{NIn\+ARow\+::\+Heuristic\+Feature}}$<$ \mbox{\hyperlink{classNInARow_1_1Board}{Board}} $>$\+::contained\+\_\+in (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classNInARow_1_1Board}{Board}} \&}]{b,  }\item[{Player}]{player }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+\begin{DoxyParams}{Parameters}
+{\em b} & The board to check. \\
+\hline
+{\em player} & The player whose pieces should be checked.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True if the given player has this feature, i.\+e. all spaces are covered by the player and the min\+\_\+space\+\_\+occupancy constraints are satisfied. 
+\end{DoxyReturn}
+\Hypertarget{classNInARow_1_1HeuristicFeature_a4f76c58b2610c80467b2f6cd2f32957e}\label{classNInARow_1_1HeuristicFeature_a4f76c58b2610c80467b2f6cd2f32957e} 
+\index{NInARow::HeuristicFeature$<$ Board $>$@{NInARow::HeuristicFeature$<$ Board $>$}!contained\_in@{contained\_in}}
+\index{contained\_in@{contained\_in}!NInARow::HeuristicFeature$<$ Board $>$@{NInARow::HeuristicFeature$<$ Board $>$}}
+\doxysubsubsection{\texorpdfstring{contained\_in()}{contained\_in()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename \mbox{\hyperlink{classNInARow_1_1Board}{Board}} $>$ \\
+bool \mbox{\hyperlink{classNInARow_1_1HeuristicFeature}{NIn\+ARow\+::\+Heuristic\+Feature}}$<$ \mbox{\hyperlink{classNInARow_1_1Board}{Board}} $>$\+::contained\+\_\+in (\begin{DoxyParamCaption}\item[{std\+::size\+\_\+t}]{player\+\_\+piece\+\_\+count,  }\item[{std\+::size\+\_\+t}]{open\+\_\+space\+\_\+count }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+This is a helper function for contained\+\_\+in which allows for external overlap calculators to evaluate piece overlaps and feed them into the feature object directly.
+
+
+\begin{DoxyParams}{Parameters}
+{\em player\+\_\+piece\+\_\+count} & The number of pieces that the given player has in this feature on some board. \\
+\hline
+{\em open\+\_\+space\+\_\+count} & The number of open spaces that this feature has on some board.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True if the given player has this feature, i.\+e. all spaces are covered by the player and the min\+\_\+space\+\_\+occupancy constraints are satisfied. 
+\end{DoxyReturn}
+\Hypertarget{classNInARow_1_1HeuristicFeature_a2a30f5260b7066c08854f04252fdeb87}\label{classNInARow_1_1HeuristicFeature_a2a30f5260b7066c08854f04252fdeb87} 
+\index{NInARow::HeuristicFeature$<$ Board $>$@{NInARow::HeuristicFeature$<$ Board $>$}!count\_pieces@{count\_pieces}}
+\index{count\_pieces@{count\_pieces}!NInARow::HeuristicFeature$<$ Board $>$@{NInARow::HeuristicFeature$<$ Board $>$}}
+\doxysubsubsection{\texorpdfstring{count\_pieces()}{count\_pieces()}}
+{\footnotesize\ttfamily template$<$typename \mbox{\hyperlink{classNInARow_1_1Board}{Board}} $>$ \\
+std\+::size\+\_\+t \mbox{\hyperlink{classNInARow_1_1HeuristicFeature}{NIn\+ARow\+::\+Heuristic\+Feature}}$<$ \mbox{\hyperlink{classNInARow_1_1Board}{Board}} $>$\+::count\+\_\+pieces (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classNInARow_1_1Board}{Board}} \&}]{b,  }\item[{Player}]{player }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+\begin{DoxyParams}{Parameters}
+{\em b} & The board to check. \\
+\hline
+{\em player} & The player whose pieces should be checked.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The number of pieces on the given board played by the given player that overlap with the pattern\textquotesingle{}s pieces. 
+\end{DoxyReturn}
+\Hypertarget{classNInARow_1_1HeuristicFeature_addc1d09836a16c234cf55813f1ecef19}\label{classNInARow_1_1HeuristicFeature_addc1d09836a16c234cf55813f1ecef19} 
+\index{NInARow::HeuristicFeature$<$ Board $>$@{NInARow::HeuristicFeature$<$ Board $>$}!count\_spaces@{count\_spaces}}
+\index{count\_spaces@{count\_spaces}!NInARow::HeuristicFeature$<$ Board $>$@{NInARow::HeuristicFeature$<$ Board $>$}}
+\doxysubsubsection{\texorpdfstring{count\_spaces()}{count\_spaces()}}
+{\footnotesize\ttfamily template$<$typename \mbox{\hyperlink{classNInARow_1_1Board}{Board}} $>$ \\
+std\+::size\+\_\+t \mbox{\hyperlink{classNInARow_1_1HeuristicFeature}{NIn\+ARow\+::\+Heuristic\+Feature}}$<$ \mbox{\hyperlink{classNInARow_1_1Board}{Board}} $>$\+::count\+\_\+spaces (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classNInARow_1_1Board}{Board}} \&}]{b }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+\begin{DoxyParams}{Parameters}
+{\em b} & The board to check.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The number of empty spaces on the given board that overlap with the pattern\textquotesingle{}s spaces. 
+\end{DoxyReturn}
+\Hypertarget{classNInARow_1_1HeuristicFeature_abeeb18754dde9f1b42aae68245eaf6dc}\label{classNInARow_1_1HeuristicFeature_abeeb18754dde9f1b42aae68245eaf6dc} 
+\index{NInARow::HeuristicFeature$<$ Board $>$@{NInARow::HeuristicFeature$<$ Board $>$}!missing\_pieces@{missing\_pieces}}
+\index{missing\_pieces@{missing\_pieces}!NInARow::HeuristicFeature$<$ Board $>$@{NInARow::HeuristicFeature$<$ Board $>$}}
+\doxysubsubsection{\texorpdfstring{missing\_pieces()}{missing\_pieces()}}
+{\footnotesize\ttfamily template$<$typename \mbox{\hyperlink{classNInARow_1_1Board}{Board}} $>$ \\
+\mbox{\hyperlink{classNInARow_1_1Pattern}{Board\+::\+PatternT}} \mbox{\hyperlink{classNInARow_1_1HeuristicFeature}{NIn\+ARow\+::\+Heuristic\+Feature}}$<$ \mbox{\hyperlink{classNInARow_1_1Board}{Board}} $>$\+::missing\+\_\+pieces (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classNInARow_1_1Board}{Board}} \&}]{b,  }\item[{Player}]{player }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+Returns a pattern containing all of the pieces the given player would need to play to complete this feature. Ignores the existence of opposing player\textquotesingle{}s pieces.
+
+
+\begin{DoxyParams}{Parameters}
+{\em b} & The board to check. \\
+\hline
+{\em player} & The player to check.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A pattern containing all of the pieces the player would have to play to complete this feature. 
+\end{DoxyReturn}
+\Hypertarget{classNInARow_1_1HeuristicFeature_a12a20dfef1f21b028e20963de829528a}\label{classNInARow_1_1HeuristicFeature_a12a20dfef1f21b028e20963de829528a} 
+\index{NInARow::HeuristicFeature$<$ Board $>$@{NInARow::HeuristicFeature$<$ Board $>$}!to\_string@{to\_string}}
+\index{to\_string@{to\_string}!NInARow::HeuristicFeature$<$ Board $>$@{NInARow::HeuristicFeature$<$ Board $>$}}
+\doxysubsubsection{\texorpdfstring{to\_string()}{to\_string()}}
+{\footnotesize\ttfamily template$<$typename \mbox{\hyperlink{classNInARow_1_1Board}{Board}} $>$ \\
+std\+::string \mbox{\hyperlink{classNInARow_1_1HeuristicFeature}{NIn\+ARow\+::\+Heuristic\+Feature}}$<$ \mbox{\hyperlink{classNInARow_1_1Board}{Board}} $>$\+::to\+\_\+string (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\begin{DoxyReturn}{Returns}
+A string representing this feature. 
+\end{DoxyReturn}
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{classNInARow_1_1HeuristicFeature_acf1cec2da1cc22f91b05fa9ad32ba99c}\label{classNInARow_1_1HeuristicFeature_acf1cec2da1cc22f91b05fa9ad32ba99c} 
+\index{NInARow::HeuristicFeature$<$ Board $>$@{NInARow::HeuristicFeature$<$ Board $>$}!min\_space\_occupancy@{min\_space\_occupancy}}
+\index{min\_space\_occupancy@{min\_space\_occupancy}!NInARow::HeuristicFeature$<$ Board $>$@{NInARow::HeuristicFeature$<$ Board $>$}}
+\doxysubsubsection{\texorpdfstring{min\_space\_occupancy}{min\_space\_occupancy}}
+{\footnotesize\ttfamily template$<$typename \mbox{\hyperlink{classNInARow_1_1Board}{Board}} $>$ \\
+std\+::size\+\_\+t \mbox{\hyperlink{classNInARow_1_1HeuristicFeature}{NIn\+ARow\+::\+Heuristic\+Feature}}$<$ \mbox{\hyperlink{classNInARow_1_1Board}{Board}} $>$\+::min\+\_\+space\+\_\+occupancy}
+
+The minimum number of spaces that must be empty in order for this feature to be considered active. \Hypertarget{classNInARow_1_1HeuristicFeature_a7703aa21618ed66db2db704e59450a87}\label{classNInARow_1_1HeuristicFeature_a7703aa21618ed66db2db704e59450a87} 
+\index{NInARow::HeuristicFeature$<$ Board $>$@{NInARow::HeuristicFeature$<$ Board $>$}!piece\_count@{piece\_count}}
+\index{piece\_count@{piece\_count}!NInARow::HeuristicFeature$<$ Board $>$@{NInARow::HeuristicFeature$<$ Board $>$}}
+\doxysubsubsection{\texorpdfstring{piece\_count}{piece\_count}}
+{\footnotesize\ttfamily template$<$typename \mbox{\hyperlink{classNInARow_1_1Board}{Board}} $>$ \\
+std\+::size\+\_\+t \mbox{\hyperlink{classNInARow_1_1HeuristicFeature}{NIn\+ARow\+::\+Heuristic\+Feature}}$<$ \mbox{\hyperlink{classNInARow_1_1Board}{Board}} $>$\+::piece\+\_\+count}
+
+The number of pieces in the pattern. \Hypertarget{classNInARow_1_1HeuristicFeature_a3390a4a1b054927db751b8cae0e6cd78}\label{classNInARow_1_1HeuristicFeature_a3390a4a1b054927db751b8cae0e6cd78} 
+\index{NInARow::HeuristicFeature$<$ Board $>$@{NInARow::HeuristicFeature$<$ Board $>$}!pieces@{pieces}}
+\index{pieces@{pieces}!NInARow::HeuristicFeature$<$ Board $>$@{NInARow::HeuristicFeature$<$ Board $>$}}
+\doxysubsubsection{\texorpdfstring{pieces}{pieces}}
+{\footnotesize\ttfamily template$<$typename \mbox{\hyperlink{classNInARow_1_1Board}{Board}} $>$ \\
+\mbox{\hyperlink{classNInARow_1_1Pattern}{Board\+::\+PatternT}} \mbox{\hyperlink{classNInARow_1_1HeuristicFeature}{NIn\+ARow\+::\+Heuristic\+Feature}}$<$ \mbox{\hyperlink{classNInARow_1_1Board}{Board}} $>$\+::pieces}
+
+Pieces relevant to the feature. \Hypertarget{classNInARow_1_1HeuristicFeature_af8ac0a2e61c7881f5b4dc31f9706d56d}\label{classNInARow_1_1HeuristicFeature_af8ac0a2e61c7881f5b4dc31f9706d56d} 
+\index{NInARow::HeuristicFeature$<$ Board $>$@{NInARow::HeuristicFeature$<$ Board $>$}!spaces@{spaces}}
+\index{spaces@{spaces}!NInARow::HeuristicFeature$<$ Board $>$@{NInARow::HeuristicFeature$<$ Board $>$}}
+\doxysubsubsection{\texorpdfstring{spaces}{spaces}}
+{\footnotesize\ttfamily template$<$typename \mbox{\hyperlink{classNInARow_1_1Board}{Board}} $>$ \\
+\mbox{\hyperlink{classNInARow_1_1Pattern}{Board\+::\+PatternT}} \mbox{\hyperlink{classNInARow_1_1HeuristicFeature}{NIn\+ARow\+::\+Heuristic\+Feature}}$<$ \mbox{\hyperlink{classNInARow_1_1Board}{Board}} $>$\+::spaces}
+
+Spaces (spots where no piece for either player exists) relevant to the feature. 
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+ninarow\+\_\+heuristic\+\_\+feature.\+h\end{DoxyCompactItemize}

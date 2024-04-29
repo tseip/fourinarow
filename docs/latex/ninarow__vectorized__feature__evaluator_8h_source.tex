@@ -1,0 +1,76 @@
+\doxysection{ninarow\+\_\+vectorized\+\_\+feature\+\_\+evaluator.\+h}
+\hypertarget{ninarow__vectorized__feature__evaluator_8h_source}{}\label{ninarow__vectorized__feature__evaluator_8h_source}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ NINAROW\_VECTORIZED\_FEATURE\_EVALUATOR\_H\_INCLUDED}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ NINAROW\_VECTORIZED\_FEATURE\_EVALUATOR\_H\_INCLUDED}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <Eigen/Dense>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <unordered\_map>}}
+\DoxyCodeLine{00006\ }
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ "{}ninarow\_heuristic\_feature.h"{}}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ "{}player.h"{}}}
+\DoxyCodeLine{00009\ }
+\DoxyCodeLine{00010\ \textcolor{keyword}{namespace\ }NInARow\ \{}
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00020\ \textcolor{keyword}{template}\ <std::\textcolor{keywordtype}{size\_t}\ N>}
+\DoxyCodeLine{00021\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classNInARow_1_1VectorizedBitsetCounter}{VectorizedBitsetCounter}}\ \{}
+\DoxyCodeLine{00022\ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00028\ \ \ Eigen::Matrix<std::size\_t,\ Eigen::Dynamic,\ N>\ bitset\_matrix;}
+\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00038\ \ \ \textcolor{keyword}{static}\ Eigen::Vector<std::size\_t,\ N>\ bitset\_to\_vector(}
+\DoxyCodeLine{00039\ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::bitset<N>\ \&bitset)\ \{}
+\DoxyCodeLine{00040\ \ \ \ \ Eigen::Vector<std::size\_t,\ N>\ vector;}
+\DoxyCodeLine{00041\ \ \ \ \ \textcolor{keywordflow}{for}\ (std::size\_t\ i\ =\ 0;\ i\ <\ N;\ ++i)\ \{}
+\DoxyCodeLine{00042\ \ \ \ \ \ \ vector(i)\ =\ \textcolor{keyword}{static\_cast<}std::size\_t\textcolor{keyword}{>}(bitset[i]);}
+\DoxyCodeLine{00043\ \ \ \ \ \}}
+\DoxyCodeLine{00044\ \ \ \ \ \textcolor{keywordflow}{return}\ vector;}
+\DoxyCodeLine{00045\ \ \ \}}
+\DoxyCodeLine{00046\ }
+\DoxyCodeLine{00047\ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00051\ \ \ \mbox{\hyperlink{classNInARow_1_1VectorizedBitsetCounter_abe9af7e3f665f02ebe9f420cdfffcf78}{VectorizedBitsetCounter}}()\ :\ bitset\_matrix(0,\ N)\ \{\}}
+\DoxyCodeLine{00052\ }
+\DoxyCodeLine{00060\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classNInARow_1_1VectorizedBitsetCounter_a115251e40b50e630e7d6b321e1e3a6aa}{register\_bitset}}(\textcolor{keyword}{const}\ std::bitset<N>\ \&bitset)\ \{}
+\DoxyCodeLine{00061\ \ \ \ \ bitset\_matrix.conservativeResize(bitset\_matrix.rows()\ +\ 1,\ Eigen::NoChange);}
+\DoxyCodeLine{00062\ \ \ \ \ bitset\_matrix.row(bitset\_matrix.rows()\ -\/\ 1)\ =\ bitset\_to\_vector(bitset);}
+\DoxyCodeLine{00063\ \ \ \}}
+\DoxyCodeLine{00064\ }
+\DoxyCodeLine{00075\ \ \ std::vector<std::size\_t>\ \mbox{\hyperlink{classNInARow_1_1VectorizedBitsetCounter_a0b199bdc319b2180877b38a58ff93ad9}{query}}(std::bitset<N>\ bitset)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00076\ \ \ \ \ \textcolor{keyword}{const}\ Eigen::Vector<std::size\_t,\ Eigen::Dynamic>\ count\_results\ =}
+\DoxyCodeLine{00077\ \ \ \ \ \ \ \ \ bitset\_matrix\ *\ bitset\_to\_vector(bitset);}
+\DoxyCodeLine{00078\ \ \ \ \ \textcolor{keywordflow}{return}\ \{count\_results.data(),}
+\DoxyCodeLine{00079\ \ \ \ \ \ \ \ \ \ \ \ \ count\_results.data()\ +\ count\_results.rows()\ *\ count\_results.cols()\};}
+\DoxyCodeLine{00080\ \ \ \}}
+\DoxyCodeLine{00081\ \};}
+\DoxyCodeLine{00082\ }
+\DoxyCodeLine{00089\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ Board>}
+\DoxyCodeLine{00090\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classNInARow_1_1VectorizedFeatureEvaluator}{VectorizedFeatureEvaluator}}\ \{}
+\DoxyCodeLine{00091\ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00095\ \ \ std::size\_t\ feature\_count;}
+\DoxyCodeLine{00096\ }
+\DoxyCodeLine{00102\ \ \ \mbox{\hyperlink{classNInARow_1_1VectorizedBitsetCounter}{VectorizedBitsetCounter}}<Board::get\_board\_size()>\ feature\_pieces\_bitsets;}
+\DoxyCodeLine{00103\ }
+\DoxyCodeLine{00109\ \ \ \mbox{\hyperlink{classNInARow_1_1VectorizedBitsetCounter}{VectorizedBitsetCounter}}<Board::get\_board\_size()>\ feature\_spaces\_bitsets;}
+\DoxyCodeLine{00110\ }
+\DoxyCodeLine{00111\ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00115\ \ \ \mbox{\hyperlink{classNInARow_1_1VectorizedFeatureEvaluator_a79ed063a4a443ffc4d17343867fe5b75}{VectorizedFeatureEvaluator}}()}
+\DoxyCodeLine{00116\ \ \ \ \ \ \ :\ feature\_count(0),\ feature\_pieces\_bitsets(),\ feature\_spaces\_bitsets()\ \{\}}
+\DoxyCodeLine{00117\ }
+\DoxyCodeLine{00125\ \ \ std::size\_t\ \mbox{\hyperlink{classNInARow_1_1VectorizedFeatureEvaluator_a64b557eef6163708c1d4eed2152e0452}{register\_feature}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classNInARow_1_1HeuristicFeature}{HeuristicFeature<Board>}}\ \&feature)\ \{}
+\DoxyCodeLine{00126\ \ \ \ \ feature\_pieces\_bitsets.\mbox{\hyperlink{classNInARow_1_1VectorizedBitsetCounter_a115251e40b50e630e7d6b321e1e3a6aa}{register\_bitset}}(feature.\mbox{\hyperlink{classNInARow_1_1HeuristicFeature_a3390a4a1b054927db751b8cae0e6cd78}{pieces}}.\mbox{\hyperlink{classNInARow_1_1Pattern_a5021ed3ff7f8b6d07ea6c0151ecd0467}{positions}});}
+\DoxyCodeLine{00127\ \ \ \ \ feature\_spaces\_bitsets.\mbox{\hyperlink{classNInARow_1_1VectorizedBitsetCounter_a115251e40b50e630e7d6b321e1e3a6aa}{register\_bitset}}(feature.\mbox{\hyperlink{classNInARow_1_1HeuristicFeature_af8ac0a2e61c7881f5b4dc31f9706d56d}{spaces}}.\mbox{\hyperlink{classNInARow_1_1Pattern_a5021ed3ff7f8b6d07ea6c0151ecd0467}{positions}});}
+\DoxyCodeLine{00128\ \ \ \ \ \textcolor{keywordflow}{return}\ feature\_count++;}
+\DoxyCodeLine{00129\ \ \ \}}
+\DoxyCodeLine{00130\ }
+\DoxyCodeLine{00142\ \ \ std::vector<std::size\_t>\ \mbox{\hyperlink{classNInARow_1_1VectorizedFeatureEvaluator_a0cabe8bf99826dd6f6405636e97ee251}{query\_pieces}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classNInARow_1_1Board}{Board}}\ \&b,\ Player\ player)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00143\ \ \ \ \ \textcolor{keywordflow}{return}\ feature\_pieces\_bitsets.\mbox{\hyperlink{classNInARow_1_1VectorizedBitsetCounter_a0b199bdc319b2180877b38a58ff93ad9}{query}}(b.\mbox{\hyperlink{classNInARow_1_1Board_ae41609fe19d91b86767f48450bbe0e7a}{get\_pieces}}(player).\mbox{\hyperlink{classNInARow_1_1Pattern_a5021ed3ff7f8b6d07ea6c0151ecd0467}{positions}});}
+\DoxyCodeLine{00144\ \ \ \}}
+\DoxyCodeLine{00145\ }
+\DoxyCodeLine{00155\ \ \ std::vector<std::size\_t>\ \mbox{\hyperlink{classNInARow_1_1VectorizedFeatureEvaluator_a1c7508f7046e0516ab88d7b14f7562fe}{query\_spaces}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classNInARow_1_1Board}{Board}}\ \&b)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00156\ \ \ \ \ \textcolor{keywordflow}{return}\ feature\_spaces\_bitsets.\mbox{\hyperlink{classNInARow_1_1VectorizedBitsetCounter_a0b199bdc319b2180877b38a58ff93ad9}{query}}(b.\mbox{\hyperlink{classNInARow_1_1Board_a571f86a5e057444e0386333d8c195ccf}{get\_spaces}}().\mbox{\hyperlink{classNInARow_1_1Pattern_a5021ed3ff7f8b6d07ea6c0151ecd0467}{positions}});}
+\DoxyCodeLine{00157\ \ \ \}}
+\DoxyCodeLine{00158\ \};}
+\DoxyCodeLine{00159\ \}\ \ \textcolor{comment}{//\ namespace\ NInARow}}
+\DoxyCodeLine{00160\ }
+\DoxyCodeLine{00161\ \textcolor{preprocessor}{\#endif\ \ }\textcolor{comment}{//\ NINAROW\_VECTORIZED\_FEATURE\_EVALUATOR\_H\_INCLUDED}}
+
+\end{DoxyCode}

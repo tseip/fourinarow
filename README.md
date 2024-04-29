@@ -35,3 +35,10 @@ pip install -r requirements.txt
 
 To fit a model, from the model_fitting directory run:
 python model_fit.py <path_to_game_csv>  
+
+# Commit instructions
+Contributors should try to run utils/precommit.sh from the utils/ directory before committing.
+The dependencies for this script are documented in the script itself.
+
+# Documentation
+Documentation can be found at https://tseip.github.io/fourinarow/

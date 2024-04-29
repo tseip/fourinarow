@@ -7,6 +7,17 @@ import random
 
 
 def pattern_string_to_board_positions(pattern_string):
+    """
+    Converts a given pattern string (gotten from calling pattern.to_string())
+    to a list of board positions (numbered from 0 to 35 from the upper left)
+    corresponding to set bits in the pattern.
+
+    Args:
+        pattern_string: The pattern to convert.
+
+    Returns:
+        A list of 0-indexed positions corresponding to the bits set in the pattern.
+    """
     output = []
     for i in range(len(pattern_string)):
         if pattern_string[-i-1] == "1":
@@ -15,12 +26,30 @@ def pattern_string_to_board_positions(pattern_string):
 
 
 class BoardRenderer():
+    """
+    Renders a n-in-a-row board using matplotlib.
+    """
+
     def __init__(self, ax):
+        """
+        Constructor.
+
+        Params:
+            ax: The matplotlib axes to render the board onto.
+        """
         self.ax = ax
 
         self.clear()
 
     def add_piece(self, position, color, alpha=1.0):
+        """
+        Adds a piece to the board.
+
+        Args:
+            position: The 0-indexed position to add the piece to.
+            color: The color of the piece.
+            alpha: The alpha of the piece.
+        """
         if position is not None:
             piece = patches.Circle((position % fourbynine_board().get_board_width(), position//fourbynine_board().get_board_width()), 0.33,
                                    color=color, fill=True, alpha=alpha)
@@ -28,10 +57,23 @@ class BoardRenderer():
             self.pieces.add(position)
 
     def add_ghost(self, position, color):
+        """
+        Adds a transparent piece at the given position if there isn't already a piece ther.
+
+        Args:
+            position: The position to add the ghost to.
+            color: The color of the ghost.
+        """
         if position not in self.pieces:
             self.add_piece(position, color, 0.5)
 
     def set_board(self, board):
+        """
+        Sets the board to the given board.
+
+        Args:
+            board: The board to set the display to.
+        """
         self.clear()
         self.board = board
 
@@ -46,6 +88,14 @@ class BoardRenderer():
         self.set_position_values([])
 
     def set_position_values(self, position_values):
+        """
+        Given an array of heuristic values, color the spaces on the board to correspond to the values.
+        White/black correspond to a guaranteed win for the given player, shades of green/red correspond
+        to "good" or "bad" moves for the current player. Gray corresponds to a draw.
+
+        Args:
+            position_values: The values of each space as determined by a heuristic.
+        """
         move_values = np.zeros(shape=[4, 9])
         for position in position_values:
             move_values[position[0]][position[1]] = position_values[position]
@@ -61,6 +111,9 @@ class BoardRenderer():
                        interpolation='nearest', origin='upper')
 
     def clear(self):
+        """
+        Clears the board.
+        """
         self.ax.clear()
         self.ax.axis('off')
         self.board = None
@@ -68,7 +121,17 @@ class BoardRenderer():
 
 
 class SearchRenderer():
+    """
+    Renders a search tree in matplotlib.
+    """
+
     def __init__(self, ax):
+        """
+        Constructor.
+
+        Params:
+            ax: The matplotlib axes to render the board onto.
+        """
         self.ax = ax
         self.root = None
         self.g = None
@@ -85,9 +148,20 @@ class SearchRenderer():
         self.board_axes.clear()
 
     def register_onclick_callback(self, cb):
+        """
+        Registers a callback to be called when an element in the
+        search is clicked. The callback will be given a list of boards
+        that have been clicked.
+
+        Args:
+            cb: The callback to be called.
+        """
         self.onclick_callback = cb
 
     def clear(self):
+        """
+        Clears the display.
+        """
         self._clear_board_axes()
         self.ax.clear()
         self.ax.axis('off')
@@ -95,6 +169,12 @@ class SearchRenderer():
         self.g = None
 
     def set_root(self, root):
+        """
+        Populates the display using the given root of the search tree.
+
+        Args:
+            root: The root of the search tree.
+        """
         self.clear()
         if not root:
             return
@@ -128,6 +208,9 @@ class SearchRenderer():
                 nodes_to_process.append(child)
 
     def draw(self):
+        """
+        Draws the search tree.
+        """
         if not self.g:
             return
 
@@ -144,6 +227,13 @@ class SearchRenderer():
             br.set_board(board)
 
     def onclick(self, event):
+        """
+        Should be connected to an on-click event on the renderer's canvas. Calls the callback
+        in the event of a double click with the board that was clicked.
+
+        Args:
+            event: The click event that has fired.
+        """
         if event.dblclick and event.button == 1:
             for axis, board in self.board_axes:
                 if (axis.in_axes(event)):

@@ -1,0 +1,93 @@
+\doxysection{searches.\+h}
+\hypertarget{searches_8h_source}{}\label{searches_8h_source}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ SEARCHES\_H\_INCLUDED}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ SEARCHES\_H\_INCLUDED}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <memory>}}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ "{}bfs\_node.h"{}}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ "{}game\_tree\_node.h"{}}}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00015\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ Heuristic>}
+\DoxyCodeLine{00016\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classAbstractSearch}{AbstractSearch}}\ \{}
+\DoxyCodeLine{00017\ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00025\ \ \ \mbox{\hyperlink{classAbstractSearch_a4496c55eba254ec5ea81961da27c531d}{AbstractSearch}}(std::shared\_ptr<Heuristic>\ \mbox{\hyperlink{classAbstractSearch_a744d099727fdb421cbe1e31facf50017}{heuristic}},}
+\DoxyCodeLine{00026\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{typename}\ Heuristic::BoardT\ \&\mbox{\hyperlink{classAbstractSearch_ac1ec9e7962844e8dbd86f12a6d073d94}{board}})}
+\DoxyCodeLine{00027\ \ \ \ \ \ \ :\ \mbox{\hyperlink{classAbstractSearch_a744d099727fdb421cbe1e31facf50017}{heuristic}}(\mbox{\hyperlink{classAbstractSearch_a744d099727fdb421cbe1e31facf50017}{heuristic}}),\ \mbox{\hyperlink{classAbstractSearch_ac1ec9e7962844e8dbd86f12a6d073d94}{board}}(\mbox{\hyperlink{classAbstractSearch_ac1ec9e7962844e8dbd86f12a6d073d94}{board}})\ \{}
+\DoxyCodeLine{00028\ \ \ \ \ \textcolor{keywordflow}{if}\ (!\mbox{\hyperlink{classAbstractSearch_a744d099727fdb421cbe1e31facf50017}{heuristic}})}
+\DoxyCodeLine{00029\ \ \ \ \ \ \ \textcolor{keywordflow}{throw}\ std::invalid\_argument(\textcolor{stringliteral}{"{}Must\ pass\ a\ non-\/null\ heuristic!"{}});}
+\DoxyCodeLine{00030\ \ \ \ \ this-\/>heuristic-\/>start\_search();}
+\DoxyCodeLine{00031\ \ \ \}}
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00039\ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classAbstractSearch_a855da60f8f33a100a1eb3c348ba376f9}{advance\_search}}()\ =\ 0;}
+\DoxyCodeLine{00040\ }
+\DoxyCodeLine{00044\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classAbstractSearch_ab9f53c4ba1e6a5aa6f871df495fb1323}{complete\_search}}()\ \{}
+\DoxyCodeLine{00045\ \ \ \ \ \textcolor{keywordflow}{while}\ (!\mbox{\hyperlink{classAbstractSearch_a855da60f8f33a100a1eb3c348ba376f9}{advance\_search}}())\ \{}
+\DoxyCodeLine{00046\ \ \ \ \ \}}
+\DoxyCodeLine{00047\ \ \ \}}
+\DoxyCodeLine{00048\ }
+\DoxyCodeLine{00052\ \ \ \textcolor{keyword}{virtual}\ \mbox{\hyperlink{classAbstractSearch_a98825786c8e1967135a370723d512516}{\string~AbstractSearch}}()\ \{}
+\DoxyCodeLine{00053\ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{classAbstractSearch_a744d099727fdb421cbe1e31facf50017}{heuristic}})\ \{}
+\DoxyCodeLine{00054\ \ \ \ \ \ \ \mbox{\hyperlink{classAbstractSearch_a744d099727fdb421cbe1e31facf50017}{heuristic}}-\/>complete\_search();}
+\DoxyCodeLine{00055\ \ \ \ \ \}}
+\DoxyCodeLine{00056\ \ \ \}}
+\DoxyCodeLine{00057\ }
+\DoxyCodeLine{00061\ \ \ \textcolor{keyword}{virtual}\ std::shared\_ptr<Node<typename\ Heuristic::BoardT>>\ \mbox{\hyperlink{classAbstractSearch_a54d76b0f9a1ea047af37197155ed873d}{get\_tree}}()\ =\ 0;}
+\DoxyCodeLine{00062\ }
+\DoxyCodeLine{00063\ \ \textcolor{keyword}{protected}:}
+\DoxyCodeLine{00067\ \ \ std::shared\_ptr<Heuristic>\ \mbox{\hyperlink{classAbstractSearch_a744d099727fdb421cbe1e31facf50017}{heuristic}};}
+\DoxyCodeLine{00068\ }
+\DoxyCodeLine{00072\ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{typename}\ Heuristic::BoardT\ \mbox{\hyperlink{classAbstractSearch_ac1ec9e7962844e8dbd86f12a6d073d94}{board}};}
+\DoxyCodeLine{00073\ \};}
+\DoxyCodeLine{00074\ }
+\DoxyCodeLine{00083\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ Heuristic,\ \textcolor{keyword}{class}\ NodeT>}
+\DoxyCodeLine{00084\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classSearch}{Search}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classAbstractSearch}{AbstractSearch}}<Heuristic>\ \{}
+\DoxyCodeLine{00085\ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00093\ \ \ \mbox{\hyperlink{classSearch_ab862117f735cc5addb0d9b525dee163c}{Search}}(std::shared\_ptr<Heuristic>\ \mbox{\hyperlink{classAbstractSearch_a744d099727fdb421cbe1e31facf50017}{heuristic}},}
+\DoxyCodeLine{00094\ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{typename}\ Heuristic::BoardT\ \&\mbox{\hyperlink{classAbstractSearch_ac1ec9e7962844e8dbd86f12a6d073d94}{board}})}
+\DoxyCodeLine{00095\ \ \ \ \ \ \ :\ \mbox{\hyperlink{classAbstractSearch}{AbstractSearch}}<Heuristic>(\mbox{\hyperlink{classAbstractSearch_a744d099727fdb421cbe1e31facf50017}{heuristic}},\ \mbox{\hyperlink{classAbstractSearch_ac1ec9e7962844e8dbd86f12a6d073d94}{board}}),}
+\DoxyCodeLine{00096\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classSearch_aaf7631e66228551e7914e68c94d6f08f}{root}}(NodeT::create(\mbox{\hyperlink{classAbstractSearch_ac1ec9e7962844e8dbd86f12a6d073d94}{board}},\ \mbox{\hyperlink{classAbstractSearch_a744d099727fdb421cbe1e31facf50017}{heuristic}}-\/>evaluate(\mbox{\hyperlink{classAbstractSearch_ac1ec9e7962844e8dbd86f12a6d073d94}{board}})))\ \{\}}
+\DoxyCodeLine{00097\ }
+\DoxyCodeLine{00104\ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classSearch_a13750aafda8b06f87baf62e59b8076f1}{advance\_search}}()\textcolor{keyword}{\ override\ }\{}
+\DoxyCodeLine{00105\ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{classSearch_aae556cae02133ccd0afb5c0100c5fad3}{stopping\_conditions}}(this-\/>\mbox{\hyperlink{classAbstractSearch_a744d099727fdb421cbe1e31facf50017}{heuristic}},\ this-\/>\mbox{\hyperlink{classAbstractSearch_ac1ec9e7962844e8dbd86f12a6d073d94}{board}}))\ \{}
+\DoxyCodeLine{00106\ \ \ \ \ \ \ this-\/>\mbox{\hyperlink{classAbstractSearch_a744d099727fdb421cbe1e31facf50017}{heuristic}}-\/>complete\_search();}
+\DoxyCodeLine{00107\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00108\ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00109\ \ \ \ \ \ \ \textcolor{keyword}{auto}\ current\_node\ =\ \mbox{\hyperlink{classSearch_a8a3b9aeca1a81ccbac1aab29c380aa1a}{select\_next\_node}}();}
+\DoxyCodeLine{00110\ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ current\_board\ =\ current\_node-\/>get\_board();}
+\DoxyCodeLine{00111\ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::vector<typename\ Heuristic::BoardT::MoveT>\ candidate\_moves\ =}
+\DoxyCodeLine{00112\ \ \ \ \ \ \ \ \ \ \ this-\/>\mbox{\hyperlink{classAbstractSearch_a744d099727fdb421cbe1e31facf50017}{heuristic}}-\/>get\_pruned\_moves(current\_board,}
+\DoxyCodeLine{00113\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ current\_board.active\_player());}
+\DoxyCodeLine{00114\ \ \ \ \ \ \ current\_node-\/>expand(candidate\_moves);}
+\DoxyCodeLine{00115\ \ \ \ \ \ \ \mbox{\hyperlink{classSearch_a87f4b3101544762f7a80023fef198fa0}{on\_node\_expansion}}(current\_node,\ this-\/>\mbox{\hyperlink{classAbstractSearch_a744d099727fdb421cbe1e31facf50017}{heuristic}},\ this-\/>\mbox{\hyperlink{classAbstractSearch_ac1ec9e7962844e8dbd86f12a6d073d94}{board}});}
+\DoxyCodeLine{00116\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00117\ \ \ \ \ \}}
+\DoxyCodeLine{00118\ \ \ \}}
+\DoxyCodeLine{00119\ }
+\DoxyCodeLine{00123\ \ \ \textcolor{keyword}{virtual}\ std::shared\_ptr<Node<typename\ Heuristic::BoardT>>\ \mbox{\hyperlink{classSearch_a55e7b0463d420d1b2fd32aeb11456049}{get\_tree}}()\textcolor{keyword}{}}
+\DoxyCodeLine{00124\ \textcolor{keyword}{\ \ \ \ \ \ override\ }\{}
+\DoxyCodeLine{00125\ \ \ \ \ \textcolor{keywordflow}{return}\ std::dynamic\_pointer\_cast<Node<typename\ Heuristic::BoardT>>(\mbox{\hyperlink{classSearch_aaf7631e66228551e7914e68c94d6f08f}{root}});}
+\DoxyCodeLine{00126\ \ \ \}}
+\DoxyCodeLine{00127\ }
+\DoxyCodeLine{00128\ \ \textcolor{keyword}{protected}:}
+\DoxyCodeLine{00135\ \ \ \textcolor{keyword}{virtual}\ std::shared\_ptr<NodeT>\ \mbox{\hyperlink{classSearch_a8a3b9aeca1a81ccbac1aab29c380aa1a}{select\_next\_node}}()\ \{}
+\DoxyCodeLine{00136\ \ \ \ \ \textcolor{keywordflow}{return}\ std::dynamic\_pointer\_cast<NodeT>(\mbox{\hyperlink{classSearch_aaf7631e66228551e7914e68c94d6f08f}{root}}-\/>select());}
+\DoxyCodeLine{00137\ \ \ \}}
+\DoxyCodeLine{00138\ }
+\DoxyCodeLine{00149\ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classSearch_aae556cae02133ccd0afb5c0100c5fad3}{stopping\_conditions}}(}
+\DoxyCodeLine{00150\ \ \ \ \ \ \ std::shared\_ptr<Heuristic>\ \mbox{\hyperlink{classAbstractSearch_a744d099727fdb421cbe1e31facf50017}{heuristic}},}
+\DoxyCodeLine{00151\ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{typename}\ Heuristic::BoardT\ \&\mbox{\hyperlink{classAbstractSearch_ac1ec9e7962844e8dbd86f12a6d073d94}{board}})\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00152\ \ \ \ \ \textcolor{keywordflow}{return}\ this-\/>\mbox{\hyperlink{classSearch_aaf7631e66228551e7914e68c94d6f08f}{root}}-\/>determined();}
+\DoxyCodeLine{00153\ \ \ \}}
+\DoxyCodeLine{00154\ }
+\DoxyCodeLine{00164\ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classSearch_a87f4b3101544762f7a80023fef198fa0}{on\_node\_expansion}}(std::shared\_ptr<NodeT>\ expanded\_node,}
+\DoxyCodeLine{00165\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::shared\_ptr<Heuristic>\ \mbox{\hyperlink{classAbstractSearch_a744d099727fdb421cbe1e31facf50017}{heuristic}},}
+\DoxyCodeLine{00166\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{typename}\ Heuristic::BoardT\ \&\mbox{\hyperlink{classAbstractSearch_ac1ec9e7962844e8dbd86f12a6d073d94}{board}})\ \{\}}
+\DoxyCodeLine{00167\ }
+\DoxyCodeLine{00171\ \ \ std::shared\_ptr<NodeT>\ \mbox{\hyperlink{classSearch_aaf7631e66228551e7914e68c94d6f08f}{root}};}
+\DoxyCodeLine{00172\ \};}
+\DoxyCodeLine{00173\ }
+\DoxyCodeLine{00174\ \textcolor{preprocessor}{\#endif\ \ }\textcolor{comment}{//\ SEARCHES\_H\_INCLUDED}}
+
+\end{DoxyCode}

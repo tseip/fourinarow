@@ -17,8 +17,19 @@ from parsers import *
 
 
 class SuccessFrequencyTracker:
+    """
+    Tracks the number of times the heuristic has evaluated a given position to the expected evaluation. Used for
+    fitting the heuristic to a given dataset.
+    """
+
     def __init__(
             self, expt_factor):
+        """
+        Constructor.
+
+        Args:
+            expt_factor: Controls the fitting cutoff of the BADS process.
+        """
         self.attempt_count = 1
         self.success_count = 0
         self.required_success_count = 1
@@ -29,9 +40,22 @@ class SuccessFrequencyTracker:
         return " ".join([str(self.attempt_count), str(self.success_count), str(self.required_success_count)])
 
     def is_done(self):
+        """
+        Returns:
+            True if we've observed the expected number of evaluations.
+        """
         return self.success_count == self.required_success_count
 
-    def report_success(self, success):
+    def report_trial(self, success):
+        """
+        Report a heuristic evaluation of the tracked position. If success is true, mark a success, else mark a failure.
+
+        Args:
+            success: If true, mark a success, else mark a failure
+
+        Returns:
+            The current log-loss of this tracker; if log-loss grows too much, we give up.
+        """
         if success:
             self.success_count += 1
             if not self.is_done():
@@ -46,6 +70,16 @@ class SuccessFrequencyTracker:
 
 
 def generate_splits(moves, split_count):
+    """
+    Given a list of positions, split the positions into split_count randomized subsets.
+
+    Args:
+        moves: The list of positions.
+        split_count: The number of subset to return.
+
+    Returns:
+        split_count equally-sized partitions of the given moves.
+    """
     indices = list(range(len(moves)))
     if (split_count != 1):
         random.shuffle(indices)
@@ -60,7 +94,20 @@ def generate_splits(moves, split_count):
 
 
 class DefaultModel:
+    """
+    The default model used by Bas. In general, a model defines:
+    - what search to use
+    - what heuristic to use
+    - how to estimate the initial L-value guesses for fitting to a dataset
+    - what parameters to search over, and what bounds should be used.
+
+    This can be extended to change any of the above.
+    """
+
     def __init__(self):
+        """
+        Constructor.
+        """
         self.expt_factor = 1.0
         self.cutoff = 3.5
 
@@ -77,17 +124,60 @@ class DefaultModel:
         self.c = 50
 
     def create_heuristic(self, params):
+        """
+        Used by the model fitter to construct heuristics with different parameters
+        during the search process.
+
+        Args:
+            params: The parameters of the heuristic.
+        Returns:
+            A heuristic with the given parameters.
+        """
         return fourbynine.fourbynine_heuristic.create(fourbynine.DoubleVector(bads_parameters_to_model_parameters(params)), True)
 
     def create_search(self, params, heuristic, board):
+        """
+        Used by the model fitter to construct searches with different parameters
+        during the search process.
+
+        Args:
+            params: The parameters of the search.
+            heuristic: The heuristic to use in the search.
+            board: The position to search from.
+        Returns:
+            A search from the given position using the heuristic with the given parameters.
+        """
         return fourbynine.NInARowBestFirstSearch(heuristic, board)
 
     def estimate_initial_l_value_guess(self, fitter, moves):
+        """
+        Given a model fitter and a list of moves, estimate initial L-value guesses for each move.
+
+        Args:
+            fitter: The model fitter.
+            moves: The moves to estimate.
+
+        Returns:
+            A list of L-values corresponding to each of the given moves.
+        """
         return fitter.estimate_l_values(moves, self.x0, 10)
 
 
 class ModelFitter:
+    """
+    The main class for finding the best heuristic/search parameter
+    fit for a given dataset.
+    """
+
     def __init__(self, model, args):
+        """
+        Constructor.
+
+        Args:
+            model: The model this fitter should use. Produces heuristics/searches, and supplies
+                   parameters for fitting.
+            args: The argparse arguments that should be passed into this fitter.
+        """
         self.model = model
         if args.random_sample:
             self.random_sample = True
@@ -105,6 +195,17 @@ class ModelFitter:
             params,
             cutoff,
             move_tasks):
+        """
+        The main parallelized portion of our workload. Takes a set of
+        heuristic parameters and a list of moves and runs the heuristic
+        against the list until the heuristic produces the expected number
+        of matches to the observed dataset. Modifies move_tasks in place.
+
+        Args:
+            params: The heuristic parameters to test.
+            cutoff: A stop-loss cutoff that will cause us to exit early if needed.
+            move_tasks: The list of moves that need to be evaluated by the heuristic.
+        """
         heuristic = self.model.create_heuristic(params)
         heuristic.seed_generator(random.randint(0, 2**64))
         while Lexpt.value <= cutoff:
@@ -120,7 +221,7 @@ class ModelFitter:
                 search.complete_search()
                 best_move = heuristic.get_best_move(search.get_tree())
                 success = best_move.board_position == move.move.board_position
-                local_Lexpt_delta += task.report_success(success)
+                local_Lexpt_delta += task.report_trial(success)
                 if (success):
                     with move_tasks.lock:
                         if task.success_count == move_tasks[move].success_count + 1:
@@ -135,6 +236,17 @@ class ModelFitter:
                         break
 
     def compute_loglik(self, move_tasks, params):
+        """
+        Computes the log likelihood of the given set of parameters being the set that best fits
+        the observed data.
+
+        Args:
+            move_tasks: The observed data to be fitted to.
+            params: The parameters to evaluate.
+
+        Returns:
+            The log-likelihood of each observed move at each position given the set of parameters.
+        """
         N = len(move_tasks)
 
         cutoff = N * self.model.cutoff
@@ -154,6 +266,17 @@ class ModelFitter:
         return L_values
 
     def generate_attempt_counts(self, L_values, c):
+        """
+        Generate the distribution of observation counts we should see for each move given that move's
+        L-values. Essentially, we're converting likelihoods to probabilities here.
+
+        Args:
+            L_values: A list of L-values corresponding to each move.
+            c: A scalar provided by the model.
+
+        Returns:
+            A list of the number of times we would expect each move to be reproduced given the L-values.
+        """
         x = np.linspace(1e-6, 1 - 1e-6, int(1e6))
         dilog = np.pi**2 / 6.0 + np.cumsum(np.log(x) / (1 - x)) / len(x)
         p = np.exp(-L_values)
@@ -163,6 +286,18 @@ class ModelFitter:
         return np.vectorize(lambda x: max(x, 1))(np.round(times))
 
     def estimate_l_values(self, moves, params, sample_count):
+        """
+        Estimates an initial guess for the L-values of the observed moves, given a plausible set of
+        starting parameters. Averages over multiple samples.
+
+        Args:
+            moves: The set of observed moves.
+            params: The parameters to evaluate.
+            sample_count: The number of samples to average over.
+
+        Returns:
+            A list of estimated L-values for the observed moves given the parameters.
+        """
         move_tasks = {}
         for move in moves:
             move_tasks[move] = SuccessFrequencyTracker(self.model.expt_factor)
@@ -180,6 +315,13 @@ class ModelFitter:
         return average_l_values
 
     def fit_model(self, moves):
+        """
+        Given a set of moves, find the set of heuristic/search parameters that best fit the observations.
+
+        @params moves The set of moves to fit to.
+
+        @return The set of parameters that best correspond to the given moves, as well as their corresponding L-values.
+        """
         print("Beginning model fit pre-processing: log-likelihood estimation")
         average_l_values = self.model.estimate_initial_l_value_guess(
             self, moves)
@@ -225,6 +367,18 @@ class ModelFitter:
         return out_params, final_l_values
 
     def cross_validate(self, groups, i):
+        """
+        Given a set of pre-split groups, cross validate the i-th group against the rest, i.e.,
+        fit against all of the groups but the i-th and evaluate the resultant fit on the i-th group.
+
+        Args:
+            groups: A pre-split list of lists of moves corresponding to different validation groups.
+            i: The group that should be held-out of the fitting process and tested against.
+
+        Returns:
+            The best-fit parameters for all of the groups but the ith, as well as the log-likelihood
+            of the moves from both the training (non-i) and test (i) sets.
+        """
         print("Cross validating split {} against the other {} splits".format(
             i + 1, len(groups) - 1))
         test = groups[i]

@@ -1,0 +1,385 @@
+\doxysection{ninarow\+\_\+heuristic.\+h}
+\hypertarget{ninarow__heuristic_8h_source}{}\label{ninarow__heuristic_8h_source}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ NINAROW\_HEURISTIC\_H\_INCLUDED}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ NINAROW\_HEURISTIC\_H\_INCLUDED}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <algorithm>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <array>}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <fstream>}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ <iostream>}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ <random>}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ <unordered\_map>}}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ "{}bfs\_node.h"{}}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ "{}fourbynine\_features.h"{}}}
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#include\ "{}ninarow\_board.h"{}}}
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#include\ "{}ninarow\_heuristic\_feature.h"{}}}
+\DoxyCodeLine{00015\ \textcolor{preprocessor}{\#include\ "{}ninarow\_vectorized\_feature\_evaluator.h"{}}}
+\DoxyCodeLine{00016\ \textcolor{preprocessor}{\#include\ "{}searches.h"{}}}
+\DoxyCodeLine{00017\ }
+\DoxyCodeLine{00018\ \textcolor{keyword}{namespace\ }NInARow\ \{}
+\DoxyCodeLine{00019\ }
+\DoxyCodeLine{00023\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structNInARow_1_1FeatureGroupWeight}{FeatureGroupWeight}}\ \{}
+\DoxyCodeLine{00028\ \ \ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{structNInARow_1_1FeatureGroupWeight_ae8d60d38ac0a5ab451b71efce5745b66}{weight\_act}};}
+\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00034\ \ \ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{structNInARow_1_1FeatureGroupWeight_a16705378c1aa0bda5bf4aec7f6c76888}{weight\_pass}};}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00040\ \ \ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{structNInARow_1_1FeatureGroupWeight_ad1103fd53b0301c067b6fa6022c688b8}{drop\_rate}};}
+\DoxyCodeLine{00041\ }
+\DoxyCodeLine{00045\ \ \ \mbox{\hyperlink{structNInARow_1_1FeatureGroupWeight_aa816d3b6940c569c383704a9807b9e5f}{FeatureGroupWeight}}()\ :\ \mbox{\hyperlink{structNInARow_1_1FeatureGroupWeight_ae8d60d38ac0a5ab451b71efce5745b66}{weight\_act}}(0.0),\ \mbox{\hyperlink{structNInARow_1_1FeatureGroupWeight_a16705378c1aa0bda5bf4aec7f6c76888}{weight\_pass}}(0.0),\ \mbox{\hyperlink{structNInARow_1_1FeatureGroupWeight_ad1103fd53b0301c067b6fa6022c688b8}{drop\_rate}}(0.0)\ \{\}}
+\DoxyCodeLine{00046\ }
+\DoxyCodeLine{00057\ \ \ \mbox{\hyperlink{structNInARow_1_1FeatureGroupWeight_abe7ca749ed99fc7967faa2814bda5447}{FeatureGroupWeight}}(\textcolor{keywordtype}{double}\ \mbox{\hyperlink{structNInARow_1_1FeatureGroupWeight_ae8d60d38ac0a5ab451b71efce5745b66}{weight\_act}},\ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{structNInARow_1_1FeatureGroupWeight_a16705378c1aa0bda5bf4aec7f6c76888}{weight\_pass}},\ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{structNInARow_1_1FeatureGroupWeight_ad1103fd53b0301c067b6fa6022c688b8}{drop\_rate}})}
+\DoxyCodeLine{00058\ \ \ \ \ \ \ :\ \mbox{\hyperlink{structNInARow_1_1FeatureGroupWeight_ae8d60d38ac0a5ab451b71efce5745b66}{weight\_act}}(\mbox{\hyperlink{structNInARow_1_1FeatureGroupWeight_ae8d60d38ac0a5ab451b71efce5745b66}{weight\_act}}),}
+\DoxyCodeLine{00059\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structNInARow_1_1FeatureGroupWeight_a16705378c1aa0bda5bf4aec7f6c76888}{weight\_pass}}(\mbox{\hyperlink{structNInARow_1_1FeatureGroupWeight_a16705378c1aa0bda5bf4aec7f6c76888}{weight\_pass}}),}
+\DoxyCodeLine{00060\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structNInARow_1_1FeatureGroupWeight_ad1103fd53b0301c067b6fa6022c688b8}{drop\_rate}}(\mbox{\hyperlink{structNInARow_1_1FeatureGroupWeight_ad1103fd53b0301c067b6fa6022c688b8}{drop\_rate}})\ \{\}}
+\DoxyCodeLine{00061\ }
+\DoxyCodeLine{00066\ \ \ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{structNInARow_1_1FeatureGroupWeight_aec3f2433e4192e271b0f9bdea8093323}{diff\_act\_pass}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{structNInARow_1_1FeatureGroupWeight_ae8d60d38ac0a5ab451b71efce5745b66}{weight\_act}}\ -\/\ \mbox{\hyperlink{structNInARow_1_1FeatureGroupWeight_a16705378c1aa0bda5bf4aec7f6c76888}{weight\_pass}};\ \}}
+\DoxyCodeLine{00067\ \};}
+\DoxyCodeLine{00068\ }
+\DoxyCodeLine{00075\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ Board>}
+\DoxyCodeLine{00076\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structNInARow_1_1HeuristicFeatureWithMetadata}{HeuristicFeatureWithMetadata}}\ \{}
+\DoxyCodeLine{00080\ \ \ \mbox{\hyperlink{classNInARow_1_1HeuristicFeature}{HeuristicFeature<Board>}}\ \mbox{\hyperlink{structNInARow_1_1HeuristicFeatureWithMetadata_af4363f761906ce799de5f98ae2719b0d}{feature}};}
+\DoxyCodeLine{00081\ }
+\DoxyCodeLine{00086\ \ \ std::size\_t\ \mbox{\hyperlink{structNInARow_1_1HeuristicFeatureWithMetadata_ac78831a2f579d718c8f59a1ea6b68ae1}{vector\_index}};}
+\DoxyCodeLine{00087\ }
+\DoxyCodeLine{00092\ \ \ std::size\_t\ \mbox{\hyperlink{structNInARow_1_1HeuristicFeatureWithMetadata_aced6e4ae1369de224b61dfd34e258366}{weight\_index}};}
+\DoxyCodeLine{00093\ }
+\DoxyCodeLine{00098\ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{structNInARow_1_1HeuristicFeatureWithMetadata_a1d1e9fda7c1e9f37e521b45be5734827}{enabled}};}
+\DoxyCodeLine{00099\ }
+\DoxyCodeLine{00103\ \ \ \mbox{\hyperlink{structNInARow_1_1HeuristicFeatureWithMetadata_ae6addfe89519f6b69dc5cf16f4e22944}{HeuristicFeatureWithMetadata}}()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00104\ }
+\DoxyCodeLine{00114\ \ \ \mbox{\hyperlink{structNInARow_1_1HeuristicFeatureWithMetadata_a02e8851896898e0631221bff897f45bb}{HeuristicFeatureWithMetadata}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classNInARow_1_1HeuristicFeature}{HeuristicFeature<Board>}}\&\ \mbox{\hyperlink{structNInARow_1_1HeuristicFeatureWithMetadata_af4363f761906ce799de5f98ae2719b0d}{feature}},}
+\DoxyCodeLine{00115\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::size\_t\ \mbox{\hyperlink{structNInARow_1_1HeuristicFeatureWithMetadata_ac78831a2f579d718c8f59a1ea6b68ae1}{vector\_index}},}
+\DoxyCodeLine{00116\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ std::size\_t\ \mbox{\hyperlink{structNInARow_1_1HeuristicFeatureWithMetadata_aced6e4ae1369de224b61dfd34e258366}{weight\_index}})}
+\DoxyCodeLine{00117\ \ \ \ \ \ \ :\ \mbox{\hyperlink{structNInARow_1_1HeuristicFeatureWithMetadata_af4363f761906ce799de5f98ae2719b0d}{feature}}(\mbox{\hyperlink{structNInARow_1_1HeuristicFeatureWithMetadata_af4363f761906ce799de5f98ae2719b0d}{feature}}),}
+\DoxyCodeLine{00118\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structNInARow_1_1HeuristicFeatureWithMetadata_ac78831a2f579d718c8f59a1ea6b68ae1}{vector\_index}}(\mbox{\hyperlink{structNInARow_1_1HeuristicFeatureWithMetadata_ac78831a2f579d718c8f59a1ea6b68ae1}{vector\_index}}),}
+\DoxyCodeLine{00119\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structNInARow_1_1HeuristicFeatureWithMetadata_aced6e4ae1369de224b61dfd34e258366}{weight\_index}}(\mbox{\hyperlink{structNInARow_1_1HeuristicFeatureWithMetadata_aced6e4ae1369de224b61dfd34e258366}{weight\_index}}),}
+\DoxyCodeLine{00120\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{structNInARow_1_1HeuristicFeatureWithMetadata_a1d1e9fda7c1e9f37e521b45be5734827}{enabled}}(true)\ \{\}}
+\DoxyCodeLine{00121\ \};}
+\DoxyCodeLine{00122\ }
+\DoxyCodeLine{00128\ \textcolor{keyword}{template}\ <\textcolor{keyword}{typename}\ Board>}
+\DoxyCodeLine{00129\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classNInARow_1_1Heuristic}{Heuristic}}\ :\ \textcolor{keyword}{public}\ std::enable\_shared\_from\_this<Heuristic<Board>>\ \{}
+\DoxyCodeLine{00130\ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00131\ \ \ \textcolor{keyword}{using\ }\mbox{\hyperlink{classNInARow_1_1HeuristicFeature}{Feature}}\ =\ \mbox{\hyperlink{classNInARow_1_1HeuristicFeature}{HeuristicFeature<Board>}};}
+\DoxyCodeLine{00132\ \ \ \textcolor{keyword}{using\ }\mbox{\hyperlink{classNInARow_1_1Board}{BoardT}}\ =\ \mbox{\hyperlink{classNInARow_1_1Board}{Board}};}
+\DoxyCodeLine{00133\ }
+\DoxyCodeLine{00134\ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00141\ \ \ \textcolor{keywordtype}{double}\ stopping\_thresh;}
+\DoxyCodeLine{00142\ }
+\DoxyCodeLine{00152\ \ \ \textcolor{keywordtype}{double}\ pruning\_thresh;}
+\DoxyCodeLine{00153\ }
+\DoxyCodeLine{00160\ \ \ \textcolor{keywordtype}{double}\ gamma;}
+\DoxyCodeLine{00161\ }
+\DoxyCodeLine{00166\ \ \ \textcolor{keywordtype}{double}\ lapse\_rate;}
+\DoxyCodeLine{00167\ }
+\DoxyCodeLine{00172\ \ \ \textcolor{keywordtype}{double}\ opp\_scale;}
+\DoxyCodeLine{00173\ }
+\DoxyCodeLine{00178\ \ \ \textcolor{keywordtype}{double}\ exploration\_constant;}
+\DoxyCodeLine{00179\ }
+\DoxyCodeLine{00185\ \ \ \textcolor{keywordtype}{double}\ c\_self;}
+\DoxyCodeLine{00186\ \ \ \textcolor{keywordtype}{double}\ c\_opp;}
+\DoxyCodeLine{00195\ \ \ \textcolor{keywordtype}{double}\ center\_weight;}
+\DoxyCodeLine{00196\ }
+\DoxyCodeLine{00200\ \ \ std::mt19937\_64\ engine;}
+\DoxyCodeLine{00201\ }
+\DoxyCodeLine{00205\ \ \ std::vector<FeatureGroupWeight>\ feature\_group\_weights;}
+\DoxyCodeLine{00206\ }
+\DoxyCodeLine{00210\ \ \ std::vector<HeuristicFeatureWithMetadata<Board>>\ features;}
+\DoxyCodeLine{00211\ }
+\DoxyCodeLine{00216\ \ \ \mbox{\hyperlink{classNInARow_1_1VectorizedFeatureEvaluator}{VectorizedFeatureEvaluator<Board>}}\ feature\_evaluator;}
+\DoxyCodeLine{00217\ }
+\DoxyCodeLine{00222\ \ \ std::array<double,\ Board::get\_board\_size()>\ vtile;}
+\DoxyCodeLine{00223\ }
+\DoxyCodeLine{00228\ \ \ std::normal\_distribution<double>\ noise;}
+\DoxyCodeLine{00229\ }
+\DoxyCodeLine{00234\ \ \ std::bernoulli\_distribution\ lapse;}
+\DoxyCodeLine{00235\ }
+\DoxyCodeLine{00240\ \ \ \textcolor{keywordtype}{bool}\ noise\_enabled;}
+\DoxyCodeLine{00241\ }
+\DoxyCodeLine{00246\ \ \ \textcolor{keywordtype}{bool}\ search\_in\_progress;}
+\DoxyCodeLine{00247\ }
+\DoxyCodeLine{00248\ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00258\ \ \ \textcolor{keyword}{static}\ std::shared\_ptr<Heuristic>\ \mbox{\hyperlink{classNInARow_1_1Heuristic_ae04d07c6d5c22f68ef6946b109b3b17a}{create}}(}
+\DoxyCodeLine{00259\ \ \ \ \ \ \ \textcolor{keyword}{const}\ std::vector<double>\&\ params\ =\ DefaultFourByNineParameters,}
+\DoxyCodeLine{00260\ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ add\_default\_features\ =\ \textcolor{keyword}{true})\ \{}
+\DoxyCodeLine{00261\ \ \ \ \ \textcolor{keyword}{auto}\ heuristic\ =\ std::shared\_ptr<Heuristic>(\textcolor{keyword}{new}\ \mbox{\hyperlink{classNInARow_1_1Heuristic}{Heuristic}}(params));}
+\DoxyCodeLine{00262\ \ \ \ \ \textcolor{keywordflow}{if}\ (add\_default\_features)\ \{}
+\DoxyCodeLine{00263\ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keywordtype}{size\_t}\ i\ =\ 0;\ i\ <\ FourByNineFeatures.size();\ ++i)\ \{}
+\DoxyCodeLine{00264\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\&\ feature\ :\ FourByNineFeatures[i])\ \{}
+\DoxyCodeLine{00265\ \ \ \ \ \ \ \ \ \ \ heuristic-\/>add\_feature(i,\ feature);}
+\DoxyCodeLine{00266\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00267\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00268\ \ \ \ \ \}}
+\DoxyCodeLine{00269\ \ \ \ \ \textcolor{keywordflow}{return}\ heuristic;}
+\DoxyCodeLine{00270\ \ \ \}}
+\DoxyCodeLine{00271\ }
+\DoxyCodeLine{00272\ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00278\ \ \ \mbox{\hyperlink{classNInARow_1_1Heuristic}{Heuristic}}(\textcolor{keyword}{const}\ std::vector<double>\&\ params)}
+\DoxyCodeLine{00279\ \ \ \ \ \ \ :\ engine(),}
+\DoxyCodeLine{00280\ \ \ \ \ \ \ \ \ feature\_group\_weights(),}
+\DoxyCodeLine{00281\ \ \ \ \ \ \ \ \ features(),}
+\DoxyCodeLine{00282\ \ \ \ \ \ \ \ \ feature\_evaluator(),}
+\DoxyCodeLine{00283\ \ \ \ \ \ \ \ \ vtile(),}
+\DoxyCodeLine{00284\ \ \ \ \ \ \ \ \ noise(),}
+\DoxyCodeLine{00285\ \ \ \ \ \ \ \ \ lapse(),}
+\DoxyCodeLine{00286\ \ \ \ \ \ \ \ \ noise\_enabled(true),}
+\DoxyCodeLine{00287\ \ \ \ \ \ \ \ \ search\_in\_progress(false)\ \{}
+\DoxyCodeLine{00288\ \ \ \ \ \textcolor{keywordflow}{if}\ (params.size()\ <\ 7\ ||\ (params.size()\ -\/\ 7)\ \%\ 3\ !=\ 0)\ \{}
+\DoxyCodeLine{00289\ \ \ \ \ \ \ \textcolor{keywordflow}{throw}\ std::invalid\_argument(}
+\DoxyCodeLine{00290\ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}The\ incorrect\ number\ of\ parameters\ have\ been\ passed\ to\ the\ "{}}}
+\DoxyCodeLine{00291\ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}heuristic\ function."{}});}
+\DoxyCodeLine{00292\ \ \ \ \ \}}
+\DoxyCodeLine{00293\ \ \ \ \ std::size\_t\ i\ =\ 0;}
+\DoxyCodeLine{00294\ \ \ \ \ stopping\_thresh\ =\ params[i++];}
+\DoxyCodeLine{00295\ \ \ \ \ pruning\_thresh\ =\ params[i++];}
+\DoxyCodeLine{00296\ \ \ \ \ gamma\ =\ params[i++];}
+\DoxyCodeLine{00297\ \ \ \ \ lapse\_rate\ =\ params[i++];}
+\DoxyCodeLine{00298\ \ \ \ \ opp\_scale\ =\ params[i++];}
+\DoxyCodeLine{00299\ \ \ \ \ exploration\_constant\ =\ params[i++];}
+\DoxyCodeLine{00300\ \ \ \ \ center\_weight\ =\ params[i++];}
+\DoxyCodeLine{00301\ \ \ \ \ \textcolor{keyword}{const}\ std::size\_t\ num\_param\_packs\ =}
+\DoxyCodeLine{00302\ \ \ \ \ \ \ \ \ \textcolor{keyword}{static\_cast<}std::size\_t\textcolor{keyword}{>}((params.size()\ -\/\ 7)\ /\ 3);}
+\DoxyCodeLine{00303\ \ \ \ \ \textcolor{keyword}{const}\ std::size\_t\ param\_pack\_idx\ =\ i;}
+\DoxyCodeLine{00304\ \ \ \ \ \textcolor{keywordflow}{for}\ (std::size\_t\ j\ =\ 0;\ j\ <\ num\_param\_packs;\ ++j)\ \{}
+\DoxyCodeLine{00305\ \ \ \ \ \ \ \mbox{\hyperlink{classNInARow_1_1Heuristic_afcd41377fc007db321d03446fb4f46a2}{add\_feature\_group}}(params[param\_pack\_idx\ +\ j],}
+\DoxyCodeLine{00306\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ params[param\_pack\_idx\ +\ j\ +\ num\_param\_packs],}
+\DoxyCodeLine{00307\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ params[param\_pack\_idx\ +\ j\ +\ 2\ *\ num\_param\_packs]);}
+\DoxyCodeLine{00308\ \ \ \ \ \}}
+\DoxyCodeLine{00309\ \ \ \ \ noise\ =\ std::normal\_distribution<double>(0.0,\ 1.0);}
+\DoxyCodeLine{00310\ \ \ \ \ lapse\ =\ std::bernoulli\_distribution(lapse\_rate);}
+\DoxyCodeLine{00311\ \ \ \ \ \textcolor{keywordflow}{for}\ (std::size\_t\ i\ =\ 0;\ i\ <\ Board::get\_board\_size();\ ++i)}
+\DoxyCodeLine{00312\ \ \ \ \ \ \ vtile[i]\ =\ 1.0\ /\ sqrt(pow(i\ /\ Board::get\_board\_width()\ -\/\ 1.5,\ 2)\ +}
+\DoxyCodeLine{00313\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ pow(i\ \%\ Board::get\_board\_width()\ -\/\ 4.0,\ 2));}
+\DoxyCodeLine{00314\ \ \ \ \ c\_self\ =\ 2.0\ *\ opp\_scale\ /\ (1.0\ +\ opp\_scale);}
+\DoxyCodeLine{00315\ \ \ \ \ c\_opp\ =\ 2.0\ /\ (1.0\ +\ opp\_scale);}
+\DoxyCodeLine{00316\ \ \ \}}
+\DoxyCodeLine{00317\ }
+\DoxyCodeLine{00318\ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00324\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classNInARow_1_1Heuristic_af660e023f8c506cb2dab73a44ceb82b2}{seed\_generator}}(uint64\_t\ seed)\ \{\ engine.seed(seed);\ \}}
+\DoxyCodeLine{00325\ }
+\DoxyCodeLine{00329\ \ \ std::vector<FeatureGroupWeight>\&\ \mbox{\hyperlink{classNInARow_1_1Heuristic_aa6d3ec58cb62241cdfe012a65fb0901c}{get\_feature\_group\_weights}}()\ \{}
+\DoxyCodeLine{00330\ \ \ \ \ \textcolor{keywordflow}{return}\ feature\_group\_weights;}
+\DoxyCodeLine{00331\ \ \ \}}
+\DoxyCodeLine{00332\ }
+\DoxyCodeLine{00337\ \ \ std::vector<HeuristicFeatureWithMetadata<Board>>\&}
+\DoxyCodeLine{00338\ \ \ \mbox{\hyperlink{classNInARow_1_1Heuristic_aba09ae252471d3c9d2259511e2cae7ff}{get\_features\_with\_metadata}}()\ \{}
+\DoxyCodeLine{00339\ \ \ \ \ \textcolor{keywordflow}{return}\ features;}
+\DoxyCodeLine{00340\ \ \ \}}
+\DoxyCodeLine{00341\ }
+\DoxyCodeLine{00352\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classNInARow_1_1Heuristic_afcd41377fc007db321d03446fb4f46a2}{add\_feature\_group}}(\textcolor{keywordtype}{double}\ weight\_act,\ \textcolor{keywordtype}{double}\ weight\_pass,}
+\DoxyCodeLine{00353\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{double}\ drop\_rate)\ \{}
+\DoxyCodeLine{00354\ \ \ \ \ feature\_group\_weights.emplace\_back(weight\_act,\ weight\_pass,\ drop\_rate);}
+\DoxyCodeLine{00355\ \ \ \}}
+\DoxyCodeLine{00356\ }
+\DoxyCodeLine{00363\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classNInARow_1_1Heuristic_affdc2cf5bf277db9c56893775025d853}{add\_feature}}(std::size\_t\ i,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{classNInARow_1_1HeuristicFeature}{Feature}}\&\ feature)\ \{}
+\DoxyCodeLine{00364\ \ \ \ \ \textcolor{keywordflow}{if}\ (i\ >=\ feature\_group\_weights.size())\ \{}
+\DoxyCodeLine{00365\ \ \ \ \ \ \ \textcolor{keywordflow}{throw}\ std::out\_of\_range(}
+\DoxyCodeLine{00366\ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Trying\ to\ add\ a\ feature\ to\ a\ non-\/existent\ feature\ group."{}});}
+\DoxyCodeLine{00367\ \ \ \ \ \}}
+\DoxyCodeLine{00368\ \ \ \ \ features.emplace\_back(feature,\ feature\_evaluator.\mbox{\hyperlink{classNInARow_1_1VectorizedFeatureEvaluator_a64b557eef6163708c1d4eed2152e0452}{register\_feature}}(feature),}
+\DoxyCodeLine{00369\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ i);}
+\DoxyCodeLine{00370\ \ \ \}}
+\DoxyCodeLine{00371\ }
+\DoxyCodeLine{00380\ \ \ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{classNInARow_1_1Heuristic_ac5db923b44f9fcc6ea6f360a834825c3}{evaluate}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classNInARow_1_1Board}{Board}}\&\ b)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00381\ \ \ \ \ \textcolor{keyword}{const}\ Player\ player\ =\ b.active\_player();}
+\DoxyCodeLine{00382\ \ \ \ \ \textcolor{keyword}{const}\ Player\ other\_player\ =\ get\_other\_player(player);}
+\DoxyCodeLine{00383\ \ \ \ \ \textcolor{keywordtype}{double}\ val\ =\ 0.0;}
+\DoxyCodeLine{00384\ }
+\DoxyCodeLine{00385\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ i\ :\ b.\mbox{\hyperlink{classNInARow_1_1Board_ae41609fe19d91b86767f48450bbe0e7a}{get\_pieces}}(player).\mbox{\hyperlink{classNInARow_1_1Pattern_a5b8385be7c114d6c083fd8287ebffc3b}{get\_all\_position\_indices}}())\ \{}
+\DoxyCodeLine{00386\ \ \ \ \ \ \ val\ +=\ center\_weight\ *\ vtile[i];}
+\DoxyCodeLine{00387\ \ \ \ \ \}}
+\DoxyCodeLine{00388\ }
+\DoxyCodeLine{00389\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ i\ :\ b.\mbox{\hyperlink{classNInARow_1_1Board_ae41609fe19d91b86767f48450bbe0e7a}{get\_pieces}}(other\_player).\mbox{\hyperlink{classNInARow_1_1Pattern_a5b8385be7c114d6c083fd8287ebffc3b}{get\_all\_position\_indices}}())\ \{}
+\DoxyCodeLine{00390\ \ \ \ \ \ \ val\ -\/=\ center\_weight\ *\ vtile[i];}
+\DoxyCodeLine{00391\ \ \ \ \ \}}
+\DoxyCodeLine{00392\ }
+\DoxyCodeLine{00393\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ player\_pieces\ =\ feature\_evaluator.\mbox{\hyperlink{classNInARow_1_1VectorizedFeatureEvaluator_a0cabe8bf99826dd6f6405636e97ee251}{query\_pieces}}(b,\ player);}
+\DoxyCodeLine{00394\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ opponent\_pieces\ =}
+\DoxyCodeLine{00395\ \ \ \ \ \ \ \ \ feature\_evaluator.\mbox{\hyperlink{classNInARow_1_1VectorizedFeatureEvaluator_a0cabe8bf99826dd6f6405636e97ee251}{query\_pieces}}(b,\ other\_player);}
+\DoxyCodeLine{00396\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ spaces\ =\ feature\_evaluator.\mbox{\hyperlink{classNInARow_1_1VectorizedFeatureEvaluator_a1c7508f7046e0516ab88d7b14f7562fe}{query\_spaces}}(b);}
+\DoxyCodeLine{00397\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\&\ feature\ :\ features)\ \{}
+\DoxyCodeLine{00398\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!feature.enabled)\ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{00399\ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ i\ =\ feature.vector\_index;}
+\DoxyCodeLine{00400\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (feature.feature.contained\_in(player\_pieces[i],\ spaces[i]))\ \{}
+\DoxyCodeLine{00401\ \ \ \ \ \ \ \ \ val\ +=\ feature\_group\_weights[feature.weight\_index].weight\_act;}
+\DoxyCodeLine{00402\ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (feature.feature.contained\_in(opponent\_pieces[i],\ spaces[i]))\ \{}
+\DoxyCodeLine{00403\ \ \ \ \ \ \ \ \ val\ -\/=\ feature\_group\_weights[feature.weight\_index].weight\_pass;}
+\DoxyCodeLine{00404\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00405\ \ \ \ \ \}}
+\DoxyCodeLine{00406\ \ \ \ \ \textcolor{keywordflow}{return}\ player\ ==\ Player::Player1\ ?\ val\ :\ -\/val;}
+\DoxyCodeLine{00407\ \ \ \}}
+\DoxyCodeLine{00408\ }
+\DoxyCodeLine{00422\ \ \ std::vector<typename\ Board::MoveT>\ \mbox{\hyperlink{classNInARow_1_1Heuristic_acb2c494262db7f6d738e26c9f748c971}{get\_moves}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classNInARow_1_1Board}{Board}}\&\ b,}
+\DoxyCodeLine{00423\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Player\ evalPlayer,}
+\DoxyCodeLine{00424\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{bool}\ sorted\ =\ \textcolor{keyword}{true})\ \{}
+\DoxyCodeLine{00425\ \ \ \ \ \textcolor{keyword}{const}\ Player\ player\ =\ b.active\_player();}
+\DoxyCodeLine{00426\ \ \ \ \ \textcolor{keyword}{const}\ Player\ other\_player\ =\ get\_other\_player(player);}
+\DoxyCodeLine{00427\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{double}\ c\_act\ =\ (player\ ==\ evalPlayer)\ ?\ c\_self\ :\ c\_opp;}
+\DoxyCodeLine{00428\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{double}\ c\_pass\ =\ (player\ ==\ evalPlayer)\ ?\ c\_opp\ :\ c\_self;}
+\DoxyCodeLine{00429\ }
+\DoxyCodeLine{00430\ \ \ \ \ \textcolor{keyword}{auto}\ player\_pieces\ =\ feature\_evaluator.\mbox{\hyperlink{classNInARow_1_1VectorizedFeatureEvaluator_a0cabe8bf99826dd6f6405636e97ee251}{query\_pieces}}(b,\ player);}
+\DoxyCodeLine{00431\ \ \ \ \ \textcolor{keyword}{auto}\ opponent\_pieces\ =\ feature\_evaluator.\mbox{\hyperlink{classNInARow_1_1VectorizedFeatureEvaluator_a0cabe8bf99826dd6f6405636e97ee251}{query\_pieces}}(b,\ other\_player);}
+\DoxyCodeLine{00432\ \ \ \ \ \textcolor{keyword}{auto}\ spaces\ =\ feature\_evaluator.\mbox{\hyperlink{classNInARow_1_1VectorizedFeatureEvaluator_a1c7508f7046e0516ab88d7b14f7562fe}{query\_spaces}}(b);}
+\DoxyCodeLine{00433\ }
+\DoxyCodeLine{00434\ \ \ \ \ std::unordered\_map<\textcolor{keyword}{typename}\ \mbox{\hyperlink{classNInARow_1_1Pattern}{Board::PatternT}},\ \textcolor{keyword}{typename}\ \mbox{\hyperlink{classNInARow_1_1Move}{Board::MoveT}},}
+\DoxyCodeLine{00435\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{typename}\ \mbox{\hyperlink{structNInARow_1_1PatternHasher}{Board::PatternHasherT}}>}
+\DoxyCodeLine{00436\ \ \ \ \ \ \ \ \ candidate\_moves;}
+\DoxyCodeLine{00437\ \ \ \ \ \textcolor{keywordtype}{double}\ deltaL\ =\ 0.0;}
+\DoxyCodeLine{00438\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\&\ feature\ :\ features)\ \{}
+\DoxyCodeLine{00439\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!feature.enabled)\ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{00440\ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ i\ =\ feature.vector\_index;}
+\DoxyCodeLine{00441\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (feature.feature.contained\_in(player\_pieces[i],\ spaces[i]))\ \{}
+\DoxyCodeLine{00442\ \ \ \ \ \ \ \ \ deltaL\ -\/=\ c\_pass\ *}
+\DoxyCodeLine{00443\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ feature\_group\_weights[feature.weight\_index].diff\_act\_pass();}
+\DoxyCodeLine{00444\ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (feature.feature.contained\_in(opponent\_pieces[i],\ spaces[i]))\ \{}
+\DoxyCodeLine{00445\ \ \ \ \ \ \ \ \ deltaL\ -\/=}
+\DoxyCodeLine{00446\ \ \ \ \ \ \ \ \ \ \ \ \ c\_act\ *\ feature\_group\_weights[feature.weight\_index].diff\_act\_pass();}
+\DoxyCodeLine{00447\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00448\ \ \ \ \ \}}
+\DoxyCodeLine{00449\ }
+\DoxyCodeLine{00450\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ i\ :\ b.\mbox{\hyperlink{classNInARow_1_1Board_a571f86a5e057444e0386333d8c195ccf}{get\_spaces}}().\mbox{\hyperlink{classNInARow_1_1Pattern_a5b8385be7c114d6c083fd8287ebffc3b}{get\_all\_position\_indices}}())\ \{}
+\DoxyCodeLine{00451\ \ \ \ \ \ \ candidate\_moves[\textcolor{keyword}{typename}\ \mbox{\hyperlink{classNInARow_1_1Pattern}{Board::PatternT}}(1LLU\ <<\ i)]\ =}
+\DoxyCodeLine{00452\ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{typename}\ \mbox{\hyperlink{classNInARow_1_1Move}{Board::MoveT}}(i,}
+\DoxyCodeLine{00453\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ deltaL\ +\ center\_weight\ *\ vtile[i]\ +}
+\DoxyCodeLine{00454\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ (noise\_enabled\ ?\ noise(engine)\ :\ 0.0),}
+\DoxyCodeLine{00455\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ player);}
+\DoxyCodeLine{00456\ \ \ \ \ \}}
+\DoxyCodeLine{00457\ }
+\DoxyCodeLine{00458\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\&\ feature\ :\ features)\ \{}
+\DoxyCodeLine{00459\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!feature.enabled)\ \textcolor{keywordflow}{continue};}
+\DoxyCodeLine{00460\ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ i\ =\ feature.vector\_index;}
+\DoxyCodeLine{00461\ }
+\DoxyCodeLine{00462\ \ \ \ \ \ \ \textcolor{comment}{//\ If\ either\ player\ can\ fill\ in\ the\ feature,\ and\ the\ current\ player}}
+\DoxyCodeLine{00463\ \ \ \ \ \ \ \textcolor{comment}{//\ can\ complete\ it...}}
+\DoxyCodeLine{00464\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (feature.feature.can\_be\_completed(player\_pieces[i],\ opponent\_pieces[i],}
+\DoxyCodeLine{00465\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ spaces[i]))\ \{}
+\DoxyCodeLine{00466\ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{typename}\ \mbox{\hyperlink{classNInARow_1_1Pattern}{Board::PatternT}}\ player\_missing\_pieces\ =}
+\DoxyCodeLine{00467\ \ \ \ \ \ \ \ \ \ \ \ \ feature.feature.missing\_pieces(b,\ player);}
+\DoxyCodeLine{00468\ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ search\ =\ candidate\_moves.find(player\_missing\_pieces);}
+\DoxyCodeLine{00469\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (search\ !=\ candidate\_moves.end())\ \{}
+\DoxyCodeLine{00470\ \ \ \ \ \ \ \ \ \ \ search-\/>second.val\ +=}
+\DoxyCodeLine{00471\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ c\_pass\ *\ feature\_group\_weights[feature.weight\_index].weight\_pass;}
+\DoxyCodeLine{00472\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00473\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00474\ }
+\DoxyCodeLine{00475\ \ \ \ \ \ \ \textcolor{comment}{//\ If\ the\ current\ player\ has\ the\ required\ pieces\ but\ the\ opponent\ can}}
+\DoxyCodeLine{00476\ \ \ \ \ \ \ \textcolor{comment}{//\ block\ us\ or\ if\ the\ other\ player\ has\ the\ feature\ and\ we\ can\ block}}
+\DoxyCodeLine{00477\ \ \ \ \ \ \ \textcolor{comment}{//\ them...}}
+\DoxyCodeLine{00478\ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{bool}\ can\_be\_removed\ =}
+\DoxyCodeLine{00479\ \ \ \ \ \ \ \ \ \ \ feature.feature.can\_be\_removed(player\_pieces[i],\ spaces[i]);}
+\DoxyCodeLine{00480\ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keywordtype}{bool}\ can\_remove\_opponent\ =}
+\DoxyCodeLine{00481\ \ \ \ \ \ \ \ \ \ \ feature.feature.can\_be\_removed(opponent\_pieces[i],\ spaces[i]);}
+\DoxyCodeLine{00482\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (can\_be\_removed\ ||\ can\_remove\_opponent)\ \{}
+\DoxyCodeLine{00483\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\&\ position\ :}
+\DoxyCodeLine{00484\ \ \ \ \ \ \ \ \ \ \ \ \ \ feature.feature.spaces.get\_all\_positions())\ \{}
+\DoxyCodeLine{00485\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (b.\mbox{\hyperlink{classNInARow_1_1Board_a7c8d1a3645c545b7649eb1fdc7fc0254}{contains\_spaces}}(position))\ \{}
+\DoxyCodeLine{00486\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{auto}\ search\ =\ candidate\_moves.find(position);}
+\DoxyCodeLine{00487\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (search\ !=\ candidate\_moves.end())\ \{}
+\DoxyCodeLine{00488\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (can\_be\_removed)}
+\DoxyCodeLine{00489\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ search-\/>second.val\ -\/=}
+\DoxyCodeLine{00490\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ c\_pass\ *}
+\DoxyCodeLine{00491\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ feature\_group\_weights[feature.weight\_index].weight\_pass;}
+\DoxyCodeLine{00492\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (can\_remove\_opponent)}
+\DoxyCodeLine{00493\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ search-\/>second.val\ +=}
+\DoxyCodeLine{00494\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ c\_act\ *}
+\DoxyCodeLine{00495\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ feature\_group\_weights[feature.weight\_index].weight\_act;}
+\DoxyCodeLine{00496\ \ \ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00497\ \ \ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00498\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00499\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00500\ \ \ \ \ \}}
+\DoxyCodeLine{00501\ }
+\DoxyCodeLine{00502\ \ \ \ \ std::vector<typename\ Board::MoveT>\ output\_moves;}
+\DoxyCodeLine{00503\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ kv\ :\ candidate\_moves)\ \{}
+\DoxyCodeLine{00504\ \ \ \ \ \ \ output\_moves.push\_back(kv.second);}
+\DoxyCodeLine{00505\ \ \ \ \ \}}
+\DoxyCodeLine{00506\ \ \ \ \ std::sort(output\_moves.begin(),\ output\_moves.end(),}
+\DoxyCodeLine{00507\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ [](\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\&\ m1,\ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\&\ m2)\ \{}
+\DoxyCodeLine{00508\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ return\ m1.board\_position\ <\ m2.board\_position;}
+\DoxyCodeLine{00509\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \});}
+\DoxyCodeLine{00510\ }
+\DoxyCodeLine{00511\ \ \ \ \ \textcolor{keywordflow}{if}\ (!sorted)\ \textcolor{keywordflow}{return}\ output\_moves;}
+\DoxyCodeLine{00512\ \ \ \ \ std::sort(output\_moves.begin(),\ output\_moves.end(),\ std::greater<>());}
+\DoxyCodeLine{00513\ \ \ \ \ \textcolor{keywordflow}{return}\ output\_moves;}
+\DoxyCodeLine{00514\ \ \ \}}
+\DoxyCodeLine{00515\ }
+\DoxyCodeLine{00526\ \ \ std::vector<typename\ Board::MoveT>\ \mbox{\hyperlink{classNInARow_1_1Heuristic_ad190cbc3c3c1286a13360335ca2e61c5}{get\_pruned\_moves}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classNInARow_1_1Board}{Board}}\&\ b,}
+\DoxyCodeLine{00527\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Player\ evalPlayer)\ \{}
+\DoxyCodeLine{00528\ \ \ \ \ std::vector<typename\ Board::MoveT>\ candidates\ =\ \mbox{\hyperlink{classNInARow_1_1Heuristic_acb2c494262db7f6d738e26c9f748c971}{get\_moves}}(b,\ evalPlayer);}
+\DoxyCodeLine{00529\ \ \ \ \ std::size\_t\ i\ =\ 1;}
+\DoxyCodeLine{00530\ \ \ \ \ \textcolor{keywordflow}{while}\ (i\ <\ candidates.size()\ \&\&}
+\DoxyCodeLine{00531\ \ \ \ \ \ \ \ \ \ \ \ abs(candidates[0].val\ -\/\ candidates[i].val)\ <\ pruning\_thresh)\ \{}
+\DoxyCodeLine{00532\ \ \ \ \ \ \ ++i;}
+\DoxyCodeLine{00533\ \ \ \ \ \}}
+\DoxyCodeLine{00534\ \ \ \ \ \textcolor{keywordflow}{if}\ (i\ <\ candidates.size())}
+\DoxyCodeLine{00535\ \ \ \ \ \ \ candidates.erase(candidates.begin()\ +\ i,\ candidates.end());}
+\DoxyCodeLine{00536\ \ \ \ \ \textcolor{keywordflow}{return}\ candidates;}
+\DoxyCodeLine{00537\ \ \ \}}
+\DoxyCodeLine{00538\ }
+\DoxyCodeLine{00545\ \ \ \textcolor{keyword}{typename}\ \mbox{\hyperlink{classNInARow_1_1Move}{Board::MoveT}}\ \mbox{\hyperlink{classNInARow_1_1Heuristic_aefc54d4744d3a52ab8e36d54822a98e7}{get\_random\_move}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classNInARow_1_1Board}{Board}}\&\ b)\ \{}
+\DoxyCodeLine{00546\ \ \ \ \ std::vector<std::size\_t>\ options;}
+\DoxyCodeLine{00547\ }
+\DoxyCodeLine{00548\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ i\ :\ b.\mbox{\hyperlink{classNInARow_1_1Board_a571f86a5e057444e0386333d8c195ccf}{get\_spaces}}().\mbox{\hyperlink{classNInARow_1_1Pattern_a5b8385be7c114d6c083fd8287ebffc3b}{get\_all\_position\_indices}}())\ \{}
+\DoxyCodeLine{00549\ \ \ \ \ \ \ options.push\_back(i);}
+\DoxyCodeLine{00550\ \ \ \ \ \}}
+\DoxyCodeLine{00551\ }
+\DoxyCodeLine{00552\ \ \ \ \ \textcolor{keywordflow}{if}\ (options.size()\ >\ 0)\ \{}
+\DoxyCodeLine{00553\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{typename}\ \mbox{\hyperlink{classNInARow_1_1Move}{Board::MoveT}}(options[std::uniform\_int\_distribution<int>(}
+\DoxyCodeLine{00554\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0,\ options.size()\ -\/\ 1U)(engine)],}
+\DoxyCodeLine{00555\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ 0.0,\ b.active\_player());}
+\DoxyCodeLine{00556\ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00557\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{typename}\ \mbox{\hyperlink{classNInARow_1_1Move}{Board::MoveT}}(0,\ 0.0,\ b.active\_player());}
+\DoxyCodeLine{00558\ \ \ \ \ \}}
+\DoxyCodeLine{00559\ \ \ \}}
+\DoxyCodeLine{00560\ }
+\DoxyCodeLine{00573\ \ \ \textcolor{keyword}{typename}\ \mbox{\hyperlink{classNInARow_1_1Move}{Board::MoveT}}\ \mbox{\hyperlink{classNInARow_1_1Heuristic_ac22318cbac5e7198de57d81db641fc8b}{get\_best\_move}}(std::shared\_ptr<\mbox{\hyperlink{classNode}{Node<Board>}}>\ tree)\ \{}
+\DoxyCodeLine{00574\ \ \ \ \ \textcolor{keywordflow}{if}\ (noise\_enabled\ \&\&\ lapse(engine))}
+\DoxyCodeLine{00575\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classNInARow_1_1Heuristic_aefc54d4744d3a52ab8e36d54822a98e7}{get\_random\_move}}(tree-\/>get\_board());}
+\DoxyCodeLine{00576\ }
+\DoxyCodeLine{00577\ \ \ \ \ \textcolor{keywordflow}{return}\ tree-\/>get\_best\_move();}
+\DoxyCodeLine{00578\ \ \ \}}
+\DoxyCodeLine{00579\ }
+\DoxyCodeLine{00585\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classNInARow_1_1Heuristic_ac1c1740bad22abd13db291ba66900aee}{start\_search}}()\ \{}
+\DoxyCodeLine{00586\ \ \ \ \ \textcolor{keywordflow}{if}\ (search\_in\_progress)}
+\DoxyCodeLine{00587\ \ \ \ \ \ \ \textcolor{keywordflow}{throw}\ std::logic\_error(}
+\DoxyCodeLine{00588\ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Cannot\ start\ a\ search\ when\ a\ previous\ search\ is\ being\ executed!"{}});}
+\DoxyCodeLine{00589\ \ \ \ \ search\_in\_progress\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00590\ \ \ \ \ \textcolor{keywordflow}{if}\ (noise\_enabled)\ remove\_features();}
+\DoxyCodeLine{00591\ \ \ \}}
+\DoxyCodeLine{00592\ }
+\DoxyCodeLine{00597\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classNInARow_1_1Heuristic_a475ea20f6651173fef7a0a12ba65b9e0}{complete\_search}}()\ \{}
+\DoxyCodeLine{00598\ \ \ \ \ restore\_features();}
+\DoxyCodeLine{00599\ \ \ \ \ search\_in\_progress\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00600\ \ \ \}}
+\DoxyCodeLine{00601\ }
+\DoxyCodeLine{00605\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classNInARow_1_1Heuristic_a0f936005a7652bd7c0e680400032a499}{set\_noise\_enabled}}(\textcolor{keywordtype}{bool}\ enabled)\ \{\ noise\_enabled\ =\ enabled;\ \}}
+\DoxyCodeLine{00606\ }
+\DoxyCodeLine{00610\ \ \ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{classNInARow_1_1Heuristic_a4e457e8cd5784914ec4ff116310b556a}{get\_gamma}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ gamma;\ \}}
+\DoxyCodeLine{00611\ }
+\DoxyCodeLine{00615\ \ \ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{classNInARow_1_1Heuristic_a27f594d1c063e6d694d4d246807decbb}{get\_stopping\_thresh}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ stopping\_thresh;\ \}}
+\DoxyCodeLine{00616\ }
+\DoxyCodeLine{00617\ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00621\ \ \ \textcolor{keywordtype}{void}\ remove\_features()\ \{}
+\DoxyCodeLine{00622\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\&\ feature\ :\ features)\ \{}
+\DoxyCodeLine{00623\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (std::bernoulli\_distribution\{}
+\DoxyCodeLine{00624\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ feature\_group\_weights[feature.weight\_index].drop\_rate\}(engine))\ \{}
+\DoxyCodeLine{00625\ \ \ \ \ \ \ \ \ feature.enabled\ =\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00626\ \ \ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00627\ \ \ \ \ \ \ \ \ feature.enabled\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00628\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00629\ \ \ \ \ \}}
+\DoxyCodeLine{00630\ \ \ \}}
+\DoxyCodeLine{00631\ }
+\DoxyCodeLine{00635\ \ \ \textcolor{keywordtype}{void}\ restore\_features()\ \{}
+\DoxyCodeLine{00636\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\&\ feature\ :\ features)\ \{}
+\DoxyCodeLine{00637\ \ \ \ \ \ \ feature.enabled\ =\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00638\ \ \ \ \ \}}
+\DoxyCodeLine{00639\ \ \ \}}
+\DoxyCodeLine{00640\ \};}
+\DoxyCodeLine{00641\ }
+\DoxyCodeLine{00642\ \}\ \ \textcolor{comment}{//\ namespace\ NInARow}}
+\DoxyCodeLine{00643\ }
+\DoxyCodeLine{00644\ \textcolor{preprocessor}{\#endif\ \ }\textcolor{comment}{//\ NINAROW\_HEURISTIC\_H\_INCLUDED}}
+
+\end{DoxyCode}

@@ -1,0 +1,164 @@
+\doxysection{model\+\_\+fitting.\+model\+\_\+fit.\+Model\+Fitter Class Reference}
+\hypertarget{classmodel__fitting_1_1model__fit_1_1ModelFitter}{}\label{classmodel__fitting_1_1model__fit_1_1ModelFitter}\index{model\_fitting.model\_fit.ModelFitter@{model\_fitting.model\_fit.ModelFitter}}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classmodel__fitting_1_1model__fit_1_1ModelFitter_af967cb86f138f165841d943db3e132fc}{\+\_\+\+\_\+init\+\_\+\+\_\+}} (self, model, args)
+\item 
+\mbox{\hyperlink{classmodel__fitting_1_1model__fit_1_1ModelFitter_a4e60fa0b348c8fb14ca935329d158703}{estimate\+\_\+log\+\_\+lik\+\_\+ibs}} (self, params, cutoff, move\+\_\+tasks)
+\item 
+\mbox{\hyperlink{classmodel__fitting_1_1model__fit_1_1ModelFitter_ad793c400e30ca53bfb2ff518d40898ef}{compute\+\_\+loglik}} (self, move\+\_\+tasks, params)
+\item 
+\mbox{\hyperlink{classmodel__fitting_1_1model__fit_1_1ModelFitter_a71a550ceb874de33d00e0af33cebc2ee}{generate\+\_\+attempt\+\_\+counts}} (self, L\+\_\+values, c)
+\item 
+\mbox{\hyperlink{classmodel__fitting_1_1model__fit_1_1ModelFitter_a2206d1e33d893613e7652550baee6884}{estimate\+\_\+l\+\_\+values}} (self, moves, params, sample\+\_\+count)
+\item 
+\mbox{\hyperlink{classmodel__fitting_1_1model__fit_1_1ModelFitter_a8edcb3536354d83e659ce09cccaf371c}{fit\+\_\+model}} (self, moves)
+\item 
+\mbox{\hyperlink{classmodel__fitting_1_1model__fit_1_1ModelFitter_a9d09ec85de1e3b63a1c246c47195092f}{cross\+\_\+validate}} (self, groups, i)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classmodel__fitting_1_1model__fit_1_1ModelFitter_aa952659d407568d7b306f104b9442dc8}\label{classmodel__fitting_1_1model__fit_1_1ModelFitter_aa952659d407568d7b306f104b9442dc8} 
+{\bfseries model}
+\item 
+\Hypertarget{classmodel__fitting_1_1model__fit_1_1ModelFitter_a68f73415c6b711bd4ede09d403174a6f}\label{classmodel__fitting_1_1model__fit_1_1ModelFitter_a68f73415c6b711bd4ede09d403174a6f} 
+{\bfseries random\+\_\+sample}
+\item 
+\Hypertarget{classmodel__fitting_1_1model__fit_1_1ModelFitter_ab8ac0595f2e4a656147e7f9111cc7453}\label{classmodel__fitting_1_1model__fit_1_1ModelFitter_ab8ac0595f2e4a656147e7f9111cc7453} 
+{\bfseries sample\+\_\+count}
+\item 
+\Hypertarget{classmodel__fitting_1_1model__fit_1_1ModelFitter_a922a506062345868d74a18360a89de49}\label{classmodel__fitting_1_1model__fit_1_1ModelFitter_a922a506062345868d74a18360a89de49} 
+{\bfseries verbose}
+\item 
+\Hypertarget{classmodel__fitting_1_1model__fit_1_1ModelFitter_ac5f823a69af33f6e31ced22a8f967bf6}\label{classmodel__fitting_1_1model__fit_1_1ModelFitter_ac5f823a69af33f6e31ced22a8f967bf6} 
+{\bfseries num\+\_\+workers}
+\item 
+\Hypertarget{classmodel__fitting_1_1model__fit_1_1ModelFitter_ad5e03b28bdcc70df3042ce2a76b03452}\label{classmodel__fitting_1_1model__fit_1_1ModelFitter_ad5e03b28bdcc70df3042ce2a76b03452} 
+{\bfseries estimate\+\_\+log\+\_\+lik\+\_\+ibs}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyVerb}The main class for finding the best heuristic/search parameter
+fit for a given dataset.
+\end{DoxyVerb}
+ 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classmodel__fitting_1_1model__fit_1_1ModelFitter_af967cb86f138f165841d943db3e132fc}\label{classmodel__fitting_1_1model__fit_1_1ModelFitter_af967cb86f138f165841d943db3e132fc} 
+\index{model\_fitting.model\_fit.ModelFitter@{model\_fitting.model\_fit.ModelFitter}!\_\_init\_\_@{\_\_init\_\_}}
+\index{\_\_init\_\_@{\_\_init\_\_}!model\_fitting.model\_fit.ModelFitter@{model\_fitting.model\_fit.ModelFitter}}
+\doxysubsubsection{\texorpdfstring{\_\_init\_\_()}{\_\_init\_\_()}}
+{\footnotesize\ttfamily model\+\_\+fitting.\+model\+\_\+fit.\+Model\+Fitter.\+\_\+\+\_\+init\+\_\+\+\_\+ (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{model,  }\item[{}]{args }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Constructor.
+
+Args:
+    model: The model this fitter should use. Produces heuristics/searches, and supplies
+           parameters for fitting.
+    args: The argparse arguments that should be passed into this fitter.
+\end{DoxyVerb}
+ 
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classmodel__fitting_1_1model__fit_1_1ModelFitter_ad793c400e30ca53bfb2ff518d40898ef}\label{classmodel__fitting_1_1model__fit_1_1ModelFitter_ad793c400e30ca53bfb2ff518d40898ef} 
+\index{model\_fitting.model\_fit.ModelFitter@{model\_fitting.model\_fit.ModelFitter}!compute\_loglik@{compute\_loglik}}
+\index{compute\_loglik@{compute\_loglik}!model\_fitting.model\_fit.ModelFitter@{model\_fitting.model\_fit.ModelFitter}}
+\doxysubsubsection{\texorpdfstring{compute\_loglik()}{compute\_loglik()}}
+{\footnotesize\ttfamily model\+\_\+fitting.\+model\+\_\+fit.\+Model\+Fitter.\+compute\+\_\+loglik (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{move\+\_\+tasks,  }\item[{}]{params }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Computes the log likelihood of the given set of parameters being the set that best fits
+the observed data.
+
+Args:
+    move_tasks: The observed data to be fitted to.
+    params: The parameters to evaluate.
+
+Returns:
+    The log-likelihood of each observed move at each position given the set of parameters.
+\end{DoxyVerb}
+ \Hypertarget{classmodel__fitting_1_1model__fit_1_1ModelFitter_a9d09ec85de1e3b63a1c246c47195092f}\label{classmodel__fitting_1_1model__fit_1_1ModelFitter_a9d09ec85de1e3b63a1c246c47195092f} 
+\index{model\_fitting.model\_fit.ModelFitter@{model\_fitting.model\_fit.ModelFitter}!cross\_validate@{cross\_validate}}
+\index{cross\_validate@{cross\_validate}!model\_fitting.model\_fit.ModelFitter@{model\_fitting.model\_fit.ModelFitter}}
+\doxysubsubsection{\texorpdfstring{cross\_validate()}{cross\_validate()}}
+{\footnotesize\ttfamily model\+\_\+fitting.\+model\+\_\+fit.\+Model\+Fitter.\+cross\+\_\+validate (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{groups,  }\item[{}]{i }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Given a set of pre-split groups, cross validate the i-th group against the rest, i.e.,
+fit against all of the groups but the i-th and evaluate the resultant fit on the i-th group.
+
+Args:
+    groups: A pre-split list of lists of moves corresponding to different validation groups.
+    i: The group that should be held-out of the fitting process and tested against.
+
+Returns:
+    The best-fit parameters for all of the groups but the ith, as well as the log-likelihood
+    of the moves from both the training (non-i) and test (i) sets.
+\end{DoxyVerb}
+ \Hypertarget{classmodel__fitting_1_1model__fit_1_1ModelFitter_a2206d1e33d893613e7652550baee6884}\label{classmodel__fitting_1_1model__fit_1_1ModelFitter_a2206d1e33d893613e7652550baee6884} 
+\index{model\_fitting.model\_fit.ModelFitter@{model\_fitting.model\_fit.ModelFitter}!estimate\_l\_values@{estimate\_l\_values}}
+\index{estimate\_l\_values@{estimate\_l\_values}!model\_fitting.model\_fit.ModelFitter@{model\_fitting.model\_fit.ModelFitter}}
+\doxysubsubsection{\texorpdfstring{estimate\_l\_values()}{estimate\_l\_values()}}
+{\footnotesize\ttfamily model\+\_\+fitting.\+model\+\_\+fit.\+Model\+Fitter.\+estimate\+\_\+l\+\_\+values (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{moves,  }\item[{}]{params,  }\item[{}]{sample\+\_\+count }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Estimates an initial guess for the L-values of the observed moves, given a plausible set of
+starting parameters. Averages over multiple samples.
+
+Args:
+    moves: The set of observed moves.
+    params: The parameters to evaluate.
+    sample_count: The number of samples to average over.
+
+Returns:
+    A list of estimated L-values for the observed moves given the parameters.
+\end{DoxyVerb}
+ \Hypertarget{classmodel__fitting_1_1model__fit_1_1ModelFitter_a4e60fa0b348c8fb14ca935329d158703}\label{classmodel__fitting_1_1model__fit_1_1ModelFitter_a4e60fa0b348c8fb14ca935329d158703} 
+\index{model\_fitting.model\_fit.ModelFitter@{model\_fitting.model\_fit.ModelFitter}!estimate\_log\_lik\_ibs@{estimate\_log\_lik\_ibs}}
+\index{estimate\_log\_lik\_ibs@{estimate\_log\_lik\_ibs}!model\_fitting.model\_fit.ModelFitter@{model\_fitting.model\_fit.ModelFitter}}
+\doxysubsubsection{\texorpdfstring{estimate\_log\_lik\_ibs()}{estimate\_log\_lik\_ibs()}}
+{\footnotesize\ttfamily model\+\_\+fitting.\+model\+\_\+fit.\+Model\+Fitter.\+estimate\+\_\+log\+\_\+lik\+\_\+ibs (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{params,  }\item[{}]{cutoff,  }\item[{}]{move\+\_\+tasks }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}The main parallelized portion of our workload. Takes a set of
+heuristic parameters and a list of moves and runs the heuristic
+against the list until the heuristic produces the expected number
+of matches to the observed dataset. Modifies move_tasks in place.
+
+Args:
+    params: The heuristic parameters to test.
+    cutoff: A stop-loss cutoff that will cause us to exit early if needed.
+    move_tasks: The list of moves that need to be evaluated by the heuristic.
+\end{DoxyVerb}
+ \Hypertarget{classmodel__fitting_1_1model__fit_1_1ModelFitter_a8edcb3536354d83e659ce09cccaf371c}\label{classmodel__fitting_1_1model__fit_1_1ModelFitter_a8edcb3536354d83e659ce09cccaf371c} 
+\index{model\_fitting.model\_fit.ModelFitter@{model\_fitting.model\_fit.ModelFitter}!fit\_model@{fit\_model}}
+\index{fit\_model@{fit\_model}!model\_fitting.model\_fit.ModelFitter@{model\_fitting.model\_fit.ModelFitter}}
+\doxysubsubsection{\texorpdfstring{fit\_model()}{fit\_model()}}
+{\footnotesize\ttfamily model\+\_\+fitting.\+model\+\_\+fit.\+Model\+Fitter.\+fit\+\_\+model (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{moves }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Given a set of moves, find the set of heuristic/search parameters that best fit the observations.
+
+@params moves The set of moves to fit to.
+
+@return The set of parameters that best correspond to the given moves, as well as their corresponding L-values.
+\end{DoxyVerb}
+ \Hypertarget{classmodel__fitting_1_1model__fit_1_1ModelFitter_a71a550ceb874de33d00e0af33cebc2ee}\label{classmodel__fitting_1_1model__fit_1_1ModelFitter_a71a550ceb874de33d00e0af33cebc2ee} 
+\index{model\_fitting.model\_fit.ModelFitter@{model\_fitting.model\_fit.ModelFitter}!generate\_attempt\_counts@{generate\_attempt\_counts}}
+\index{generate\_attempt\_counts@{generate\_attempt\_counts}!model\_fitting.model\_fit.ModelFitter@{model\_fitting.model\_fit.ModelFitter}}
+\doxysubsubsection{\texorpdfstring{generate\_attempt\_counts()}{generate\_attempt\_counts()}}
+{\footnotesize\ttfamily model\+\_\+fitting.\+model\+\_\+fit.\+Model\+Fitter.\+generate\+\_\+attempt\+\_\+counts (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{L\+\_\+values,  }\item[{}]{c }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Generate the distribution of observation counts we should see for each move given that move's
+L-values. Essentially, we're converting likelihoods to probabilities here.
+
+Args:
+    L_values: A list of L-values corresponding to each move.
+    c: A scalar provided by the model.
+
+Returns:
+    A list of the number of times we would expect each move to be reproduced given the L-values.
+\end{DoxyVerb}
+ 
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+model\+\_\+fitting/model\+\_\+fit.\+py\end{DoxyCompactItemize}

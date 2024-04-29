@@ -1,0 +1,213 @@
+\doxysection{game\+\_\+tree\+\_\+node.\+h}
+\hypertarget{game__tree__node_8h_source}{}\label{game__tree__node_8h_source}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ GAME\_TREE\_NODE\_H\_INCLUDED}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ GAME\_TREE\_NODE\_H\_INCLUDED}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <memory>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <queue>}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <sstream>}}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ "{}player.h"{}}}
+\DoxyCodeLine{00009\ }
+\DoxyCodeLine{00015\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ Board>}
+\DoxyCodeLine{00016\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classNode}{Node}}\ :\ \textcolor{keyword}{public}\ std::enable\_shared\_from\_this<Node<Board>>\ \{}
+\DoxyCodeLine{00017\ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00021\ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ It>}
+\DoxyCodeLine{00022\ \ \ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structNode_1_1Iterator}{Iterator}}\ \{}
+\DoxyCodeLine{00023\ \ \ \ \ \textcolor{keyword}{using\ }iterator\_category\ =\ std::forward\_iterator\_tag;}
+\DoxyCodeLine{00024\ \ \ \ \ \textcolor{keyword}{using\ }difference\_type\ =\ std::ptrdiff\_t;}
+\DoxyCodeLine{00025\ \ \ \ \ \textcolor{keyword}{using\ }value\_type\ =\ It;}
+\DoxyCodeLine{00026\ \ \ \ \ \textcolor{keyword}{using\ }pointer\ =\ std::shared\_ptr<value\_type>;}
+\DoxyCodeLine{00027\ \ \ \ \ \textcolor{keyword}{using\ }reference\ =\ value\_type\ \&;}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00034\ \ \ \ \ \mbox{\hyperlink{structNode_1_1Iterator_a2d55d8eab39c65ab49041060dd6e9a84}{Iterator}}(pointer\ ptr)\ :\ nodes()\ \{}
+\DoxyCodeLine{00035\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (ptr)\ nodes.push(ptr);}
+\DoxyCodeLine{00036\ \ \ \ \ \}}
+\DoxyCodeLine{00037\ }
+\DoxyCodeLine{00041\ \ \ \ \ reference\ \mbox{\hyperlink{structNode_1_1Iterator_a2f11231db24cc23da3782c08e87dd161}{operator*}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ *nodes.front();\ \}}
+\DoxyCodeLine{00042\ }
+\DoxyCodeLine{00046\ \ \ \ \ pointer\ \mbox{\hyperlink{structNode_1_1Iterator_a5ecb9dc4868437a22029cc1087fadaaf}{operator-\/>}}()\ \{\ \textcolor{keywordflow}{return}\ nodes.front();\ \}}
+\DoxyCodeLine{00047\ }
+\DoxyCodeLine{00053\ \ \ \ \ \mbox{\hyperlink{structNode_1_1Iterator}{Iterator}}\ \&\mbox{\hyperlink{structNode_1_1Iterator_a9c51e7df07af46aaaaea705e413c547f}{operator++}}()\ \{}
+\DoxyCodeLine{00054\ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ \&node\ :\ (*this)-\/>get\_children())\ \{}
+\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ nodes.push(node);}
+\DoxyCodeLine{00056\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00057\ \ \ \ \ \ \ nodes.pop();}
+\DoxyCodeLine{00058\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00059\ \ \ \ \ \}}
+\DoxyCodeLine{00060\ }
+\DoxyCodeLine{00066\ \ \ \ \ \mbox{\hyperlink{structNode_1_1Iterator}{Iterator}}\ \mbox{\hyperlink{structNode_1_1Iterator_a6ccc4316acf7a1bbcb458d1aab60c795}{operator++}}(\textcolor{keywordtype}{int})\ \{}
+\DoxyCodeLine{00067\ \ \ \ \ \ \ \mbox{\hyperlink{structNode_1_1Iterator}{Iterator}}\ tmp\ =\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{00068\ \ \ \ \ \ \ ++(*this);}
+\DoxyCodeLine{00069\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ tmp;}
+\DoxyCodeLine{00070\ \ \ \ \ \}}
+\DoxyCodeLine{00071\ }
+\DoxyCodeLine{00080\ \ \ \ \ \textcolor{keyword}{friend}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{structNode_1_1Iterator_adf9a9358b475317bd816d7b47a0f5cd1}{operator==}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{structNode_1_1Iterator}{Iterator}}\ \&a,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{structNode_1_1Iterator}{Iterator}}\ \&b)\ \{}
+\DoxyCodeLine{00081\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ a.nodes\ ==\ b.nodes;}
+\DoxyCodeLine{00082\ \ \ \ \ \};}
+\DoxyCodeLine{00083\ \ \ \ \ \textcolor{keyword}{friend}\ \textcolor{keywordtype}{bool}\ operator!=(\textcolor{keyword}{const}\ \mbox{\hyperlink{structNode_1_1Iterator}{Iterator}}\ \&a,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{structNode_1_1Iterator}{Iterator}}\ \&b)\ \{}
+\DoxyCodeLine{00084\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ a.nodes\ !=\ b.nodes;}
+\DoxyCodeLine{00085\ \ \ \ \ \};}
+\DoxyCodeLine{00090\ \ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00094\ \ \ \ \ std::queue<pointer>\ nodes;}
+\DoxyCodeLine{00095\ \ \ \};}
+\DoxyCodeLine{00096\ }
+\DoxyCodeLine{00100\ \ \ \mbox{\hyperlink{structNode_1_1Iterator}{Iterator<Node>}}\ \mbox{\hyperlink{classNode_acc4d194f3836423dd30ef667a5154d12}{begin}}()\ \{\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{structNode_1_1Iterator}{Iterator<Node>}}(this-\/>shared\_from\_this());\ \}}
+\DoxyCodeLine{00101\ }
+\DoxyCodeLine{00105\ \ \ \mbox{\hyperlink{structNode_1_1Iterator}{Iterator<Node>}}\ \mbox{\hyperlink{classNode_a9876071a2f4d27fcbaa804d78fd1248b}{end}}()\ \{\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{structNode_1_1Iterator}{Iterator<Node>}}(\textcolor{keyword}{nullptr});\ \}}
+\DoxyCodeLine{00106\ }
+\DoxyCodeLine{00110\ \ \ \mbox{\hyperlink{structNode_1_1Iterator}{Iterator<const\ Node>}}\ \mbox{\hyperlink{classNode_ad889a991fbe8ded67adb9dbd2b656d92}{begin}}()\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00111\ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{structNode_1_1Iterator}{Iterator<const\ Node>}}(this-\/>shared\_from\_this());}
+\DoxyCodeLine{00112\ \ \ \}}
+\DoxyCodeLine{00113\ }
+\DoxyCodeLine{00117\ \ \ \mbox{\hyperlink{structNode_1_1Iterator}{Iterator<const\ Node>}}\ \mbox{\hyperlink{classNode_ac56dd9588cbea5dccadf5844d4a59eb7}{end}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{structNode_1_1Iterator}{Iterator<const\ Node>}}(\textcolor{keyword}{nullptr});\ \}}
+\DoxyCodeLine{00118\ }
+\DoxyCodeLine{00125\ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{classNode_adb0d7941c0f6e1a7226527317f5ddb27}{get\_value}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classNode_afed75881ae880fef65f1993b5d3fa607}{move}}.board\_position;\ \}}
+\DoxyCodeLine{00126\ }
+\DoxyCodeLine{00131\ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classNode_a868faa177f02c3fedc04d9b9bf7ecf93}{determined}}()\ \textcolor{keyword}{const}\ =\ 0;}
+\DoxyCodeLine{00132\ }
+\DoxyCodeLine{00133\ \ \ \textcolor{keywordtype}{bool}\ operator<(\textcolor{keyword}{const}\ \mbox{\hyperlink{classNode}{Node}}\ \&other)\ \{\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classNode_adb0d7941c0f6e1a7226527317f5ddb27}{get\_value}}()\ <\ other.\mbox{\hyperlink{classNode_adb0d7941c0f6e1a7226527317f5ddb27}{get\_value}}();\ \}}
+\DoxyCodeLine{00134\ }
+\DoxyCodeLine{00138\ \ \ \textcolor{keyword}{const}\ Board\ \mbox{\hyperlink{classNode_ab311598fed12653111397db58e5a7001}{get\_board}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classNode_ac14767b41676460f9e838443e00ac50a}{board}};\ \}}
+\DoxyCodeLine{00139\ }
+\DoxyCodeLine{00143\ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{typename}\ Board::MoveT\ \mbox{\hyperlink{classNode_a6de631214544e4cf3b183c77d4dfe1e8}{get\_move}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classNode_afed75881ae880fef65f1993b5d3fa607}{move}};\ \}}
+\DoxyCodeLine{00144\ }
+\DoxyCodeLine{00148\ \ \ std::vector<std::shared\_ptr<Node>>\ \&\mbox{\hyperlink{classNode_a7c5b04e0febe3632036ec445f99a8bee}{get\_children}}()\ \{\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classNode_a430ad6a899a7fff5868fe7f3668b50eb}{children}};\ \}}
+\DoxyCodeLine{00149\ }
+\DoxyCodeLine{00153\ \ \ \textcolor{keyword}{const}\ std::vector<std::shared\_ptr<Node>>\ \&\mbox{\hyperlink{classNode_a00ff93234c202e54264dbe80b4756a00}{get\_children}}()\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00154\ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classNode_a430ad6a899a7fff5868fe7f3668b50eb}{children}};}
+\DoxyCodeLine{00155\ \ \ \}}
+\DoxyCodeLine{00156\ }
+\DoxyCodeLine{00160\ \ \ std::size\_t\ \mbox{\hyperlink{classNode_a1210874aa5964085bceddff1c1c740d3}{get\_depth}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classNode_a034524f13d60063a604e4be013fac1fb}{depth}};\ \}}
+\DoxyCodeLine{00161\ }
+\DoxyCodeLine{00165\ \ \ std::shared\_ptr<Node>\ \mbox{\hyperlink{classNode_a15d6c7037cfc6f1ef1af4a1941679dd3}{get\_parent}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classNode_a9fab43181fecc1e9eff1918dbb403362}{parent}}.lock();\ \}}
+\DoxyCodeLine{00166\ }
+\DoxyCodeLine{00170\ \ \ \textcolor{keyword}{virtual}\ std::string\ \mbox{\hyperlink{classNode_a09ca7726777dfdb219f59888c57c16f7}{to\_string}}()\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00171\ \ \ \ \ std::stringstream\ stream;}
+\DoxyCodeLine{00172\ \ \ \ \ stream\ <<\ \textcolor{stringliteral}{"{}Position:\ "{}}\ <<\ \mbox{\hyperlink{classNode_afed75881ae880fef65f1993b5d3fa607}{move}}.board\_position}
+\DoxyCodeLine{00173\ \ \ \ \ \ \ \ \ \ \ \ <<\ \textcolor{stringliteral}{"{},\ Player:\ "{}}\ <<\ \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{size\_t}\textcolor{keyword}{>}(\mbox{\hyperlink{classNode_afed75881ae880fef65f1993b5d3fa607}{move}}.player)}
+\DoxyCodeLine{00174\ \ \ \ \ \ \ \ \ \ \ \ <<\ \textcolor{stringliteral}{"{},\ Depth:\ "{}}\ <<\ \mbox{\hyperlink{classNode_a034524f13d60063a604e4be013fac1fb}{depth}};}
+\DoxyCodeLine{00175\ \ \ \ \ \textcolor{keywordflow}{return}\ stream.str();}
+\DoxyCodeLine{00176\ \ \ \}}
+\DoxyCodeLine{00177\ }
+\DoxyCodeLine{00183\ \ \ std::string\ \mbox{\hyperlink{classNode_a96378c9b639bde5829f2187826b9e394}{to\_string}}(std::size\_t\ max\_depth)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00184\ \ \ \ \ std::stringstream\ stream;}
+\DoxyCodeLine{00185\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{auto}\ \&node\ :\ *\textcolor{keyword}{this})\ \{}
+\DoxyCodeLine{00186\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (node.depth\ -\/\ \mbox{\hyperlink{classNode_a034524f13d60063a604e4be013fac1fb}{depth}}\ >=\ max\_depth)\ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00187\ \ \ \ \ \ \ stream\ <<\ node.to\_string()\ <<\ std::endl;}
+\DoxyCodeLine{00188\ \ \ \ \ \}}
+\DoxyCodeLine{00189\ \ \ \ \ \textcolor{keywordflow}{return}\ stream.str();}
+\DoxyCodeLine{00190\ \ \ \}}
+\DoxyCodeLine{00191\ }
+\DoxyCodeLine{00192\ \ \textcolor{keyword}{protected}:}
+\DoxyCodeLine{00196\ \ \ std::vector<std::shared\_ptr<Node>>\ \mbox{\hyperlink{classNode_a430ad6a899a7fff5868fe7f3668b50eb}{children}};}
+\DoxyCodeLine{00197\ }
+\DoxyCodeLine{00201\ \ \ \textcolor{keyword}{const}\ std::weak\_ptr<Node>\ \mbox{\hyperlink{classNode_a9fab43181fecc1e9eff1918dbb403362}{parent}};}
+\DoxyCodeLine{00202\ }
+\DoxyCodeLine{00206\ \ \ \textcolor{keyword}{const}\ std::size\_t\ \mbox{\hyperlink{classNode_a034524f13d60063a604e4be013fac1fb}{depth}};}
+\DoxyCodeLine{00207\ }
+\DoxyCodeLine{00212\ \ \ \textcolor{keyword}{const}\ Board\ \mbox{\hyperlink{classNode_ac14767b41676460f9e838443e00ac50a}{board}};}
+\DoxyCodeLine{00213\ }
+\DoxyCodeLine{00217\ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{typename}\ Board::MoveT\ \mbox{\hyperlink{classNode_afed75881ae880fef65f1993b5d3fa607}{move}};}
+\DoxyCodeLine{00218\ }
+\DoxyCodeLine{00226\ \ \ \mbox{\hyperlink{classNode_ae07350ede45b2156498cb01aaea56475}{Node}}(\textcolor{keyword}{const}\ Board\ \&\mbox{\hyperlink{classNode_ac14767b41676460f9e838443e00ac50a}{board}})}
+\DoxyCodeLine{00227\ \ \ \ \ \ \ :\ \mbox{\hyperlink{classNode_a430ad6a899a7fff5868fe7f3668b50eb}{children}}(),\ \mbox{\hyperlink{classNode_a9fab43181fecc1e9eff1918dbb403362}{parent}}(),\ \mbox{\hyperlink{classNode_a034524f13d60063a604e4be013fac1fb}{depth}}(1U),\ \mbox{\hyperlink{classNode_ac14767b41676460f9e838443e00ac50a}{board}}(\mbox{\hyperlink{classNode_ac14767b41676460f9e838443e00ac50a}{board}}),\ \mbox{\hyperlink{classNode_afed75881ae880fef65f1993b5d3fa607}{move}}()\ \{\}}
+\DoxyCodeLine{00228\ }
+\DoxyCodeLine{00239\ \ \ \mbox{\hyperlink{classNode_aae8ad9f55540e320917b5ae282bba8cb}{Node}}(\textcolor{keyword}{const}\ std::shared\_ptr<Node>\ \mbox{\hyperlink{classNode_a9fab43181fecc1e9eff1918dbb403362}{parent}},\ \textcolor{keyword}{const}\ \textcolor{keyword}{typename}\ Board::MoveT\ \&\mbox{\hyperlink{classNode_afed75881ae880fef65f1993b5d3fa607}{move}})}
+\DoxyCodeLine{00240\ \ \ \ \ \ \ :\ \mbox{\hyperlink{classNode_a430ad6a899a7fff5868fe7f3668b50eb}{children}}(),}
+\DoxyCodeLine{00241\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classNode_a9fab43181fecc1e9eff1918dbb403362}{parent}}(\mbox{\hyperlink{classNode_a9fab43181fecc1e9eff1918dbb403362}{parent}}),}
+\DoxyCodeLine{00242\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classNode_a034524f13d60063a604e4be013fac1fb}{depth}}(1U\ +\ \mbox{\hyperlink{classNode_a9fab43181fecc1e9eff1918dbb403362}{parent}}-\/>\mbox{\hyperlink{classNode_a034524f13d60063a604e4be013fac1fb}{depth}}),}
+\DoxyCodeLine{00243\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classNode_ac14767b41676460f9e838443e00ac50a}{board}}(\mbox{\hyperlink{classNode_a9fab43181fecc1e9eff1918dbb403362}{parent}}-\/>\mbox{\hyperlink{classNode_ac14767b41676460f9e838443e00ac50a}{board}}\ +\ \mbox{\hyperlink{classNode_afed75881ae880fef65f1993b5d3fa607}{move}}),}
+\DoxyCodeLine{00244\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classNode_afed75881ae880fef65f1993b5d3fa607}{move}}(\mbox{\hyperlink{classNode_afed75881ae880fef65f1993b5d3fa607}{move}})\ \{\}}
+\DoxyCodeLine{00245\ }
+\DoxyCodeLine{00258\ \ \ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ Field>}
+\DoxyCodeLine{00259\ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classNode_a72acef9415d9d0845cb7fb0cd9dfabb4}{update\_field\_against\_child}}(\textcolor{keyword}{const}\ Field\ \&child\_field,}
+\DoxyCodeLine{00260\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ Field\ \&field)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00261\ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{classNode_ac14767b41676460f9e838443e00ac50a}{board}}.active\_player()\ ==\ Player::Player1)\ \{}
+\DoxyCodeLine{00262\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (child\_field\ >\ field)\ \{}
+\DoxyCodeLine{00263\ \ \ \ \ \ \ \ \ field\ =\ child\_field;}
+\DoxyCodeLine{00264\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00265\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00266\ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00267\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (child\_field\ <\ field)\ \{}
+\DoxyCodeLine{00268\ \ \ \ \ \ \ \ \ field\ =\ child\_field;}
+\DoxyCodeLine{00269\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{true};}
+\DoxyCodeLine{00270\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00271\ \ \ \ \ \}}
+\DoxyCodeLine{00272\ }
+\DoxyCodeLine{00273\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{false};}
+\DoxyCodeLine{00274\ \ \ \}}
+\DoxyCodeLine{00275\ }
+\DoxyCodeLine{00282\ \ \ std::size\_t\ \mbox{\hyperlink{classNode_a56bc8b5b9920ca516e3180bd928e6c79}{get\_sum\_depth}}()\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00283\ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{classNode_a430ad6a899a7fff5868fe7f3668b50eb}{children}}.empty())\ \{}
+\DoxyCodeLine{00284\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classNode_a034524f13d60063a604e4be013fac1fb}{depth}};}
+\DoxyCodeLine{00285\ \ \ \ \ \}}
+\DoxyCodeLine{00286\ \ \ \ \ std::size\_t\ n\ =\ 0;}
+\DoxyCodeLine{00287\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ \&child\ :\ \mbox{\hyperlink{classNode_a430ad6a899a7fff5868fe7f3668b50eb}{children}})\ \{}
+\DoxyCodeLine{00288\ \ \ \ \ \ \ n\ +=\ child-\/>get\_sum\_depth();}
+\DoxyCodeLine{00289\ \ \ \ \ \}}
+\DoxyCodeLine{00290\ \ \ \ \ \textcolor{keywordflow}{return}\ n;}
+\DoxyCodeLine{00291\ \ \ \}}
+\DoxyCodeLine{00292\ }
+\DoxyCodeLine{00293\ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00300\ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classNode_a96caba185e8bc662cbf3225a84e248c1}{expand}}(\textcolor{keyword}{const}\ std::vector<typename\ Board::MoveT>\ \&moves)\ =\ 0;}
+\DoxyCodeLine{00301\ }
+\DoxyCodeLine{00306\ \ \ \textcolor{keyword}{virtual}\ std::size\_t\ \mbox{\hyperlink{classNode_ae0d492e045fcbed75d1d4ec6afe0a42b}{get\_depth\_of\_pv}}()\ \textcolor{keyword}{const}\ =\ 0;}
+\DoxyCodeLine{00307\ }
+\DoxyCodeLine{00316\ \ \ std::shared\_ptr<const\ Node>\ \mbox{\hyperlink{classNode_a32d2d72c8112b24a44782e11edf534aa}{select}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classNode_a20de8d171f42484738b81bcfcb0519ec}{virtual\_select}}();\ \}}
+\DoxyCodeLine{00317\ }
+\DoxyCodeLine{00324\ \ \ std::shared\_ptr<Node>\ \mbox{\hyperlink{classNode_a98a3ff381af39aacb22d290338859561}{select}}()\ \{}
+\DoxyCodeLine{00325\ \ \ \ \ \textcolor{keywordflow}{return}\ std::const\_pointer\_cast<Node>(}
+\DoxyCodeLine{00326\ \ \ \ \ \ \ \ \ std::const\_pointer\_cast<const\ Node>(this-\/>shared\_from\_this())}
+\DoxyCodeLine{00327\ \ \ \ \ \ \ \ \ \ \ \ \ -\/>\mbox{\hyperlink{classNode_a32d2d72c8112b24a44782e11edf534aa}{select}}());}
+\DoxyCodeLine{00328\ \ \ \}}
+\DoxyCodeLine{00329\ }
+\DoxyCodeLine{00336\ \ \ std::size\_t\ \mbox{\hyperlink{classNode_a53e3fc86e02144b940cdff29b5cb8f57}{get\_num\_leaves}}()\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00337\ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{classNode_a430ad6a899a7fff5868fe7f3668b50eb}{children}}.empty())\ \{}
+\DoxyCodeLine{00338\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 1;}
+\DoxyCodeLine{00339\ \ \ \ \ \}}
+\DoxyCodeLine{00340\ \ \ \ \ std::size\_t\ n\ =\ 0;}
+\DoxyCodeLine{00341\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ \&child\ :\ \mbox{\hyperlink{classNode_a430ad6a899a7fff5868fe7f3668b50eb}{children}})\ \{}
+\DoxyCodeLine{00342\ \ \ \ \ \ \ n\ +=\ child-\/>get\_num\_leaves();}
+\DoxyCodeLine{00343\ \ \ \ \ \}}
+\DoxyCodeLine{00344\ \ \ \ \ \textcolor{keywordflow}{return}\ n;}
+\DoxyCodeLine{00345\ \ \ \}}
+\DoxyCodeLine{00346\ }
+\DoxyCodeLine{00350\ \ \ std::size\_t\ \mbox{\hyperlink{classNode_a902cda76237a080d0b514bf057fe0bd1}{get\_node\_count}}()\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00351\ \ \ \ \ std::size\_t\ node\_count\ =\ 1;}
+\DoxyCodeLine{00352\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ \&child\ :\ \mbox{\hyperlink{classNode_a430ad6a899a7fff5868fe7f3668b50eb}{children}})\ \{}
+\DoxyCodeLine{00353\ \ \ \ \ \ \ node\_count\ +=\ child-\/>get\_node\_count();}
+\DoxyCodeLine{00354\ \ \ \ \ \}}
+\DoxyCodeLine{00355\ \ \ \ \ \textcolor{keywordflow}{return}\ node\_count;}
+\DoxyCodeLine{00356\ \ \ \}}
+\DoxyCodeLine{00357\ }
+\DoxyCodeLine{00361\ \ \ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{classNode_a9c17f7a340cd270187cc17448b12f407}{get\_average\_branching\_factor}}()\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00362\ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{classNode_a430ad6a899a7fff5868fe7f3668b50eb}{children}}.empty())\ \textcolor{keywordflow}{return}\ 0.0;}
+\DoxyCodeLine{00363\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{double}\textcolor{keyword}{>}(\mbox{\hyperlink{classNode_a902cda76237a080d0b514bf057fe0bd1}{get\_node\_count}}()\ -\/\ 1)\ /\ \mbox{\hyperlink{classNode_ad01ea2de9edb8b45161b25a1480d4724}{get\_num\_internal\_nodes}}();}
+\DoxyCodeLine{00364\ \ \ \}}
+\DoxyCodeLine{00365\ }
+\DoxyCodeLine{00372\ \ \ std::size\_t\ \mbox{\hyperlink{classNode_ad01ea2de9edb8b45161b25a1480d4724}{get\_num\_internal\_nodes}}()\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00373\ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{classNode_a430ad6a899a7fff5868fe7f3668b50eb}{children}}.empty())\ \{}
+\DoxyCodeLine{00374\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ 0;}
+\DoxyCodeLine{00375\ \ \ \ \ \}}
+\DoxyCodeLine{00376\ \ \ \ \ std::size\_t\ n\ =\ 1;}
+\DoxyCodeLine{00377\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ \&child\ :\ \mbox{\hyperlink{classNode_a430ad6a899a7fff5868fe7f3668b50eb}{children}})\ \{}
+\DoxyCodeLine{00378\ \ \ \ \ \ \ n\ +=\ child-\/>get\_num\_internal\_nodes();}
+\DoxyCodeLine{00379\ \ \ \ \ \}}
+\DoxyCodeLine{00380\ \ \ \ \ \textcolor{keywordflow}{return}\ n;}
+\DoxyCodeLine{00381\ \ \ \}}
+\DoxyCodeLine{00382\ }
+\DoxyCodeLine{00387\ \ \ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{classNode_a679562f0d169cc82beb2996e2af60a14}{get\_mean\_depth}}()\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{00388\ \ \ \ \ \textcolor{keywordflow}{return}\ (\textcolor{keyword}{static\_cast<}\textcolor{keywordtype}{double}\textcolor{keyword}{>}(\mbox{\hyperlink{classNode_a56bc8b5b9920ca516e3180bd928e6c79}{get\_sum\_depth}}())\ /\ \mbox{\hyperlink{classNode_a53e3fc86e02144b940cdff29b5cb8f57}{get\_num\_leaves}}());}
+\DoxyCodeLine{00389\ \ \ \}}
+\DoxyCodeLine{00390\ }
+\DoxyCodeLine{00395\ \ \ \textcolor{keyword}{virtual}\ \textcolor{keyword}{typename}\ Board::MoveT\ \mbox{\hyperlink{classNode_a87091fb8455cbc9797ddc80a262e04e7}{get\_best\_move}}()\ \textcolor{keyword}{const}\ =\ 0;}
+\DoxyCodeLine{00396\ }
+\DoxyCodeLine{00397\ \ \textcolor{keyword}{protected}:}
+\DoxyCodeLine{00406\ \ \ \textcolor{keyword}{virtual}\ std::shared\_ptr<const\ Node>\ \mbox{\hyperlink{classNode_a20de8d171f42484738b81bcfcb0519ec}{virtual\_select}}()\ \textcolor{keyword}{const}\ =\ 0;}
+\DoxyCodeLine{00407\ \};}
+\DoxyCodeLine{00408\ }
+\DoxyCodeLine{00409\ \textcolor{preprocessor}{\#endif\ \ }\textcolor{comment}{//\ GAME\_TREE\_NODE\_H\_INCLUDED}}
+
+\end{DoxyCode}

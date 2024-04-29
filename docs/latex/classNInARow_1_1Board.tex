@@ -1,0 +1,446 @@
+\doxysection{NIn\+ARow\+::Board\texorpdfstring{$<$}{<} HEIGHT, WIDTH, N \texorpdfstring{$>$}{>} Class Template Reference}
+\hypertarget{classNInARow_1_1Board}{}\label{classNInARow_1_1Board}\index{NInARow::Board$<$ HEIGHT, WIDTH, N $>$@{NInARow::Board$<$ HEIGHT, WIDTH, N $>$}}
+
+
+{\ttfamily \#include $<$ninarow\+\_\+board.\+h$>$}
+
+\doxysubsubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classNInARow_1_1Board_a6c4db5f153775621d53d32ab7f20fa03}\label{classNInARow_1_1Board_a6c4db5f153775621d53d32ab7f20fa03} 
+using {\bfseries PatternT} = \mbox{\hyperlink{classNInARow_1_1Pattern}{Pattern}}$<$ HEIGHT, WIDTH, N $>$
+\item 
+\Hypertarget{classNInARow_1_1Board_a7b8602180cda374a88e00bafcbba944a}\label{classNInARow_1_1Board_a7b8602180cda374a88e00bafcbba944a} 
+using {\bfseries Pattern\+HasherT} = \mbox{\hyperlink{structNInARow_1_1PatternHasher}{Pattern\+Hasher}}$<$ \mbox{\hyperlink{classNInARow_1_1Pattern}{PatternT}} $>$
+\item 
+\Hypertarget{classNInARow_1_1Board_acc3bdb67675a6aa4d24339097209856f}\label{classNInARow_1_1Board_acc3bdb67675a6aa4d24339097209856f} 
+using {\bfseries MoveT} = \mbox{\hyperlink{classNInARow_1_1Move}{Move}}$<$ HEIGHT, WIDTH, N $>$
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classNInARow_1_1Board_aa7e780495d8d034d72fad0321ce47350}{Board}} ()=default
+\item 
+\mbox{\hyperlink{classNInARow_1_1Board_af61b616015bde0d316f5ad484aab9dd1}{Board}} (const \mbox{\hyperlink{classNInARow_1_1Pattern}{PatternT}} \&black\+\_\+pieces, const \mbox{\hyperlink{classNInARow_1_1Pattern}{PatternT}} \&white\+\_\+pieces)
+\item 
+void \mbox{\hyperlink{classNInARow_1_1Board_a7579a9073126b1e052cb088fb5db4b59}{reset}} ()
+\item 
+bool \mbox{\hyperlink{classNInARow_1_1Board_a84a984f41e911c3a2f714386fdd48b86}{player\+\_\+has\+\_\+won}} (const Player player) const
+\item 
+bool \mbox{\hyperlink{classNInARow_1_1Board_a4c7230bda6da66a4f5d6a4f83b005987}{game\+\_\+is\+\_\+drawn}} () const
+\item 
+bool \mbox{\hyperlink{classNInARow_1_1Board_a99a9b1e9ffdeefc5e8bb764f6d77ad1d}{game\+\_\+has\+\_\+ended}} () const
+\item 
+std\+::size\+\_\+t \mbox{\hyperlink{classNInARow_1_1Board_a884ea5eb3e684376d0143fe838826473}{num\+\_\+pieces}} () const
+\item 
+\Hypertarget{classNInARow_1_1Board_aa8f4dc058ad7e782c761cb2d5b000cd8}\label{classNInARow_1_1Board_aa8f4dc058ad7e782c761cb2d5b000cd8} 
+Player {\bfseries active\+\_\+player} () const
+\item 
+\Hypertarget{classNInARow_1_1Board_abcbf41ceac7bd80d877c6235b85803fc}\label{classNInARow_1_1Board_abcbf41ceac7bd80d877c6235b85803fc} 
+std\+::string {\bfseries to\+\_\+string} () const
+\item 
+std\+::string \mbox{\hyperlink{classNInARow_1_1Board_a4887d04cde8c79eaa0eac5de7a7e4513}{to\+\_\+string}} (const \mbox{\hyperlink{classNInARow_1_1Pattern}{PatternT}} p) const
+\item 
+\mbox{\hyperlink{classNInARow_1_1Pattern}{PatternT}} \mbox{\hyperlink{classNInARow_1_1Board_ae41609fe19d91b86767f48450bbe0e7a}{get\+\_\+pieces}} (const Player player) const
+\item 
+\mbox{\hyperlink{classNInARow_1_1Pattern}{PatternT}} \mbox{\hyperlink{classNInARow_1_1Board_a571f86a5e057444e0386333d8c195ccf}{get\+\_\+spaces}} () const
+\item 
+std\+::size\+\_\+t \mbox{\hyperlink{classNInARow_1_1Board_ac8fe37ac18905a6e54232fab38ee5d9a}{count\+\_\+pieces}} (const \mbox{\hyperlink{classNInARow_1_1Pattern}{PatternT}} p, const Player player) const
+\item 
+std\+::size\+\_\+t \mbox{\hyperlink{classNInARow_1_1Board_a711874e8132f01f411f2603a7d2583ea}{count\+\_\+spaces}} (const \mbox{\hyperlink{classNInARow_1_1Pattern}{PatternT}} p) const
+\item 
+\mbox{\hyperlink{classNInARow_1_1Pattern}{Board\+::\+PatternT}} \mbox{\hyperlink{classNInARow_1_1Board_aef4e275bf904404e0d3c96d10696b1fa}{missing\+\_\+pieces}} (const \mbox{\hyperlink{classNInARow_1_1Pattern}{Board\+::\+PatternT}} \&pattern, Player player) const
+\item 
+bool \mbox{\hyperlink{classNInARow_1_1Board_a7c8d1a3645c545b7649eb1fdc7fc0254}{contains\+\_\+spaces}} (const \mbox{\hyperlink{classNInARow_1_1Pattern}{PatternT}} p) const
+\item 
+bool \mbox{\hyperlink{classNInARow_1_1Board_a8ceb5c4809db4dbf0252c721feefc814}{contains\+\_\+move}} (\mbox{\hyperlink{classNInARow_1_1Move}{MoveT}} m) const
+\item 
+bool \mbox{\hyperlink{classNInARow_1_1Board_a086b369ecc763fe566e1569d1ef53804}{contains\+\_\+spaces}} (std\+::size\+\_\+t position) const
+\item 
+bool \mbox{\hyperlink{classNInARow_1_1Board_a6c14804df6ec6b8ff469b8f2e1703b37}{contains}} (\mbox{\hyperlink{classNInARow_1_1Pattern}{PatternT}} p, Player player) const
+\item 
+void \mbox{\hyperlink{classNInARow_1_1Board_a56168083a79c5f970e1dea41b34b2738}{add}} (const \mbox{\hyperlink{classNInARow_1_1Move}{MoveT}} m)
+\item 
+void \mbox{\hyperlink{classNInARow_1_1Board_a7672b366297858b87c97a9e273699628}{remove}} (const \mbox{\hyperlink{classNInARow_1_1Move}{MoveT}} m)
+\item 
+\mbox{\hyperlink{classNInARow_1_1Board}{Board}} \mbox{\hyperlink{classNInARow_1_1Board_a0a13768753a40816ff0e596b65c6c7e3}{operator+}} (const \mbox{\hyperlink{classNInARow_1_1Move}{MoveT}} m) const
+\item 
+\mbox{\hyperlink{classNInARow_1_1Board}{Board}} \mbox{\hyperlink{classNInARow_1_1Board_ab594d48b93cdeb57f79f33b65a98eb88}{operator-\/}} (const \mbox{\hyperlink{classNInARow_1_1Move}{MoveT}} m) const
+\item 
+bool \mbox{\hyperlink{classNInARow_1_1Board_a62ab9433d6c8365c9f528083fdb8155e}{operator==}} (const \mbox{\hyperlink{classNInARow_1_1Board}{Board}} \&b) const
+\item 
+bool \mbox{\hyperlink{classNInARow_1_1Board_ae6b71f854ddd6a79e35164757dfc5049}{operator!=}} (const \mbox{\hyperlink{classNInARow_1_1Board}{Board}} \&b) const
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static constexpr std\+::size\+\_\+t \mbox{\hyperlink{classNInARow_1_1Board_a5aaa19a67ed5776131bc6a48d0b4d681}{get\+\_\+max\+\_\+num\+\_\+moves}} ()
+\end{DoxyCompactItemize}
+\textbf{ }\par
+\begin{DoxyCompactItemize}
+\item 
+static constexpr std\+::size\+\_\+t \mbox{\hyperlink{classNInARow_1_1Board_a5e6750c3baf499181704c17e24d50489}{get\+\_\+board\+\_\+height}} ()
+\item 
+\Hypertarget{classNInARow_1_1Board_a6a5bdf047397c48c5852537360e521ef}\label{classNInARow_1_1Board_a6a5bdf047397c48c5852537360e521ef} 
+static constexpr std\+::size\+\_\+t {\bfseries get\+\_\+board\+\_\+width} ()
+\item 
+\Hypertarget{classNInARow_1_1Board_a38c1a6bca902e182cab528efdb50e21b}\label{classNInARow_1_1Board_a38c1a6bca902e182cab528efdb50e21b} 
+static constexpr std\+::size\+\_\+t {\bfseries get\+\_\+board\+\_\+size} ()
+\end{DoxyCompactItemize}
+
+
+
+\doxysubsection{Detailed Description}
+\subsubsection*{template$<$std\+::size\+\_\+t HEIGHT, std\+::size\+\_\+t WIDTH, std\+::size\+\_\+t N$>$\newline
+class NIn\+ARow\+::\+Board$<$ HEIGHT, WIDTH, N $>$}
+Represents a board of N-\/in-\/a-\/row. In a game of N in a row, players alternate placing stones on a rectangular board. When a player places N stones in a row, either orthogonally or diagonally, that player wins.
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em HEIGHT} & The height of the board. \\
+\hline
+{\em WIDTH} & The width of the board. \\
+\hline
+{\em N} & The number of stones in a row required to win. \\
+\hline
+\end{DoxyTemplParams}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classNInARow_1_1Board_aa7e780495d8d034d72fad0321ce47350}\label{classNInARow_1_1Board_aa7e780495d8d034d72fad0321ce47350} 
+\index{NInARow::Board$<$ HEIGHT, WIDTH, N $>$@{NInARow::Board$<$ HEIGHT, WIDTH, N $>$}!Board@{Board}}
+\index{Board@{Board}!NInARow::Board$<$ HEIGHT, WIDTH, N $>$@{NInARow::Board$<$ HEIGHT, WIDTH, N $>$}}
+\doxysubsubsection{\texorpdfstring{Board()}{Board()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$std\+::size\+\_\+t HEIGHT, std\+::size\+\_\+t WIDTH, std\+::size\+\_\+t N$>$ \\
+\mbox{\hyperlink{classNInARow_1_1Board}{NIn\+ARow\+::\+Board}}$<$ HEIGHT, WIDTH, N $>$\+::\+Board (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [default]}}
+
+Default constructor. \Hypertarget{classNInARow_1_1Board_af61b616015bde0d316f5ad484aab9dd1}\label{classNInARow_1_1Board_af61b616015bde0d316f5ad484aab9dd1} 
+\index{NInARow::Board$<$ HEIGHT, WIDTH, N $>$@{NInARow::Board$<$ HEIGHT, WIDTH, N $>$}!Board@{Board}}
+\index{Board@{Board}!NInARow::Board$<$ HEIGHT, WIDTH, N $>$@{NInARow::Board$<$ HEIGHT, WIDTH, N $>$}}
+\doxysubsubsection{\texorpdfstring{Board()}{Board()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$std\+::size\+\_\+t HEIGHT, std\+::size\+\_\+t WIDTH, std\+::size\+\_\+t N$>$ \\
+\mbox{\hyperlink{classNInARow_1_1Board}{NIn\+ARow\+::\+Board}}$<$ HEIGHT, WIDTH, N $>$\+::\+Board (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classNInARow_1_1Pattern}{PatternT}} \&}]{black\+\_\+pieces,  }\item[{const \mbox{\hyperlink{classNInARow_1_1Pattern}{PatternT}} \&}]{white\+\_\+pieces }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Constructs a board with the given piece pattern.
+
+
+\begin{DoxyParams}{Parameters}
+{\em black\+\_\+pieces} & The black pieces on the board. \\
+\hline
+{\em white\+\_\+pieces} & The white pieces on the board. \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classNInARow_1_1Board_a56168083a79c5f970e1dea41b34b2738}\label{classNInARow_1_1Board_a56168083a79c5f970e1dea41b34b2738} 
+\index{NInARow::Board$<$ HEIGHT, WIDTH, N $>$@{NInARow::Board$<$ HEIGHT, WIDTH, N $>$}!add@{add}}
+\index{add@{add}!NInARow::Board$<$ HEIGHT, WIDTH, N $>$@{NInARow::Board$<$ HEIGHT, WIDTH, N $>$}}
+\doxysubsubsection{\texorpdfstring{add()}{add()}}
+{\footnotesize\ttfamily template$<$std\+::size\+\_\+t HEIGHT, std\+::size\+\_\+t WIDTH, std\+::size\+\_\+t N$>$ \\
+void \mbox{\hyperlink{classNInARow_1_1Board}{NIn\+ARow\+::\+Board}}$<$ HEIGHT, WIDTH, N $>$\+::add (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classNInARow_1_1Move}{MoveT}}}]{m }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+\begin{DoxyParams}{Parameters}
+{\em m} & The move to add to the board. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classNInARow_1_1Board_a6c14804df6ec6b8ff469b8f2e1703b37}\label{classNInARow_1_1Board_a6c14804df6ec6b8ff469b8f2e1703b37} 
+\index{NInARow::Board$<$ HEIGHT, WIDTH, N $>$@{NInARow::Board$<$ HEIGHT, WIDTH, N $>$}!contains@{contains}}
+\index{contains@{contains}!NInARow::Board$<$ HEIGHT, WIDTH, N $>$@{NInARow::Board$<$ HEIGHT, WIDTH, N $>$}}
+\doxysubsubsection{\texorpdfstring{contains()}{contains()}}
+{\footnotesize\ttfamily template$<$std\+::size\+\_\+t HEIGHT, std\+::size\+\_\+t WIDTH, std\+::size\+\_\+t N$>$ \\
+bool \mbox{\hyperlink{classNInARow_1_1Board}{NIn\+ARow\+::\+Board}}$<$ HEIGHT, WIDTH, N $>$\+::contains (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classNInARow_1_1Pattern}{PatternT}}}]{p,  }\item[{Player}]{player }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+\begin{DoxyParams}{Parameters}
+{\em p} & The pattern to check. \\
+\hline
+{\em player} & The player to check.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True if the given player\textquotesingle{}s moveset contains the given pattern. 
+\end{DoxyReturn}
+\Hypertarget{classNInARow_1_1Board_a8ceb5c4809db4dbf0252c721feefc814}\label{classNInARow_1_1Board_a8ceb5c4809db4dbf0252c721feefc814} 
+\index{NInARow::Board$<$ HEIGHT, WIDTH, N $>$@{NInARow::Board$<$ HEIGHT, WIDTH, N $>$}!contains\_move@{contains\_move}}
+\index{contains\_move@{contains\_move}!NInARow::Board$<$ HEIGHT, WIDTH, N $>$@{NInARow::Board$<$ HEIGHT, WIDTH, N $>$}}
+\doxysubsubsection{\texorpdfstring{contains\_move()}{contains\_move()}}
+{\footnotesize\ttfamily template$<$std\+::size\+\_\+t HEIGHT, std\+::size\+\_\+t WIDTH, std\+::size\+\_\+t N$>$ \\
+bool \mbox{\hyperlink{classNInARow_1_1Board}{NIn\+ARow\+::\+Board}}$<$ HEIGHT, WIDTH, N $>$\+::contains\+\_\+move (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classNInARow_1_1Move}{MoveT}}}]{m }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+\begin{DoxyParams}{Parameters}
+{\em m} & The move to check for.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True if the board contains the given move. 
+\end{DoxyReturn}
+\Hypertarget{classNInARow_1_1Board_a7c8d1a3645c545b7649eb1fdc7fc0254}\label{classNInARow_1_1Board_a7c8d1a3645c545b7649eb1fdc7fc0254} 
+\index{NInARow::Board$<$ HEIGHT, WIDTH, N $>$@{NInARow::Board$<$ HEIGHT, WIDTH, N $>$}!contains\_spaces@{contains\_spaces}}
+\index{contains\_spaces@{contains\_spaces}!NInARow::Board$<$ HEIGHT, WIDTH, N $>$@{NInARow::Board$<$ HEIGHT, WIDTH, N $>$}}
+\doxysubsubsection{\texorpdfstring{contains\_spaces()}{contains\_spaces()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$std\+::size\+\_\+t HEIGHT, std\+::size\+\_\+t WIDTH, std\+::size\+\_\+t N$>$ \\
+bool \mbox{\hyperlink{classNInARow_1_1Board}{NIn\+ARow\+::\+Board}}$<$ HEIGHT, WIDTH, N $>$\+::contains\+\_\+spaces (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classNInARow_1_1Pattern}{PatternT}}}]{p }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+\begin{DoxyParams}{Parameters}
+{\em p} & The pattern to check.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True if the all of the given positions are unoccupied by pieces of either player. 
+\end{DoxyReturn}
+\Hypertarget{classNInARow_1_1Board_a086b369ecc763fe566e1569d1ef53804}\label{classNInARow_1_1Board_a086b369ecc763fe566e1569d1ef53804} 
+\index{NInARow::Board$<$ HEIGHT, WIDTH, N $>$@{NInARow::Board$<$ HEIGHT, WIDTH, N $>$}!contains\_spaces@{contains\_spaces}}
+\index{contains\_spaces@{contains\_spaces}!NInARow::Board$<$ HEIGHT, WIDTH, N $>$@{NInARow::Board$<$ HEIGHT, WIDTH, N $>$}}
+\doxysubsubsection{\texorpdfstring{contains\_spaces()}{contains\_spaces()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$std\+::size\+\_\+t HEIGHT, std\+::size\+\_\+t WIDTH, std\+::size\+\_\+t N$>$ \\
+bool \mbox{\hyperlink{classNInARow_1_1Board}{NIn\+ARow\+::\+Board}}$<$ HEIGHT, WIDTH, N $>$\+::contains\+\_\+spaces (\begin{DoxyParamCaption}\item[{std\+::size\+\_\+t}]{position }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+\begin{DoxyParams}{Parameters}
+{\em position} & The position to check for a move.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True if a move has been played by either player at the given position. 
+\end{DoxyReturn}
+\Hypertarget{classNInARow_1_1Board_ac8fe37ac18905a6e54232fab38ee5d9a}\label{classNInARow_1_1Board_ac8fe37ac18905a6e54232fab38ee5d9a} 
+\index{NInARow::Board$<$ HEIGHT, WIDTH, N $>$@{NInARow::Board$<$ HEIGHT, WIDTH, N $>$}!count\_pieces@{count\_pieces}}
+\index{count\_pieces@{count\_pieces}!NInARow::Board$<$ HEIGHT, WIDTH, N $>$@{NInARow::Board$<$ HEIGHT, WIDTH, N $>$}}
+\doxysubsubsection{\texorpdfstring{count\_pieces()}{count\_pieces()}}
+{\footnotesize\ttfamily template$<$std\+::size\+\_\+t HEIGHT, std\+::size\+\_\+t WIDTH, std\+::size\+\_\+t N$>$ \\
+std\+::size\+\_\+t \mbox{\hyperlink{classNInARow_1_1Board}{NIn\+ARow\+::\+Board}}$<$ HEIGHT, WIDTH, N $>$\+::count\+\_\+pieces (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classNInARow_1_1Pattern}{PatternT}}}]{p,  }\item[{const Player}]{player }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+\begin{DoxyParams}{Parameters}
+{\em p} & The pattern to check.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The number of positions that the given player has covered in the given pattern. 
+\end{DoxyReturn}
+\Hypertarget{classNInARow_1_1Board_a711874e8132f01f411f2603a7d2583ea}\label{classNInARow_1_1Board_a711874e8132f01f411f2603a7d2583ea} 
+\index{NInARow::Board$<$ HEIGHT, WIDTH, N $>$@{NInARow::Board$<$ HEIGHT, WIDTH, N $>$}!count\_spaces@{count\_spaces}}
+\index{count\_spaces@{count\_spaces}!NInARow::Board$<$ HEIGHT, WIDTH, N $>$@{NInARow::Board$<$ HEIGHT, WIDTH, N $>$}}
+\doxysubsubsection{\texorpdfstring{count\_spaces()}{count\_spaces()}}
+{\footnotesize\ttfamily template$<$std\+::size\+\_\+t HEIGHT, std\+::size\+\_\+t WIDTH, std\+::size\+\_\+t N$>$ \\
+std\+::size\+\_\+t \mbox{\hyperlink{classNInARow_1_1Board}{NIn\+ARow\+::\+Board}}$<$ HEIGHT, WIDTH, N $>$\+::count\+\_\+spaces (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classNInARow_1_1Pattern}{PatternT}}}]{p }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+\begin{DoxyParams}{Parameters}
+{\em p} & The pattern to check.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The number of positions that neither player has covered in the given pattern. 
+\end{DoxyReturn}
+\Hypertarget{classNInARow_1_1Board_a99a9b1e9ffdeefc5e8bb764f6d77ad1d}\label{classNInARow_1_1Board_a99a9b1e9ffdeefc5e8bb764f6d77ad1d} 
+\index{NInARow::Board$<$ HEIGHT, WIDTH, N $>$@{NInARow::Board$<$ HEIGHT, WIDTH, N $>$}!game\_has\_ended@{game\_has\_ended}}
+\index{game\_has\_ended@{game\_has\_ended}!NInARow::Board$<$ HEIGHT, WIDTH, N $>$@{NInARow::Board$<$ HEIGHT, WIDTH, N $>$}}
+\doxysubsubsection{\texorpdfstring{game\_has\_ended()}{game\_has\_ended()}}
+{\footnotesize\ttfamily template$<$std\+::size\+\_\+t HEIGHT, std\+::size\+\_\+t WIDTH, std\+::size\+\_\+t N$>$ \\
+bool \mbox{\hyperlink{classNInARow_1_1Board}{NIn\+ARow\+::\+Board}}$<$ HEIGHT, WIDTH, N $>$\+::game\+\_\+has\+\_\+ended (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\begin{DoxyReturn}{Returns}
+True if the game is over -\/ either one player has one, or the game is drawn. 
+\end{DoxyReturn}
+\Hypertarget{classNInARow_1_1Board_a4c7230bda6da66a4f5d6a4f83b005987}\label{classNInARow_1_1Board_a4c7230bda6da66a4f5d6a4f83b005987} 
+\index{NInARow::Board$<$ HEIGHT, WIDTH, N $>$@{NInARow::Board$<$ HEIGHT, WIDTH, N $>$}!game\_is\_drawn@{game\_is\_drawn}}
+\index{game\_is\_drawn@{game\_is\_drawn}!NInARow::Board$<$ HEIGHT, WIDTH, N $>$@{NInARow::Board$<$ HEIGHT, WIDTH, N $>$}}
+\doxysubsubsection{\texorpdfstring{game\_is\_drawn()}{game\_is\_drawn()}}
+{\footnotesize\ttfamily template$<$std\+::size\+\_\+t HEIGHT, std\+::size\+\_\+t WIDTH, std\+::size\+\_\+t N$>$ \\
+bool \mbox{\hyperlink{classNInARow_1_1Board}{NIn\+ARow\+::\+Board}}$<$ HEIGHT, WIDTH, N $>$\+::game\+\_\+is\+\_\+drawn (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\begin{DoxyReturn}{Returns}
+True if the game is drawn, false otherwise. 
+\end{DoxyReturn}
+\Hypertarget{classNInARow_1_1Board_a5e6750c3baf499181704c17e24d50489}\label{classNInARow_1_1Board_a5e6750c3baf499181704c17e24d50489} 
+\index{NInARow::Board$<$ HEIGHT, WIDTH, N $>$@{NInARow::Board$<$ HEIGHT, WIDTH, N $>$}!get\_board\_height@{get\_board\_height}}
+\index{get\_board\_height@{get\_board\_height}!NInARow::Board$<$ HEIGHT, WIDTH, N $>$@{NInARow::Board$<$ HEIGHT, WIDTH, N $>$}}
+\doxysubsubsection{\texorpdfstring{get\_board\_height()}{get\_board\_height()}}
+{\footnotesize\ttfamily template$<$std\+::size\+\_\+t HEIGHT, std\+::size\+\_\+t WIDTH, std\+::size\+\_\+t N$>$ \\
+static constexpr std\+::size\+\_\+t \mbox{\hyperlink{classNInARow_1_1Board}{NIn\+ARow\+::\+Board}}$<$ HEIGHT, WIDTH, N $>$\+::get\+\_\+board\+\_\+height (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}, {\ttfamily [constexpr]}}
+
+Getters for board dimensions. \Hypertarget{classNInARow_1_1Board_a5aaa19a67ed5776131bc6a48d0b4d681}\label{classNInARow_1_1Board_a5aaa19a67ed5776131bc6a48d0b4d681} 
+\index{NInARow::Board$<$ HEIGHT, WIDTH, N $>$@{NInARow::Board$<$ HEIGHT, WIDTH, N $>$}!get\_max\_num\_moves@{get\_max\_num\_moves}}
+\index{get\_max\_num\_moves@{get\_max\_num\_moves}!NInARow::Board$<$ HEIGHT, WIDTH, N $>$@{NInARow::Board$<$ HEIGHT, WIDTH, N $>$}}
+\doxysubsubsection{\texorpdfstring{get\_max\_num\_moves()}{get\_max\_num\_moves()}}
+{\footnotesize\ttfamily template$<$std\+::size\+\_\+t HEIGHT, std\+::size\+\_\+t WIDTH, std\+::size\+\_\+t N$>$ \\
+static constexpr std\+::size\+\_\+t \mbox{\hyperlink{classNInARow_1_1Board}{NIn\+ARow\+::\+Board}}$<$ HEIGHT, WIDTH, N $>$\+::get\+\_\+max\+\_\+num\+\_\+moves (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}, {\ttfamily [constexpr]}}
+
+\begin{DoxyReturn}{Returns}
+The maximum number of moves of any possible game played on this board. 
+\end{DoxyReturn}
+\Hypertarget{classNInARow_1_1Board_ae41609fe19d91b86767f48450bbe0e7a}\label{classNInARow_1_1Board_ae41609fe19d91b86767f48450bbe0e7a} 
+\index{NInARow::Board$<$ HEIGHT, WIDTH, N $>$@{NInARow::Board$<$ HEIGHT, WIDTH, N $>$}!get\_pieces@{get\_pieces}}
+\index{get\_pieces@{get\_pieces}!NInARow::Board$<$ HEIGHT, WIDTH, N $>$@{NInARow::Board$<$ HEIGHT, WIDTH, N $>$}}
+\doxysubsubsection{\texorpdfstring{get\_pieces()}{get\_pieces()}}
+{\footnotesize\ttfamily template$<$std\+::size\+\_\+t HEIGHT, std\+::size\+\_\+t WIDTH, std\+::size\+\_\+t N$>$ \\
+\mbox{\hyperlink{classNInARow_1_1Pattern}{PatternT}} \mbox{\hyperlink{classNInARow_1_1Board}{NIn\+ARow\+::\+Board}}$<$ HEIGHT, WIDTH, N $>$\+::get\+\_\+pieces (\begin{DoxyParamCaption}\item[{const Player}]{player }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+\begin{DoxyParams}{Parameters}
+{\em player} & The player whose pieces are being requested.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The pieces of the given player. 
+\end{DoxyReturn}
+\Hypertarget{classNInARow_1_1Board_a571f86a5e057444e0386333d8c195ccf}\label{classNInARow_1_1Board_a571f86a5e057444e0386333d8c195ccf} 
+\index{NInARow::Board$<$ HEIGHT, WIDTH, N $>$@{NInARow::Board$<$ HEIGHT, WIDTH, N $>$}!get\_spaces@{get\_spaces}}
+\index{get\_spaces@{get\_spaces}!NInARow::Board$<$ HEIGHT, WIDTH, N $>$@{NInARow::Board$<$ HEIGHT, WIDTH, N $>$}}
+\doxysubsubsection{\texorpdfstring{get\_spaces()}{get\_spaces()}}
+{\footnotesize\ttfamily template$<$std\+::size\+\_\+t HEIGHT, std\+::size\+\_\+t WIDTH, std\+::size\+\_\+t N$>$ \\
+\mbox{\hyperlink{classNInARow_1_1Pattern}{PatternT}} \mbox{\hyperlink{classNInARow_1_1Board}{NIn\+ARow\+::\+Board}}$<$ HEIGHT, WIDTH, N $>$\+::get\+\_\+spaces (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\begin{DoxyReturn}{Returns}
+A pattern containing all empty spaces on the board. 
+\end{DoxyReturn}
+\Hypertarget{classNInARow_1_1Board_aef4e275bf904404e0d3c96d10696b1fa}\label{classNInARow_1_1Board_aef4e275bf904404e0d3c96d10696b1fa} 
+\index{NInARow::Board$<$ HEIGHT, WIDTH, N $>$@{NInARow::Board$<$ HEIGHT, WIDTH, N $>$}!missing\_pieces@{missing\_pieces}}
+\index{missing\_pieces@{missing\_pieces}!NInARow::Board$<$ HEIGHT, WIDTH, N $>$@{NInARow::Board$<$ HEIGHT, WIDTH, N $>$}}
+\doxysubsubsection{\texorpdfstring{missing\_pieces()}{missing\_pieces()}}
+{\footnotesize\ttfamily template$<$std\+::size\+\_\+t HEIGHT, std\+::size\+\_\+t WIDTH, std\+::size\+\_\+t N$>$ \\
+\mbox{\hyperlink{classNInARow_1_1Pattern}{Board\+::\+PatternT}} \mbox{\hyperlink{classNInARow_1_1Board}{NIn\+ARow\+::\+Board}}$<$ HEIGHT, WIDTH, N $>$\+::missing\+\_\+pieces (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classNInARow_1_1Board}{Board}}$<$ HEIGHT, WIDTH, N $>$\+::\+PatternT \&}]{pattern,  }\item[{Player}]{player }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+\begin{DoxyParams}{Parameters}
+{\em pattern} & A pattern of pieces to cover. \\
+\hline
+{\em player} & The player who desires to cover the given pattern.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A pattern representing the pieces needed to be played by the given player in order to cover the given pattern. 
+\end{DoxyReturn}
+\Hypertarget{classNInARow_1_1Board_a884ea5eb3e684376d0143fe838826473}\label{classNInARow_1_1Board_a884ea5eb3e684376d0143fe838826473} 
+\index{NInARow::Board$<$ HEIGHT, WIDTH, N $>$@{NInARow::Board$<$ HEIGHT, WIDTH, N $>$}!num\_pieces@{num\_pieces}}
+\index{num\_pieces@{num\_pieces}!NInARow::Board$<$ HEIGHT, WIDTH, N $>$@{NInARow::Board$<$ HEIGHT, WIDTH, N $>$}}
+\doxysubsubsection{\texorpdfstring{num\_pieces()}{num\_pieces()}}
+{\footnotesize\ttfamily template$<$std\+::size\+\_\+t HEIGHT, std\+::size\+\_\+t WIDTH, std\+::size\+\_\+t N$>$ \\
+std\+::size\+\_\+t \mbox{\hyperlink{classNInARow_1_1Board}{NIn\+ARow\+::\+Board}}$<$ HEIGHT, WIDTH, N $>$\+::num\+\_\+pieces (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\begin{DoxyReturn}{Returns}
+The number of pieces on the board from both players. 
+\end{DoxyReturn}
+\Hypertarget{classNInARow_1_1Board_ae6b71f854ddd6a79e35164757dfc5049}\label{classNInARow_1_1Board_ae6b71f854ddd6a79e35164757dfc5049} 
+\index{NInARow::Board$<$ HEIGHT, WIDTH, N $>$@{NInARow::Board$<$ HEIGHT, WIDTH, N $>$}!operator"!=@{operator"!=}}
+\index{operator"!=@{operator"!=}!NInARow::Board$<$ HEIGHT, WIDTH, N $>$@{NInARow::Board$<$ HEIGHT, WIDTH, N $>$}}
+\doxysubsubsection{\texorpdfstring{operator"!=()}{operator!=()}}
+{\footnotesize\ttfamily template$<$std\+::size\+\_\+t HEIGHT, std\+::size\+\_\+t WIDTH, std\+::size\+\_\+t N$>$ \\
+bool \mbox{\hyperlink{classNInARow_1_1Board}{NIn\+ARow\+::\+Board}}$<$ HEIGHT, WIDTH, N $>$\+::operator!= (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classNInARow_1_1Board}{Board}}$<$ HEIGHT, WIDTH, N $>$ \&}]{b }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+\begin{DoxyParams}{Parameters}
+{\em b} & A different board.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True if the given board is not equivalent to this board. 
+\end{DoxyReturn}
+\Hypertarget{classNInARow_1_1Board_a0a13768753a40816ff0e596b65c6c7e3}\label{classNInARow_1_1Board_a0a13768753a40816ff0e596b65c6c7e3} 
+\index{NInARow::Board$<$ HEIGHT, WIDTH, N $>$@{NInARow::Board$<$ HEIGHT, WIDTH, N $>$}!operator+@{operator+}}
+\index{operator+@{operator+}!NInARow::Board$<$ HEIGHT, WIDTH, N $>$@{NInARow::Board$<$ HEIGHT, WIDTH, N $>$}}
+\doxysubsubsection{\texorpdfstring{operator+()}{operator+()}}
+{\footnotesize\ttfamily template$<$std\+::size\+\_\+t HEIGHT, std\+::size\+\_\+t WIDTH, std\+::size\+\_\+t N$>$ \\
+\mbox{\hyperlink{classNInARow_1_1Board}{Board}} \mbox{\hyperlink{classNInARow_1_1Board}{NIn\+ARow\+::\+Board}}$<$ HEIGHT, WIDTH, N $>$\+::operator+ (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classNInARow_1_1Move}{MoveT}}}]{m }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+Produces a new board with the given move added.
+
+
+\begin{DoxyParams}{Parameters}
+{\em m} & The move to add.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The new board. 
+\end{DoxyReturn}
+\Hypertarget{classNInARow_1_1Board_ab594d48b93cdeb57f79f33b65a98eb88}\label{classNInARow_1_1Board_ab594d48b93cdeb57f79f33b65a98eb88} 
+\index{NInARow::Board$<$ HEIGHT, WIDTH, N $>$@{NInARow::Board$<$ HEIGHT, WIDTH, N $>$}!operator-\/@{operator-\/}}
+\index{operator-\/@{operator-\/}!NInARow::Board$<$ HEIGHT, WIDTH, N $>$@{NInARow::Board$<$ HEIGHT, WIDTH, N $>$}}
+\doxysubsubsection{\texorpdfstring{operator-\/()}{operator-()}}
+{\footnotesize\ttfamily template$<$std\+::size\+\_\+t HEIGHT, std\+::size\+\_\+t WIDTH, std\+::size\+\_\+t N$>$ \\
+\mbox{\hyperlink{classNInARow_1_1Board}{Board}} \mbox{\hyperlink{classNInARow_1_1Board}{NIn\+ARow\+::\+Board}}$<$ HEIGHT, WIDTH, N $>$\+::operator-\/ (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classNInARow_1_1Move}{MoveT}}}]{m }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+Produces a new board with the given move removed.
+
+
+\begin{DoxyParams}{Parameters}
+{\em m} & The move to add.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The new board. 
+\end{DoxyReturn}
+\Hypertarget{classNInARow_1_1Board_a62ab9433d6c8365c9f528083fdb8155e}\label{classNInARow_1_1Board_a62ab9433d6c8365c9f528083fdb8155e} 
+\index{NInARow::Board$<$ HEIGHT, WIDTH, N $>$@{NInARow::Board$<$ HEIGHT, WIDTH, N $>$}!operator==@{operator==}}
+\index{operator==@{operator==}!NInARow::Board$<$ HEIGHT, WIDTH, N $>$@{NInARow::Board$<$ HEIGHT, WIDTH, N $>$}}
+\doxysubsubsection{\texorpdfstring{operator==()}{operator==()}}
+{\footnotesize\ttfamily template$<$std\+::size\+\_\+t HEIGHT, std\+::size\+\_\+t WIDTH, std\+::size\+\_\+t N$>$ \\
+bool \mbox{\hyperlink{classNInARow_1_1Board}{NIn\+ARow\+::\+Board}}$<$ HEIGHT, WIDTH, N $>$\+::operator== (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classNInARow_1_1Board}{Board}}$<$ HEIGHT, WIDTH, N $>$ \&}]{b }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+\begin{DoxyParams}{Parameters}
+{\em b} & A different board.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True if the given board is equivalent to this board. Note that the histories of the two boards may be different. 
+\end{DoxyReturn}
+\Hypertarget{classNInARow_1_1Board_a84a984f41e911c3a2f714386fdd48b86}\label{classNInARow_1_1Board_a84a984f41e911c3a2f714386fdd48b86} 
+\index{NInARow::Board$<$ HEIGHT, WIDTH, N $>$@{NInARow::Board$<$ HEIGHT, WIDTH, N $>$}!player\_has\_won@{player\_has\_won}}
+\index{player\_has\_won@{player\_has\_won}!NInARow::Board$<$ HEIGHT, WIDTH, N $>$@{NInARow::Board$<$ HEIGHT, WIDTH, N $>$}}
+\doxysubsubsection{\texorpdfstring{player\_has\_won()}{player\_has\_won()}}
+{\footnotesize\ttfamily template$<$std\+::size\+\_\+t HEIGHT, std\+::size\+\_\+t WIDTH, std\+::size\+\_\+t N$>$ \\
+bool \mbox{\hyperlink{classNInARow_1_1Board}{NIn\+ARow\+::\+Board}}$<$ HEIGHT, WIDTH, N $>$\+::player\+\_\+has\+\_\+won (\begin{DoxyParamCaption}\item[{const Player}]{player }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+\begin{DoxyParams}{Parameters}
+{\em player} & The player to check.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True if the given player has won, false otherwise. 
+\end{DoxyReturn}
+\Hypertarget{classNInARow_1_1Board_a7672b366297858b87c97a9e273699628}\label{classNInARow_1_1Board_a7672b366297858b87c97a9e273699628} 
+\index{NInARow::Board$<$ HEIGHT, WIDTH, N $>$@{NInARow::Board$<$ HEIGHT, WIDTH, N $>$}!remove@{remove}}
+\index{remove@{remove}!NInARow::Board$<$ HEIGHT, WIDTH, N $>$@{NInARow::Board$<$ HEIGHT, WIDTH, N $>$}}
+\doxysubsubsection{\texorpdfstring{remove()}{remove()}}
+{\footnotesize\ttfamily template$<$std\+::size\+\_\+t HEIGHT, std\+::size\+\_\+t WIDTH, std\+::size\+\_\+t N$>$ \\
+void \mbox{\hyperlink{classNInARow_1_1Board}{NIn\+ARow\+::\+Board}}$<$ HEIGHT, WIDTH, N $>$\+::remove (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classNInARow_1_1Move}{MoveT}}}]{m }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+\begin{DoxyParams}{Parameters}
+{\em m} & The move to remove from the board. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classNInARow_1_1Board_a7579a9073126b1e052cb088fb5db4b59}\label{classNInARow_1_1Board_a7579a9073126b1e052cb088fb5db4b59} 
+\index{NInARow::Board$<$ HEIGHT, WIDTH, N $>$@{NInARow::Board$<$ HEIGHT, WIDTH, N $>$}!reset@{reset}}
+\index{reset@{reset}!NInARow::Board$<$ HEIGHT, WIDTH, N $>$@{NInARow::Board$<$ HEIGHT, WIDTH, N $>$}}
+\doxysubsubsection{\texorpdfstring{reset()}{reset()}}
+{\footnotesize\ttfamily template$<$std\+::size\+\_\+t HEIGHT, std\+::size\+\_\+t WIDTH, std\+::size\+\_\+t N$>$ \\
+void \mbox{\hyperlink{classNInARow_1_1Board}{NIn\+ARow\+::\+Board}}$<$ HEIGHT, WIDTH, N $>$\+::reset (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Clears the board. \Hypertarget{classNInARow_1_1Board_a4887d04cde8c79eaa0eac5de7a7e4513}\label{classNInARow_1_1Board_a4887d04cde8c79eaa0eac5de7a7e4513} 
+\index{NInARow::Board$<$ HEIGHT, WIDTH, N $>$@{NInARow::Board$<$ HEIGHT, WIDTH, N $>$}!to\_string@{to\_string}}
+\index{to\_string@{to\_string}!NInARow::Board$<$ HEIGHT, WIDTH, N $>$@{NInARow::Board$<$ HEIGHT, WIDTH, N $>$}}
+\doxysubsubsection{\texorpdfstring{to\_string()}{to\_string()}}
+{\footnotesize\ttfamily template$<$std\+::size\+\_\+t HEIGHT, std\+::size\+\_\+t WIDTH, std\+::size\+\_\+t N$>$ \\
+std\+::string \mbox{\hyperlink{classNInARow_1_1Board}{NIn\+ARow\+::\+Board}}$<$ HEIGHT, WIDTH, N $>$\+::to\+\_\+string (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classNInARow_1_1Pattern}{PatternT}}}]{p }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+\begin{DoxyParams}{Parameters}
+{\em p} & A pattern to highlight on the board.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A string representing the board with specific board positions highlighted. 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+ninarow\+\_\+board.\+h\end{DoxyCompactItemize}

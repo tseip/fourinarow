@@ -17,26 +17,100 @@
 
 namespace NInARow {
 
+/**
+ * Stores the evaluation weights for a group of features.
+ */
 struct FeatureGroupWeight {
+  /**
+   * The weight given to the feature when it's being evaluated from the
+   * perspective of the active player.
+   */
   double weight_act;
+
+  /**
+   * The weight given to the feature when it's being evaluated from the
+   * perspective of the passive player.
+   */
   double weight_pass;
+
+  /**
+   * The percent chance that a feature in this group will be ignored randomly.
+   * Ranges from 0 to 1.
+   */
   double drop_rate;
 
-  FeatureGroupWeight() = default;
+  /**
+   * Default constructor.
+   */
+  FeatureGroupWeight() : weight_act(0.0), weight_pass(0.0), drop_rate(0.0) {}
 
-  FeatureGroupWeight(double w_act, double w_pass, double drop_rate)
-      : weight_act(w_act), weight_pass(w_pass), drop_rate(drop_rate) {}
+  /**
+   * Constructor.
+   *
+   * @param weight_act The weight given to the feature when it's being evaluated
+   * from the perspective of the active player.
+   * @param weight_pass The weight given to the feature when it's being
+   * evaluated from the perspective of the passive player.
+   * @param drop_rate The percent chance that a feature in this group will be
+   * ignored randomly. Ranges from 0 to 1.
+   */
+  FeatureGroupWeight(double weight_act, double weight_pass, double drop_rate)
+      : weight_act(weight_act),
+        weight_pass(weight_pass),
+        drop_rate(drop_rate) {}
 
+  /**
+   * @return The difference between the active and passive weights for this
+   * feature group.
+   */
   double diff_act_pass() const { return weight_act - weight_pass; }
 };
 
+/**
+ * A helper class that augments a given feature with metadata that the heuristic
+ * needs to keep track of during execution.
+ *
+ * @tparam Board The class representing a board for this class.
+ */
 template <typename Board>
 struct HeuristicFeatureWithMetadata {
+  /**
+   * The feature this class is wrapping.
+   */
   HeuristicFeature<Board> feature;
+
+  /**
+   * The index of this feature in the heuristic's master feature list. Used for
+   * fast lookups.
+   */
   std::size_t vector_index;
+
+  /**
+   * The index of the weights for this feature in the heuristic's master weight
+   * list. Also indicates the group that this feature belongs to.
+   */
   std::size_t weight_index;
+
+  /**
+   * If true, this feature should be evaluated. Features are turned off with
+   * `drop_rate` probability by the heuristic.
+   */
   bool enabled;
+
+  /**
+   * Default constructor.
+   */
   HeuristicFeatureWithMetadata() = default;
+
+  /**
+   * Constructor.
+   *
+   * @param feature The feature this class is wrapping.
+   * @param vector_index The index of this feature in the heuristic's master
+   * feature list.
+   * @param weight_index The index of the weights for this feature in the
+   * heuristic's master weight list.
+   */
   HeuristicFeatureWithMetadata(const HeuristicFeature<Board>& feature,
                                std::size_t vector_index,
                                std::size_t weight_index)
@@ -48,6 +122,8 @@ struct HeuristicFeatureWithMetadata {
 
 /**
  * A heuristic for games of n-in-a-row.
+ *
+ * @tparam Board The board representation used by this heuristic.
  */
 template <typename Board>
 class Heuristic : public std::enable_shared_from_this<Heuristic<Board>> {
@@ -56,26 +132,129 @@ class Heuristic : public std::enable_shared_from_this<Heuristic<Board>> {
   using BoardT = Board;
 
  private:
+  /**
+   * A parameter controlling when searches should stop executing. The stopping
+   * threshold is the number of times that a given move needs to be evaluated by
+   * a tree search as the best consecutively before we terminate the search and
+   * return the given move.
+   */
   double stopping_thresh;
+
+  /**
+   * A parameter controlling how the heuristic will prune the search tree. In
+   * normal operation, the heuristic will evaluate all possible moves from a
+   * given position and return a heuristic value for each. It will then return a
+   * subset of those moves to be searched via any tree search algorithm
+   * operating on top of it. It will prune all moves from the moveset that are
+   * worse than the best move in a given position by `pruning_threshold`, as
+   * determined by the heuristic evaluation function.
+   */
   double pruning_thresh;
+
+  /**
+   * A parameter controlling when searches should stop executing. A search will
+   * only execute for a certain number of maximum iterations given by a function
+   * of `gamma`: a maximum of 1 + 1.0 / gamma iterations will be performed by
+   * searches that respect `gamma`.
+   */
   double gamma;
+
+  /**
+   * The percent chance that the heuristic will simply return a random move.
+   * Represents a lapse of attention.
+   */
   double lapse_rate;
+
+  /**
+   * A scaling factor for the feature weights that can be varied by the Bayesian
+   * optimization process.
+   */
   double opp_scale;
+
+  /**
+   * An parameter used exclusively for Monte Carlo search; currently unused in
+   * this implementation.
+   */
   double exploration_constant;
+
+  /**
+   * Both of these parameters are direct functions of `opp_scale`; see
+   * `opp_scale`'s documentation.
+   * @{
+   */
   double c_self;
   double c_opp;
+  /**
+   * @}
+   */
+
+  /**
+   * A parameter controlling how much the heuristic should prefer the center of
+   * the board.
+   */
   double center_weight;
+
+  /**
+   * Our internal random number generator.
+   */
   std::mt19937_64 engine;
+
+  /**
+   * Holds a list of weights for all of the features of the heuristic.
+   */
   std::vector<FeatureGroupWeight> feature_group_weights;
+
+  /**
+   * Holds all of the features of the heuristic.
+   */
   std::vector<HeuristicFeatureWithMetadata<Board>> features;
+
+  /**
+   * A helper class used to evaluate all of the features on the board in
+   * parallel quickly.
+   */
   VectorizedFeatureEvaluator<Board> feature_evaluator;
+
+  /**
+   * A static weight given to each tile on the board as function of the tile's
+   * position by the heuristic. Prefers the center of the board.
+   */
   std::array<double, Board::get_board_size()> vtile;
+
+  /**
+   * A random distribution used for supplying the heuristic evaluation function
+   * with a noise parameter.
+   */
   std::normal_distribution<double> noise;
+
+  /**
+   * A random distribution used for determining when the heuristic evaluation
+   * should lapse and choose a random move. See `lapse_rate`.
+   */
   std::bernoulli_distribution lapse;
+
+  /**
+   * If true, noise is injected across the evaluation function, including random
+   * feature dropout. If false, the heuristic will evaluate deterministically.
+   */
   bool noise_enabled;
+
+  /**
+   * Some state to keep track of whether or not a search is currently being
+   * executed. Used for inspecting the search during execution.
+   */
   bool search_in_progress;
 
  public:
+  /**
+   * Creates a heuristic.
+   *
+   * @param params The parameters to use for the heuristic.
+   * @param add_default_features If true, use the default feature set in
+   * `fourbynine_features.h`. If false, don't inject any features.
+   *
+   * @return A pointer to a newly created heuristic.
+   */
   static std::shared_ptr<Heuristic> create(
       const std::vector<double>& params = DefaultFourByNineParameters,
       bool add_default_features = true) {
@@ -91,6 +270,11 @@ class Heuristic : public std::enable_shared_from_this<Heuristic<Board>> {
   }
 
  private:
+  /**
+   * Constructor.
+   *
+   * @param params The parameters for this heuristic.
+   */
   Heuristic(const std::vector<double>& params)
       : engine(),
         feature_group_weights(),
@@ -101,11 +285,6 @@ class Heuristic : public std::enable_shared_from_this<Heuristic<Board>> {
         lapse(),
         noise_enabled(true),
         search_in_progress(false) {
-    get_params_from_vector(params);
-    update();
-  }
-
-  void get_params_from_vector(const std::vector<double>& params) {
     if (params.size() < 7 || (params.size() - 7) % 3 != 0) {
       throw std::invalid_argument(
           "The incorrect number of parameters have been passed to the "
@@ -127,9 +306,6 @@ class Heuristic : public std::enable_shared_from_this<Heuristic<Board>> {
                         params[param_pack_idx + j + num_param_packs],
                         params[param_pack_idx + j + 2 * num_param_packs]);
     }
-  }
-
-  void update() {
     noise = std::normal_distribution<double>(0.0, 1.0);
     lapse = std::bernoulli_distribution(lapse_rate);
     for (std::size_t i = 0; i < Board::get_board_size(); ++i)
@@ -140,21 +316,50 @@ class Heuristic : public std::enable_shared_from_this<Heuristic<Board>> {
   }
 
  public:
+  /**
+   * Sets the seed for the internal random number generator.
+   *
+   * @param seed The seed to use for the random number generator.
+   */
   void seed_generator(uint64_t seed) { engine.seed(seed); }
 
+  /**
+   * @return A list of feature group weights.
+   */
   std::vector<FeatureGroupWeight>& get_feature_group_weights() {
     return feature_group_weights;
   }
 
+  /**
+   * @return All of the features in the heuristic, along with their associated
+   * metadata.
+   */
   std::vector<HeuristicFeatureWithMetadata<Board>>&
   get_features_with_metadata() {
     return features;
   }
 
-  void add_feature_group(double w_act, double w_pass, double delta) {
-    feature_group_weights.emplace_back(w_act, w_pass, delta);
+  /**
+   * Adds a new (empty) feature group to the heuristic.
+   *
+   * @param weight_act The weight given to the feature when it's being evaluated
+   * from the perspective of the active player.
+   * @param weight_pass The weight given to the feature when it's being
+   * evaluated from the perspective of the passive player.
+   * @param drop_rate The percent chance that a feature in this group will be
+   * ignored randomly. Ranges from 0 to 1.
+   */
+  void add_feature_group(double weight_act, double weight_pass,
+                         double drop_rate) {
+    feature_group_weights.emplace_back(weight_act, weight_pass, drop_rate);
   }
 
+  /**
+   * Adds a single feature to the given feature group.
+   *
+   * @param i The index of the group to add the feature to.
+   * @param feature The feature to add to the group.
+   */
   void add_feature(std::size_t i, const Feature& feature) {
     if (i >= feature_group_weights.size()) {
       throw std::out_of_range(
@@ -164,6 +369,14 @@ class Heuristic : public std::enable_shared_from_this<Heuristic<Board>> {
                           i);
   }
 
+  /**
+   * Evaluates a given board position and returns a heuristic value for it.
+   *
+   * @param b The board to evaluate.
+   *
+   * @return The value of the heuristic evaluation function of the given
+   * position.
+   */
   double evaluate(const Board& b) const {
     const Player player = b.active_player();
     const Player other_player = get_other_player(player);
@@ -193,6 +406,19 @@ class Heuristic : public std::enable_shared_from_this<Heuristic<Board>> {
     return player == Player::Player1 ? val : -val;
   }
 
+  /**
+   * Returns all possible moves from a given position, as well as their
+   * associated heuristic evaluations.
+   *
+   * @param b The board containing the starting position.
+   * @param evalPlayer The player from whose perspective we're evaluating the
+   * board.
+   * @param sorted If true, return all of the moves in sorted order by heuristic
+   * evaluation.
+   *
+   * @return All possible moves from the given position, evaluated by the
+   * heuristic.
+   */
   std::vector<typename Board::MoveT> get_moves(const Board& b,
                                                Player evalPlayer,
                                                bool sorted = true) {
@@ -287,6 +513,16 @@ class Heuristic : public std::enable_shared_from_this<Heuristic<Board>> {
     return output_moves;
   }
 
+  /**
+   * Returns a pruned set of moves from the given position. Evaluates every
+   * move, and then removes the weakest moves as determined by `pruning_thresh`.
+   *
+   * @param b The board containing the starting position.
+   * @param evalPlayer The player from whose perspective we're evaluating the
+   * board.
+   *
+   * @return Pruned moves from the given position, evaluated by the heuristic.
+   */
   std::vector<typename Board::MoveT> get_pruned_moves(const Board& b,
                                                       Player evalPlayer) {
     std::vector<typename Board::MoveT> candidates = get_moves(b, evalPlayer);
@@ -300,6 +536,12 @@ class Heuristic : public std::enable_shared_from_this<Heuristic<Board>> {
     return candidates;
   }
 
+  /**
+   * @param b The board containing the starting position.
+   *
+   * @return A legal move selected uniformly at random from all possible moves
+   * on the board.
+   */
   typename Board::MoveT get_random_move(const Board& b) {
     std::vector<std::size_t> options;
 
@@ -316,6 +558,18 @@ class Heuristic : public std::enable_shared_from_this<Heuristic<Board>> {
     }
   }
 
+  /**
+   * A helper function for allowing the heuristic to apply its lapse rate to a
+   * given move selection. Does not perform any evaluation itself - assumes that
+   * the given tree has already been built up by a search and returns either the
+   * best move in the tree, or a lapsed random move if the lapse rate determines
+   * we should.
+   *
+   * @param tree The tree of moves over which we'd like to select the best.
+   *
+   * @return Either the best move in the given tree, or a random move if we
+   * lapse.
+   */
   typename Board::MoveT get_best_move(std::shared_ptr<Node<Board>> tree) {
     if (noise_enabled && lapse(engine))
       return get_random_move(tree->get_board());
@@ -323,6 +577,11 @@ class Heuristic : public std::enable_shared_from_this<Heuristic<Board>> {
     return tree->get_best_move();
   }
 
+  /**
+   * Tells the heuristic that a search is in progress, triggering the removal
+   * of a random subset of features as determined by their respective
+   * `drop_rate`s.
+   */
   void start_search() {
     if (search_in_progress)
       throw std::logic_error(
@@ -331,18 +590,34 @@ class Heuristic : public std::enable_shared_from_this<Heuristic<Board>> {
     if (noise_enabled) remove_features();
   }
 
+  /**
+   * Tells the heuristic that a search has completed and restores all dropped
+   * features.
+   */
   void complete_search() {
     restore_features();
     search_in_progress = false;
   }
 
+  /**
+   * @param enabled If true, enable noise, else, disable noise.
+   */
   void set_noise_enabled(bool enabled) { noise_enabled = enabled; }
 
+  /**
+   * @return The `gamma` parameter.
+   */
   double get_gamma() const { return gamma; }
 
+  /**
+   * @return The `stopping_thresh` parameter.
+   */
   double get_stopping_thresh() const { return stopping_thresh; }
 
  private:
+  /**
+   * Randomly removes features, respecting their associated `drop_rate`s.
+   */
   void remove_features() {
     for (auto& feature : features) {
       if (std::bernoulli_distribution{
@@ -354,6 +629,9 @@ class Heuristic : public std::enable_shared_from_this<Heuristic<Board>> {
     }
   }
 
+  /**
+   * Restores all features to the pool.
+   */
   void restore_features() {
     for (auto& feature : features) {
       feature.enabled = true;

@@ -1,0 +1,147 @@
+\doxysection{Node\texorpdfstring{$<$}{<} Board \texorpdfstring{$>$}{>}\+::Iterator\texorpdfstring{$<$}{<} It \texorpdfstring{$>$}{>} Struct Template Reference}
+\hypertarget{structNode_1_1Iterator}{}\label{structNode_1_1Iterator}\index{Node$<$ Board $>$::Iterator$<$ It $>$@{Node$<$ Board $>$::Iterator$<$ It $>$}}
+
+
+{\ttfamily \#include $<$game\+\_\+tree\+\_\+node.\+h$>$}
+
+\doxysubsubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{structNode_1_1Iterator_abfd5a7937af24a4aa482fc44d594e0dd}\label{structNode_1_1Iterator_abfd5a7937af24a4aa482fc44d594e0dd} 
+using {\bfseries iterator\+\_\+category} = std\+::forward\+\_\+iterator\+\_\+tag
+\item 
+\Hypertarget{structNode_1_1Iterator_a492e06ac09263a297d411b25158d1de4}\label{structNode_1_1Iterator_a492e06ac09263a297d411b25158d1de4} 
+using {\bfseries difference\+\_\+type} = std\+::ptrdiff\+\_\+t
+\item 
+\Hypertarget{structNode_1_1Iterator_a4cb5f42d015f6c00baac85c699ceec3e}\label{structNode_1_1Iterator_a4cb5f42d015f6c00baac85c699ceec3e} 
+using {\bfseries value\+\_\+type} = It
+\item 
+\Hypertarget{structNode_1_1Iterator_a8b36b2bb382afdbfb1b0d1be6ffbac0a}\label{structNode_1_1Iterator_a8b36b2bb382afdbfb1b0d1be6ffbac0a} 
+using {\bfseries pointer} = std\+::shared\+\_\+ptr$<$ value\+\_\+type $>$
+\item 
+\Hypertarget{structNode_1_1Iterator_a00431c4f3799698e899421ee6a66e30f}\label{structNode_1_1Iterator_a00431c4f3799698e899421ee6a66e30f} 
+using {\bfseries reference} = value\+\_\+type \&
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{structNode_1_1Iterator_a2d55d8eab39c65ab49041060dd6e9a84}{Iterator}} (pointer ptr)
+\item 
+reference \mbox{\hyperlink{structNode_1_1Iterator_a2f11231db24cc23da3782c08e87dd161}{operator$\ast$}} () const
+\item 
+pointer \mbox{\hyperlink{structNode_1_1Iterator_a5ecb9dc4868437a22029cc1087fadaaf}{operator-\/$>$}} ()
+\item 
+\mbox{\hyperlink{structNode_1_1Iterator}{Iterator}} \& \mbox{\hyperlink{structNode_1_1Iterator_a9c51e7df07af46aaaaea705e413c547f}{operator++}} ()
+\item 
+\mbox{\hyperlink{structNode_1_1Iterator}{Iterator}} \mbox{\hyperlink{structNode_1_1Iterator_a6ccc4316acf7a1bbcb458d1aab60c795}{operator++}} (int)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Friends}
+\textbf{ }\par
+\begin{DoxyCompactItemize}
+\item 
+bool \mbox{\hyperlink{structNode_1_1Iterator_adf9a9358b475317bd816d7b47a0f5cd1}{operator==}} (const \mbox{\hyperlink{structNode_1_1Iterator}{Iterator}} \&a, const \mbox{\hyperlink{structNode_1_1Iterator}{Iterator}} \&b)
+\item 
+\Hypertarget{structNode_1_1Iterator_a27aed9f3ea67a677964fa51de28a5824}\label{structNode_1_1Iterator_a27aed9f3ea67a677964fa51de28a5824} 
+bool {\bfseries operator!=} (const \mbox{\hyperlink{structNode_1_1Iterator}{Iterator}} \&a, const \mbox{\hyperlink{structNode_1_1Iterator}{Iterator}} \&b)
+\end{DoxyCompactItemize}
+
+
+
+\doxysubsection{Detailed Description}
+\subsubsection*{template$<$class Board$>$\newline
+template$<$class It$>$\newline
+struct Node$<$ Board $>$\+::\+Iterator$<$ It $>$}
+Allows for BFS iteration over the game tree. 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{structNode_1_1Iterator_a2d55d8eab39c65ab49041060dd6e9a84}\label{structNode_1_1Iterator_a2d55d8eab39c65ab49041060dd6e9a84} 
+\index{Node$<$ Board $>$::Iterator$<$ It $>$@{Node$<$ Board $>$::Iterator$<$ It $>$}!Iterator@{Iterator}}
+\index{Iterator@{Iterator}!Node$<$ Board $>$::Iterator$<$ It $>$@{Node$<$ Board $>$::Iterator$<$ It $>$}}
+\doxysubsubsection{\texorpdfstring{Iterator()}{Iterator()}}
+{\footnotesize\ttfamily template$<$class Board $>$ \\
+template$<$class It $>$ \\
+\mbox{\hyperlink{classNode}{Node}}$<$ Board $>$\+::\+Iterator$<$ It $>$\+::\+Iterator (\begin{DoxyParamCaption}\item[{pointer}]{ptr }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Constructor.
+
+
+\begin{DoxyParams}{Parameters}
+{\em ptr} & The root node of the tree to iterate over. \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{structNode_1_1Iterator_a2f11231db24cc23da3782c08e87dd161}\label{structNode_1_1Iterator_a2f11231db24cc23da3782c08e87dd161} 
+\index{Node$<$ Board $>$::Iterator$<$ It $>$@{Node$<$ Board $>$::Iterator$<$ It $>$}!operator$\ast$@{operator$\ast$}}
+\index{operator$\ast$@{operator$\ast$}!Node$<$ Board $>$::Iterator$<$ It $>$@{Node$<$ Board $>$::Iterator$<$ It $>$}}
+\doxysubsubsection{\texorpdfstring{operator$\ast$()}{operator*()}}
+{\footnotesize\ttfamily template$<$class Board $>$ \\
+template$<$class It $>$ \\
+reference \mbox{\hyperlink{classNode}{Node}}$<$ Board $>$\mbox{\hyperlink{structNode_1_1Iterator_a2d55d8eab39c65ab49041060dd6e9a84}{\+::\+Iterator}}$<$ It $>$\+::operator$\ast$ (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\begin{DoxyReturn}{Returns}
+The node the iterator points to. 
+\end{DoxyReturn}
+\Hypertarget{structNode_1_1Iterator_a9c51e7df07af46aaaaea705e413c547f}\label{structNode_1_1Iterator_a9c51e7df07af46aaaaea705e413c547f} 
+\index{Node$<$ Board $>$::Iterator$<$ It $>$@{Node$<$ Board $>$::Iterator$<$ It $>$}!operator++@{operator++}}
+\index{operator++@{operator++}!Node$<$ Board $>$::Iterator$<$ It $>$@{Node$<$ Board $>$::Iterator$<$ It $>$}}
+\doxysubsubsection{\texorpdfstring{operator++()}{operator++()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$class Board $>$ \\
+template$<$class It $>$ \\
+\mbox{\hyperlink{structNode_1_1Iterator}{Iterator}} \& \mbox{\hyperlink{classNode}{Node}}$<$ Board $>$\mbox{\hyperlink{structNode_1_1Iterator_a2d55d8eab39c65ab49041060dd6e9a84}{\+::\+Iterator}}$<$ It $>$\+::operator++ (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Prefix increment.
+
+\begin{DoxyReturn}{Returns}
+The next node in the iterator. 
+\end{DoxyReturn}
+\Hypertarget{structNode_1_1Iterator_a6ccc4316acf7a1bbcb458d1aab60c795}\label{structNode_1_1Iterator_a6ccc4316acf7a1bbcb458d1aab60c795} 
+\index{Node$<$ Board $>$::Iterator$<$ It $>$@{Node$<$ Board $>$::Iterator$<$ It $>$}!operator++@{operator++}}
+\index{operator++@{operator++}!Node$<$ Board $>$::Iterator$<$ It $>$@{Node$<$ Board $>$::Iterator$<$ It $>$}}
+\doxysubsubsection{\texorpdfstring{operator++()}{operator++()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$class Board $>$ \\
+template$<$class It $>$ \\
+\mbox{\hyperlink{structNode_1_1Iterator}{Iterator}} \mbox{\hyperlink{classNode}{Node}}$<$ Board $>$\mbox{\hyperlink{structNode_1_1Iterator_a2d55d8eab39c65ab49041060dd6e9a84}{\+::\+Iterator}}$<$ It $>$\+::operator++ (\begin{DoxyParamCaption}\item[{int}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Prefix increment.
+
+\begin{DoxyReturn}{Returns}
+The node the iterator points to. 
+\end{DoxyReturn}
+\Hypertarget{structNode_1_1Iterator_a5ecb9dc4868437a22029cc1087fadaaf}\label{structNode_1_1Iterator_a5ecb9dc4868437a22029cc1087fadaaf} 
+\index{Node$<$ Board $>$::Iterator$<$ It $>$@{Node$<$ Board $>$::Iterator$<$ It $>$}!operator-\/$>$@{operator-\/$>$}}
+\index{operator-\/$>$@{operator-\/$>$}!Node$<$ Board $>$::Iterator$<$ It $>$@{Node$<$ Board $>$::Iterator$<$ It $>$}}
+\doxysubsubsection{\texorpdfstring{operator-\/$>$()}{operator->()}}
+{\footnotesize\ttfamily template$<$class Board $>$ \\
+template$<$class It $>$ \\
+pointer \mbox{\hyperlink{classNode}{Node}}$<$ Board $>$\mbox{\hyperlink{structNode_1_1Iterator_a2d55d8eab39c65ab49041060dd6e9a84}{\+::\+Iterator}}$<$ It $>$\+::operator-\/$>$ (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\begin{DoxyReturn}{Returns}
+The node the iterator points to. 
+\end{DoxyReturn}
+
+
+\doxysubsection{Friends And Related Symbol Documentation}
+\Hypertarget{structNode_1_1Iterator_adf9a9358b475317bd816d7b47a0f5cd1}\label{structNode_1_1Iterator_adf9a9358b475317bd816d7b47a0f5cd1} 
+\index{Node$<$ Board $>$::Iterator$<$ It $>$@{Node$<$ Board $>$::Iterator$<$ It $>$}!operator==@{operator==}}
+\index{operator==@{operator==}!Node$<$ Board $>$::Iterator$<$ It $>$@{Node$<$ Board $>$::Iterator$<$ It $>$}}
+\doxysubsubsection{\texorpdfstring{operator==}{operator==}}
+{\footnotesize\ttfamily template$<$class Board $>$ \\
+template$<$class It $>$ \\
+bool operator== (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structNode_1_1Iterator}{Iterator}}$<$ It $>$ \&}]{a,  }\item[{const \mbox{\hyperlink{structNode_1_1Iterator}{Iterator}}$<$ It $>$ \&}]{b }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [friend]}}
+
+\doxylink{structNode_1_1Iterator}{Iterator} comparison functions.
+
+
+\begin{DoxyParams}{Parameters}
+{\em a} & The first iterator to compare. \\
+\hline
+{\em b} & The second iterator to compare. \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+game\+\_\+tree\+\_\+node.\+h\end{DoxyCompactItemize}

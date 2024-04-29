@@ -1,0 +1,132 @@
+\doxysection{Abstract\+Search\texorpdfstring{$<$}{<} Heuristic \texorpdfstring{$>$}{>} Class Template Reference}
+\hypertarget{classAbstractSearch}{}\label{classAbstractSearch}\index{AbstractSearch$<$ Heuristic $>$@{AbstractSearch$<$ Heuristic $>$}}
+
+
+{\ttfamily \#include $<$searches.\+h$>$}
+
+Inheritance diagram for Abstract\+Search\texorpdfstring{$<$}{<} Heuristic \texorpdfstring{$>$}{>}\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.633229cm]{classAbstractSearch}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classAbstractSearch_a4496c55eba254ec5ea81961da27c531d}{Abstract\+Search}} (std\+::shared\+\_\+ptr$<$ Heuristic $>$ \mbox{\hyperlink{classAbstractSearch_a744d099727fdb421cbe1e31facf50017}{heuristic}}, const typename Heuristic\+::\+BoardT \&\mbox{\hyperlink{classAbstractSearch_ac1ec9e7962844e8dbd86f12a6d073d94}{board}})
+\item 
+virtual bool \mbox{\hyperlink{classAbstractSearch_a855da60f8f33a100a1eb3c348ba376f9}{advance\+\_\+search}} ()=0
+\item 
+void \mbox{\hyperlink{classAbstractSearch_ab9f53c4ba1e6a5aa6f871df495fb1323}{complete\+\_\+search}} ()
+\item 
+virtual \mbox{\hyperlink{classAbstractSearch_a98825786c8e1967135a370723d512516}{$\sim$\+Abstract\+Search}} ()
+\item 
+virtual std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classNode}{Node}}$<$ typename Heuristic\+::\+BoardT $>$ $>$ \mbox{\hyperlink{classAbstractSearch_a54d76b0f9a1ea047af37197155ed873d}{get\+\_\+tree}} ()=0
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std\+::shared\+\_\+ptr$<$ Heuristic $>$ \mbox{\hyperlink{classAbstractSearch_a744d099727fdb421cbe1e31facf50017}{heuristic}}
+\item 
+const Heuristic\+::\+BoardT \mbox{\hyperlink{classAbstractSearch_ac1ec9e7962844e8dbd86f12a6d073d94}{board}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\subsubsection*{template$<$class Heuristic$>$\newline
+class Abstract\+Search$<$ Heuristic $>$}
+An abstract search interface, for performing a tree search using a heuristic to evaluate each individual position.
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em Heuristic} & The class evaluating each position. \\
+\hline
+\end{DoxyTemplParams}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classAbstractSearch_a4496c55eba254ec5ea81961da27c531d}\label{classAbstractSearch_a4496c55eba254ec5ea81961da27c531d} 
+\index{AbstractSearch$<$ Heuristic $>$@{AbstractSearch$<$ Heuristic $>$}!AbstractSearch@{AbstractSearch}}
+\index{AbstractSearch@{AbstractSearch}!AbstractSearch$<$ Heuristic $>$@{AbstractSearch$<$ Heuristic $>$}}
+\doxysubsubsection{\texorpdfstring{AbstractSearch()}{AbstractSearch()}}
+{\footnotesize\ttfamily template$<$class Heuristic $>$ \\
+\mbox{\hyperlink{classAbstractSearch}{Abstract\+Search}}$<$ Heuristic $>$\mbox{\hyperlink{classAbstractSearch}{\+::\+Abstract\+Search}} (\begin{DoxyParamCaption}\item[{std\+::shared\+\_\+ptr$<$ Heuristic $>$}]{heuristic,  }\item[{const typename Heuristic\+::\+BoardT \&}]{board }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Constructor.
+
+
+\begin{DoxyParams}{Parameters}
+{\em heuristic} & The heuristic that will evaluate each position that develops from the board. \\
+\hline
+{\em board} & The board containing the initial position to develop. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classAbstractSearch_a98825786c8e1967135a370723d512516}\label{classAbstractSearch_a98825786c8e1967135a370723d512516} 
+\index{AbstractSearch$<$ Heuristic $>$@{AbstractSearch$<$ Heuristic $>$}!````~AbstractSearch@{$\sim$AbstractSearch}}
+\index{````~AbstractSearch@{$\sim$AbstractSearch}!AbstractSearch$<$ Heuristic $>$@{AbstractSearch$<$ Heuristic $>$}}
+\doxysubsubsection{\texorpdfstring{$\sim$AbstractSearch()}{\string~AbstractSearch()}}
+{\footnotesize\ttfamily template$<$class Heuristic $>$ \\
+virtual \mbox{\hyperlink{classAbstractSearch}{Abstract\+Search}}$<$ Heuristic $>$\+::$\sim$\mbox{\hyperlink{classAbstractSearch}{Abstract\+Search}} (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
+
+Destructor. 
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classAbstractSearch_a855da60f8f33a100a1eb3c348ba376f9}\label{classAbstractSearch_a855da60f8f33a100a1eb3c348ba376f9} 
+\index{AbstractSearch$<$ Heuristic $>$@{AbstractSearch$<$ Heuristic $>$}!advance\_search@{advance\_search}}
+\index{advance\_search@{advance\_search}!AbstractSearch$<$ Heuristic $>$@{AbstractSearch$<$ Heuristic $>$}}
+\doxysubsubsection{\texorpdfstring{advance\_search()}{advance\_search()}}
+{\footnotesize\ttfamily template$<$class Heuristic $>$ \\
+virtual bool \mbox{\hyperlink{classAbstractSearch}{Abstract\+Search}}$<$ Heuristic $>$\+::advance\+\_\+search (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+Performs a single step of the search algorithm, typically expanding a single node of the search tree (though not necessarily).
+
+\begin{DoxyReturn}{Returns}
+True if the search is complete. 
+\end{DoxyReturn}
+
+
+Implemented in \mbox{\hyperlink{classNInARow_1_1NInARowBestFirstSearch_a43d52291a89a8534e33f63bf455e32c6}{NIn\+ARow\+::\+NIn\+ARow\+Best\+First\+Search$<$ Heuristic $>$}}, \mbox{\hyperlink{classSearch_a13750aafda8b06f87baf62e59b8076f1}{Search$<$ Heuristic, Node\+T $>$}}, and \mbox{\hyperlink{classSearch_a13750aafda8b06f87baf62e59b8076f1}{Search$<$ Heuristic, BFSNode$<$ Heuristic\+::\+Board\+T $>$ $>$}}.
+
+\Hypertarget{classAbstractSearch_ab9f53c4ba1e6a5aa6f871df495fb1323}\label{classAbstractSearch_ab9f53c4ba1e6a5aa6f871df495fb1323} 
+\index{AbstractSearch$<$ Heuristic $>$@{AbstractSearch$<$ Heuristic $>$}!complete\_search@{complete\_search}}
+\index{complete\_search@{complete\_search}!AbstractSearch$<$ Heuristic $>$@{AbstractSearch$<$ Heuristic $>$}}
+\doxysubsubsection{\texorpdfstring{complete\_search()}{complete\_search()}}
+{\footnotesize\ttfamily template$<$class Heuristic $>$ \\
+void \mbox{\hyperlink{classAbstractSearch}{Abstract\+Search}}$<$ Heuristic $>$\+::complete\+\_\+search (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Runs the current search to completion. \Hypertarget{classAbstractSearch_a54d76b0f9a1ea047af37197155ed873d}\label{classAbstractSearch_a54d76b0f9a1ea047af37197155ed873d} 
+\index{AbstractSearch$<$ Heuristic $>$@{AbstractSearch$<$ Heuristic $>$}!get\_tree@{get\_tree}}
+\index{get\_tree@{get\_tree}!AbstractSearch$<$ Heuristic $>$@{AbstractSearch$<$ Heuristic $>$}}
+\doxysubsubsection{\texorpdfstring{get\_tree()}{get\_tree()}}
+{\footnotesize\ttfamily template$<$class Heuristic $>$ \\
+virtual std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classNode}{Node}}$<$ typename Heuristic\+::\+BoardT $>$ $>$ \mbox{\hyperlink{classAbstractSearch}{Abstract\+Search}}$<$ Heuristic $>$\+::get\+\_\+tree (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+\begin{DoxyReturn}{Returns}
+(the root of) The current search tree. 
+\end{DoxyReturn}
+
+
+Implemented in \mbox{\hyperlink{classNInARow_1_1NInARowBestFirstSearch_ac10ec6055962c16b9c3c1f7350803630}{NIn\+ARow\+::\+NIn\+ARow\+Best\+First\+Search$<$ Heuristic $>$}}, \mbox{\hyperlink{classSearch_a55e7b0463d420d1b2fd32aeb11456049}{Search$<$ Heuristic, Node\+T $>$}}, and \mbox{\hyperlink{classSearch_a55e7b0463d420d1b2fd32aeb11456049}{Search$<$ Heuristic, BFSNode$<$ Heuristic\+::\+Board\+T $>$ $>$}}.
+
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{classAbstractSearch_ac1ec9e7962844e8dbd86f12a6d073d94}\label{classAbstractSearch_ac1ec9e7962844e8dbd86f12a6d073d94} 
+\index{AbstractSearch$<$ Heuristic $>$@{AbstractSearch$<$ Heuristic $>$}!board@{board}}
+\index{board@{board}!AbstractSearch$<$ Heuristic $>$@{AbstractSearch$<$ Heuristic $>$}}
+\doxysubsubsection{\texorpdfstring{board}{board}}
+{\footnotesize\ttfamily template$<$class Heuristic $>$ \\
+const Heuristic\+::\+BoardT \mbox{\hyperlink{classAbstractSearch}{Abstract\+Search}}$<$ Heuristic $>$\+::board\hspace{0.3cm}{\ttfamily [protected]}}
+
+The starting board position. \Hypertarget{classAbstractSearch_a744d099727fdb421cbe1e31facf50017}\label{classAbstractSearch_a744d099727fdb421cbe1e31facf50017} 
+\index{AbstractSearch$<$ Heuristic $>$@{AbstractSearch$<$ Heuristic $>$}!heuristic@{heuristic}}
+\index{heuristic@{heuristic}!AbstractSearch$<$ Heuristic $>$@{AbstractSearch$<$ Heuristic $>$}}
+\doxysubsubsection{\texorpdfstring{heuristic}{heuristic}}
+{\footnotesize\ttfamily template$<$class Heuristic $>$ \\
+std\+::shared\+\_\+ptr$<$Heuristic$>$ \mbox{\hyperlink{classAbstractSearch}{Abstract\+Search}}$<$ Heuristic $>$\+::heuristic\hspace{0.3cm}{\ttfamily [protected]}}
+
+The heuristic being used to evaluate positions. 
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+searches.\+h\end{DoxyCompactItemize}

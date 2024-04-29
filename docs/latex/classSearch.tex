@@ -1,0 +1,193 @@
+\doxysection{Search\texorpdfstring{$<$}{<} Heuristic, NodeT \texorpdfstring{$>$}{>} Class Template Reference}
+\hypertarget{classSearch}{}\label{classSearch}\index{Search$<$ Heuristic, NodeT $>$@{Search$<$ Heuristic, NodeT $>$}}
+
+
+{\ttfamily \#include $<$searches.\+h$>$}
+
+Inheritance diagram for Search\texorpdfstring{$<$}{<} Heuristic, NodeT \texorpdfstring{$>$}{>}\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classSearch}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classSearch_ab862117f735cc5addb0d9b525dee163c}{Search}} (std\+::shared\+\_\+ptr$<$ Heuristic $>$ \mbox{\hyperlink{classAbstractSearch_a744d099727fdb421cbe1e31facf50017}{heuristic}}, const typename Heuristic\+::\+BoardT \&\mbox{\hyperlink{classAbstractSearch_ac1ec9e7962844e8dbd86f12a6d073d94}{board}})
+\item 
+virtual bool \mbox{\hyperlink{classSearch_a13750aafda8b06f87baf62e59b8076f1}{advance\+\_\+search}} () override
+\item 
+virtual std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classNode}{Node}}$<$ typename Heuristic\+::\+BoardT $>$ $>$ \mbox{\hyperlink{classSearch_a55e7b0463d420d1b2fd32aeb11456049}{get\+\_\+tree}} () override
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{classAbstractSearch}{Abstract\+Search$<$ Heuristic $>$}}}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classAbstractSearch_a4496c55eba254ec5ea81961da27c531d}{Abstract\+Search}} (std\+::shared\+\_\+ptr$<$ Heuristic $>$ \mbox{\hyperlink{classAbstractSearch_a744d099727fdb421cbe1e31facf50017}{heuristic}}, const typename Heuristic\+::\+BoardT \&\mbox{\hyperlink{classAbstractSearch_ac1ec9e7962844e8dbd86f12a6d073d94}{board}})
+\item 
+virtual bool \mbox{\hyperlink{classAbstractSearch_a855da60f8f33a100a1eb3c348ba376f9}{advance\+\_\+search}} ()=0
+\item 
+void \mbox{\hyperlink{classAbstractSearch_ab9f53c4ba1e6a5aa6f871df495fb1323}{complete\+\_\+search}} ()
+\item 
+virtual \mbox{\hyperlink{classAbstractSearch_a98825786c8e1967135a370723d512516}{$\sim$\+Abstract\+Search}} ()
+\item 
+virtual std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classNode}{Node}}$<$ typename Heuristic\+::\+BoardT $>$ $>$ \mbox{\hyperlink{classAbstractSearch_a54d76b0f9a1ea047af37197155ed873d}{get\+\_\+tree}} ()=0
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual std\+::shared\+\_\+ptr$<$ NodeT $>$ \mbox{\hyperlink{classSearch_a8a3b9aeca1a81ccbac1aab29c380aa1a}{select\+\_\+next\+\_\+node}} ()
+\item 
+virtual bool \mbox{\hyperlink{classSearch_aae556cae02133ccd0afb5c0100c5fad3}{stopping\+\_\+conditions}} (std\+::shared\+\_\+ptr$<$ Heuristic $>$ \mbox{\hyperlink{classAbstractSearch_a744d099727fdb421cbe1e31facf50017}{heuristic}}, const typename Heuristic\+::\+BoardT \&\mbox{\hyperlink{classAbstractSearch_ac1ec9e7962844e8dbd86f12a6d073d94}{board}}) const
+\item 
+virtual void \mbox{\hyperlink{classSearch_a87f4b3101544762f7a80023fef198fa0}{on\+\_\+node\+\_\+expansion}} (std\+::shared\+\_\+ptr$<$ NodeT $>$ expanded\+\_\+node, std\+::shared\+\_\+ptr$<$ Heuristic $>$ \mbox{\hyperlink{classAbstractSearch_a744d099727fdb421cbe1e31facf50017}{heuristic}}, const typename Heuristic\+::\+BoardT \&\mbox{\hyperlink{classAbstractSearch_ac1ec9e7962844e8dbd86f12a6d073d94}{board}})
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std\+::shared\+\_\+ptr$<$ NodeT $>$ \mbox{\hyperlink{classSearch_aaf7631e66228551e7914e68c94d6f08f}{root}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Attributes inherited from \mbox{\hyperlink{classAbstractSearch}{Abstract\+Search$<$ Heuristic $>$}}}
+\begin{DoxyCompactItemize}
+\item 
+std\+::shared\+\_\+ptr$<$ Heuristic $>$ \mbox{\hyperlink{classAbstractSearch_a744d099727fdb421cbe1e31facf50017}{heuristic}}
+\item 
+const Heuristic\+::\+BoardT \mbox{\hyperlink{classAbstractSearch_ac1ec9e7962844e8dbd86f12a6d073d94}{board}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\subsubsection*{template$<$class Heuristic, class NodeT$>$\newline
+class Search$<$ Heuristic, Node\+T $>$}
+A concrete search interface, for performing a tree search using a heuristic to evaluate each individual position, which manages the nodes of the search tree.
+
+
+\begin{DoxyTemplParams}{Template Parameters}
+{\em Heuristic} & The class evaluating each position. \\
+\hline
+{\em NodeT} & The class representing a single node in the search tree. \\
+\hline
+\end{DoxyTemplParams}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classSearch_ab862117f735cc5addb0d9b525dee163c}\label{classSearch_ab862117f735cc5addb0d9b525dee163c} 
+\index{Search$<$ Heuristic, NodeT $>$@{Search$<$ Heuristic, NodeT $>$}!Search@{Search}}
+\index{Search@{Search}!Search$<$ Heuristic, NodeT $>$@{Search$<$ Heuristic, NodeT $>$}}
+\doxysubsubsection{\texorpdfstring{Search()}{Search()}}
+{\footnotesize\ttfamily template$<$class Heuristic , class NodeT $>$ \\
+\mbox{\hyperlink{classSearch}{Search}}$<$ Heuristic, NodeT $>$\mbox{\hyperlink{classSearch}{\+::\+Search}} (\begin{DoxyParamCaption}\item[{std\+::shared\+\_\+ptr$<$ Heuristic $>$}]{heuristic,  }\item[{const typename Heuristic\+::\+BoardT \&}]{board }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Constructor.
+
+
+\begin{DoxyParams}{Parameters}
+{\em heuristic} & The heuristic that will evaluate each position that develops from the board. \\
+\hline
+{\em board} & The board containing the initial position to develop. \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classSearch_a13750aafda8b06f87baf62e59b8076f1}\label{classSearch_a13750aafda8b06f87baf62e59b8076f1} 
+\index{Search$<$ Heuristic, NodeT $>$@{Search$<$ Heuristic, NodeT $>$}!advance\_search@{advance\_search}}
+\index{advance\_search@{advance\_search}!Search$<$ Heuristic, NodeT $>$@{Search$<$ Heuristic, NodeT $>$}}
+\doxysubsubsection{\texorpdfstring{advance\_search()}{advance\_search()}}
+{\footnotesize\ttfamily template$<$class Heuristic , class NodeT $>$ \\
+virtual bool \mbox{\hyperlink{classSearch}{Search}}$<$ Heuristic, NodeT $>$\+::advance\+\_\+search (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+Performs a single step of the search algorithm, typically expanding a single node of the search tree (though not necessarily).
+
+\begin{DoxyReturn}{Returns}
+True if the search is complete. 
+\end{DoxyReturn}
+
+
+Implements \mbox{\hyperlink{classAbstractSearch_a855da60f8f33a100a1eb3c348ba376f9}{Abstract\+Search$<$ Heuristic $>$}}.
+
+
+
+Reimplemented in \mbox{\hyperlink{classNInARow_1_1NInARowBestFirstSearch_a43d52291a89a8534e33f63bf455e32c6}{NIn\+ARow\+::\+NIn\+ARow\+Best\+First\+Search$<$ Heuristic $>$}}.
+
+\Hypertarget{classSearch_a55e7b0463d420d1b2fd32aeb11456049}\label{classSearch_a55e7b0463d420d1b2fd32aeb11456049} 
+\index{Search$<$ Heuristic, NodeT $>$@{Search$<$ Heuristic, NodeT $>$}!get\_tree@{get\_tree}}
+\index{get\_tree@{get\_tree}!Search$<$ Heuristic, NodeT $>$@{Search$<$ Heuristic, NodeT $>$}}
+\doxysubsubsection{\texorpdfstring{get\_tree()}{get\_tree()}}
+{\footnotesize\ttfamily template$<$class Heuristic , class NodeT $>$ \\
+virtual std\+::shared\+\_\+ptr$<$ \mbox{\hyperlink{classNode}{Node}}$<$ typename Heuristic\+::\+BoardT $>$ $>$ \mbox{\hyperlink{classSearch}{Search}}$<$ Heuristic, NodeT $>$\+::get\+\_\+tree (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [override]}, {\ttfamily [virtual]}}
+
+\begin{DoxyReturn}{Returns}
+(the root of) The current search tree. 
+\end{DoxyReturn}
+
+
+Implements \mbox{\hyperlink{classAbstractSearch_a54d76b0f9a1ea047af37197155ed873d}{Abstract\+Search$<$ Heuristic $>$}}.
+
+
+
+Reimplemented in \mbox{\hyperlink{classNInARow_1_1NInARowBestFirstSearch_ac10ec6055962c16b9c3c1f7350803630}{NIn\+ARow\+::\+NIn\+ARow\+Best\+First\+Search$<$ Heuristic $>$}}.
+
+\Hypertarget{classSearch_a87f4b3101544762f7a80023fef198fa0}\label{classSearch_a87f4b3101544762f7a80023fef198fa0} 
+\index{Search$<$ Heuristic, NodeT $>$@{Search$<$ Heuristic, NodeT $>$}!on\_node\_expansion@{on\_node\_expansion}}
+\index{on\_node\_expansion@{on\_node\_expansion}!Search$<$ Heuristic, NodeT $>$@{Search$<$ Heuristic, NodeT $>$}}
+\doxysubsubsection{\texorpdfstring{on\_node\_expansion()}{on\_node\_expansion()}}
+{\footnotesize\ttfamily template$<$class Heuristic , class NodeT $>$ \\
+virtual void \mbox{\hyperlink{classSearch}{Search}}$<$ Heuristic, NodeT $>$\+::on\+\_\+node\+\_\+expansion (\begin{DoxyParamCaption}\item[{std\+::shared\+\_\+ptr$<$ NodeT $>$}]{expanded\+\_\+node,  }\item[{std\+::shared\+\_\+ptr$<$ Heuristic $>$}]{heuristic,  }\item[{const typename Heuristic\+::\+BoardT \&}]{board }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}, {\ttfamily [virtual]}}
+
+Called whenever a node is expanded. Can be overridden to enable tracking of search metadata.
+
+
+\begin{DoxyParams}{Parameters}
+{\em expanded\+\_\+node} & The node that was just expanded. \\
+\hline
+{\em heuristic} & The heuristic that will evaluate each position that develops from the board. \\
+\hline
+{\em board} & The board containing the initial position to develop. \\
+\hline
+\end{DoxyParams}
+\Hypertarget{classSearch_a8a3b9aeca1a81ccbac1aab29c380aa1a}\label{classSearch_a8a3b9aeca1a81ccbac1aab29c380aa1a} 
+\index{Search$<$ Heuristic, NodeT $>$@{Search$<$ Heuristic, NodeT $>$}!select\_next\_node@{select\_next\_node}}
+\index{select\_next\_node@{select\_next\_node}!Search$<$ Heuristic, NodeT $>$@{Search$<$ Heuristic, NodeT $>$}}
+\doxysubsubsection{\texorpdfstring{select\_next\_node()}{select\_next\_node()}}
+{\footnotesize\ttfamily template$<$class Heuristic , class NodeT $>$ \\
+virtual std\+::shared\+\_\+ptr$<$ NodeT $>$ \mbox{\hyperlink{classSearch}{Search}}$<$ Heuristic, NodeT $>$\+::select\+\_\+next\+\_\+node (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}, {\ttfamily [virtual]}}
+
+Finds the next node in the tree to be expanded at each step of the search process.
+
+\begin{DoxyReturn}{Returns}
+The next node to be expanded/evaluated. 
+\end{DoxyReturn}
+\Hypertarget{classSearch_aae556cae02133ccd0afb5c0100c5fad3}\label{classSearch_aae556cae02133ccd0afb5c0100c5fad3} 
+\index{Search$<$ Heuristic, NodeT $>$@{Search$<$ Heuristic, NodeT $>$}!stopping\_conditions@{stopping\_conditions}}
+\index{stopping\_conditions@{stopping\_conditions}!Search$<$ Heuristic, NodeT $>$@{Search$<$ Heuristic, NodeT $>$}}
+\doxysubsubsection{\texorpdfstring{stopping\_conditions()}{stopping\_conditions()}}
+{\footnotesize\ttfamily template$<$class Heuristic , class NodeT $>$ \\
+virtual bool \mbox{\hyperlink{classSearch}{Search}}$<$ Heuristic, NodeT $>$\+::stopping\+\_\+conditions (\begin{DoxyParamCaption}\item[{std\+::shared\+\_\+ptr$<$ Heuristic $>$}]{heuristic,  }\item[{const typename Heuristic\+::\+BoardT \&}]{board }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [protected]}, {\ttfamily [virtual]}}
+
+Evaluates search stopping conditions and returns true if the search should end.
+
+
+\begin{DoxyParams}{Parameters}
+{\em heuristic} & The heuristic that will evaluate each position that develops from the board. \\
+\hline
+{\em board} & The board containing the initial position to develop.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+True if the search should stop, false otherwise. 
+\end{DoxyReturn}
+
+
+\doxysubsection{Member Data Documentation}
+\Hypertarget{classSearch_aaf7631e66228551e7914e68c94d6f08f}\label{classSearch_aaf7631e66228551e7914e68c94d6f08f} 
+\index{Search$<$ Heuristic, NodeT $>$@{Search$<$ Heuristic, NodeT $>$}!root@{root}}
+\index{root@{root}!Search$<$ Heuristic, NodeT $>$@{Search$<$ Heuristic, NodeT $>$}}
+\doxysubsubsection{\texorpdfstring{root}{root}}
+{\footnotesize\ttfamily template$<$class Heuristic , class NodeT $>$ \\
+std\+::shared\+\_\+ptr$<$NodeT$>$ \mbox{\hyperlink{classSearch}{Search}}$<$ Heuristic, NodeT $>$\+::root\hspace{0.3cm}{\ttfamily [protected]}}
+
+The root of the search tree. 
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+searches.\+h\end{DoxyCompactItemize}

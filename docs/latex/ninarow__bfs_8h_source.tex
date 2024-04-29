@@ -1,0 +1,75 @@
+\doxysection{ninarow\+\_\+bfs.\+h}
+\hypertarget{ninarow__bfs_8h_source}{}\label{ninarow__bfs_8h_source}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ NINAROW\_BFS\_INCLUDED}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ NINAROW\_BFS\_INCLUDED}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <memory>}}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ "{}ninarow\_heuristic.h"{}}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ "{}searches.h"{}}}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{keyword}{namespace\ }NInARow\ \{}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00015\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ Heuristic>}
+\DoxyCodeLine{00016\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classNInARow_1_1NInARowBestFirstSearch}{NInARowBestFirstSearch}}}
+\DoxyCodeLine{00017\ \ \ \ \ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classSearch}{Search}}<Heuristic,\ BFSNode<typename\ Heuristic::BoardT>>\ \{}
+\DoxyCodeLine{00018\ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00026\ \ \ \mbox{\hyperlink{classNInARow_1_1NInARowBestFirstSearch_a00391df76c0a8e252afb1854493566f7}{NInARowBestFirstSearch}}(std::shared\_ptr<Heuristic>\ \mbox{\hyperlink{classAbstractSearch_a744d099727fdb421cbe1e31facf50017}{heuristic}},}
+\DoxyCodeLine{00027\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{typename}\ \mbox{\hyperlink{classNInARow_1_1Board}{Heuristic::BoardT}}\&\ \mbox{\hyperlink{classAbstractSearch_ac1ec9e7962844e8dbd86f12a6d073d94}{board}})}
+\DoxyCodeLine{00028\ \ \ \ \ \ \ :\ \mbox{\hyperlink{classSearch}{Search}}<\mbox{\hyperlink{classNInARow_1_1Heuristic}{Heuristic}},\ \mbox{\hyperlink{classBFSNode}{BFSNode}}<typename\ \mbox{\hyperlink{classNInARow_1_1Heuristic}{Heuristic}}::BoardT>>(\mbox{\hyperlink{classAbstractSearch_a744d099727fdb421cbe1e31facf50017}{heuristic}},}
+\DoxyCodeLine{00029\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classAbstractSearch_ac1ec9e7962844e8dbd86f12a6d073d94}{board}}),}
+\DoxyCodeLine{00030\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classNInARow_1_1NInARowBestFirstSearch_a74217d6e1dea8fe96418dba564fe20ad}{best\_move}}(),}
+\DoxyCodeLine{00031\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classNInARow_1_1NInARowBestFirstSearch_ad36ee9f70c7dccf87e6c341440418e11}{num\_repetitions}}(0),}
+\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classNInARow_1_1NInARowBestFirstSearch_a23bbd530c99a748c22d0d0258a12b72c}{iterations}}(0)\ \{\}}
+\DoxyCodeLine{00033\ \ \ \mbox{\hyperlink{classNInARow_1_1NInARowBestFirstSearch}{\string~NInARowBestFirstSearch}}()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00042\ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classNInARow_1_1NInARowBestFirstSearch_a43d52291a89a8534e33f63bf455e32c6}{advance\_search}}()\textcolor{keyword}{\ override\ }\{}
+\DoxyCodeLine{00043\ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classSearch}{Search}}<\mbox{\hyperlink{classNInARow_1_1Heuristic}{Heuristic}},}
+\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classBFSNode}{BFSNode<typename\ Heuristic::BoardT>}}>\mbox{\hyperlink{classNInARow_1_1NInARowBestFirstSearch_a43d52291a89a8534e33f63bf455e32c6}{::advance\_search}}();}
+\DoxyCodeLine{00045\ \ \ \}}
+\DoxyCodeLine{00046\ }
+\DoxyCodeLine{00047\ \ \ \textcolor{keyword}{virtual}\ std::shared\_ptr<Node<typename\ Heuristic::BoardT>>\ \mbox{\hyperlink{classNInARow_1_1NInARowBestFirstSearch_ac10ec6055962c16b9c3c1f7350803630}{get\_tree}}()\textcolor{keyword}{}}
+\DoxyCodeLine{00048\ \textcolor{keyword}{\ \ \ \ \ \ override\ }\{}
+\DoxyCodeLine{00049\ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classSearch}{Search<Heuristic,\ BFSNode<typename\ Heuristic::BoardT>}}>\mbox{\hyperlink{classNInARow_1_1NInARowBestFirstSearch_ac10ec6055962c16b9c3c1f7350803630}{::get\_tree}}();}
+\DoxyCodeLine{00050\ \ \ \}}
+\DoxyCodeLine{00058\ \ \ std::size\_t\ \mbox{\hyperlink{classNInARow_1_1NInARowBestFirstSearch_a757f3eb9ad4961aaf46929c0e23da1f6}{get\_iterations}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classNInARow_1_1NInARowBestFirstSearch_a23bbd530c99a748c22d0d0258a12b72c}{iterations}};\ \}}
+\DoxyCodeLine{00059\ }
+\DoxyCodeLine{00064\ \ \ std::size\_t\ \mbox{\hyperlink{classNInARow_1_1NInARowBestFirstSearch_a562fff49b9c714c59b8ed41afcf9ad6c}{get\_num\_repetitions}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classNInARow_1_1NInARowBestFirstSearch_ad36ee9f70c7dccf87e6c341440418e11}{num\_repetitions}};\ \}}
+\DoxyCodeLine{00065\ }
+\DoxyCodeLine{00066\ \ \textcolor{keyword}{protected}:}
+\DoxyCodeLine{00067\ \ \ \textcolor{keywordtype}{bool}\ stopping\_conditions(}
+\DoxyCodeLine{00068\ \ \ \ \ \ \ std::shared\_ptr<Heuristic>\ \mbox{\hyperlink{classAbstractSearch_a744d099727fdb421cbe1e31facf50017}{heuristic}},}
+\DoxyCodeLine{00069\ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{typename}\ \mbox{\hyperlink{classNInARow_1_1Board}{Heuristic::BoardT}}\&\ \mbox{\hyperlink{classAbstractSearch_ac1ec9e7962844e8dbd86f12a6d073d94}{board}})\textcolor{keyword}{\ const\ override\ }\{}
+\DoxyCodeLine{00070\ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classNInARow_1_1NInARowBestFirstSearch_a23bbd530c99a748c22d0d0258a12b72c}{iterations}}\ >=\ (std::size\_t(1.0\ /\ \mbox{\hyperlink{classAbstractSearch_a744d099727fdb421cbe1e31facf50017}{heuristic}}-\/>get\_gamma())\ +\ 1)\ ||}
+\DoxyCodeLine{00071\ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classNInARow_1_1NInARowBestFirstSearch_ad36ee9f70c7dccf87e6c341440418e11}{num\_repetitions}}\ >=\ \mbox{\hyperlink{classAbstractSearch_a744d099727fdb421cbe1e31facf50017}{heuristic}}-\/>get\_stopping\_thresh()\ ||}
+\DoxyCodeLine{00072\ \ \ \ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classSearch}{Search<Heuristic,\ BFSNode<typename\ Heuristic::BoardT>}}>::}
+\DoxyCodeLine{00073\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ stopping\_conditions(\mbox{\hyperlink{classAbstractSearch_a744d099727fdb421cbe1e31facf50017}{heuristic}},\ \mbox{\hyperlink{classAbstractSearch_ac1ec9e7962844e8dbd86f12a6d073d94}{board}});}
+\DoxyCodeLine{00074\ \ \ \}}
+\DoxyCodeLine{00075\ }
+\DoxyCodeLine{00076\ \ \ \textcolor{keywordtype}{void}\ on\_node\_expansion(}
+\DoxyCodeLine{00077\ \ \ \ \ \ \ std::shared\_ptr<\mbox{\hyperlink{classBFSNode}{BFSNode<typename\ Heuristic::BoardT>}}>\ \textcolor{comment}{/*expanded\_node*/},}
+\DoxyCodeLine{00078\ \ \ \ \ \ \ std::shared\_ptr<Heuristic>\ \mbox{\hyperlink{classAbstractSearch_a744d099727fdb421cbe1e31facf50017}{heuristic}},}
+\DoxyCodeLine{00079\ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{typename}\ Heuristic::BoardT\&\ \textcolor{comment}{/*board*/})\textcolor{keyword}{\ override\ }\{}
+\DoxyCodeLine{00080\ \ \ \ \ \textcolor{keyword}{typename}\ Heuristic::BoardT::MoveT\ old\_best\_move\ =\ \mbox{\hyperlink{classNInARow_1_1NInARowBestFirstSearch_a74217d6e1dea8fe96418dba564fe20ad}{best\_move}};}
+\DoxyCodeLine{00081\ \ \ \ \ \mbox{\hyperlink{classNInARow_1_1NInARowBestFirstSearch_a74217d6e1dea8fe96418dba564fe20ad}{best\_move}}\ =\ this-\/>\mbox{\hyperlink{classSearch_aaf7631e66228551e7914e68c94d6f08f}{root}}-\/>get\_best\_move();}
+\DoxyCodeLine{00082\ \ \ \ \ old\_best\_move.board\_position\ ==\ \mbox{\hyperlink{classNInARow_1_1NInARowBestFirstSearch_a74217d6e1dea8fe96418dba564fe20ad}{best\_move}}.\mbox{\hyperlink{classNInARow_1_1Move_a50e59c1b264d36da126d0762056963cb}{board\_position}}}
+\DoxyCodeLine{00083\ \ \ \ \ \ \ \ \ ?\ ++\mbox{\hyperlink{classNInARow_1_1NInARowBestFirstSearch_ad36ee9f70c7dccf87e6c341440418e11}{num\_repetitions}}}
+\DoxyCodeLine{00084\ \ \ \ \ \ \ \ \ :\ \mbox{\hyperlink{classNInARow_1_1NInARowBestFirstSearch_ad36ee9f70c7dccf87e6c341440418e11}{num\_repetitions}}\ =\ 0;}
+\DoxyCodeLine{00085\ \ \ \ \ ++\mbox{\hyperlink{classNInARow_1_1NInARowBestFirstSearch_a23bbd530c99a748c22d0d0258a12b72c}{iterations}};}
+\DoxyCodeLine{00086\ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00087\ \ \ \}}
+\DoxyCodeLine{00088\ }
+\DoxyCodeLine{00089\ \ \textcolor{keyword}{protected}:}
+\DoxyCodeLine{00093\ \ \ \textcolor{keyword}{typename}\ \mbox{\hyperlink{classNInARow_1_1Move}{Heuristic::BoardT::MoveT}}\ \mbox{\hyperlink{classNInARow_1_1NInARowBestFirstSearch_a74217d6e1dea8fe96418dba564fe20ad}{best\_move}};}
+\DoxyCodeLine{00094\ }
+\DoxyCodeLine{00099\ \ \ std::size\_t\ \mbox{\hyperlink{classNInARow_1_1NInARowBestFirstSearch_ad36ee9f70c7dccf87e6c341440418e11}{num\_repetitions}};}
+\DoxyCodeLine{00100\ }
+\DoxyCodeLine{00104\ \ \ std::size\_t\ \mbox{\hyperlink{classNInARow_1_1NInARowBestFirstSearch_a23bbd530c99a748c22d0d0258a12b72c}{iterations}};}
+\DoxyCodeLine{00105\ \};}
+\DoxyCodeLine{00106\ }
+\DoxyCodeLine{00107\ \}\ \ \textcolor{comment}{//\ namespace\ NInARow}}
+\DoxyCodeLine{00108\ }
+\DoxyCodeLine{00109\ \textcolor{preprocessor}{\#endif\ \ }\textcolor{comment}{//\ NINAROW\_BFS\_INCLUDED}}
+
+\end{DoxyCode}

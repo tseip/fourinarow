@@ -1,0 +1,230 @@
+\doxysection{bfs\+\_\+node.\+h}
+\hypertarget{bfs__node_8h_source}{}\label{bfs__node_8h_source}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#ifndef\ BFS\_NODE\_H\_INCLUDED}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#define\ BFS\_NODE\_H\_INCLUDED}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <limits>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <memory>}}
+\DoxyCodeLine{00006\ }
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ "{}game\_tree\_node.h"{}}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ "{}player.h"{}}}
+\DoxyCodeLine{00009\ }
+\DoxyCodeLine{00015\ \textcolor{keyword}{template}\ <\textcolor{keyword}{class}\ Board>}
+\DoxyCodeLine{00016\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classBFSNode}{BFSNode}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{classNode}{Node}}<Board>\ \{}
+\DoxyCodeLine{00017\ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00018\ \ \ \textcolor{keyword}{static}\ std::shared\_ptr<BFSNode<Board>>\ downcast(}
+\DoxyCodeLine{00019\ \ \ \ \ \ \ std::shared\_ptr<\mbox{\hyperlink{classNode}{Node<Board>}}>\ node)\ \{}
+\DoxyCodeLine{00020\ \ \ \ \ \textcolor{keywordflow}{return}\ std::dynamic\_pointer\_cast<BFSNode<Board>>(node);}
+\DoxyCodeLine{00021\ \ \ \}}
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00023\ \ \ \textcolor{keyword}{static}\ std::shared\_ptr<const\ BFSNode<Board>>\ downcast(}
+\DoxyCodeLine{00024\ \ \ \ \ \ \ std::shared\_ptr<\textcolor{keyword}{const}\ \mbox{\hyperlink{classNode}{Node<Board>}}>\ node)\ \{}
+\DoxyCodeLine{00025\ \ \ \ \ \textcolor{keywordflow}{return}\ std::dynamic\_pointer\_cast<const\ BFSNode<Board>>(node);}
+\DoxyCodeLine{00026\ \ \ \}}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00034\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{int}\ BLACK\_WINS\ =\ Board::get\_max\_num\_moves()\ +\ 1\ +\ 1;}
+\DoxyCodeLine{00035\ \ \ \textcolor{keyword}{static}\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{int}\ WHITE\_WINS\ =\ -\/BLACK\_WINS;}
+\DoxyCodeLine{00043\ \ \ std::shared\_ptr<BFSNode>\ best\_known\_child;}
+\DoxyCodeLine{00044\ }
+\DoxyCodeLine{00048\ \ \ \textcolor{keywordtype}{double}\ val;}
+\DoxyCodeLine{00049\ }
+\DoxyCodeLine{00053\ \ \ \textcolor{keywordtype}{int}\ pess;}
+\DoxyCodeLine{00054\ }
+\DoxyCodeLine{00058\ \ \ \textcolor{keywordtype}{int}\ opt;}
+\DoxyCodeLine{00059\ }
+\DoxyCodeLine{00068\ \ \ std::shared\_ptr<BFSNode>\ create\_child(\textcolor{keyword}{const}\ \textcolor{keyword}{typename}\ Board::MoveT\ \&\mbox{\hyperlink{classNode_afed75881ae880fef65f1993b5d3fa607}{move}})\ \{}
+\DoxyCodeLine{00069\ \ \ \ \ \textcolor{comment}{//\ Validate\ that\ the\ parent\ doesn't\ already\ have\ this\ child.}}
+\DoxyCodeLine{00070\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ \&child\ :\ this-\/>\mbox{\hyperlink{classNode_a430ad6a899a7fff5868fe7f3668b50eb}{children}})\ \{}
+\DoxyCodeLine{00071\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (downcast(child)-\/>move.board\_position\ ==\ \mbox{\hyperlink{classNode_afed75881ae880fef65f1993b5d3fa607}{move}}.board\_position)\ \{}
+\DoxyCodeLine{00072\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{throw}\ std::logic\_error(}
+\DoxyCodeLine{00073\ \ \ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}Given\ move\ already\ exists\ as\ a\ child\ of\ this\ node!"{}});}
+\DoxyCodeLine{00074\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00075\ \ \ \ \ \}}
+\DoxyCodeLine{00076\ }
+\DoxyCodeLine{00077\ \ \ \ \ \textcolor{keywordflow}{return}\ std::shared\_ptr<BFSNode>(}
+\DoxyCodeLine{00078\ \ \ \ \ \ \ \ \ \textcolor{keyword}{new}\ \mbox{\hyperlink{classBFSNode}{BFSNode}}(downcast(this-\/>shared\_from\_this()),\ \mbox{\hyperlink{classNode_afed75881ae880fef65f1993b5d3fa607}{move}}));}
+\DoxyCodeLine{00079\ \ \ \}}
+\DoxyCodeLine{00080\ }
+\DoxyCodeLine{00089\ \ \ \mbox{\hyperlink{classBFSNode}{BFSNode}}(\textcolor{keyword}{const}\ Board\ \&\mbox{\hyperlink{classNode_ac14767b41676460f9e838443e00ac50a}{board}},\ \textcolor{keywordtype}{double}\ val)}
+\DoxyCodeLine{00090\ \ \ \ \ \ \ :\ \mbox{\hyperlink{classNode}{Node<Board>}}(\mbox{\hyperlink{classNode_ac14767b41676460f9e838443e00ac50a}{board}}),\ val(val),\ pess(0),\ opt(0)\ \{}
+\DoxyCodeLine{00091\ \ \ \ \ setup\_pess\_opt();}
+\DoxyCodeLine{00092\ \ \ \}}
+\DoxyCodeLine{00093\ }
+\DoxyCodeLine{00107\ \ \ \mbox{\hyperlink{classBFSNode}{BFSNode}}(\textcolor{keyword}{const}\ std::shared\_ptr<BFSNode>\ \mbox{\hyperlink{classNode_a9fab43181fecc1e9eff1918dbb403362}{parent}},}
+\DoxyCodeLine{00108\ \ \ \ \ \ \ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{typename}\ Board::MoveT\ \&\mbox{\hyperlink{classNode_afed75881ae880fef65f1993b5d3fa607}{move}})}
+\DoxyCodeLine{00109\ \ \ \ \ \ \ :\ \mbox{\hyperlink{classNode}{Node<Board>}}(\mbox{\hyperlink{classNode_a9fab43181fecc1e9eff1918dbb403362}{parent}},\ \mbox{\hyperlink{classNode_afed75881ae880fef65f1993b5d3fa607}{move}}),}
+\DoxyCodeLine{00110\ \ \ \ \ \ \ \ \ val(\mbox{\hyperlink{classNode_a9fab43181fecc1e9eff1918dbb403362}{parent}}-\/>board.active\_player()\ ==\ Player::Player1}
+\DoxyCodeLine{00111\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ?\ \mbox{\hyperlink{classNode_a9fab43181fecc1e9eff1918dbb403362}{parent}}-\/>val\ +\ \mbox{\hyperlink{classNode_afed75881ae880fef65f1993b5d3fa607}{move}}.val}
+\DoxyCodeLine{00112\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ :\ \mbox{\hyperlink{classNode_a9fab43181fecc1e9eff1918dbb403362}{parent}}-\/>val\ -\/\ \mbox{\hyperlink{classNode_afed75881ae880fef65f1993b5d3fa607}{move}}.val),}
+\DoxyCodeLine{00113\ \ \ \ \ \ \ \ \ pess(0),}
+\DoxyCodeLine{00114\ \ \ \ \ \ \ \ \ opt(0)\ \{}
+\DoxyCodeLine{00115\ \ \ \ \ setup\_pess\_opt();}
+\DoxyCodeLine{00116\ \ \ \}}
+\DoxyCodeLine{00117\ }
+\DoxyCodeLine{00121\ \ \ \textcolor{keywordtype}{void}\ setup\_pess\_opt()\ \{}
+\DoxyCodeLine{00122\ \ \ \ \ \textcolor{keywordflow}{if}\ (this-\/>board.player\_has\_won(Player::Player1))}
+\DoxyCodeLine{00123\ \ \ \ \ \ \ pess\ =\ opt\ =\ BLACK\_WINS\ -\/\ this-\/>\mbox{\hyperlink{classNode_a034524f13d60063a604e4be013fac1fb}{depth}},}
+\DoxyCodeLine{00124\ \ \ \ \ \ \ val\ =\ std::numeric\_limits<double>::infinity();}
+\DoxyCodeLine{00125\ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (this-\/>board.player\_has\_won(Player::Player2))}
+\DoxyCodeLine{00126\ \ \ \ \ \ \ pess\ =\ opt\ =\ WHITE\_WINS\ +\ this-\/>\mbox{\hyperlink{classNode_a034524f13d60063a604e4be013fac1fb}{depth}},}
+\DoxyCodeLine{00127\ \ \ \ \ \ \ val\ =\ -\/std::numeric\_limits<double>::infinity();}
+\DoxyCodeLine{00128\ \ \ \ \ \textcolor{keywordflow}{else}\ \textcolor{keywordflow}{if}\ (this-\/>board.game\_is\_drawn())}
+\DoxyCodeLine{00129\ \ \ \ \ \ \ pess\ =\ opt\ =\ 0,\ val\ =\ 0.0;}
+\DoxyCodeLine{00130\ \ \ \ \ \textcolor{keywordflow}{else}}
+\DoxyCodeLine{00131\ \ \ \ \ \ \ pess\ =\ WHITE\_WINS\ +\ this-\/>\mbox{\hyperlink{classNode_a034524f13d60063a604e4be013fac1fb}{depth}},\ opt\ =\ BLACK\_WINS\ -\/\ this-\/>\mbox{\hyperlink{classNode_a034524f13d60063a604e4be013fac1fb}{depth}};}
+\DoxyCodeLine{00132\ \ \ \}}
+\DoxyCodeLine{00133\ }
+\DoxyCodeLine{00138\ \ \ \textcolor{keywordtype}{void}\ update\_opt()\ \{}
+\DoxyCodeLine{00139\ \ \ \ \ opt\ =\ (this-\/>board.active\_player()\ ==\ Player::Player1}
+\DoxyCodeLine{00140\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ?\ WHITE\_WINS\ +\ this-\/>\mbox{\hyperlink{classNode_a034524f13d60063a604e4be013fac1fb}{depth}}}
+\DoxyCodeLine{00141\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ :\ BLACK\_WINS\ -\/\ this-\/>\mbox{\hyperlink{classNode_a034524f13d60063a604e4be013fac1fb}{depth}});}
+\DoxyCodeLine{00142\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ \&child\ :\ this-\/>\mbox{\hyperlink{classNode_a430ad6a899a7fff5868fe7f3668b50eb}{children}})\ \{}
+\DoxyCodeLine{00143\ \ \ \ \ \ \ this-\/>\mbox{\hyperlink{classNode_a72acef9415d9d0845cb7fb0cd9dfabb4}{update\_field\_against\_child}}(downcast(child)-\/>opt,\ opt);}
+\DoxyCodeLine{00144\ \ \ \ \ \}}
+\DoxyCodeLine{00145\ \ \ \}}
+\DoxyCodeLine{00146\ }
+\DoxyCodeLine{00151\ \ \ \textcolor{keywordtype}{void}\ update\_pess()\ \{}
+\DoxyCodeLine{00152\ \ \ \ \ pess\ =\ (this-\/>board.active\_player()\ ==\ Player::Player1}
+\DoxyCodeLine{00153\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ?\ WHITE\_WINS\ +\ this-\/>\mbox{\hyperlink{classNode_a034524f13d60063a604e4be013fac1fb}{depth}}}
+\DoxyCodeLine{00154\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ :\ BLACK\_WINS\ -\/\ this-\/>\mbox{\hyperlink{classNode_a034524f13d60063a604e4be013fac1fb}{depth}});}
+\DoxyCodeLine{00155\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ \&child\ :\ this-\/>\mbox{\hyperlink{classNode_a430ad6a899a7fff5868fe7f3668b50eb}{children}})\ \{}
+\DoxyCodeLine{00156\ \ \ \ \ \ \ this-\/>\mbox{\hyperlink{classNode_a72acef9415d9d0845cb7fb0cd9dfabb4}{update\_field\_against\_child}}(downcast(child)-\/>pess,\ pess);}
+\DoxyCodeLine{00157\ \ \ \ \ \}}
+\DoxyCodeLine{00158\ \ \ \}}
+\DoxyCodeLine{00159\ }
+\DoxyCodeLine{00164\ \ \ \textcolor{keywordtype}{void}\ update\_val()\ \{}
+\DoxyCodeLine{00165\ \ \ \ \ val\ =\ (this-\/>board.active\_player()\ ==\ Player::Player1}
+\DoxyCodeLine{00166\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ?\ -\/std::numeric\_limits<double>::infinity()}
+\DoxyCodeLine{00167\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ :\ std::numeric\_limits<double>::infinity());}
+\DoxyCodeLine{00168\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ \&child\ :\ this-\/>\mbox{\hyperlink{classNode_a430ad6a899a7fff5868fe7f3668b50eb}{children}})\ \{}
+\DoxyCodeLine{00169\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (!downcast(child)-\/>determined()\ \&\&}
+\DoxyCodeLine{00170\ \ \ \ \ \ \ \ \ \ \ this-\/>\mbox{\hyperlink{classNode_a72acef9415d9d0845cb7fb0cd9dfabb4}{update\_field\_against\_child}}(downcast(child)-\/>val,\ val))\ \{}
+\DoxyCodeLine{00171\ \ \ \ \ \ \ \ \ best\_known\_child\ =\ downcast(child);}
+\DoxyCodeLine{00172\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00173\ \ \ \ \ \}}
+\DoxyCodeLine{00174\ }
+\DoxyCodeLine{00175\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ \&child\ :\ this-\/>\mbox{\hyperlink{classNode_a430ad6a899a7fff5868fe7f3668b50eb}{children}})\ \{}
+\DoxyCodeLine{00176\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (downcast(child)-\/>determined())\ \{}
+\DoxyCodeLine{00177\ \ \ \ \ \ \ \ \ this-\/>\mbox{\hyperlink{classNode_a72acef9415d9d0845cb7fb0cd9dfabb4}{update\_field\_against\_child}}(downcast(child)-\/>val,\ val);}
+\DoxyCodeLine{00178\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00179\ \ \ \ \ \}}
+\DoxyCodeLine{00180\ \ \ \}}
+\DoxyCodeLine{00181\ }
+\DoxyCodeLine{00191\ \ \ \textcolor{keywordtype}{void}\ backpropagate(\textcolor{keyword}{const}\ std::shared\_ptr<BFSNode>\ \&child)\ \{}
+\DoxyCodeLine{00192\ \ \ \ \ \textcolor{keywordflow}{if}\ (!this-\/>\mbox{\hyperlink{classNode_a72acef9415d9d0845cb7fb0cd9dfabb4}{update\_field\_against\_child}}(child-\/>opt,\ opt))\ update\_opt();}
+\DoxyCodeLine{00193\ \ \ \ \ \textcolor{keywordflow}{if}\ (!this-\/>\mbox{\hyperlink{classNode_a72acef9415d9d0845cb7fb0cd9dfabb4}{update\_field\_against\_child}}(child-\/>pess,\ pess))\ update\_pess();}
+\DoxyCodeLine{00194\ \ \ \ \ \textcolor{keywordflow}{if}\ (!child-\/>determined()\ \&\&}
+\DoxyCodeLine{00195\ \ \ \ \ \ \ \ \ this-\/>update\_field\_against\_child(child-\/>val,\ val))\ \{}
+\DoxyCodeLine{00196\ \ \ \ \ \ \ best\_known\_child\ =\ child;}
+\DoxyCodeLine{00197\ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00198\ \ \ \ \ \ \ update\_val();}
+\DoxyCodeLine{00199\ \ \ \ \ \ \ update\_best\_determined();}
+\DoxyCodeLine{00200\ \ \ \ \ \}}
+\DoxyCodeLine{00201\ }
+\DoxyCodeLine{00202\ \ \ \ \ \textcolor{keywordflow}{if}\ (\textcolor{keyword}{auto}\ locked\_parent\ =\ this-\/>\mbox{\hyperlink{classNode_a15d6c7037cfc6f1ef1af4a1941679dd3}{get\_parent}}())}
+\DoxyCodeLine{00203\ \ \ \ \ \ \ downcast(locked\_parent)}
+\DoxyCodeLine{00204\ \ \ \ \ \ \ \ \ \ \ -\/>backpropagate(downcast(this-\/>shared\_from\_this()));}
+\DoxyCodeLine{00205\ \ \ \}}
+\DoxyCodeLine{00206\ }
+\DoxyCodeLine{00214\ \ \ \textcolor{keywordtype}{void}\ update\_best\_determined()\ \{}
+\DoxyCodeLine{00215\ \ \ \ \ \textcolor{comment}{//\ Nothing\ to\ do\ if\ we\ aren't\ ourselves\ determined.}}
+\DoxyCodeLine{00216\ \ \ \ \ \textcolor{keywordflow}{if}\ (!\mbox{\hyperlink{classBFSNode_ab575f386fa56808c926fb392384a96c9}{determined}}())\ \{}
+\DoxyCodeLine{00217\ \ \ \ \ \ \ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00218\ \ \ \ \ \}}
+\DoxyCodeLine{00219\ }
+\DoxyCodeLine{00220\ \ \ \ \ \textcolor{keywordflow}{if}\ (this-\/>board.active\_player()\ ==\ Player::Player1)\ \{}
+\DoxyCodeLine{00221\ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ \&child\ :\ this-\/>\mbox{\hyperlink{classNode_a430ad6a899a7fff5868fe7f3668b50eb}{children}})\ \{}
+\DoxyCodeLine{00222\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (downcast(child)-\/>pess\ ==\ pess)\ \{}
+\DoxyCodeLine{00223\ \ \ \ \ \ \ \ \ \ \ best\_known\_child\ =\ downcast(child);}
+\DoxyCodeLine{00224\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00225\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00226\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00227\ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00228\ \ \ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ \&child\ :\ this-\/>\mbox{\hyperlink{classNode_a430ad6a899a7fff5868fe7f3668b50eb}{children}})\ \{}
+\DoxyCodeLine{00229\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (downcast(child)-\/>opt\ ==\ opt)\ \{}
+\DoxyCodeLine{00230\ \ \ \ \ \ \ \ \ \ \ best\_known\_child\ =\ downcast(child);}
+\DoxyCodeLine{00231\ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{break};}
+\DoxyCodeLine{00232\ \ \ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00233\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00234\ \ \ \ \ \}}
+\DoxyCodeLine{00235\ \ \ \}}
+\DoxyCodeLine{00236\ }
+\DoxyCodeLine{00237\ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00248\ \ \ \textcolor{keyword}{static}\ std::shared\_ptr<BFSNode>\ \mbox{\hyperlink{classBFSNode_aff20733b2a88f5feb2904034acc89232}{create}}(\textcolor{keyword}{const}\ Board\ \&\mbox{\hyperlink{classNode_ac14767b41676460f9e838443e00ac50a}{board}},\ \textcolor{keywordtype}{double}\ val)\ \{}
+\DoxyCodeLine{00249\ \ \ \ \ \textcolor{keywordflow}{return}\ std::shared\_ptr<BFSNode>(\textcolor{keyword}{new}\ \mbox{\hyperlink{classBFSNode}{BFSNode}}(\mbox{\hyperlink{classNode_ac14767b41676460f9e838443e00ac50a}{board}},\ val));}
+\DoxyCodeLine{00250\ \ \ \}}
+\DoxyCodeLine{00251\ }
+\DoxyCodeLine{00252\ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{classBFSNode_a4127764e459d6b9d1df888e411b7fc1f}{get\_value}}()\textcolor{keyword}{\ const\ override\ }\{\ \textcolor{keywordflow}{return}\ val;\ \}}
+\DoxyCodeLine{00253\ }
+\DoxyCodeLine{00258\ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{classBFSNode_ab575f386fa56808c926fb392384a96c9}{determined}}()\textcolor{keyword}{\ const\ override\ }\{\ \textcolor{keywordflow}{return}\ pess\ ==\ opt;\ \}}
+\DoxyCodeLine{00259\ }
+\DoxyCodeLine{00263\ \ \ std::string\ \mbox{\hyperlink{classBFSNode_abf42fa383fcc7dbdd5da403729ba9985}{to\_string}}()\textcolor{keyword}{\ const\ override\ }\{}
+\DoxyCodeLine{00264\ \ \ \ \ std::stringstream\ stream;}
+\DoxyCodeLine{00265\ \ \ \ \ stream\ <<\ Node<Board>::to\_string()\ <<\ \textcolor{stringliteral}{"{},\ Heuristic\ value:\ "{}}\ <<\ val}
+\DoxyCodeLine{00266\ \ \ \ \ \ \ \ \ \ \ \ <<\ \textcolor{stringliteral}{"{},\ Opt:\ "{}}\ <<\ opt\ <<\ \textcolor{stringliteral}{"{},\ Pess:\ "{}}\ <<\ pess;}
+\DoxyCodeLine{00267\ \ \ \ \ \textcolor{keywordflow}{return}\ stream.str();}
+\DoxyCodeLine{00268\ \ \ \}}
+\DoxyCodeLine{00269\ }
+\DoxyCodeLine{00276\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classBFSNode_a7983c9229297b3d187b7fb712797456b}{expand}}(\textcolor{keyword}{const}\ std::vector<typename\ Board::MoveT>\ \&moves)\textcolor{keyword}{\ override\ }\{}
+\DoxyCodeLine{00277\ \ \ \ \ \textcolor{keywordflow}{if}\ (moves.empty())\ \textcolor{keywordflow}{return};}
+\DoxyCodeLine{00278\ }
+\DoxyCodeLine{00279\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{typename}\ Board::MoveT\ \&\mbox{\hyperlink{classNode_afed75881ae880fef65f1993b5d3fa607}{move}}\ :\ moves)\ \{}
+\DoxyCodeLine{00280\ \ \ \ \ \ \ this-\/>\mbox{\hyperlink{classNode_a430ad6a899a7fff5868fe7f3668b50eb}{children}}.push\_back(create\_child(\mbox{\hyperlink{classNode_afed75881ae880fef65f1993b5d3fa607}{move}}));}
+\DoxyCodeLine{00281\ \ \ \ \ \}}
+\DoxyCodeLine{00282\ }
+\DoxyCodeLine{00283\ \ \ \ \ update\_opt();}
+\DoxyCodeLine{00284\ \ \ \ \ update\_pess();}
+\DoxyCodeLine{00285\ \ \ \ \ update\_val();}
+\DoxyCodeLine{00286\ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{classBFSNode_ab575f386fa56808c926fb392384a96c9}{determined}}())\ update\_best\_determined();}
+\DoxyCodeLine{00287\ \ \ \ \ \textcolor{keywordflow}{if}\ (\textcolor{keyword}{auto}\ locked\_parent\ =\ this-\/>\mbox{\hyperlink{classNode_a15d6c7037cfc6f1ef1af4a1941679dd3}{get\_parent}}())}
+\DoxyCodeLine{00288\ \ \ \ \ \ \ downcast(locked\_parent)}
+\DoxyCodeLine{00289\ \ \ \ \ \ \ \ \ \ \ -\/>backpropagate(downcast(this-\/>shared\_from\_this()));}
+\DoxyCodeLine{00290\ \ \ \}}
+\DoxyCodeLine{00291\ }
+\DoxyCodeLine{00296\ \ \ std::size\_t\ \mbox{\hyperlink{classBFSNode_aac8a70e25370b62453db919c20c06154}{get\_depth\_of\_pv}}()\textcolor{keyword}{\ const\ override\ }\{}
+\DoxyCodeLine{00297\ \ \ \ \ \textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ selected\_node\ =\ this-\/>\mbox{\hyperlink{classNode_a32d2d72c8112b24a44782e11edf534aa}{select}}();}
+\DoxyCodeLine{00298\ \ \ \ \ \textcolor{keywordflow}{if}\ (selected\_node\ ==\ this-\/>shared\_from\_this())\ \textcolor{keywordflow}{return}\ 0;}
+\DoxyCodeLine{00299\ \ \ \ \ \textcolor{keywordflow}{return}\ downcast(selected\_node)-\/>depth\ -\/\ this-\/>\mbox{\hyperlink{classNode_a034524f13d60063a604e4be013fac1fb}{depth}}\ -\/\ 1;}
+\DoxyCodeLine{00300\ \ \ \}}
+\DoxyCodeLine{00301\ }
+\DoxyCodeLine{00306\ \ \ \textcolor{keyword}{typename}\ Board::MoveT\ \mbox{\hyperlink{classBFSNode_aafe24a6de54d1b667e87ccb54242ebb7}{get\_best\_move}}()\textcolor{keyword}{\ const\ override\ }\{}
+\DoxyCodeLine{00307\ \ \ \ \ \textcolor{keywordflow}{if}\ (!best\_known\_child)}
+\DoxyCodeLine{00308\ \ \ \ \ \ \ \textcolor{keywordflow}{throw}\ std::logic\_error(}
+\DoxyCodeLine{00309\ \ \ \ \ \ \ \ \ \ \ \textcolor{stringliteral}{"{}No\ best\ known\ child\ has\ been\ determined\ for\ this\ board:\(\backslash\)n"{}}\ +}
+\DoxyCodeLine{00310\ \ \ \ \ \ \ \ \ \ \ this-\/>board.to\_string());}
+\DoxyCodeLine{00311\ \ \ \ \ \textcolor{keywordflow}{if}\ (\mbox{\hyperlink{classBFSNode_ab575f386fa56808c926fb392384a96c9}{determined}}())\ \{}
+\DoxyCodeLine{00312\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{typename}\ Board::MoveT(best\_known\_child-\/>move.board\_position,\ val,}
+\DoxyCodeLine{00313\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ this-\/>board.active\_player());}
+\DoxyCodeLine{00314\ \ \ \ \ \}}
+\DoxyCodeLine{00315\ \ \ \ \ \textcolor{keywordtype}{double}\ val\_temp\ =\ (this-\/>board.active\_player()\ ==\ Player::Player1}
+\DoxyCodeLine{00316\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ?\ -\/std::numeric\_limits<double>::infinity()}
+\DoxyCodeLine{00317\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ :\ std::numeric\_limits<double>::infinity());}
+\DoxyCodeLine{00318\ }
+\DoxyCodeLine{00319\ \ \ \ \ \textcolor{keywordflow}{if}\ (this-\/>\mbox{\hyperlink{classNode_a430ad6a899a7fff5868fe7f3668b50eb}{children}}.empty())\ \textcolor{keywordflow}{return}\ this-\/>move;}
+\DoxyCodeLine{00320\ }
+\DoxyCodeLine{00321\ \ \ \ \ std::size\_t\ best\_position\ =}
+\DoxyCodeLine{00322\ \ \ \ \ \ \ \ \ downcast(this-\/>\mbox{\hyperlink{classNode_a430ad6a899a7fff5868fe7f3668b50eb}{children}}[0])-\/>move.board\_position;}
+\DoxyCodeLine{00323\ \ \ \ \ \textcolor{keywordflow}{for}\ (\textcolor{keyword}{const}\ \textcolor{keyword}{auto}\ \&child\ :\ this-\/>\mbox{\hyperlink{classNode_a430ad6a899a7fff5868fe7f3668b50eb}{children}})\ \{}
+\DoxyCodeLine{00324\ \ \ \ \ \ \ \textcolor{keywordflow}{if}\ (this-\/>\mbox{\hyperlink{classNode_a72acef9415d9d0845cb7fb0cd9dfabb4}{update\_field\_against\_child}}(downcast(child)-\/>val,\ val\_temp))\ \{}
+\DoxyCodeLine{00325\ \ \ \ \ \ \ \ \ best\_position\ =\ downcast(child)-\/>move.board\_position;}
+\DoxyCodeLine{00326\ \ \ \ \ \ \ \}}
+\DoxyCodeLine{00327\ \ \ \ \ \}}
+\DoxyCodeLine{00328\ }
+\DoxyCodeLine{00329\ \ \ \ \ \textcolor{keywordflow}{return}\ \textcolor{keyword}{typename}\ Board::MoveT(best\_position,\ val\_temp,}
+\DoxyCodeLine{00330\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ this-\/>board.active\_player());}
+\DoxyCodeLine{00331\ \ \ \}}
+\DoxyCodeLine{00332\ }
+\DoxyCodeLine{00333\ \ \textcolor{keyword}{protected}:}
+\DoxyCodeLine{00341\ \ \ \textcolor{keyword}{virtual}\ std::shared\_ptr<const\ Node<Board>>\ \mbox{\hyperlink{classBFSNode_aa675b13acb70f932aa3aaaf9b61976f0}{virtual\_select}}()\textcolor{keyword}{\ const\ override\ }\{}
+\DoxyCodeLine{00342\ \ \ \ \ \textcolor{keywordflow}{if}\ (best\_known\_child)\ \{}
+\DoxyCodeLine{00343\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ best\_known\_child-\/>select();}
+\DoxyCodeLine{00344\ \ \ \ \ \}\ \textcolor{keywordflow}{else}\ \{}
+\DoxyCodeLine{00345\ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ downcast(this-\/>shared\_from\_this());}
+\DoxyCodeLine{00346\ \ \ \ \ \}}
+\DoxyCodeLine{00347\ \ \ \}}
+\DoxyCodeLine{00348\ \};}
+\DoxyCodeLine{00349\ }
+\DoxyCodeLine{00350\ \textcolor{preprocessor}{\#endif\ \ }\textcolor{comment}{//\ BFS\_NODE\_H\_INCLUDED}}
+
+\end{DoxyCode}

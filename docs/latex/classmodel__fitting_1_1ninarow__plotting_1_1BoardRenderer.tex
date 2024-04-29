@@ -1,0 +1,113 @@
+\doxysection{model\+\_\+fitting.\+ninarow\+\_\+plotting.\+Board\+Renderer Class Reference}
+\hypertarget{classmodel__fitting_1_1ninarow__plotting_1_1BoardRenderer}{}\label{classmodel__fitting_1_1ninarow__plotting_1_1BoardRenderer}\index{model\_fitting.ninarow\_plotting.BoardRenderer@{model\_fitting.ninarow\_plotting.BoardRenderer}}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classmodel__fitting_1_1ninarow__plotting_1_1BoardRenderer_a969c60310875e878b693af6ea5028998}{\+\_\+\+\_\+init\+\_\+\+\_\+}} (self, ax)
+\item 
+\mbox{\hyperlink{classmodel__fitting_1_1ninarow__plotting_1_1BoardRenderer_af3a0419e98feddf167fb0d1c260cd0e0}{add\+\_\+piece}} (self, position, color, alpha=1.\+0)
+\item 
+\mbox{\hyperlink{classmodel__fitting_1_1ninarow__plotting_1_1BoardRenderer_ac71001dc3c566713d9a239c567623e75}{add\+\_\+ghost}} (self, position, color)
+\item 
+\mbox{\hyperlink{classmodel__fitting_1_1ninarow__plotting_1_1BoardRenderer_a64014955f448578a11b6c0a7c92acab2}{set\+\_\+board}} (self, board)
+\item 
+\mbox{\hyperlink{classmodel__fitting_1_1ninarow__plotting_1_1BoardRenderer_a9f374a9a0fee797c38d573bd2a003ffb}{set\+\_\+position\+\_\+values}} (self, position\+\_\+values)
+\item 
+\mbox{\hyperlink{classmodel__fitting_1_1ninarow__plotting_1_1BoardRenderer_afb93a0700e7fa774c8dc5defc06f09a3}{clear}} (self)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{classmodel__fitting_1_1ninarow__plotting_1_1BoardRenderer_ae3fc7f61986938acb015b265f627f9cf}\label{classmodel__fitting_1_1ninarow__plotting_1_1BoardRenderer_ae3fc7f61986938acb015b265f627f9cf} 
+{\bfseries ax}
+\item 
+\Hypertarget{classmodel__fitting_1_1ninarow__plotting_1_1BoardRenderer_a32c09262dddffcfc0cf38e30340aeffc}\label{classmodel__fitting_1_1ninarow__plotting_1_1BoardRenderer_a32c09262dddffcfc0cf38e30340aeffc} 
+{\bfseries board}
+\item 
+\Hypertarget{classmodel__fitting_1_1ninarow__plotting_1_1BoardRenderer_a5cd82cce1ddee7ff96200841c3e8ea04}\label{classmodel__fitting_1_1ninarow__plotting_1_1BoardRenderer_a5cd82cce1ddee7ff96200841c3e8ea04} 
+{\bfseries pieces}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{DoxyVerb}Renders a n-in-a-row board using matplotlib.
+\end{DoxyVerb}
+ 
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{classmodel__fitting_1_1ninarow__plotting_1_1BoardRenderer_a969c60310875e878b693af6ea5028998}\label{classmodel__fitting_1_1ninarow__plotting_1_1BoardRenderer_a969c60310875e878b693af6ea5028998} 
+\index{model\_fitting.ninarow\_plotting.BoardRenderer@{model\_fitting.ninarow\_plotting.BoardRenderer}!\_\_init\_\_@{\_\_init\_\_}}
+\index{\_\_init\_\_@{\_\_init\_\_}!model\_fitting.ninarow\_plotting.BoardRenderer@{model\_fitting.ninarow\_plotting.BoardRenderer}}
+\doxysubsubsection{\texorpdfstring{\_\_init\_\_()}{\_\_init\_\_()}}
+{\footnotesize\ttfamily model\+\_\+fitting.\+ninarow\+\_\+plotting.\+Board\+Renderer.\+\_\+\+\_\+init\+\_\+\+\_\+ (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{ax }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Constructor.
+
+Params:
+    ax: The matplotlib axes to render the board onto.
+\end{DoxyVerb}
+ 
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{classmodel__fitting_1_1ninarow__plotting_1_1BoardRenderer_ac71001dc3c566713d9a239c567623e75}\label{classmodel__fitting_1_1ninarow__plotting_1_1BoardRenderer_ac71001dc3c566713d9a239c567623e75} 
+\index{model\_fitting.ninarow\_plotting.BoardRenderer@{model\_fitting.ninarow\_plotting.BoardRenderer}!add\_ghost@{add\_ghost}}
+\index{add\_ghost@{add\_ghost}!model\_fitting.ninarow\_plotting.BoardRenderer@{model\_fitting.ninarow\_plotting.BoardRenderer}}
+\doxysubsubsection{\texorpdfstring{add\_ghost()}{add\_ghost()}}
+{\footnotesize\ttfamily model\+\_\+fitting.\+ninarow\+\_\+plotting.\+Board\+Renderer.\+add\+\_\+ghost (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{position,  }\item[{}]{color }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Adds a transparent piece at the given position if there isn't already a piece ther.
+
+Args:
+    position: The position to add the ghost to.
+    color: The color of the ghost.
+\end{DoxyVerb}
+ \Hypertarget{classmodel__fitting_1_1ninarow__plotting_1_1BoardRenderer_af3a0419e98feddf167fb0d1c260cd0e0}\label{classmodel__fitting_1_1ninarow__plotting_1_1BoardRenderer_af3a0419e98feddf167fb0d1c260cd0e0} 
+\index{model\_fitting.ninarow\_plotting.BoardRenderer@{model\_fitting.ninarow\_plotting.BoardRenderer}!add\_piece@{add\_piece}}
+\index{add\_piece@{add\_piece}!model\_fitting.ninarow\_plotting.BoardRenderer@{model\_fitting.ninarow\_plotting.BoardRenderer}}
+\doxysubsubsection{\texorpdfstring{add\_piece()}{add\_piece()}}
+{\footnotesize\ttfamily model\+\_\+fitting.\+ninarow\+\_\+plotting.\+Board\+Renderer.\+add\+\_\+piece (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{position,  }\item[{}]{color,  }\item[{}]{alpha = {\ttfamily 1.0} }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Adds a piece to the board.
+
+Args:
+    position: The 0-indexed position to add the piece to.
+    color: The color of the piece.
+    alpha: The alpha of the piece.
+\end{DoxyVerb}
+ \Hypertarget{classmodel__fitting_1_1ninarow__plotting_1_1BoardRenderer_afb93a0700e7fa774c8dc5defc06f09a3}\label{classmodel__fitting_1_1ninarow__plotting_1_1BoardRenderer_afb93a0700e7fa774c8dc5defc06f09a3} 
+\index{model\_fitting.ninarow\_plotting.BoardRenderer@{model\_fitting.ninarow\_plotting.BoardRenderer}!clear@{clear}}
+\index{clear@{clear}!model\_fitting.ninarow\_plotting.BoardRenderer@{model\_fitting.ninarow\_plotting.BoardRenderer}}
+\doxysubsubsection{\texorpdfstring{clear()}{clear()}}
+{\footnotesize\ttfamily model\+\_\+fitting.\+ninarow\+\_\+plotting.\+Board\+Renderer.\+clear (\begin{DoxyParamCaption}\item[{}]{self }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Clears the board.
+\end{DoxyVerb}
+ \Hypertarget{classmodel__fitting_1_1ninarow__plotting_1_1BoardRenderer_a64014955f448578a11b6c0a7c92acab2}\label{classmodel__fitting_1_1ninarow__plotting_1_1BoardRenderer_a64014955f448578a11b6c0a7c92acab2} 
+\index{model\_fitting.ninarow\_plotting.BoardRenderer@{model\_fitting.ninarow\_plotting.BoardRenderer}!set\_board@{set\_board}}
+\index{set\_board@{set\_board}!model\_fitting.ninarow\_plotting.BoardRenderer@{model\_fitting.ninarow\_plotting.BoardRenderer}}
+\doxysubsubsection{\texorpdfstring{set\_board()}{set\_board()}}
+{\footnotesize\ttfamily model\+\_\+fitting.\+ninarow\+\_\+plotting.\+Board\+Renderer.\+set\+\_\+board (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{board }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Sets the board to the given board.
+
+Args:
+    board: The board to set the display to.
+\end{DoxyVerb}
+ \Hypertarget{classmodel__fitting_1_1ninarow__plotting_1_1BoardRenderer_a9f374a9a0fee797c38d573bd2a003ffb}\label{classmodel__fitting_1_1ninarow__plotting_1_1BoardRenderer_a9f374a9a0fee797c38d573bd2a003ffb} 
+\index{model\_fitting.ninarow\_plotting.BoardRenderer@{model\_fitting.ninarow\_plotting.BoardRenderer}!set\_position\_values@{set\_position\_values}}
+\index{set\_position\_values@{set\_position\_values}!model\_fitting.ninarow\_plotting.BoardRenderer@{model\_fitting.ninarow\_plotting.BoardRenderer}}
+\doxysubsubsection{\texorpdfstring{set\_position\_values()}{set\_position\_values()}}
+{\footnotesize\ttfamily model\+\_\+fitting.\+ninarow\+\_\+plotting.\+Board\+Renderer.\+set\+\_\+position\+\_\+values (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{position\+\_\+values }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Given an array of heuristic values, color the spaces on the board to correspond to the values.
+White/black correspond to a guaranteed win for the given player, shades of green/red correspond
+to "good" or "bad" moves for the current player. Gray corresponds to a draw.
+
+Args:
+    position_values: The values of each space as determined by a heuristic.
+\end{DoxyVerb}
+ 
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+model\+\_\+fitting/ninarow\+\_\+plotting.\+py\end{DoxyCompactItemize}
